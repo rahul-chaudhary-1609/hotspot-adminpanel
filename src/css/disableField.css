@@ -1,0 +1,11 @@
+.not-allowed{
+    cursor: not-allowed! important;
+       
+   }
+
+   .MuiInput-underline:before{
+       display: none;
+   }
+   .MuiInput-underline:after{
+    display: none;
+}

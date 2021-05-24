@@ -1,65 +1,91 @@
-import React, { Component }  from 'react';
+import React, { Component } from 'react';
 import * as FaIcons from 'react-icons/fa';
 
 export const SidebarData = [
     {
-        label: 'Overview',
+        label: 'Dashboard',
         to: '/dashboard',
         icon: <FaIcons.FaHome />,
-        cName:"nav-text md:px-4 md:py-3 md:flex-row "
+        cName: "nav-text md:px-4 md:py-3 md:flex-row "
     },
     {
-        label: 'Users',
-        to: '/userListing',
-        icon:<FaIcons.FaUsers />,
-        cName:"nav-text md:px-4 md:py-3 md:flex-row "
+        label: 'Customer Management',
+        to: '/customer',
+        icon: <FaIcons.FaFileAlt />,
+        cName: "nav-text md:px-4 md:py-3 md:flex-row "
     },
     {
-        label: 'Report',
-        to: '/report',
-        icon:<FaIcons.FaFileAlt />,
-        cName:"nav-text md:px-4 md:py-3 md:flex-row "
+        label: 'Restaurant Management',
+        to: '/restaurant',
+        icon: <FaIcons.FaAd />,
+        cName: "nav-text md:px-4 md:py-3 md:flex-row "
     },
     {
-        label: 'Advertisements',
-        to: '/advertisements',
-        icon:<FaIcons.FaAd />,
-        cName:"nav-text md:px-4 md:py-3 md:flex-row "
+        label: 'Driver Management',
+        to: '/driver',
+        icon: <FaIcons.FaBell />,
+        cName: "nav-text md:px-4 md:py-3 md:flex-row "
     },
     {
-        label: 'Push Notification',
-        to: '/pushNotification',
-        icon:<FaIcons.FaBell />,
-        cName:"nav-text md:px-4 md:py-3 md:flex-row "
+        label: 'Order Management',
+        to: '/order',
+        icon: <FaIcons.FaEnvelope />,
+        cName: "nav-text md:px-4 md:py-3 md:flex-row"
     },
     {
-        label: 'Email Notification',
-        to: '/emailNotification',
-        icon:<FaIcons.FaEnvelope />,
-        cName:"nav-text md:px-4 md:py-3 md:flex-row"
+        label: 'Banner Management',
+        to: '/banner',
+        icon: <FaIcons.FaLifeRing />,
+        cName: "nav-text md:px-4 md:py-3 md:flex-row"
     },
     {
-        label: 'Support Request',
-        to: '/supportRequest',
-        icon:<FaIcons.FaLifeRing/>,
-        cName:"nav-text md:px-4 md:py-3 md:flex-row"
+        label: 'Driver Payment Management',
+        to: '/driverPayment',
+        icon: <FaIcons.FaClipboardList />,
+        cName: "nav-text md:px-4 md:py-3 md:flex-row "
     },
     {
-        label: 'Terms & Conditions',
-        to: '/termsCondition',
-        icon:<FaIcons.FaClipboardList />,
-        cName:"nav-text md:px-4 md:py-3 md:flex-row "
+        label: 'Restaurant Payment Management',
+        to: '/restaurantPayment',
+        icon: <FaIcons.FaClipboardList />,
+        cName: "nav-text md:px-4 md:py-3 md:flex-row "
     },
     {
-        label: 'Privacy Policies',
-        to: '/privacyPolicy',
-        icon:<FaIcons.FaClipboardCheck/>,
-        cName:"nav-text md:px-4 md:py-3 md:flex-row"
+        label: 'Admin Earnings',
+        to: '/hotspotEarning',
+        icon: <FaIcons.FaClipboardList />,
+        cName: "nav-text md:px-4 md:py-3 md:flex-row "
     },
     {
-        label: 'FAQ',
-        to: '/faq',
-        icon:<FaIcons.FaQuestionCircle />,
-        cName:"nav-text md:px-4 md:py-3 md:flex-row "
-    }
+        label: 'Notification Management',
+        to: '/notification',
+        icon: <FaIcons.FaQuestionCircle />,
+        cName: "nav-text md:px-4 md:py-3 md:flex-row "
+    },
+    {
+        label: 'Static Content Management',
+        to: '/static',
+        icon: <FaIcons.FaQuestionCircle />,
+        cName: "nav-text md:px-4 md:py-3 md:flex-row "
+    },
+    {
+        label: 'Fee Settings',
+        to: '/feesettings',
+        icon: <FaIcons.FaQuestionCircle />,
+        cName: "nav-text md:px-4 md:py-3 md:flex-row "
+    },
+    {
+        label: 'Hotspot Settings',
+        to: '/hotspot',
+        icon: <FaIcons.FaQuestionCircle />,
+        cName: "nav-text md:px-4 md:py-3 md:flex-row "
+    },
+
+    {
+        label: 'Log Out',
+        to: '/logout',
+        icon: <FaIcons.FaQuestionCircle />,
+        cName: "nav-text md:px-4 md:py-3 md:flex-row "
+    },
+
 ]
