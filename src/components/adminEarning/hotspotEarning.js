@@ -239,7 +239,6 @@ const HotspotEarning = () => {
 							{...{
 								placeholder: 'Search by delivery id,hotspot',
 								handleSearch,
-								adminEarningPage:true
 							}}
 						/>
 					</div>

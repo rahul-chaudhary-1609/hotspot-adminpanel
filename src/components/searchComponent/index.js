@@ -3,9 +3,11 @@ import SearchBox from '../../globalComponent/layout/search';
 import Select from 'react-select';
 import { useDispatch, useSelector } from 'react-redux';
 import { clearData } from '../../actions';
+import { useLocation } from 'react-router';
 
 const SearchComponent = (props) => {
 	const dispatch = useDispatch();
+	
 	const customStyles = {
 		control: (provided, state) => ({
 			...provided,
@@ -17,6 +19,8 @@ const SearchComponent = (props) => {
 			width: '100%',
 		}),
 	};
+
+	const { pathname } = useLocation();
 
 	const val = useSelector((state) => state.auth.searchText);
 	let searchText = val ? val : '';
@@ -67,7 +71,17 @@ const SearchComponent = (props) => {
 							value={filterby}
 							styles={customStyles}
 							menuPlacement='auto'
-							options={props.adminEarningPage == true ?[
+							options={pathname != '/hotspotEarning' || '/pickupEarning'?
+							[
+								{
+									label: 'Monthly',
+									value: 'Monthly',
+								},
+								{
+									label: 'Yearly',
+									value: 'Yearly',
+								},
+							]:[
 								{
 									label: 'Daily',
 									value: 'Daily',
@@ -84,17 +98,8 @@ const SearchComponent = (props) => {
 									label: 'Yearly',
 									value: 'Yearly',
 								},
-							]:
-							[
-								{
-									label: 'Monthly',
-									value: 'Monthly',
-								},
-								{
-									label: 'Yearly',
-									value: 'Yearly',
-								},
-							]}
+							]
+							}
 							inputId={'monthly'}
 							placeholder={'Select the filter...'}
 							onChange={(selectedValue) => {

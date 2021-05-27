@@ -196,8 +196,7 @@ const PickupEarning = (props) => {
 					<SearchComponent
 						{...{
 							placeholder: 'Search by Order number,Restaurant',
-							handleSearch,
-							adminEarningPage:true
+							handleSearch
 						}}
 					/></div>
 				<div className='stripe hover mt-5'>
