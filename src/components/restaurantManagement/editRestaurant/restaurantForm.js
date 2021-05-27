@@ -624,7 +624,6 @@ const RestaurantForm = (props) => {
 													moment(restaurant.working_hours_from, 'HH:mm:ss')
 												}
 												onChange={(val) => {
-													debugger;
 													let updatedDetails = { ...restaurant };
 													if (val == null) {
 														updatedDetails['working_hours_from'] = '';

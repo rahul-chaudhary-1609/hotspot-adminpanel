@@ -1,28 +1,60 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ReactTable from 'react-table';
 import Pagination from 'react-js-pagination';
 import CommonComponent from './commonComponent';
+import SearchComponent from '../searchComponent/index';
 import { getOrderDeliveiesList } from '../../api';
 import { useSelector } from 'react-redux';
+import moment from 'moment'
+import HotspotEarningDetails from './hotspotEarningDetails/hotspotEarningDetails';
 
-const HotspotEarning = (props) => {
-	const deliveryColums = [
+const HotspotEarning = () => {
+	const token = useSelector((state) => state.auth.isSignedIn);
+
+	const val = useSelector((state) => state.auth.searchText);
+	let searchText = val ? val : '';
+
+	const startval = useSelector((state) => state.auth.startDate);
+	let startDate = startval ? startval : '';
+
+	const endval = useSelector((state) => state.auth.endDate);
+	let endDate = endval ? endval : '';
+
+	const res = useSelector((state) => state.auth.filterBy);
+	let filterby = res ? res.value : '';
+
+	const [error, setError] = useState(null);
+
+	const [earningLists, setEarningLists] = useState([]);
+	const [startId, setStartId] = useState(0);
+	let endId = startId < 0 ? 0 : startId + earningLists.length;
+	let currentId = startId;
+
+	const [loading, setLoading] = useState(false);
+	const [pageSize, setPageSize] = useState(10);
+	const [totalItems, setTotalItems] = useState(null);
+	const [activePage, setCurrentPage] = useState(1);
+
+	const [tableModal, setTableModal] = useState(false);
+
+	const [selectedEarning, setSelectedEarning] = useState({
+		startDate: null,
+		endDate: null,
+		order_delivery_id: null,
+	});
+	const columns = [
 		{
 			Header: '#',
-			width: 30,
 			id: 1,
+			width: 25,
 			className: 'text-center view-details',
 			accessor: (item) => {
+				currentId++;
 				return (
 					<>
-						<div
-							className='flex items-center'
-							style={{ cursor: 'pointer', display: 'column' }}>
-							<div className='text-sm '>
-								<p className='text-gray-300 leading-none'>
-								
-									{`${item.idx}as`}
-								</p>
+						<div className='flex items-center' style={{ cursor: 'pointer' }}>
+							<div className='text-sm'>
+								<p className='text-gray-300 '>{currentId}</p>
 							</div>
 						</div>
 					</>
@@ -31,191 +63,229 @@ const HotspotEarning = (props) => {
 		},
 		{
 			id: 2,
-			Header: 'Hotspot',
+			Header: 'Delivery Id',
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (
-					<div style={{ padding: '6px', cursor: 'pointer' }}>{item.id}</div>
+					<div style={{ padding: '6px', cursor: 'pointer', color: '#39B7CD' }}>
+						<p
+							onClick={() => {
+								let updatedData = { ...selectedEarning };
+								updatedData['startDate'] = item.from_date;
+								updatedData['endDate'] = item.to_date;
+								updatedData['order_delivery_id'] = item.delivery_id;
+								setSelectedEarning(updatedData);
+								setTableModal(true);
+							}}>
+							{item.delivery_id}
+						</p>
+					</div>
 				);
 			},
 		},
 		{
 			id: 3,
-			Header: 'Date',
+			Header: 'Hotspot',
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (
 					<div style={{ padding: '6px', cursor: 'pointer' }}>
-						{/* {`(${item.owner_phone.slice(0, 3)}) ${item.owner_phone.slice(
-							3,
-							6
-						)}-${item.owner_phone.slice(6)}`} */}{' '}
-						170
+
 					</div>
 				);
 			},
 		},
 		{
 			id: 4,
-			Header: 'Delivery Time',
-			width: 100,
+			Header: 'Date',
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (
-					<div
-						className={item.status == 1 ? 'text-green-600' : 'text-red-600'}
-						style={{ padding: '6px', cursor: 'pointer' }}>
-						${item.amount}
+					<div style={{ padding: '6px', cursor: 'pointer' }}>
+						{item.createdAt.split('T')[0]}
 					</div>
 				);
 			},
 		},
 		{
 			id: 5,
-			Header: 'Number of orders',
-			width: 100,
+			Header: 'Delivery Time',
+			width: 80,
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (
-					<div
-						className={item.status == 1 ? 'text-green-600' : 'text-red-600'}
-						style={{ padding: '6px', cursor: 'pointer' }}>
-						{/* {item.status == 1 ? 'Active' : 'Inactive'} */}
-						10
+					<div style={{ padding: '6px', cursor: 'pointer' }}>
+						{moment(item.delivery_datetime).format('LT')}
 					</div>
 				);
 			},
 		},
 		{
 			id: 6,
-			Header: 'Total order amount ',
-			width: 100,
+			Header: 'Number of orders ',
+			width: 80,
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (
-					<div
-						className={item.status == 1 ? 'text-green-600' : 'text-red-600'}
-						style={{ padding: '6px', cursor: 'pointer' }}>
-						{/* {item.status == 1 ? 'Active' : 'Inactive'} */}
-						$500
+					<div style={{ padding: '6px', cursor: 'pointer' }}>
+						{item.order_count}
 					</div>
 				);
 			},
 		},
 		{
 			id: 7,
-			Header: 'Tip amt.',
+			Header: 'Total order amount',
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (
-					<div
-						style={{
-							display: 'flex',
-							flexDirection: 'row',
-							justifyContent: 'space-around',
-						}}
-						className='text-center'
-						onClick={(e) => e.stopPropagation()}></div>
+					<div style={{ padding: '6px', cursor: 'pointer' }}>
+						{item.order_amount}
+					</div>
 				);
 			},
 		},
 		{
 			id: 8,
-			Header: 'Restaurant Fee',
-			width: 100,
+			Header: 'Tip amt.',
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (
-					<div
-						className={item.status == 1 ? 'text-green-600' : 'text-red-600'}
-						style={{ padding: '6px', cursor: 'pointer' }}>
-						{/* {item.status == 1 ? 'Active' : 'Inactive'} */}
-						$500
+					<div style={{ padding: '6px', cursor: 'pointer' }}>
+						${item.tip_amount}
 					</div>
 				);
 			},
 		},
 		{
 			id: 9,
-			Header: 'Driver Fee',
-			width: 100,
+			Header: 'Restaurant Fee',
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (
-					<div
-						className={item.status == 1 ? 'text-green-600' : 'text-red-600'}
-						style={{ padding: '6px', cursor: 'pointer' }}>
-						{/* {item.status == 1 ? 'Active' : 'Inactive'} */}
-						$500
+					<div style={{ padding: '6px', cursor: 'pointer' }}>
+
+					</div>
+				);
+			},
+		},
+		{
+			id: 10,
+			Header: 'Driver Fee',
+			className: 'text-center view-details',
+			accessor: (item) => {
+				return (
+					<div style={{ padding: '6px', cursor: 'pointer' }}>
+						${item.driver_fee}
 					</div>
 				);
 			},
 		}
 	];
-	const token = useSelector((state) => state.auth.isSignedIn);
 
-	const [error, setError] = useState(null);
-
-	const [loading, setLoading] = useState(false);
-	const [pageSize, setPageSize] = useState(10);
-	const [totalItems, setTotalItems] = useState(null);
-	const [activePage, setCurrentPage] = useState(1);
-
-	const [hotspotEarning, setHotspotEarning] = useState([]);
 	useEffect(() => {
 		hotspotEarningList();
-	}, []);
+	}, [activePage]);
 
-	const hotspotEarningList = () => {
+	const hotspotEarningList = async () => {
 		setLoading(true);
-		getOrderDeliveiesList(token,"","","","","","","")
-			.then((res) => {
-				//  setTotalItems(res.orderDeliveries.count);
-				// let rows = res.orderDeliveries.rows
-				// 	rows.map((row,id)=>{
-				// 		row.idx = id+1;
-				// 	})
-				// 	setHotspotEarning(res.orderDeliveries.rows);
-				// let newStartId = pageSize * (activePage - 1);
-				// setStartId(newStartId);
+		try {
+			let res = await getOrderDeliveiesList(
+				token,
+				searchText,
+				startDate,
+				endDate,
+				filterby,
+				activePage,
+				pageSize
+			);
+
+			if (res.success) {
+				setTotalItems(res.orderDeliveries.count);
+				setEarningLists(res.orderDeliveries.rows);
+				let newStartId = pageSize * (activePage - 1);
+				setStartId(newStartId);
 				setLoading(false);
 				setError(null);
-			})
-			.catch((error) => {
-				setError(error);
-				setLoading(false);
-			});
+			}
+		} catch (error) {
+			setError(error);
+			setLoading(false);
+			setEarningLists([]);
+		}
 	};
+	const handlePageChange = (pageNumber) => {
+		setCurrentPage(pageNumber);
+	};
+
+	const handleSearch = () => {
+		hotspotEarningList();
+	};
+
+
 	return (
 		<>
 			<div
-				id='recipients'
-				 className='p-4 md:p-8 mt-6  lg:mt-10 rounded shadow bg-white '
-				// style={{ overflowY: 'scroll', height: '90vh', marginTop: '10px' }}
-				>
-				<CommonComponent />
-				<div className='stripe hover mt-5'>
+				className='main-content pb-16 md:pb-5 flex-1 pt-20 px-2'
+				style={{ overflowY: 'scroll', height: '90vh', marginTop: '30px' }}>
+
+				<div
+					id='recipients'
+					className='p-4 md:p-8 mt-6 lg:mt-0 rounded shadow bg-white'>
+					<div>
+						<CommonComponent /></div>
+					<div className='mt-5'>
+						<SearchComponent
+							{...{
+								placeholder: 'Search by delivery id,hotspot',
+								handleSearch,
+								adminEarningPage:true
+							}}
+						/>
+					</div>
+					{error && (
+						<p
+							style={{
+								color: 'red',
+								fontSize: '20px',
+								textAlign: 'center',
+								width: '100%',
+							}}>
+							{error}
+						</p>
+					)}
 					<ReactTable
 						showPagination={false}
 						minRows={0}
 						NoDataComponent={() => null}
 						defaultPageSize={10}
-						data={hotspotEarning}
+						data={earningLists}
 						className='-highlight'
-						columns={deliveryColums}
+						columns={columns}
+						style={{
+							width: '100%',
+							marginTop: '0px',
+						}}
+						loading={loading}
 					/>
-				</div>
-				(showing 1-10 of 500)
-				<div style={{ textAlign: 'right' }}>
-					<Pagination
-						activePage={props.activePage}
-						itemsCountPerPage={props.pageSize}
-						totalItemsCount={props.totalItems}
-						pageRangeDisplayed={3}
-						onChange={props.handlePageChange}
-					/>
+					<br />
+					(showing {startId < 0 ? 0 : startId + 1} - {endId} of {totalItems})
+					<div style={{ textAlign: 'right' }}>
+						<Pagination
+							activePage={activePage}
+							itemsCountPerPage={pageSize}
+							totalItemsCount={totalItems}
+							pageRangeDisplayed={3}
+							onChange={handlePageChange}
+						/>
+					</div>
 				</div>
 			</div>
+			{tableModal && (
+				<HotspotEarningDetails
+					{...{ tableModal, setTableModal, selectedEarning }}
+				/>
+			)}
 		</>
 	);
 };

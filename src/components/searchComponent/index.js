@@ -67,7 +67,25 @@ const SearchComponent = (props) => {
 							value={filterby}
 							styles={customStyles}
 							menuPlacement='auto'
-							options={[
+							options={props.adminEarningPage == true ?[
+								{
+									label: 'Daily',
+									value: 'Daily',
+								},
+								{
+									label: 'Weekely',
+									value: 'Weekely',
+								},
+								{
+									label: 'Monthly',
+									value: 'Monthly',
+								},
+								{
+									label: 'Yearly',
+									value: 'Yearly',
+								},
+							]:
+							[
 								{
 									label: 'Monthly',
 									value: 'Monthly',
@@ -114,7 +132,7 @@ const SearchComponent = (props) => {
 						marginRight: '10px',
 						marginLeft: '-17px',
 					}}>
-					Filter by join date
+					Filter by date
 				</p>
 				<div className='flex'>
 					<div style={{ display: 'flex', marginTop: '20px' }}>

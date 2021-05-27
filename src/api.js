@@ -2009,8 +2009,10 @@ export const getOrderDeliveiesList = (
 ) => {
 	return new Promise(async (resolve, reject) => {
 		try {
+			debugger
 			const response = await fetch(
-				`${baseURL}getOrderDeliveries?search_key=${searchKey}&&start_date=${startDate}&&end_date=${endDate}&&filter_key=${filterKey}&&page=${pageNo}&&page_size=${pageSize}`,
+				"http://3.228.159.69/admin/getOrderDeliveries",
+				// `${baseURL}getOrderDeliveries?search_key=${searchKey}&start_date=${startDate}&end_date=${endDate}&filter_key=${filterKey}&page=${pageNo}&page_size=${pageSize}`,
 				{
 					headers: {
 						Accept: 'application/json',
@@ -2029,10 +2031,10 @@ export const getOrderDeliveiesList = (
 	});
 };
 
-export const getOrderDeliveryDetailById = (token, id) => {
+export const getOrderDeliveryDetailById = (token, order_delivery_id) => {
 	return new Promise(async (resolve, reject) => {
 		try {
-			const response = await fetch(`${baseURL}getOrderDeliveryDetails/${id}`, {
+			const response = await fetch(`${baseURL}getOrderDeliveryDetails?order_delivery_id=${order_delivery_id}`, {
 				headers: {
 					Accept: 'application/json',
 					Authorization: token,
@@ -2060,8 +2062,9 @@ export const getPickupOrdersList = (
 ) => {
 	return new Promise(async (resolve, reject) => {
 		try {
+			debugger
 			const response = await fetch(
-				`${baseURL}getPickupOrders?search_key=${searchKey}&&start_date=${startDate}&&end_date=${endDate}&&filter_key=${filterKey}&&page=${pageNo}&&page_size=${pageSize}`,
+				`${baseURL}getPickupOrders?search_key=${searchKey}&start_date=${startDate}&end_date=${endDate}&filter_key=${filterKey}&page=${pageNo}&page_size=${pageSize}`,
 				{
 					headers: {
 						Accept: 'application/json',
