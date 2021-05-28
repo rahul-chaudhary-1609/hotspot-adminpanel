@@ -54,13 +54,13 @@ const ViewNotification = () => {
 							</div>
 							<div className='px-8'>
 								{(function () {
-									if (notification.sender_id == 1) {
+									if (notification.type == 1) {
 										return 'All Users';
-									} else if (notification.sender_id == 2) {
+									} else if (notification.type == 2) {
 										return 'Driver';
-									} else if (notification.sender_id == 3) {
+									} else if (notification.type == 3) {
 										return 'Customer only';
-									} else if (notification.sender_id == 4) {
+									} else if (notification.type == 4) {
 										return 'Restaurant only';
 									}
 								})()}

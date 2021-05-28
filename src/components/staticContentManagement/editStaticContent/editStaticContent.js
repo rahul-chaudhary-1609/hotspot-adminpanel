@@ -107,7 +107,7 @@ const EditStaticContent = () => {
 					<div
 						id='recipients'
 						className='p-4 md:p-8 mt-6 lg:mt-0 rounded shadow bg-white'>
-						<h1 className='text-xl'>{staticContentDetails.title}</h1>
+						<h1 style={{ marginLeft: '0.5 rem', fontSize: '2rem' }}>{staticContentDetails.title}</h1>
 						<br />
 						<button
 							style={{ height: '3rem' }}
@@ -126,7 +126,7 @@ const EditStaticContent = () => {
 						<div
 							style={{
 								marginTop: '20px',
-								backgroundColor: 'pink',
+								backgroundColor: 'lightgrey',
 								padding: '20px',
 								width: '990px',
 								height: '600px',

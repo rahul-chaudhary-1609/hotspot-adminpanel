@@ -116,18 +116,6 @@ const AddForm = (props) => {
 										/>
 										Only Customers
 									</label>
-
-									<label for='restaurant'>
-										<input
-											type='radio'
-											id='restaurant'
-											name='type'
-											value={4}
-											onChange={(e) => props.setType(e.target.value)}
-											className='mr-3 mt-2'
-										/>
-										Only Restaurant
-									</label>
 									<label for='driver'>
 										<input
 											type='radio'
