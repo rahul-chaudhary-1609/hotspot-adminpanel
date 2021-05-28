@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState ,useEffect} from 'react';
 import SearchBox from '../../globalComponent/layout/search';
 import Select from 'react-select';
 import { useDispatch, useSelector } from 'react-redux';
@@ -21,17 +21,30 @@ const SearchComponent = (props) => {
 	};
 
 	const { pathname } = useLocation();
+	// let [isFiltered, setIsFiltered] = useState();
+	// var propsFilter = true;	
+
+	// useEffect(() => {
+			
+	// 	if (props.id != isFiltered) {
+	// 		setIsFiltered(props.id);
+	// 		propsFilter = false
+	// 	}
+	// }, []);
 
 	const val = useSelector((state) => state.auth.searchText);
 	let searchText = val ? val : '';
 
 	const startval = useSelector((state) => state.auth.startDate);
+	// let startDate = propsFilter == false ? '' : startval ? startval : '';
 	let startDate = startval ? startval : '';
 
 	const endval = useSelector((state) => state.auth.endDate);
-	let endDate = endval ? endval : '';
+	// let endDate = propsFilter == false ? '' : endval ? endval : '';
+    let endDate = endval ? endval : '';
 
 	const res = useSelector((state) => state.auth.filterBy);
+	// let filterby = propsFilter == false ? '' : res ? res : '';
 	let filterby = res ? res : '';
 
 	return (
@@ -71,34 +84,34 @@ const SearchComponent = (props) => {
 							value={filterby}
 							styles={customStyles}
 							menuPlacement='auto'
-							options={pathname != '/hotspotEarning' || '/pickupEarning'?
-							[
-								{
-									label: 'Monthly',
-									value: 'Monthly',
-								},
-								{
-									label: 'Yearly',
-									value: 'Yearly',
-								},
-							]:[
-								{
-									label: 'Daily',
-									value: 'Daily',
-								},
-								{
-									label: 'Weekely',
-									value: 'Weekely',
-								},
-								{
-									label: 'Monthly',
-									value: 'Monthly',
-								},
-								{
-									label: 'Yearly',
-									value: 'Yearly',
-								},
-							]
+							options={(pathname == '/hotspotEarning') || (pathname == '/pickupEarning') ?
+								[
+									{
+										label: 'Daily',
+										value: 'Daily',
+									},
+									{
+										label: 'Weekly',
+										value: 'Weekly',
+									},
+									{
+										label: 'Monthly',
+										value: 'Monthly',
+									},
+									{
+										label: 'Yearly',
+										value: 'Yearly',
+									},
+								] : [
+									{
+										label: 'Monthly',
+										value: 'Monthly',
+									},
+									{
+										label: 'Yearly',
+										value: 'Yearly',
+									},
+								]
 							}
 							inputId={'monthly'}
 							placeholder={'Select the filter...'}

@@ -90,7 +90,7 @@ const HotspotEarning = () => {
 			accessor: (item) => {
 				return (
 					<div style={{ padding: '6px', cursor: 'pointer' }}>
-
+						{item.delivery_details && item.delivery_details.hotspot.name}
 					</div>
 				);
 			},
@@ -159,18 +159,6 @@ const HotspotEarning = () => {
 		},
 		{
 			id: 9,
-			Header: 'Restaurant Fee',
-			className: 'text-center view-details',
-			accessor: (item) => {
-				return (
-					<div style={{ padding: '6px', cursor: 'pointer' }}>
-
-					</div>
-				);
-			},
-		},
-		{
-			id: 10,
 			Header: 'Driver Fee',
 			className: 'text-center view-details',
 			accessor: (item) => {
@@ -212,6 +200,7 @@ const HotspotEarning = () => {
 			setError(error);
 			setLoading(false);
 			setEarningLists([]);
+			setTotalItems(null)
 		}
 	};
 	const handlePageChange = (pageNumber) => {
@@ -239,6 +228,7 @@ const HotspotEarning = () => {
 							{...{
 								placeholder: 'Search by delivery id,hotspot',
 								handleSearch,
+								// id:"hotspotEarning"
 							}}
 						/>
 					</div>

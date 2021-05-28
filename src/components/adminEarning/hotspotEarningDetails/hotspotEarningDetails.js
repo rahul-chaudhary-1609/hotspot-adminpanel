@@ -138,6 +138,18 @@ const HotspotEarningDetails = (props) => {
 		},
 		{
 			id: 10,
+			Header: 'Restaurant Fee',
+			className: 'text-center view-details',
+			accessor: (item) => {
+				return (
+					<div style={{ padding: '6px', cursor: 'pointer' }}>
+						${item.order_details.restaurant.fee}
+					</div>
+				);
+			},
+		},
+		{
+			id: 11,
 			Header: 'Tip',
 			width: 150,
 			className: 'text-center view-details',

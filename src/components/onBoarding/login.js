@@ -89,10 +89,13 @@ function Login({ adminLogin, history }) {
 											</a>
 											<div className='login-module'>
 												<h1 className='font-bold text-center md:text-4xl lg:text-5xl text-teal-250'>
-													Welcome Back
+												<div className="flex text-center logo" >
+                                                                    <img src={require('../../assets/img/hotspotLogo.png')} alt="" />
+                                                                   Welcome Back
+                                                                </div>
 												</h1>
 												<p className='text-gray-200 text-center text-base'>
-													Login to your account
+													Login to your hotspot account
 												</p>
 
 												<form

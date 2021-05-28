@@ -2009,10 +2009,10 @@ export const getOrderDeliveiesList = (
 ) => {
 	return new Promise(async (resolve, reject) => {
 		try {
-			debugger
+			let url = `${baseURL}getOrderDeliveries?search_key=${searchKey}&start_date=${startDate}&end_date=${endDate}&filter_key=${filterKey}&page=${pageNo}&page_size=${pageSize}`;
+
 			const response = await fetch(
-				"http://3.228.159.69/admin/getOrderDeliveries",
-				// `${baseURL}getOrderDeliveries?search_key=${searchKey}&start_date=${startDate}&end_date=${endDate}&filter_key=${filterKey}&page=${pageNo}&page_size=${pageSize}`,
+				url,
 				{
 					headers: {
 						Accept: 'application/json',
@@ -2062,7 +2062,6 @@ export const getPickupOrdersList = (
 ) => {
 	return new Promise(async (resolve, reject) => {
 		try {
-			debugger
 			const response = await fetch(
 				`${baseURL}getPickupOrders?search_key=${searchKey}&start_date=${startDate}&end_date=${endDate}&filter_key=${filterKey}&page=${pageNo}&page_size=${pageSize}`,
 				{
