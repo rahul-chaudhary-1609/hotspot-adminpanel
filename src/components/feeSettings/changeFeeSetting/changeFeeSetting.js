@@ -65,7 +65,8 @@ const ChangeFeeSetting = (props) => {
 				</h1>
 				<div className='flex flex-row items-center mt-5  '>
 					<div className='   w-1/3 text-left '>Fee Type</div>
-					<Select
+					<b style={{marginBottom:"0px",paddingLeft:"20px"}}>Driver Fee</b>
+					{/* <Select
 						value={props.feeType}
 						styles={customStyles}
 						options={[
@@ -85,7 +86,7 @@ const ChangeFeeSetting = (props) => {
 						inputId='order_type'
 						placeholder='Select the type..'
 						onChange={(selectedValue) => props.setFeeType(selectedValue)}
-					/>
+					/> */}
 				</div>
 				<div className='flex flex-row  mt-5  '>
 					<div className='w-1/2 text-left '>Order Range</div>
@@ -116,11 +117,6 @@ const ChangeFeeSetting = (props) => {
 					<input
 						className='appearance-none block w-1/6 text-center bg-red-500 ml-4 border border-100 rounded-half py-2 px-6 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-200'
 						value='$'
-						disabled
-					/>
-					<input
-						className='appearance-none block w-1/6 font-weight-bold text-center bg-white-500 ml-4 text-semibold border border-100 rounded-half py-2 px-6 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-200'
-						value='%'
 						disabled
 					/>
 				</div>

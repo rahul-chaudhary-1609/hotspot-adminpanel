@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import CommonTable from './commonTable';
-import { getFeeList } from '../../api';
+import { getFeeList ,getRestaurantLists} from '../../api';
 import { useSelector } from 'react-redux';
 import { addFee, editFee } from '../../api';
 import ChangeFeeSetting from './changeFeeSetting/changeFeeSetting';
@@ -32,7 +32,7 @@ const FeeSettings = () => {
 	const driverFeeSetting = () => {
 		getFeeList(token, 'driver')
 			.then((resp) => {
-				setDriverFee(resp.driverFeeList);
+				setDriverFee(resp.driverFeeList.rows);
 			})
 			.catch((error) => {
 				console.log(error);
@@ -48,9 +48,13 @@ const FeeSettings = () => {
 			});
 	};
 	const restaurantFeeSetting = () => {
-		getFeeList(token, 'restaurant')
+		let searchText='',currentPage='',pageSize='';
+		getRestaurantLists(token,
+			searchText,
+			currentPage,
+			pageSize)
 			.then((resp) => {
-				setRestaurantFee(resp.restaurantCommissionList);
+				setRestaurantFee(resp.restaurantList.rows);
 			})
 			.catch((error) => {
 				console.log(error);
@@ -84,7 +88,7 @@ const FeeSettings = () => {
 		let data = {
 			order_range_from: orderRangeFrom,
 			order_range_to: orderRangeTo,
-			fee_type: feeType.value,
+			fee_id: id,
 			fee: fee,
 		};
 		if (title === 'Add') {
@@ -159,19 +163,9 @@ const FeeSettings = () => {
 				/>
 				<CommonTable
 					{...{
-						title: 'Restaurant commission',
+						title: 'Restaurant Fee',
 						type: 'restaurant',
 						feeSetting: restaurantFee,
-						setIsOpen,
-						setTitle,
-						setId,
-					}}
-				/>
-				<CommonTable
-					{...{
-						title: 'Hotspot commission',
-						type: 'hotspot',
-						feeSetting: hotspotFee,
 						setIsOpen,
 						setTitle,
 						setId,

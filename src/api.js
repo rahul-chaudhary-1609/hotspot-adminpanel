@@ -1260,7 +1260,7 @@ export const assignDriver = (token, orderId, driverId) => {
 export const getFeeList = (token, type) => {
 	return new Promise(async (resolve, reject) => {
 		try {
-			const response = await fetch(`${baseURL}getFeeList/${type}`, {
+			const response = await fetch(`${baseURL}getDriverFeeList`, {
 				headers: {
 					Accept: 'application/json',
 					Authorization: token,
@@ -1302,7 +1302,7 @@ export const addFee = (token, data) => {
 export const editFee = (token, id, data) => {
 	return new Promise(async (resolve, reject) => {
 		try {
-			const response = await fetch(`${baseURL}editFee/${id}`, {
+			const response = await fetch(`${baseURL}editDriverFee`, {
 				body: JSON.stringify(data),
 				headers: {
 					Authorization: token,
@@ -1324,7 +1324,7 @@ export const editFee = (token, id, data) => {
 export const getFee = (token, id) => {
 	return new Promise(async (resolve, reject) => {
 		try {
-			const response = await fetch(`${baseURL}getFee/${id}`, {
+			const response = await fetch(`${baseURL}getDriverFeeById/${id}`, {
 				headers: {
 					Accept: 'application/json',
 					Authorization: token,
