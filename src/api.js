@@ -1280,7 +1280,7 @@ export const getFeeList = (token, type) => {
 export const addFee = (token, data) => {
 	return new Promise(async (resolve, reject) => {
 		try {
-			const response = await fetch(`${baseURL}addFee`, {
+			const response = await fetch(`${baseURL}addDriverFee`, {
 				body: JSON.stringify(data),
 				headers: {
 					Authorization: token,
@@ -2197,6 +2197,27 @@ export const getDriverEarningListById = (
 					},
 				}
 			).then((res) => res.json());
+			if (response.status == 200) {
+				resolve(response);
+			} else {
+				reject(response.message);
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	});
+};
+export const editRestaurantFee = (token, data) => {
+	return new Promise(async (resolve, reject) => {
+		try {
+			const response = await fetch(`${baseURL}editRestaurantFee`, {
+				body: JSON.stringify(data),
+				headers: {
+					Authorization: token,
+					'Content-Type': 'application/json',
+				},
+				method: 'PUT',
+			}).then((res) => res.json());
 			if (response.status == 200) {
 				resolve(response);
 			} else {

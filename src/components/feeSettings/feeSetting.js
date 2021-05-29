@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import CommonTable from './commonTable';
-import { getFeeList ,getRestaurantLists} from '../../api';
+import { getFeeList, getRestaurantLists } from '../../api';
 import { useSelector } from 'react-redux';
-import { addFee, editFee } from '../../api';
+import { addFee, editFee, editRestaurantFee } from '../../api';
 import ChangeFeeSetting from './changeFeeSetting/changeFeeSetting';
 
 const FeeSettings = () => {
@@ -15,9 +15,12 @@ const FeeSettings = () => {
 	const [feeType, setFeeType] = useState(null);
 	const [orderRangeFrom, setOrderRangeFrom] = useState(null);
 	const [orderRangeTo, setOrderRangeTo] = useState(null);
+	const [percentageFee, setPercentageFee] = useState(0);
+	const [restaurantName, setRestaurantName] = useState(null)
 	const [fee, setFee] = useState(null);
 
 	const [modalIsOpen, setIsOpen] = useState(false);
+	const [isRestaurant, setIsRestaurant] = useState(false);
 	const [title, setTitle] = useState('');
 	const [id, setId] = useState(null);
 
@@ -48,7 +51,7 @@ const FeeSettings = () => {
 			});
 	};
 	const restaurantFeeSetting = () => {
-		let searchText='',currentPage='',pageSize='';
+		let searchText = '', currentPage = '', pageSize = '';
 		getRestaurantLists(token,
 			searchText,
 			currentPage,
@@ -63,7 +66,7 @@ const FeeSettings = () => {
 
 	useEffect(() => {
 		if (feeDetails) {
-			const { fee_type, order_range_from, order_range_to, fee } = feeDetails;
+			const { fee_type, order_range_from, order_range_to, fee, percentage_fee, restaurant_name } = feeDetails;
 			if (fee_type === 'driver') {
 				setFeeType({ label: 'Driver Fee', value: 'driver' });
 			} else if (fee_type === 'hotspot') {
@@ -78,6 +81,8 @@ const FeeSettings = () => {
 				});
 			}
 
+			setPercentageFee(percentage_fee);
+			setRestaurantName(restaurant_name);
 			setOrderRangeFrom(order_range_from);
 			setOrderRangeTo(order_range_to);
 			setFee(fee);
@@ -85,41 +90,64 @@ const FeeSettings = () => {
 	}, [feeDetails]);
 
 	const handleFee = () => {
-		let data = {
-			order_range_from: orderRangeFrom,
-			order_range_to: orderRangeTo,
-			fee_id: id,
-			fee: fee,
-		};
-		if (title === 'Add') {
-			addFee(token, data)
+		if (isRestaurant) {
+
+			let data = {
+				restaurant_id: id,
+				percentage_fee: parseInt(percentageFee)
+			};
+			editRestaurantFee(token, data)
 				.then((resp) => {
 					setIsOpen(false);
-				})
-				.catch((error) => {
-					console.log(error);
-				});
-		} else if (title === 'Edit') {
-			editFee(token, id, data)
-				.then((resp) => {
-					setIsOpen(false);
+					setIsRestaurant(false);
 				})
 				.catch((error) => {
 					console.log(error);
 				});
 		}
+		else {
+			if (title === 'Add') {
+				let data = {
+					order_range_from: orderRangeFrom,
+					order_range_to: orderRangeTo,
+					fee: fee,
+				};
+				addFee(token, data)
+					.then((resp) => {
+						setIsOpen(false);
+					})
+					.catch((error) => {
+						console.log(error);
+					});
+			} else if (title === 'Edit') {
+				let data = {
+					order_range_from: orderRangeFrom,
+					order_range_to: orderRangeTo,
+					fee_id: id,
+					fee: fee,
+				};
+				editFee(token, id, data)
+					.then((resp) => {
+						setIsOpen(false);
+					})
+					.catch((error) => {
+						console.log(error);
+					});
+			}
+		}
 	};
 	return (
 		<>
-			<div className='main-content pb-16 md:pb-5 flex-1 pt-20 px-2' style={{overflowY: 'scroll', height: '100vh'}}>
+			<div className='main-content pb-16 md:pb-5 flex-1 pt-20 px-2' style={{ overflowY: 'scroll', height: '100vh' }}>
 				<div style={{ display: 'flex' }}>
 					<h1 style={{ fontSize: '40px' }} className='text-xl mt-10 ml-10'>
 						Fee Setting
 					</h1>
 					<button
-						style={{ height: '3rem',
-						marginLeft:'60%'
-						 }}
+						style={{
+							height: '3rem',
+							marginLeft: '60%'
+						}}
 						className='shadow mt-10 h-2 bg-blue-500 ml-3 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-1 px-4 rounded'
 						type='button'
 						onClick={() => {
@@ -130,7 +158,7 @@ const FeeSettings = () => {
 							setIsOpen(true);
 							setTitle('Add');
 						}}>
-						Add New
+						Add Driver Fee
 					</button>
 				</div>
 				<ChangeFeeSetting
@@ -149,6 +177,10 @@ const FeeSettings = () => {
 						title,
 						id,
 						setFeeDetails,
+						isRestaurant,
+						percentageFee,
+						restaurantName,
+						setPercentageFee
 					}}
 				/>
 				<CommonTable
@@ -169,6 +201,7 @@ const FeeSettings = () => {
 						setIsOpen,
 						setTitle,
 						setId,
+						setIsRestaurant
 					}}
 				/>
 			</div>
