@@ -196,7 +196,7 @@ const DriverPayment = () => {
 		<>
 			<div
 				className='main-content pb-16 md:pb-5 flex-1 pt-20 px-2'
-				style={{ overflowY: 'scroll', height: '100vh' }}>
+				style={{ overflowY: 'auto', height: '100vh' }}>
 				<div
 					id='recipients'
 					className='p-4 md:p-8 mt-6 lg:mt-0 rounded shadow bg-white'>

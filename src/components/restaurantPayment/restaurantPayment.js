@@ -228,7 +228,7 @@ const RestaurantPayment = () => {
 		<>
 			<div
 				className='main-content pb-16 md:pb-5 flex-1 pt-20 px-2'
-				style={{ overflowY: 'scroll', height: '90vh', marginTop: '30px' }}>
+				style={{ overflowY: 'unset', height: '90vh', marginTop: '30px' }}>
 				<div style={{ marginLeft: '1rem', fontSize: '2rem' }}>
 					Restaurant Payment Management
 				</div>
