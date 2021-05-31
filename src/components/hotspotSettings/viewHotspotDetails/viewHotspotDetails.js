@@ -90,7 +90,7 @@ const ViewHotspotDetails = () => {
 								deleteModal,
 								name: 'Hotspot',
 								handleDelete,
-								message: `This Hotspot is linked with the ${restaurants}`,
+								message: `This Hotspot is linked with the Restaurant ${restaurants}`,
 								restaurants
 							}}
 						/>

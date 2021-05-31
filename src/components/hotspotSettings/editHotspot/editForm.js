@@ -115,7 +115,10 @@ const EditForm = (props) => {
       .then((drivers) => {
         let updatedList = drivers.driverList.rows;
         updatedList = updatedList.reduce((acc, curr) => {
-          return acc.concat({ label: curr.name, value: curr.id });
+          if (curr.status === 1 && curr.approval_status === 1) {
+               return acc.concat({ label: curr.name, value: curr.id });
+          }
+          return acc;
         }, []);
 
         props.setDriverList(updatedList);

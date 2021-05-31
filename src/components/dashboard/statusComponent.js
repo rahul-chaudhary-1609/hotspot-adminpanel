@@ -52,7 +52,7 @@ const StatusComponent = (props) => {
 						<Piechart
 							contentStyle={{
 								marginTop: '-120px',
-								marginLeft: '52px',
+								marginLeft: '50px',
 								fontSize: '15px',
 								fontWeight: 'bold',
 							}}

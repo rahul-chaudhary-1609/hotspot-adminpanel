@@ -29,7 +29,8 @@ const ButtonLayouts = () => {
 						});
 						history.push('/order');
 					}}>
-					{pathname === '/order' ? 'New Orders' : 'Orders'}
+					{/* {pathname === '/order' ? 'New Orders' : 'Orders'} */}
+					Active Orders
 				</button>
 				<button
 					style={{ height: '2rem' }}
