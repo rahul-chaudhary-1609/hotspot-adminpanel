@@ -85,7 +85,7 @@ const ChangeFeeSetting = (props) => {
 					</div>
 					<div className='flex flex-row items-center mt-5  '>
 						<div className='   w-1/3 text-left '>Restaurant Name</div>
-						<b style={{ marginBottom: "0px", paddingLeft: "100px" }}>{props.restaurantName}</b>
+						<b style={{ marginBottom: "0px", paddingLeft: "100px" }}>{props.restaurantName}{console.log('restaurant_name',props.restaurantName)}</b>
 					</div>
 					<div className='flex flex-row items-center mt-5  '>
 						<div className='w-1/2 text-left '>Percentage Fee</div>
@@ -97,7 +97,7 @@ const ChangeFeeSetting = (props) => {
 						/>{' '}
 						<input
 							className='appearance-none block w-1/6 text-center bg-red-500 ml-4 border border-100 rounded-half py-2 px-6 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-200'
-							value='$'
+							value='%'
 							disabled
 						/>
 					</div>
@@ -116,7 +116,7 @@ const ChangeFeeSetting = (props) => {
 				</button>
 						<button
 							type='submit'
-							onClick={() => props.handleFee}
+							onClick={props.handleFee}
 							style={{
 								width: '100%',
 								height: '40px',
@@ -138,13 +138,14 @@ const ChangeFeeSetting = (props) => {
 				</h1>
 					<div className='flex flex-row items-center mt-5  '>
 						<div className='   w-1/3 text-left '>Fee Type</div>
-						<b style={{ marginBottom: "0px", paddingLeft: "33px" }}>Driver Fee</b>
+						<b style={{ marginBottom: "0px", paddingLeft: "8px" }}>Driver Fee</b>
 					</div>
 					<div className='flex flex-row  mt-5  '>
 						<div className='w-1/2 text-left '>Order Range</div>
 						<input
 							className='appearance-none block w-1/3 ml-10 bg-gray-100 border border-100 rounded-half py-2 px-6 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-200'
 							value={props.orderRangeFrom}
+							style={{marginLeft:"-10px"}}
 							onChange={(e) => props.setOrderRangeFrom(e.target.value)}
 						/>{' '}
 						<p style={{ fontSize: '30px', marginTop: '5px' }}>$</p>
@@ -159,9 +160,10 @@ const ChangeFeeSetting = (props) => {
 						<p style={{ fontSize: '30px', marginTop: '5px' }}>$</p>
 					</div>
 					<div className='flex flex-row items-center mt-5  '>
-						<div className='w-1/2 text-left '>{`${props.feeType ? props.feeType.label.split(" ")[0] : "Driver"}'s earnings /order`}</div>
+						<div className='w-1/2 text-left '>{`${props.feeType ? props.feeType.label.split(" ")[0] : "Driver"}'s earnings`}</div>
 						<input
-							className='appearance-none ml-5 block w-1/3 bg-gray-100 border border-100 rounded-half py-2 px-8 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-200'
+							className='appearance-none block w-1/3 bg-gray-100 border border-100 rounded-half py-2 px-8 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-200'
+							style={{marginLeft:"-96px"}}
 							value={props.fee}
 							id='fee'
 							onChange={(e) => props.setFee(e.target.value)}

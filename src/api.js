@@ -2228,3 +2228,25 @@ export const editRestaurantFee = (token, data) => {
 		}
 	});
 };
+
+export const deleteDriverFee = (token, fee_id) => {
+	debugger
+	return new Promise(async (resolve, reject) => {
+		try {
+			const response = await fetch(`${baseURL}deleteDriverFee/${fee_id}`, {
+				headers: {
+					Accept: 'application/json',
+					Authorization: token,
+				},
+				method: 'DELETE',
+			}).then((res) => res.json());
+			if (response.status == 200) {
+				resolve(response);
+			} else {
+				reject(response.message);
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	});
+};

@@ -1,11 +1,14 @@
-import React, { useMemo } from 'react';
+import React, { useMemo,useState } from 'react';
 import ReactTable from 'react-table';
+import { useSelector } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPencilAlt } from '@fortawesome/free-solid-svg-icons';
+import { faPencilAlt ,faTrashAlt} from '@fortawesome/free-solid-svg-icons';
 
 const CommonTable = (props) => {
+
 	let currentId = 0;
-	const columns = props.type == 'restaurant' ?
+	{console.log("props.feeSetting[0].status",props.feeSetting && props.feeSetting[0] && props.feeSetting[0].status)}
+		const columns = props.type == 'restaurant' ?
 		[
 			{
 				Header: '#',
@@ -29,22 +32,11 @@ const CommonTable = (props) => {
 				id: 2,
 				Header: 'Restaurant',
 				className: 'text-center view-details',
-				accessor: 'restaurant_name',
-			},
+				accessor: 'restaurant_name',		
+				
+			},			
 			{
 				id: 3,
-				Header: 'Full Name',
-				className: 'text-center view-details',
-				accessor: (item) => {
-					return (
-						<div style={{ padding: '6px', cursor: 'pointer' }}>
-							{item.owner_name}
-						</div>
-					);
-				},
-			},
-			{
-				id: 4,
 				Header: 'Email Address',
 				className: 'text-center view-details',
 				accessor: (item) => {
@@ -56,7 +48,7 @@ const CommonTable = (props) => {
 				},
 			},
 			{
-				id: 5,
+				id: 4,
 				Header: 'Phone Number',
 				className: 'text-center view-details',
 				accessor: (item) => {
@@ -69,7 +61,34 @@ const CommonTable = (props) => {
 				},
 			},
 			{
+				id: 5,
+				Header: 'Status',
+				width: 100,
+				className: 'text-center view-details',
+				accessor: (item) => {
+					return (
+						<div
+							className={item.status == 1 ? 'text-green-600' : 'text-red-600'}
+							style={{ padding: '6px', cursor: 'pointer' }}>
+							{item.status == 1 ? 'Active' : 'Inactive'}
+						</div>
+					);
+				},
+			},
+			{
 				id: 6,
+				Header: 'Percentage Fee (%)',
+				className: 'text-center view-details',
+				accessor: (item) => {
+					return (
+						<div style={{ padding: '6px', cursor: 'pointer' }}>
+							{item.percentage_fee}%
+						</div>
+					);
+				},
+			},
+			{
+				id: 7,
 				Header: 'Action',
 				className: 'text-center view-details',
 				accessor: (item) => {
@@ -79,6 +98,7 @@ const CommonTable = (props) => {
 								display: 'flex',
 								flexDirection: 'row',
 								justifyContent: 'space-around',
+								cursor:"pointer"
 							}}
 							className='text-center'
 							onClick={(e) => e.stopPropagation()}>
@@ -121,18 +141,18 @@ const CommonTable = (props) => {
 				accessor: (item) => {
 					return (
 						<div style={{ padding: '6px', cursor: 'pointer' }}>
-							${item.order_range_from} - ${item.order_range_to}
+							${item.order_range_from}{item.order_range_to?`- $${item.order_range_to}`:''}
 						</div>
 					);
 				},
 			},
 			{
 				id: 3,
-				Header: `${props.title.split(' ')[0]} earning / order`,
+				Header: `${props.title.split(' ')[0]} earning ($)`,
 				className: 'text-center view-details',
 				accessor: (item) => {
 					return (
-						<div style={{ padding: '6px', cursor: 'pointer' }}>{item.fee}</div>
+						<div style={{ padding: '6px', cursor: 'pointer' }}>${item.fee}</div>
 					);
 				},
 			},
@@ -143,12 +163,12 @@ const CommonTable = (props) => {
 				accessor: (item) => {
 					return (
 						<div
-							style={{
-								display: 'flex',
-								flexDirection: 'row',
-								justifyContent: 'space-around',
-							}}
-							className='text-center'
+						style={{
+							display: 'flex',
+							flexDirection: 'row',
+							justifyContent: 'space-around',
+							cursor:"pointer"
+						}}
 							onClick={(e) => e.stopPropagation()}>
 							<FontAwesomeIcon
 								style={{ cursor: 'pointer' }}
@@ -161,11 +181,22 @@ const CommonTable = (props) => {
 								color='red'
 								icon={faPencilAlt}
 							/>
+							<FontAwesomeIcon
+							className='text-red-600 trash w-5 h-5'
+							color='red'
+						   onClick={() => 
+                            {
+                                props.setDriverFeeId(item.id)
+                                props.setDeleteModal(true);
+                           }}
+							icon={faTrashAlt}
+						/>
 						</div>
 					);
 				},
 			},
 		]
+
 	return (
 		<div
 			id='recipients'

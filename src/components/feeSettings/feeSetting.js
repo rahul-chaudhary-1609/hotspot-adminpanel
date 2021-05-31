@@ -2,8 +2,10 @@ import React, { useEffect, useState } from 'react';
 import CommonTable from './commonTable';
 import { getFeeList, getRestaurantLists } from '../../api';
 import { useSelector } from 'react-redux';
-import { addFee, editFee, editRestaurantFee } from '../../api';
+import { addFee, editFee, editRestaurantFee, deleteDriverFee } from '../../api';
 import ChangeFeeSetting from './changeFeeSetting/changeFeeSetting';
+import DeleteModal from '../deleteModal/deleteModal';
+
 
 const FeeSettings = () => {
 	const token = useSelector((state) => state.auth.isSignedIn);
@@ -25,6 +27,8 @@ const FeeSettings = () => {
 	const [id, setId] = useState(null);
 
 	const [feeDetails, setFeeDetails] = useState(null);
+	const [deleteModal, setDeleteModal] = useState(false);
+	const [driverFeeId, setDriverFeeId] = useState(null);
 
 	useEffect(() => {
 		driverFeeSetting();
@@ -81,8 +85,8 @@ const FeeSettings = () => {
 				});
 			}
 
-			setPercentageFee(percentage_fee);
 			setRestaurantName(restaurant_name);
+			setPercentageFee(percentage_fee);
 			setOrderRangeFrom(order_range_from);
 			setOrderRangeTo(order_range_to);
 			setFee(fee);
@@ -91,19 +95,22 @@ const FeeSettings = () => {
 
 	const handleFee = () => {
 		if (isRestaurant) {
-
-			let data = {
-				restaurant_id: id,
-				percentage_fee: parseInt(percentageFee)
-			};
-			editRestaurantFee(token, data)
-				.then((resp) => {
-					setIsOpen(false);
-					setIsRestaurant(false);
-				})
-				.catch((error) => {
-					console.log(error);
-				});
+			if (percentageFee == '')
+				alert('Please nter Restaurant Percentage Fee!');
+			else {
+				let data = {
+					restaurant_id: id,
+					percentage_fee: parseInt(percentageFee)
+				};
+				editRestaurantFee(token, data)
+					.then((resp) => {
+						setIsOpen(false);
+						setIsRestaurant(false);
+					})
+					.catch((error) => {
+						console.log(error);
+					});
+			}
 		}
 		else {
 			if (title === 'Add') {
@@ -136,9 +143,21 @@ const FeeSettings = () => {
 			}
 		}
 	};
+
+	const handleDelete = () => {
+		deleteDriverFee(token, driverFeeId)
+			.then((res) => {
+				setDeleteModal(false);
+				driverFeeSetting();
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+	}
+
 	return (
 		<>
-			<div className='main-content pb-16 md:pb-5 flex-1 pt-20 px-2' style={{ overflowY: 'scroll', height: '100vh' }}>
+			<div className='main-content pb-16 md:pb-5 flex-1 pt-20 px-2' style={{ height: '100vh' }}>
 				<div style={{ display: 'flex' }}>
 					<h1 style={{ fontSize: '40px' }} className='text-xl mt-10 ml-10'>
 						Fee Setting
@@ -191,6 +210,8 @@ const FeeSettings = () => {
 						setIsOpen,
 						setTitle,
 						setId,
+						setDriverFeeId,
+						setDeleteModal
 					}}
 				/>
 				<CommonTable
@@ -205,6 +226,8 @@ const FeeSettings = () => {
 					}}
 				/>
 			</div>
+
+			{deleteModal && <DeleteModal  {...{ deleteModal, setDeleteModal, name: 'Driver Fee', handleDelete }} />}
 		</>
 	);
 };

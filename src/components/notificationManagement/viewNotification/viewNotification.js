@@ -35,24 +35,24 @@ const ViewNotification = () => {
 				
 
 				{notification && (
-					<div className='form-layout text-base border border-gray-200 mt-10' >
+					<div className='bg-gray-100 form-layout text-base border border-gray-200 mt-10'>
 						<div className='flex flex-row items-center '>
-							<div className='bg-gray-100 font-semibold py-4 px-6 w-1/3 text-right'>
+							<div className=' font-semibold py-4 px-6 w-1/3 text-right'>
 								Title
 							</div>
-							<div className='px-8'>{notification.title}</div>
+							<div className='px-8' style={{width:"780px"}}>{notification.title}</div>
 						</div>
 						<div className='flex flex-row items-center border-t border-gray-200'>
-							<div className='bg-gray-100 font-semibold py-4 px-6 w-1/3 text-right'>
+							<div className=' font-semibold py-4 px-6 w-1/3 text-right'>
 								Description
 							</div>
-							<div className='px-8'>{notification.description}</div>
+							<div className='px-8' style={{width:"780px"}}>{notification.description}</div>
 						</div>
 						<div className='flex flex-row items-center border-t border-gray-200'>
-							<div className='bg-gray-100 font-semibold py-4 px-6 w-1/3 text-right'>
+							<div className='font-semibold py-4 px-6 w-1/3 text-right'>
 								Send To
 							</div>
-							<div className='px-8'>
+							<div className='px-8' style={{width:"780px"}}>
 								{(function () {
 									if (notification.type == 1) {
 										return 'All Users';

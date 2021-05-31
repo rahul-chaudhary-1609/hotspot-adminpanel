@@ -13,7 +13,7 @@ const NotificationManagement = () => {
 	const history = useHistory();
 	const token = useSelector((state) => state.auth.isSignedIn);
 	const [activePage, setCurrentPage] = useState(1);
-	const [pageSize, setPageSize] = useState(2);
+	const [pageSize, setPageSize] = useState(10);
 	const [totalItems, setTotalItems] = useState(null);
 
 	const [notificationDetails, setNotificationDetails] = useState([]);
@@ -64,10 +64,11 @@ const NotificationManagement = () => {
 			Header: 'Description',
 			className: 'text-center view-details',
 			accessor: (item) => {
-				//  console.log(item.id);
-				return (
+				return (					
 					<div style={{ padding: '6px', cursor: 'pointer' }}>
-						{item.description}
+						{item.description.length < 35
+						? `${item.description}`
+						: `${item.description.substring(0, 34)}....`}
 					</div>
 				);
 			},
@@ -196,7 +197,7 @@ const NotificationManagement = () => {
 						columns={columns}
 					/>
 					<br/>
-					(showing {startId <= 0 ? 0 : startId + 1} - {endId} of {totalItems})
+					(showing {startId == 0 ? 1 : startId + 1} - {endId} of {totalItems})
 					<div style={{ textAlign: 'right' }}>
 						<Pagination
 							activePage={activePage}
