@@ -194,7 +194,7 @@ const CompletedOrder = () => {
 		<>
 			<div
 				className='main-content pb-16 md:pb-5 flex-1 pt-20 px-2'
-				style={{ overflowY: 'scroll', height: '100vh' }}
+				style={{ overflowY: 'unset', height: '100vh' }}
 				>
 				<div style={{ marginLeft: '1rem', fontSize: '2rem' }}>Orders</div>
 				<ButtonLayouts />
