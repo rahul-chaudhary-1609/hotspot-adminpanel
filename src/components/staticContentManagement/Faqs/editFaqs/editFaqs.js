@@ -54,7 +54,7 @@ const EditFqs = () => {
 		let id = faqs.topic_id;
 		editFaqs(token, id, data)
 			.then((res) => {
-				history.push(`/viewStaticContent/6`);
+				history.push(`/viewStaticContent/${id}/faqs`);
 			})
 			.catch((error) => {
 				console.log(error);
@@ -70,7 +70,7 @@ const EditFqs = () => {
 					<br />
 					<button
 						style={{ height: '3rem' }}
-						onClick={() => history.push(`/viewStaticContent/6`)}
+						onClick={() => history.push(`/viewStaticContent/${id}/faqs`)}
 						className='shadow bg-blue-500 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded'
 						type='button'>
 						Back

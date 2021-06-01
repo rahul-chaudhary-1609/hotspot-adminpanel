@@ -4,12 +4,12 @@ import { useSelector } from 'react-redux';
 import { Collapse } from 'react-collapse';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import ArrowDropUpIcon from '@material-ui/icons/ArrowDropUp';
-import { getFaqQuestions } from '../../../api';
+import { getFaqQuestions , deleteFaqs} from '../../../api';
 import { useHistory, useParams } from 'react-router';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPencilAlt, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
-import DeleteFaqs from '../Faqs/deleteFaqs/deleteFaqs';
 import {Link} from 'react-router-dom'
+import DeleteModal from '../../deleteModal/deleteModal';
 const FAQS = () => {
 	const token = useSelector((state) => state.auth.isSignedIn);
 	const history = useHistory();
@@ -20,11 +20,16 @@ const FAQS = () => {
 
 	const [qus, setQus] = useState(null);
 	const [active, setActive] = useState(null);
-	const [deleteFaqsModal, setDeleteFaqsModal] = useState(false);
+	const[deleteModal,setDeleteModal]= useState(false);
+
 
 	const [questionId, setQuestionId] = useState(null);
 
 	useEffect(() => {
+		faqsList();
+	}, []);
+
+	const faqsList = () =>{
 		getFaqs(token)
 			.then((res) => {
 				setFaqs(res.getfaqData);
@@ -34,7 +39,7 @@ const FAQS = () => {
 			.catch((error) => {
 				console.log(error);
 			});
-	}, []);
+	}
 
 	const handleCollapse = (e, id) => {
 		let updatedStatus = { ...statusOpened };
@@ -55,6 +60,20 @@ const FAQS = () => {
 				console.log(error);
 			});
 	};
+
+	const handleDelete = () =>{
+		let data = {
+			topic_id: questionId,
+		};
+		deleteFaqs(token, data)
+			.then((res) => {
+				setDeleteModal(false);
+				faqsList();
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+	}
 
 	return (
 		<>
@@ -141,7 +160,7 @@ const FAQS = () => {
 													<p>{ques.answer}</p>
 													<FontAwesomeIcon
 														style={{ cursor: 'pointer' }}
-														onClick={() => history.push(`/editFaqs/${ques.id}`)}
+														onClick={() => history.push(`/viewStaticContent/${id}/editFaqs/${ques.id}`)}
 														className='text-red-600 trash w-5 h-5'
 														color='red'
 														icon={faPencilAlt}
@@ -150,7 +169,7 @@ const FAQS = () => {
 														className='text-red-600 trash w-5 h-5'
 														color='red'
 														onClick={() => {
-															setDeleteFaqsModal(true);
+															setDeleteModal(true);
 															setQuestionId(ques.topic_id)
 														}}
 														icon={faTrashAlt}
@@ -164,14 +183,15 @@ const FAQS = () => {
 							})}
 					</div>
 				</div>
-				<DeleteFaqs
+				{/* <DeleteFaqs
 					{...{
 						setDeleteFaqsModal,
 						deleteFaqsModal,
 
 						faqs, questionId
 					}}
-				/>
+				/> */}
+				<DeleteModal {...{deleteModal, setDeleteModal, name:'FAQs', handleDelete}}/>
 			</div>
 		</>
 

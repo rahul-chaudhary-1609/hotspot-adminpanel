@@ -222,7 +222,7 @@ const Admin = () => {
 							path={`/viewStaticContent/:id/addFaqs`}
 							component={AddFaqs}
 						/>
-						<ProtectedRoutes exact path={`/editFaqs/:id`} component={EditFqs} />
+						<ProtectedRoutes exact path={`/viewStaticContent/:id/editFaqs/:id`} component={EditFqs} />
 						<ProtectedRoutes
 							exact
 							path={`/feesettings`}
