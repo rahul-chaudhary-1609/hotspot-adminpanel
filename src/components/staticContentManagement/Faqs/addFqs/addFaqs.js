@@ -40,7 +40,7 @@ const AddFaqs = () => {
 
 		addFaq(token, data)
 			.then((res) => {
-				history.push(`/viewStaticContent/${id}`);
+				history.push(`/viewStaticContent/${id}/faqs`);
 			})
 			.catch((error) => {
 				console.log(error);
@@ -56,7 +56,7 @@ const AddFaqs = () => {
 					<br />
 					<button
 						style={{ height: '3rem' }}
-						onClick={() => history.push(`/viewStaticContent/${id}`)}
+						onClick={() => history.push(`/viewStaticContent/${id}/faqs`)}
 						className='shadow bg-blue-500 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded'
 						type='button'>
 						Back

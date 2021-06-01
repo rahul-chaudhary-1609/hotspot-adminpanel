@@ -65,6 +65,7 @@ import OrderDetails from './orderManagement/orderDetails/orderDetails.js';
 
 import HotspotEarning from './adminEarning/hotspotEarning.js';
 import PickupEarning from './adminEarning/pickupEarning/pickupEarning.js';
+import FAQS from './staticContentManagement/viewStaticContent/faqQ';
 
 const Admin = () => {
 	const token = useSelector((state) => state.auth.isSignedIn);
@@ -205,6 +206,11 @@ const Admin = () => {
 							exact
 							path={`/viewStaticContent/:id`}
 							component={ViewStaticContent}
+						/>
+						<ProtectedRoutes
+							exact
+							path={`/viewStaticContent/:id/faqs`}
+							component={FAQS}
 						/>
 						<ProtectedRoutes
 							exact

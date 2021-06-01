@@ -45,8 +45,8 @@ const ViewStaticContent = () => {
 							type='button'>
 							Back
 						</button>
-						{id != 6 ? (
-							<>
+						{/* {staticContentDetails.title != 'FAQs' ? (
+							<> */}
 								<button
 									style={{ height: '3rem' }}
 									onClick={() => history.push(`/editStaticContent/${id}`)}
@@ -103,10 +103,10 @@ const ViewStaticContent = () => {
 										</div>
 									</div>
 								</div>
-							</>
+							{/* </>
 						) : (
 							<FAQS />
-						)}
+						)} */}
 					</div>
 				)}
 			</div>
