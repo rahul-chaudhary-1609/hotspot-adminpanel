@@ -11,6 +11,8 @@ const StaticContent = () => {
 
     const history = useHistory();
 
+	let currentId = 0;
+
 	const columns = [
 		{
 			Header: '#',
@@ -19,11 +21,12 @@ const StaticContent = () => {
 			className: 'text-center view-details',
 
 			accessor: (item) => {
+				currentId++;
 				return (
 					<>
 						<div className='flex items-center' style={{ cursor: 'pointer' }}>
 							<div className='text-sm'>
-								<p className='text-gray-300 leading-none '>{item.id}</p>
+								<p className='text-gray-300 leading-none '>{currentId}</p>
 							</div>
 						</div>
 					</>

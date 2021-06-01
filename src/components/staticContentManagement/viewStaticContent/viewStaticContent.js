@@ -45,7 +45,7 @@ const ViewStaticContent = () => {
 							type='button'>
 							Back
 						</button>
-						{id != 6 ? (
+						{staticContentDetails.title != "FAQs" ? (
 							<>
 								<button
 									style={{ height: '3rem' }}
@@ -61,7 +61,6 @@ const ViewStaticContent = () => {
 										backgroundColor: 'lightgrey',
 										padding: '20px',
 										width: '990px',
-										height: '400px',
 									}}>
 									<div className='flex '>
 										<h1 className='text-xl'>Title</h1>
@@ -74,7 +73,7 @@ const ViewStaticContent = () => {
 										<h1 className='text-xl ml-50 '>Description</h1>
 										{/* <ReactPlayer url={staticContentDetails.video_url} /> */}
 										<div className='flex flex-col ml-40'>
-											{(id == 3 || id == 4) && (
+											{(staticContentDetails.title == "Cutomer -How it works" || staticContentDetails.title == "") && (
 												<>
 													<ReactPlayer
 														// width='100%'
