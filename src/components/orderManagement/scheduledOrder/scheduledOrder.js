@@ -191,7 +191,7 @@ const ScheduledOrder = () => {
 				<div className='flex mt-10  ml-3'>
 					<div className='w-full  md:w-1/2 px-3  mb-6 md:mb-0 search-text'>
 						<SearchBox
-							placeholder='Search by name, order id'
+							placeholder='Search by Name, Order Id'
 							setSearchText={(val) =>
 								dispatch({
 									type: 'SEARCH_TEXT',

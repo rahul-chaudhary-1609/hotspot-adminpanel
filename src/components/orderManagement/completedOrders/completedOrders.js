@@ -160,9 +160,6 @@ const CompletedOrder = () => {
 
 	const getcompletedOrders = () => {
 		setLoading(true);
-		
-		let currentPage = searchText.length > 0 ? 1 : activePage;
-
 		getCompletedOrders(token, searchText, activePage, pageSize)
 			.then((order) => {
 				let newStartId = pageSize * (activePage - 1);
@@ -201,7 +198,7 @@ const CompletedOrder = () => {
 				<div className='flex mt-10 ml-3'>
 					<div className='w-full  md:w-1/2 px-3  mb-6 md:mb-0 search-text'>
 						<SearchBox
-							placeholder='Search by name, order id'
+							placeholder='Search by Name, Order Id'
 							setSearchText={(val) =>
 								dispatch({
 									type: 'SEARCH_TEXT',
@@ -239,6 +236,7 @@ const CompletedOrder = () => {
 						marginTop: '30px',
 						marginLeft: '20px',
 					}}
+					loading={loading}
 				/>
 				<br />
 				<p

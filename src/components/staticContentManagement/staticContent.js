@@ -71,14 +71,16 @@ const StaticContent = () => {
 						}}
 						className='text-center'
 						onClick={(e) => e.stopPropagation()}>
-						<FontAwesomeIcon
+						
+						{item.title != 'FAQs' ? (
+							<>
+							<FontAwesomeIcon
 							style={{ cursor: 'pointer' }}
 							onClick={() => history.push(`/viewStaticContent/${item.id}`)}
 							className='text-red-600 trash w-5 h-5'
 							color='red'
 							icon={faEye}
 						/>
-						{item.title !== 'FAQs' && (
 							<FontAwesomeIcon
 								style={{ cursor: 'pointer' }}
 								onClick={() => history.push(`/editStaticContent/${item.id}`)}
@@ -86,7 +88,16 @@ const StaticContent = () => {
 								color='red'
 								icon={faPencilAlt}
 							/>
-						)}
+							</>
+						): 
+						<FontAwesomeIcon
+							style={{ cursor: 'pointer' }}
+							onClick={() => history.push(`/viewStaticContent/${item.id}/faqs`)}
+							className='text-red-600 trash w-5 h-5'
+							color='red'
+							icon={faEye}
+						/>
+						}
 					</div>
 				);
 			},

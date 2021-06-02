@@ -65,6 +65,7 @@ import OrderDetails from './orderManagement/orderDetails/orderDetails.js';
 
 import HotspotEarning from './adminEarning/hotspotEarning.js';
 import PickupEarning from './adminEarning/pickupEarning/pickupEarning.js';
+import FAQS from './staticContentManagement/viewStaticContent/faqQ';
 
 const Admin = () => {
 	const token = useSelector((state) => state.auth.isSignedIn);
@@ -208,6 +209,11 @@ const Admin = () => {
 						/>
 						<ProtectedRoutes
 							exact
+							path={`/viewStaticContent/:id/faqs`}
+							component={FAQS}
+						/>
+						<ProtectedRoutes
+							exact
 							path={`/editStaticContent/:id`}
 							component={EditStaticContent}
 						/>
@@ -216,7 +222,7 @@ const Admin = () => {
 							path={`/viewStaticContent/:id/addFaqs`}
 							component={AddFaqs}
 						/>
-						<ProtectedRoutes exact path={`/editFaqs/:id`} component={EditFqs} />
+						<ProtectedRoutes exact path={`/viewStaticContent/:id/editFaqs/:id`} component={EditFqs} />
 						<ProtectedRoutes
 							exact
 							path={`/feesettings`}

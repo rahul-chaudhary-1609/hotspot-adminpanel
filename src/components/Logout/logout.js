@@ -3,7 +3,6 @@ import Modal from 'react-modal';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../api';
-import './logout.css';
 
 const Logout = () => {
 	const customStyles = {
@@ -17,6 +16,9 @@ const Logout = () => {
 			marginLeft:'135px',
 			width:'30%'
 		},
+		overlay: {
+			background: "lightgrey"
+		  }
 	};
 	const history = useHistory();
 	const token = useSelector((state) => state.auth.isSignedIn);

@@ -38,18 +38,21 @@ const OrderDetails = () => {
     getOrderDetails();
   }, []);
 
-  useEffect(() =>{
-    if(orderDetails){
+  useEffect(() => {
+    if (orderDetails) {
       getDriverList();
     }
-  },[orderDetails])
+  }, [orderDetails]);
 
   const getDriverList = async () => {
     try {
       let hotspotId = orderDetails.hotspotLocation.id;
       const res = await getDriverListByHotspot(token, hotspotId);
       let drivers = res.rows.reduce((acc, curr) => {
-        return acc.concat({ id: curr.id, name: `${curr.first_name}  ${curr.last_name}` });
+        return acc.concat({
+          id: curr.id,
+          name: `${curr.first_name}  ${curr.last_name}`,
+        });
       }, []);
       setDrivers(drivers);
     } catch (error) {
@@ -105,58 +108,101 @@ const OrderDetails = () => {
               Back
             </button>
           </div>
-          <div className="text-xl text-gray-300  mb-6 ml-5">
-            <p className="flex">
-              Received on
-              <p style={{ marginLeft: "18px" }}>
-                {" "}
-                - {orderDetails.createdAt.split("T")[0]}
-              </p>
-              <p style={{ marginLeft: "6px" }}>
+         
+
+          <div className="form-layout text-base" style={{ marginTop: "-20px" }}>
+            <div className="flex flex-row items-center ">
+              <div
+                className="text-gray-300  py-4 px-6 text-left text-xl "
+                style={{ width: "21%" }}
+              >
+                Received on
+              </div>
+              <div className="px-8 text-xl text-gray-300">
+                {orderDetails.createdAt.split("T")[0]}{" "}
                 {moment(orderDetails.createdAt).format("h:mm A")}
-              </p>
-            </p>
-            <p className="flex">
-              {" "}
-              {orderDetails.status === "Pickup" ? "Pickup" : "Delivery"} Time -{" "}
-              {orderDetails.deliveryDateTime.split("T")[0]}
-              {"  "}
-              <p style={{ marginLeft: "6px" }}>
-                {moment(orderDetails.deliveryDateTime).format("h:mm A")}
-              </p>
-            </p>
+              </div>
+            </div>
           </div>
 
-          <div className="flex flex-row items-center text-xl text-gray-400 ml-5 ">
-            Customer Name
-            <div className="px-8 ml-6">{orderDetails.customer}</div>
+          <div className="form-layout text-base" style={{ marginTop: "-20px" }}>
+            <div className="flex flex-row items-center ">
+              <div
+                className="text-gray-300  py-4 px-6 text-left text-xl "
+                style={{ width: "21%" }}
+              >
+                {orderDetails.status === "Pickup" ? "Pickup" : "Delivery"} Time
+              </div>
+              <div className="px-8 text-xl text-gray-300">
+                {" "}
+                {orderDetails.deliveryDateTime.split("T")[0]}{" "}
+                {moment(orderDetails.deliveryDateTime).format("h:mm A")}
+              </div>
+            </div>
           </div>
+
+          <div className="form-layout text-base" style={{ marginTop: "-20px" }}>
+            <div className="flex flex-row items-center ">
+              <div
+                className="font-semibold py-4 px-6 text-left text-xl"
+                style={{ width: "21%" }}
+              >
+                Customer Name
+              </div>
+              <div className="px-8 text-xl">{orderDetails.customer}</div>
+            </div>
+          </div>
+
           {orderDetails.type == 1 && (
             <>
-              <div className="flex flex-row items-center text-xl text-gray-400 ml-5 ">
-                Hotspot Name
-                {orderDetails.hotspotLocation && (
-                  <div className="px-8  mt-3 " style={{ marginLeft: "35px" }}>
-                    {orderDetails.hotspotLocation.name}
+              <div
+                className="form-layout text-base"
+                style={{ marginTop: "-20px" }}
+              >
+                <div className="flex flex-row items-center ">
+                  <div
+                    className="font-semibold py-4 px-6 text-left text-xl"
+                    style={{ width: "21%" }}
+                  >
+                    Hotspot Name
                   </div>
-                )}
+                  <div className="px-8 text-xl">
+                    {orderDetails.hotspotLocation &&
+                      orderDetails.hotspotLocation.name}
+                  </div>
+                </div>
               </div>
-              <div className="flex flex-row items-center text-xl text-gray-400 ml-5 ">
-               <p style={{width:'21%', marginTop:'10px'}}>  Hotspot Location</p>
-                {orderDetails.hotspotLocation && (
-                  <div className="px-8 " style={{marginLeft:'-44px'}} >
-                    {orderDetails.hotspotLocation.details}
+              <div
+                className="form-layout text-base "
+                style={{ marginTop: "-20px" }}
+              >
+                <div className="flex flex-row items-center ">
+                  <div
+                    className=" font-semibold py-4 px-6  text-left text-xl "
+                    style={{ width: "21%" }}
+                  >
+                    Hotspot Location
                   </div>
-                )}
+                  <div className="px-8 text-xl">
+                    {orderDetails.hotspotLocation &&
+                      orderDetails.hotspotLocation.details}
+                  </div>
+                </div>
               </div>
             </>
           )}
-          <div className="flex flex-row items-center text-xl text-gray-400 ml-5 ">
-            Restaurant Name
-            <div className="px-8  mt-3 " style={{ marginLeft: "8px" }}>
-              {orderDetails.restaurant}
+          <div className="form-layout text-base" style={{ marginTop: "-20px" }}>
+            <div className="flex flex-row items-center ">
+              <div
+                className="font-semibold py-4 px-6 text-left text-xl"
+                style={{ width: "21%" }}
+              >
+                Restaurant Name
+              </div>
+              <div className="px-8 text-xl">{orderDetails.restaurant}</div>
             </div>
           </div>
+
           <div style={{ marginTop: "40px", width: "60%", marginLeft: "235px" }}>
             {orderDetails.orderItems.map((item) => {
               return (

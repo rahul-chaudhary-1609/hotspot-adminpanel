@@ -49,7 +49,7 @@ const ChangePassword = () => {
 				setError(error);
 			}
 		} else {
-			setError('The password and confirmation password do not match');
+			setError('Passwords does not match');
 		}
 	};
 
