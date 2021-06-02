@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getFaqs } from '../../../api';
+import { getFaqs ,getFaqTopics} from '../../../api';
 import { useSelector } from 'react-redux';
 import { Collapse } from 'react-collapse';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
@@ -41,6 +41,19 @@ const FAQS = () => {
 			});
 	}
 
+	const getFaqTopicsList = () => {
+		getFaqTopics(token)
+			.then((res) => {
+				console.log(res)
+				setFaqs(res.getFaqTopicsData);
+				handleQuestions(res.getFaqTopicsData[0].id);
+				setActive(res.getFaqTopicsData[0].id);
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+	}	
+
 	const handleCollapse = (e, id) => {
 		let updatedStatus = { ...statusOpened };
 		updatedStatus[id] = !updatedStatus[id];
@@ -68,7 +81,7 @@ const FAQS = () => {
 		deleteFaqs(token, data)
 			.then((res) => {
 				setDeleteModal(false);
-				faqsList();
+				getFaqTopicsList();
 			})
 			.catch((error) => {
 				console.log(error);
@@ -126,15 +139,22 @@ const FAQS = () => {
 								);
 							})}
 					</div>
-
-					<div style={{ marginTop: '40px' }}>
+					<div
+												id='doc'
+												style={{
+													width: '753px',
+													border: '1px solid black',
+													height: "fit-content"
+												}}>
+					{/* <div style={{ marginTop: '28px' }}> */}
+					<div >
 						{qus &&
 							qus.map((ques, index) => {
 								return (
 									<>
 										<div
 											style={{
-												width: '500px',
+												width: '750px',
 												backgroundColor: '	#DCDCDC',
 												padding: '10px',
 											}}
@@ -153,11 +173,12 @@ const FAQS = () => {
 												<div
 													style={{
 														backgroundColor: '#A9A9A9',
-														width: '477px',
+														width: '700px',
 														padding: '10px',
 														marginTop: '3px',
 													}}>
 													<p>{ques.answer}</p>
+													<div style={{textAlign:"right"}}>
 													<FontAwesomeIcon
 														style={{ cursor: 'pointer' }}
 														onClick={() => history.push(`/viewStaticContent/${id}/editFaqs/${ques.id}`)}
@@ -173,15 +194,16 @@ const FAQS = () => {
 															setQuestionId(ques.topic_id)
 														}}
 														icon={faTrashAlt}
-													/>
+													/></div>
 												</div>
 											</Collapse>
 										</div>
-										<hr style={{ width: '500px' }} />
+										<hr style={{ width: '750px' }} />
 									</>
 								);
 							})}
 					</div>
+				</div>
 				</div>
 				{/* <DeleteFaqs
 					{...{

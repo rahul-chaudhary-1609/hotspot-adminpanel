@@ -51,7 +51,6 @@ const ChangeFeeSetting = (props) => {
 
 		getRestaurantById(token, id)
 			.then((resp) => {
-				debugger
 				props.setFeeDetails(resp.restaurant);
 			})
 			.catch((error) => {

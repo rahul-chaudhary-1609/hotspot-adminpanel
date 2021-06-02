@@ -2229,8 +2229,7 @@ export const editRestaurantFee = (token, data) => {
 	});
 };
 
-export const deleteDriverFee = (token, fee_id) => {
-	debugger
+export const deleteDriverFee = (token, fee_id) => {	
 	return new Promise(async (resolve, reject) => {
 		try {
 			const response = await fetch(`${baseURL}deleteDriverFee/${fee_id}`, {
@@ -2239,6 +2238,26 @@ export const deleteDriverFee = (token, fee_id) => {
 					Authorization: token,
 				},
 				method: 'DELETE',
+			}).then((res) => res.json());
+			if (response.status == 200) {
+				resolve(response);
+			} else {
+				reject(response.message);
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	});
+};
+
+export const getFaqTopics = (token) => {
+	return new Promise(async (resolve, reject) => {
+		try {
+			const response = await fetch(`${baseURL}getFaqTopics`, {
+				headers: {
+					Accept: 'application/json',
+					Authorization: token,
+				},
 			}).then((res) => res.json());
 			if (response.status == 200) {
 				resolve(response);

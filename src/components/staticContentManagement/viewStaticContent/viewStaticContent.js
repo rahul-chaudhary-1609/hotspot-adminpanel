@@ -73,7 +73,7 @@ const ViewStaticContent = () => {
 										<h1 className='text-xl ml-50 '>Description</h1>
 										{/* <ReactPlayer url={staticContentDetails.video_url} /> */}
 										<div className='flex flex-col ml-40'>
-											{(staticContentDetails.title == "Cutomer -How it works" || staticContentDetails.title == "") && (
+											{(staticContentDetails.title == "Cutomer -How it works" || staticContentDetails.title == "Driver -How it works") && (
 												<>
 													<ReactPlayer
 														// width='100%'
