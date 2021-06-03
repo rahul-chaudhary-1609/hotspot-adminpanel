@@ -1827,7 +1827,7 @@ export const addFaq = (token, data) => {
 export const getFaqById = (token, id) => {
 	return new Promise(async (resolve, reject) => {
 		try {
-			const response = await fetch(`${baseURL}getFaq/${id}`, {
+			const response = await fetch(`${baseURL}getFaqQuestionById/${id}`, {
 				headers: {
 					Accept: 'application/json',
 					Authorization: token,
@@ -1844,10 +1844,10 @@ export const getFaqById = (token, id) => {
 	});
 };
 
-export const editFaqs = (token, id, data) => {
+export const editFaqs = (token, data) => {
 	return new Promise(async (resolve, reject) => {
 		try {
-			const response = await fetch(`${baseURL}editFaq/${id}`, {
+			const response = await fetch(`${baseURL}editFaqQuestion`, {
 				body: JSON.stringify(data),
 				headers: {
 					Authorization: token,
@@ -1866,16 +1866,16 @@ export const editFaqs = (token, id, data) => {
 	});
 };
 
-export const deleteFaqs = (token, data) => {
+export const editFaqTopic = (token, data) => {
 	return new Promise(async (resolve, reject) => {
 		try {
-			const response = await fetch(`${baseURL}deleteFaq`, {
+			const response = await fetch(`${baseURL}editFaqTopic`, {
 				body: JSON.stringify(data),
 				headers: {
 					Authorization: token,
 					'Content-Type': 'application/json',
 				},
-				method: 'POST',
+				method: 'PUT',
 			}).then((res) => res.json());
 			if (response.status == 200) {
 				resolve(response);
@@ -1887,6 +1887,48 @@ export const deleteFaqs = (token, data) => {
 		}
 	});
 };
+export const deleteFaqs = (token, id) => {
+	return new Promise(async (resolve, reject) => {
+		try {
+			const response = await fetch(`${baseURL}deleteFaqQuestion/${id}`, {
+				headers: {
+					Authorization: token,
+					'Content-Type': 'application/json',
+				},
+				method: 'DELETE',
+			}).then((res) => res.json());
+			if (response.status == 200) {
+				resolve(response);
+			} else {
+				reject(response.message);
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	});
+};
+
+export const deleteFaqsTopic = (token, id) => {
+	return new Promise(async (resolve, reject) => {
+		try {
+			const response = await fetch(`${baseURL}deleteFaqTopic/${id}`, {
+				headers: {
+					Authorization: token,
+					'Content-Type': 'application/json',
+				},
+				method: 'DELETE',
+			}).then((res) => res.json());
+			if (response.status == 200) {
+				resolve(response);
+			} else {
+				reject(response.message);
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	});
+};
+
 
 // banner management apis
 export const getBannerList = (token, pageNo, pageSize) => {

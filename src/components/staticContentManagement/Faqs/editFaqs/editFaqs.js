@@ -1,64 +1,97 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory, useParams } from 'react-router';
-import { getFaqById, getFaqs, editFaqs } from '../../../../api';
+import { getFaqById, getFaqs, editFaqs, getFaqTopics } from '../../../../api';
 import Select from 'react-select';
 import { useSelector } from 'react-redux';
+import Loader from '../../../../globalComponent/layout/loader';
 
 const EditFqs = () => {
 	const history = useHistory();
-	const { id } = useParams();
+	const path = useParams();
+	const id = path.id;
+	const topicid = path.topicId;
+	const questionId = path.questionId;
+
 	const token = useSelector((state) => state.auth.isSignedIn);
 
-	const [faqs, setFaqs] = useState([]);
+	const [faqs, setFaqs] = useState(null);
 	const [faqLists, setFaqList] = useState([]);
+	const [error, setError] = useState(null);
+	const [successMsg, setSuccessMsg] = useState(null);
 
 	useEffect(() => {
 		faqById();
-		faqsList();
+		getFaqTopicsList();
 	}, []);
 
 	const faqById = () => {
-		getFaqById(token, id)
+		getFaqById(token, questionId)
 			.then((res) => {
-				setFaqs(res);
+				setFaqs(res.faqQuestion);
 			})
 			.catch((error) => {
 				console.log(error);
 			});
 	};
 
-	const faqsList = () => {
-		getFaqs(token)
+
+	const getFaqTopicsList = () => {
+		getFaqTopics(token)
 			.then((res) => {
-				let { getfaqData } = res;
-				let updateList = getfaqData.reduce((acc, curr) => {
+				let { faqTopics } = res;
+				let updateList = faqTopics.reduce((acc, curr) => {
 					return acc.concat({
 						label: curr.topic,
 						value: curr.id,
 					});
-				}, []);
-				updateList.push({ label: 'Select the topic', value: '' });
-				console.log(updateList.filter((res) => res.value === 3));
+				}, [{ label: 'Others', value: '' }]);
 				setFaqList(updateList);
+
 			})
 			.catch((error) => {
 				console.log(error);
 			});
+	}
+
+	const handleValidation = () => {
+		let error = false;
+		if (faqs.topic_id == null && faqs.topic_name === "") {
+			setError('Please fill the topic ');
+			error = true;
+		} else if (faqs.question === "") {
+			setError('Please fill the question ');
+			error = true;
+		} else if (faqs.answer === "") {
+			setError('Please fill the answer ');
+			error = true;
+		}
+		return error;
 	};
 
+
 	const handleSubmit = () => {
-		let data = {
-			question: faqs.question,
-			answer: faqs.answer,
-		};
-		let id = faqs.topic_id;
-		editFaqs(token, id, data)
-			.then((res) => {
-				history.push(`/viewStaticContent/${id}/faqs`);
-			})
-			.catch((error) => {
-				console.log(error);
-			});
+
+		if (!handleValidation()) {
+			let data = {
+				question: faqs.question,
+				answer: faqs.answer,
+				topic_id: faqs.topic_id,
+				id: faqs.id
+			};
+
+			editFaqs(token, data)
+				.then((res) => {
+					setError(null)
+					setSuccessMsg('Faqs updated successfully');
+					setTimeout(() => {
+						history.push(`/viewStaticContent/${id}/faqs/${topicid}`);
+					}, 1000);
+				})
+				.catch((error) => {
+					setError(error);
+				});
+		}
+
 	};
 	return (
 		<>
@@ -66,11 +99,12 @@ const EditFqs = () => {
 				<div
 					id='recipients'
 					className='p-4 md:p-8 mt-6 lg:mt-0 rounded shadow bg-white'>
-					<h1 className='text-xl'>Edit FAQ</h1>
+					<h1 className='text-2xl'>Edit FAQ</h1>
 					<br />
+					<div style={{marginLeft:'80%', marginTop:'-78px'}}>
 					<button
 						style={{ height: '3rem' }}
-						onClick={() => history.push(`/viewStaticContent/${id}/faqs`)}
+						onClick={() => history.push(`/viewStaticContent/${id}/faqs/${topicid}`)}
 						className='shadow bg-blue-500 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded'
 						type='button'>
 						Back
@@ -82,11 +116,38 @@ const EditFqs = () => {
 						type='button'>
 						Save
 					</button>
+					</div>
+					<br />
+					{error && (
+						<p
+							style={{
+								color: 'red',
+								fontSize: '20px',
+								textAlign: 'center',
+								width: '100%',
+								marginTop: '12px',
+							}}>
+							{error}
+						</p>
+					)}
+					{successMsg && (
+						<div
+							style={{
+								backgroundColor: '#9ACD32',
+								padding: '10px',
+								marginLeft: 'auto',
+								marginRight: 'auto',
+								marginTop: '24px',
+								width: 'fit-content',
+							}}>
+							{successMsg}
+						</div>
+					)}
 
-					<div
+					{!faqs ? <Loader /> : <div
 						style={{
 							marginTop: '20px',
-							backgroundColor: 'pink',
+							backgroundColor: 'lightgrey',
 							padding: '20px',
 							// width: '990px',
 							height: '400px',
@@ -99,12 +160,17 @@ const EditFqs = () => {
 										faqLists &&
 										faqLists.filter((res) => res.value === faqs.topic_id)
 									}
-									isDisabled={true}
+									// isDisabled={true}
 									options={faqLists}
+									onChange={(selectedOption) => {
+										let updatedData = { ...faqs };
+										updatedData['topic_id'] = selectedOption.value;
+										setFaqs(updatedData);
+									}}
 								/>
 								<input
 									className='w-full h-10 mt-5 p-3'
-									placeholder='Enter new topic here'
+									placeholder='Enter new topic '
 									disabled
 								/>
 							</div>
@@ -118,7 +184,7 @@ const EditFqs = () => {
 									height: '40px',
 									padding: '10px',
 								}}
-								placeholder='Enter new topic here'
+								placeholder='Enter the question '
 								value={faqs.question}
 								onChange={(e) => {
 									let updatedData = { ...faqs };
@@ -131,7 +197,7 @@ const EditFqs = () => {
 						<div className='flex mt-10 '>
 							<h1 className='text-xl ml-50 '>Answer</h1>
 							<textarea
-								placeholder='write answer here ....'
+								placeholder='Enter the answer '
 								style={{
 									width: '70%',
 									height: '100px',
@@ -147,7 +213,7 @@ const EditFqs = () => {
 								}}
 							/>
 						</div>
-					</div>
+					</div>}
 				</div>
 			</div>
 		</>

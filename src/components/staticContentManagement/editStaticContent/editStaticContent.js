@@ -8,20 +8,25 @@ import {
 	getFileContent,
 } from '../../../api';
 import ReactPlayer from 'react-player';
-import { Player } from 'video-react';
+import Loader from '../../../globalComponent/layout/loader';
+import InfoIcon from '@material-ui/icons/Info';
 
 const EditStaticContent = () => {
 	const history = useHistory();
 	const { id } = useParams();
 	const token = useSelector((state) => state.auth.isSignedIn);
 
-	const [staticContentDetails, setStaticContentDetails] = useState([]);
+	const [staticContentDetails, setStaticContentDetails] = useState(null);
+
+	const [imageLoader, setImageLoader] = useState(false)
+	const [error, setError] = useState(null);
+	const [successMsg, setSuccessMsg] = useState(null);
 
 	useEffect(() => {
 		getContent();
 	}, []);
 
-	const getContent =() =>{
+	const getContent = () => {
 		getStaticContentDetails(token, id)
 			.then((res) => {
 				getFileContent(token, res.page_url)
@@ -31,7 +36,7 @@ const EditStaticContent = () => {
 					.catch((error) => {
 						console.log(error);
 					});
-
+				console.log(res);
 				setStaticContentDetails(res);
 			})
 			.catch((error) => {
@@ -69,20 +74,24 @@ const EditStaticContent = () => {
 	};
 
 	const handleUploadVedio = async (e) => {
+		console.log(e.target.files);
 		let data = {
 			image: e.target.files[0],
 			folderName: 'other',
 		};
 
 		try {
+			setImageLoader(true);
 			const res = await uploadImage(token, data);
 			if (res.status == 200) {
 				let updatedData = { ...staticContentDetails };
-				updatedData.vedio_url = res.image_url;
+				updatedData.video_url = res.image_url;
 				setStaticContentDetails(updatedData);
+				setImageLoader(false);
 			}
 		} catch (error) {
 			console.log(error);
+			setImageLoader(false);
 		}
 	};
 
@@ -90,20 +99,24 @@ const EditStaticContent = () => {
 		let data = {
 			id: id,
 			page_url: staticContentDetails.page_url,
+			video_url: staticContentDetails.video_url
 		};
 
 		updateStaticContent(token, data)
 			.then((rsp) => {
-				history.push('/static');
+				setSuccessMsg('Content updated successfully');
+				setTimeout(() => {
+					history.push('/static');
+				}, 1000);
 			})
 			.catch((error) => {
-				console.log(error);
+				setError(error);
 			});
 	};
 	return (
 		<>
 			<div className='main-content pb-16 md:pb-5 flex-1 pt-20 px-2'>
-				{staticContentDetails && (
+				{!staticContentDetails ? <Loader /> : (
 					<div
 						id='recipients'
 						className='p-4 md:p-8 mt-6 lg:mt-0 rounded shadow bg-white'>
@@ -123,13 +136,39 @@ const EditStaticContent = () => {
 							type='button'>
 							Save
 						</button>
+						<br />
+						{error && (
+							<p
+								style={{
+									color: 'red',
+									fontSize: '20px',
+									textAlign: 'center',
+									width: '100%',
+									marginTop: '12px',
+								}}>
+								{error}
+							</p>
+						)}
+						{successMsg && (
+							<div
+								style={{
+									backgroundColor: '#9ACD32',
+									padding: '10px',
+									marginLeft: 'auto',
+									marginRight: 'auto',
+									marginTop: '24px',
+									width: 'fit-content',
+								}}>
+								{successMsg}
+							</div>
+						)}
 						<div
 							style={{
 								marginTop: '20px',
 								backgroundColor: 'lightgrey',
 								padding: '20px',
 								width: '990px',
-								height: '600px',
+								height: '610px',
 							}}>
 							<div className='flex '>
 								<h1 className='text-xl'>Title</h1>
@@ -139,38 +178,79 @@ const EditStaticContent = () => {
 							</div>
 							<div className='flex mt-10 '>
 								<h1 className='text-xl ml-50 '>Description</h1>
-								{/* <ReactPlayer url={staticContentDetails.video_url} /> */}
-								<div className='flex flex-col ml-40'>
-									{(id == 3 || id == 4) && (
-										<>
-											<ReactPlayer
-												// width='100%'
-												marginLeft='20px'
-												height='200px'
-												// url={
-												// 	staticContentDetails.video_url
-												// 		? staticContentDetails.video_url
-												// 		: '../../../assets/img/vedio.png'
-												// }
-												url='https://www.youtube.com/watch?v=ysz5S6PUM-U'
-											/>
 
-											<label for='uploadNew' className='w-1/2 block '>
-												<div
-													className='w-full px-2 py-1 ml-5 my-2 flex justify-around items-center bg-gray-400 rounded-lg text-white'
-													title='UploadNew'>
-													Upload New
+								<div className='flex flex-col ml-40'>
+									{(staticContentDetails.title === "Customer -How it works" || staticContentDetails.title === "Driver -How it works") && (
+										<>
+											{imageLoader ?
+												<div style={{
+													maxHeight: '200px',
+													height: '300px',
+													overflow: 'auto',
+													border: '1px solid black',
+													textAlign: 'center',
+													lineHeight: '190px',
+												}}>Uploading the video... </div> :
+												staticContentDetails['video_url'] &&
+												// <ReactPlayer
+												// 	width='631px'
+												// 	url={
+												// 		staticContentDetails.video_url
+												// 			? staticContentDetails.video_url
+												// 			: '../../../assets/img/vedio.png'
+												// 	}
+												// 	style={{
+												// 		maxHeight: '200px',
+												// 		height: '300px',
+												// 		overflow: 'auto',
+												// 		border: '1px solid black',
+												// 	    padding: '10px',
+												// 	}}
+												// 	playing={true}
+												// />
+
+												<video style={{
+													maxHeight: '200px',
+													height: '300px',
+													overflow: 'auto',
+													border: '1px solid black',
+													padding: '10px',
+												}}
+													width="631"
+													height="300"
+													controlsList="nodownload novolume nofullscreen  "
+													disablepictureinpicture
+													controls>
+													<source src={staticContentDetails.video_url} type="video/mp4" />
+
+												</video>
+
+
+											}
+											<div style={{ display: 'flex' }}>
+												<label for='uploadNew' className='w-1/2 block '>
+													<div
+														className='w-full px-2 py-1 ml-5 my-2 flex justify-around items-center bg-gray-400 rounded-lg text-white'
+														>
+														Upload New Video
 													<input
-														type='file'
-														onChange={handleUploadVedio}
-														id='uploadNew'
-														style={{ display: 'none', padding: '10px' }}
+															type='file'
+															onChange={handleUploadVedio}
+															id='uploadNew'
+															style={{ display: 'none', padding: '10px' }}
 														// accept='image/x-png,image/gif,image/jpeg'
 														// accept='text/html'
-													/>
-												</div>
-											</label>
-
+														/>
+													</div>
+												</label>
+												<button
+													type='button'
+													className='btn btn-lg btn-danger ml-6'
+													data-toggle='popover'
+													title='Upload the mp4 vedio type'>
+													<InfoIcon style={{ color: 'black' }} />
+												</button>
+											</div>
 											<br />
 										</>
 									)}
@@ -188,21 +268,30 @@ const EditStaticContent = () => {
 											padding: '10px',
 											border: '1px solid black',
 										}}></div>
-
-									<label for='upload' className='w-24 block '>
-										<div
-											className='w-full px-2 py-1 ml-5 my-2 flex justify-around items-center bg-gray-400 rounded-lg text-white'
-											title='Upload'>
-											Upload File
+									<div style={{ display: 'flex' }}>
+										<label for='upload' className='w-24 block '>
+											<div
+												className='w-full px-2 py-1 ml-5 my-2 flex justify-around items-center bg-gray-400 rounded-lg text-white'
+												>
+												Upload File
 											<input
-												type='file'
-												onChange={handleUploadFile}
-												id='upload'
-												style={{ display: 'none', padding: '10px' }}
+													type='file'
+													onChange={handleUploadFile}
+													id='upload'
+													style={{ display: 'none', padding: '10px' }}
 												// accept='image/x-png,image/gif,image/jpeg'
-											/>
-										</div>
-									</label>
+												/>
+
+											</div>
+										</label>
+										<button
+											type='button'
+											className='btn btn-lg btn-danger ml-6'
+											data-toggle='popover'
+											title='Upload the html type file'>
+											<InfoIcon style={{ color: 'black' }} />
+										</button>
+									</div>
 								</div>
 							</div>
 						</div>

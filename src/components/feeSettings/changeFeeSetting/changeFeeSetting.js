@@ -62,7 +62,6 @@ const ChangeFeeSetting = (props) => {
 			.catch((error) => {
 				console.log(error);
 			});
-
 	}
 	const getFeeDetails = () => {
 		let id = props.id;

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory, useParams } from 'react-router';
 import Select from 'react-select';
-import { addFaq, getFaqs } from '../../../../api';
+import { addFaq, getFaqTopics } from '../../../../api';
 import { useSelector } from 'react-redux';
 
 const AddFaqs = () => {
@@ -16,35 +16,65 @@ const AddFaqs = () => {
 		topic_id: null,
 	});
 	const [faqs, setFaqs] = useState([]);
+	const [error, setError] = useState(null);
+	const [successMsg, setSuccessMsg] = useState(null);
 
 	useEffect(() => {
-		getFaqs(token)
+
+		getFaqTopicsList()
+	}, []);
+
+	const getFaqTopicsList = () => {
+		getFaqTopics(token)
 			.then((res) => {
-				let { getfaqData } = res;
-				let updateList = getfaqData.reduce((acc, curr) => {
+				let { faqTopics } = res;
+				let updateList = faqTopics.reduce((acc, curr) => {
 					return acc.concat({
 						label: curr.topic,
 						value: curr.id,
 					});
-				}, []);
-                updateList.push({label: 'Select the topic' ,value: ''})
+				}, [{ label: 'Others', value: '' }]);
 				setFaqs(updateList);
+
 			})
 			.catch((error) => {
 				console.log(error);
 			});
-	}, []);
+	}
+
+	const handleValidation = () => {
+		let error = false;
+		if (data.topic_id == null && data.topic_name === "") {
+			setError('Please fill the topic ');
+			error = true;
+		}else if(data.question === ""){
+			setError('Please fill the question ');
+			error = true;
+		}else if(data.answer ===""){
+			setError('Please fill the answer ');
+			error = true;
+		}
+		return error;
+	};
 
 	const handleSubmit = () => {
-       data['topic_name'] ?  delete  data['topic_id'] : delete data['topic_name'];
+		
+		if (!handleValidation()) {
+			data['topic_name'] ? delete data['topic_id'] : delete data['topic_name'];
+			addFaq(token, data)
+				.then((res) => {
+					setSuccessMsg('Faqs added successfully');
+					setTimeout(() => {
+						history.push(`/viewStaticContent/${id}/faqs`);
+					}, 1000);
 
-		addFaq(token, data)
-			.then((res) => {
-				history.push(`/viewStaticContent/${id}/faqs`);
-			})
-			.catch((error) => {
-				console.log(error);
-			});
+					setError(null)
+				})
+				.catch((error) => {
+					setError(error);
+				});
+		}
+
 	};
 	return (
 		<>
@@ -52,8 +82,9 @@ const AddFaqs = () => {
 				<div
 					id='recipients'
 					className='p-4 md:p-8 mt-6 lg:mt-0 rounded shadow bg-white'>
-					<h1 className='text-xl'>Add FAQ</h1>
+					<h1 className='text-2xl'>Add FAQ</h1>
 					<br />
+					<div style={{marginLeft:'80%', marginTop:'-78px'}}>
 					<button
 						style={{ height: '3rem' }}
 						onClick={() => history.push(`/viewStaticContent/${id}/faqs`)}
@@ -69,10 +100,38 @@ const AddFaqs = () => {
 						Save
 					</button>
 
+					</div>
+					
+					<br />
+					{error && (
+						<p
+							style={{
+								color: 'red',
+								fontSize: '20px',
+								textAlign: 'center',
+								width: '100%',
+								marginTop: '12px',
+							}}>
+							{error}
+						</p>
+					)}
+					{successMsg && (
+						<div
+							style={{
+								backgroundColor: '#9ACD32',
+								padding: '10px',
+								marginLeft: 'auto',
+								marginRight: 'auto',
+								marginTop: '24px',
+								width: 'fit-content',
+							}}>
+							{successMsg}
+						</div>
+					)}
 					<div
 						style={{
 							marginTop: '20px',
-							backgroundColor: 'pink',
+							backgroundColor: 'lightgrey',
 							padding: '20px',
 							// width: '990px',
 							height: '400px',
@@ -81,18 +140,19 @@ const AddFaqs = () => {
 							<h1 className='text-xl'>Topic</h1>
 							<div style={{ width: '70%', marginLeft: '120px' }}>
 								<Select
-                                   isDisabled ={data['topic_name']}
+									isDisabled={data['topic_name']}
 									onChange={(selectedOption) => {
 										let updatedData = { ...data };
 										updatedData['topic_id'] = selectedOption.value;
 										setData(updatedData);
 									}}
 									options={faqs}
+									placeholder="Select the topic ..."
 								/>
 								<input
 									className='w-full h-10 mt-5 p-3'
-									placeholder='Enter new topic here'
-                                    disabled = {data['topic_id']}
+									placeholder='Enter new topic'
+									disabled={data['topic_id']}
 									onChange={(e) => {
 										let updatedData = { ...data };
 										updatedData['topic_name'] = e.target.value;
@@ -104,13 +164,14 @@ const AddFaqs = () => {
 						<div className='flex mt-10 '>
 							<h1 className='text-xl ml-50 '>Question</h1>
 							<input
+								
 								style={{
 									width: '70%',
 									marginLeft: '86px',
 									height: '40px',
 									padding: '10px',
 								}}
-								placeholder='Enter new topic here'
+								placeholder='Enter the question'
 								onChange={(e) => {
 									let updatedData = { ...data };
 									updatedData['question'] = e.target.value;
@@ -122,7 +183,8 @@ const AddFaqs = () => {
 						<div className='flex mt-10 '>
 							<h1 className='text-xl ml-50 '>Answer</h1>
 							<textarea
-								placeholder='write answer here ....'
+								
+								placeholder='Enter the answer'
 								style={{
 									width: '70%',
 									height: '100px',

@@ -209,7 +209,7 @@ const Admin = () => {
 						/>
 						<ProtectedRoutes
 							exact
-							path={`/viewStaticContent/:id/faqs`}
+							path={[`/viewStaticContent/:id/faqs`,`/viewStaticContent/:id/faqs/:topicid`]}
 							component={FAQS}
 						/>
 						<ProtectedRoutes
@@ -222,7 +222,7 @@ const Admin = () => {
 							path={`/viewStaticContent/:id/addFaqs`}
 							component={AddFaqs}
 						/>
-						<ProtectedRoutes exact path={`/viewStaticContent/:id/editFaqs/:id`} component={EditFqs} />
+						<ProtectedRoutes exact path={`/viewStaticContent/:id/faqs/:topicId/editFaqs/:questionId`} component={EditFqs} />
 						<ProtectedRoutes
 							exact
 							path={`/feesettings`}
