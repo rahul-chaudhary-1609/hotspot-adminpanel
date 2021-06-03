@@ -5,6 +5,7 @@ import { getStaticContentDetails, getFileContent } from '../../../api';
 import ReactPlayer from 'react-player';
 import FAQS from './faqQ';
 
+import PauseCircleOutlineIcon from '@material-ui/icons/PauseCircleOutline';
 const ViewStaticContent = () => {
 	const history = useHistory();
 	const { id } = useParams();
@@ -47,62 +48,87 @@ const ViewStaticContent = () => {
 						</button>
 						{/* {staticContentDetails.title != 'FAQs' ? (
 							<> */}
-								<button
-									style={{ height: '3rem' }}
-									onClick={() => history.push(`/editStaticContent/${id}`)}
-									className='shadow bg-blue-500 ml-3 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded'
-									type='button'>
-									Edit
+						<button
+							style={{ height: '3rem' }}
+							onClick={() => history.push(`/editStaticContent/${id}`)}
+							className='shadow bg-blue-500 ml-3 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded'
+							type='button'>
+							Edit
 								</button>
 
-								<div
-									style={{
-										marginTop: '20px',
-										backgroundColor: 'lightgrey',
-										padding: '20px',
-										width: '990px',
-									}}>
-									<div className='flex '>
-										<h1 className='text-xl'>Title</h1>
-										<h1 style={{ marginLeft: '220px', fontSize: '20px' }}>
-											{staticContentDetails.title}
-										</h1>
-									</div>
+						<div
+							style={{
+								marginTop: '20px',
+								backgroundColor: 'lightgrey',
+								padding: '20px',
+								width: '990px',
+							}}>
+							<div className='flex '>
+								<h1 className='text-xl'>Title</h1>
+								<h1 style={{ marginLeft: '220px', fontSize: '20px' }}>
+									{staticContentDetails.title}
+								</h1>
+							</div>
 
-									<div className='flex mt-10 '>
-										<h1 className='text-xl ml-50 '>Description</h1>
-										{/* <ReactPlayer url={staticContentDetails.video_url} /> */}
-										<div className='flex flex-col ml-40'>
-											{(staticContentDetails.title == "Cutomer -How it works" || staticContentDetails.title == "Driver -How it works") && (
-												<>
-													<ReactPlayer
-														// width='100%'
-														marginLeft='20px'
-														height='200px'
-														url={
-															staticContentDetails.video_url
-																? staticContentDetails.video_url
-																: '../../../assets/img/vedio.png'
-														}
-														// url='https://www.youtube.com/watch?v=ysz5S6PUM-U'
-													/>
-													<br />
-												</>
-											)}
-											<div
-												id='doc'
+							<div className='flex mt-10 '>
+								<h1 className='text-xl ml-50 '>Description</h1>
+								{/* <ReactPlayer url={staticContentDetails.video_url} /> */}
+								<div className='flex flex-col ml-40' >
+									{(staticContentDetails.title === "Customer -How it works" || staticContentDetails.title === "Driver -How it works") && (
+										staticContentDetails['video_url'] && <div>
+											{/* 
+											<ReactPlayer
+												maxWidth='631px'
+												url={
+													staticContentDetails.video_url
+														? staticContentDetails.video_url
+														: '../../../assets/img/vedio.png'
+												}
 												style={{
-													width: '634px',
 													maxHeight: '200px',
 													height: '300px',
 													overflow: 'auto',
 													border: '1px solid black',
-													padding: '10px',
-												}}></div>
+													 padding: '10px',
+												}}
+											  playIcon={PauseCircleOutlineIcon}
+                                            //   playing={true}
+											/> */}
+											<video style={{
+												maxHeight: '200px',
+												height: '300px',
+												overflow: 'auto',
+												border: '1px solid black',
+												padding: '10px',
+											}}
+												width="631"
+												height="300"
+												controlsList="nodownload novolume nofullscreen  "
+												disablepictureinpicture 
+												controls>
+												<source src={staticContentDetails.video_url} type="video/mp4" />
+
+											</video>
+
+
+											<br />
 										</div>
-									</div>
+									)}
+									<br />
+									<div
+										id='doc'
+										style={{
+											width: '634px',
+											maxHeight: '200px',
+											height: '300px',
+											overflow: 'auto',
+											border: '1px solid black',
+											padding: '10px',
+										}}></div>
 								</div>
-							{/* </>
+							</div>
+						</div>
+						{/* </>
 						) : (
 							<FAQS />
 						)} */}

@@ -1,35 +1,59 @@
 import React, { useEffect, useState } from 'react';
-import { getFaqs ,getFaqTopics} from '../../../api';
+import { getFaqs, getFaqTopics } from '../../../api';
 import { useSelector } from 'react-redux';
 import { Collapse } from 'react-collapse';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import ArrowDropUpIcon from '@material-ui/icons/ArrowDropUp';
-import { getFaqQuestions , deleteFaqs} from '../../../api';
+import { getFaqQuestions, deleteFaqs, deleteFaqsTopic, editFaqTopic } from '../../../api';
 import { useHistory, useParams } from 'react-router';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPencilAlt, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import DeleteModal from '../../deleteModal/deleteModal';
 const FAQS = () => {
 	const token = useSelector((state) => state.auth.isSignedIn);
 	const history = useHistory();
 
-	const { id } = useParams();
+	// const { id } = useParams();
+	const path = useParams();
+	const id = path.id;
+	const topicid = path.topicid;
+
+
 	const [faqs, setFaqs] = useState([]);
 	const [statusOpened, setStatusOpened] = useState({});
 
 	const [qus, setQus] = useState(null);
 	const [active, setActive] = useState(null);
-	const[deleteModal,setDeleteModal]= useState(false);
+	const [deleteModal, setDeleteModal] = useState(false);
 
 
 	const [questionId, setQuestionId] = useState(null);
+	const [topicId, setTopicId] = useState(null);
+
+	const [show, setShow] = useState(null);
+	const [showInput, setShowInput] = useState(false);
+	const [error, setError] = useState(null);
+
+	const [changeTopic, setChangeTopic] = useState({
+		topic_id: null,
+		topic_name: null
+	})
 
 	useEffect(() => {
-		faqsList();
+		getFaqTopicsList();
 	}, []);
 
-	const faqsList = () =>{
+	useEffect(() => {
+		if (showInput) {
+			let data = { ...changeTopic };
+			data['topic_id'] = data['topic_id'] ? data['topic_id'] : faqs[showInput].id;
+			data['topic_name'] = data['topic_name'] ? data['topic_name'] : faqs[showInput].topic;
+			setChangeTopic(data)
+		}
+	}, [showInput])
+
+	const faqsList = () => {
 		getFaqs(token)
 			.then((res) => {
 				setFaqs(res.getfaqData);
@@ -44,15 +68,14 @@ const FAQS = () => {
 	const getFaqTopicsList = () => {
 		getFaqTopics(token)
 			.then((res) => {
-				console.log(res)
-				setFaqs(res.getFaqTopicsData);
-				handleQuestions(res.getFaqTopicsData[0].id);
-				setActive(res.getFaqTopicsData[0].id);
+				setFaqs(res.faqTopics);
+				// handleQuestions(res.getFaqTopicsData[0].id);
+				// setActive(res.getFaqTopicsData[0].id);
 			})
 			.catch((error) => {
 				console.log(error);
 			});
-	}	
+	}
 
 	const handleCollapse = (e, id) => {
 		let updatedStatus = { ...statusOpened };
@@ -60,9 +83,16 @@ const FAQS = () => {
 		setStatusOpened(updatedStatus);
 	};
 
+	useEffect(() => {
+		if (topicid) {
+			handleQuestions(topicid)
+		}
+	}, [topicid])
+
 	const handleQuestions = (id) => {
 		getFaqQuestions(token, id)
 			.then((res) => {
+				setError(null)
 				let rows = res.faqQuestions.rows;
 				let status = {};
 				rows.forEach(({ id }) => (status[id] = false));
@@ -70,22 +100,48 @@ const FAQS = () => {
 				setQus(res.faqQuestions.rows);
 			})
 			.catch((error) => {
-				console.log(error);
+				setError(error);
+				setQus([])
+
 			});
 	};
 
-	const handleDelete = () =>{
-		let data = {
-			topic_id: questionId,
-		};
-		deleteFaqs(token, data)
-			.then((res) => {
-				setDeleteModal(false);
-				getFaqTopicsList();
-			})
-			.catch((error) => {
-				console.log(error);
-			});
+	const handleDelete = () => {
+		if (show == 'Topic') {
+			deleteFaqsTopic(token, topicId)
+				.then((res) => {
+					setError(null)
+					setDeleteModal(false);
+					getFaqTopicsList();
+					setQus(null)
+					history.push(`/viewStaticContent/${id}/faqs`)
+				})
+				.catch((error) => {
+					setError(error);
+				});
+		} else {
+
+			deleteFaqs(token, questionId)
+				.then((res) => {
+					setError(null)
+					setDeleteModal(false);
+					handleQuestions(topicid);
+				})
+				.catch((error) => {
+					setError(error);
+				});
+		}
+	}
+
+	const handleTopicChange = () => {
+
+			editFaqTopic(token, changeTopic)
+				.then((res) => {
+					setShowInput(null)
+				})
+				.catch((error) => {
+					setError(error);
+				});
 	}
 
 	return (
@@ -94,27 +150,32 @@ const FAQS = () => {
 
 				<div
 					id='recipients'
-					className='p-4 md:p-8 mt-6 lg:mt-0 rounded shadow bg-white'>
-					<h1 className='text-xl'>FAQs</h1>
+					className='p-4 md:p-8 mt-6 lg:mt-0 rounded  '>
+					<h1 className='text-3xl'>FAQs</h1>
 					<br />
-					<button
-						style={{ height: '3rem' }}
-						onClick={() => history.push('/static')}
-						className='shadow bg-blue-500 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded'
-						type='button'>
-						Back
+					<div style={{ marginLeft: '80%', marginTop: '-88px' }}>
+						<button
+							style={{ height: '3rem' }}
+							onClick={() => history.push('/static')}
+							className='shadow bg-blue-500 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded'
+							type='button'>
+							Back
 						</button>
 
 
 
-					<button
-						style={{ height: '3rem' }}
-						onClick={() => history.push(`/viewStaticContent/${id}/addFaqs`)}
-						className='shadow bg-blue-500 ml-3 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded'
-						type='button'>
-						Add New
+						<button
+							style={{ height: '3rem' }}
+							onClick={() => history.push(`/viewStaticContent/${id}/addFaqs`)}
+							className='shadow bg-blue-500 ml-3 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded'
+							type='button'>
+							Add New
 			</button>
+					</div>
+
 				</div>
+
+
 
 				<div className='flex '>
 					<div style={{ width: '30%', marginTop: '40px' }}>
@@ -122,98 +183,177 @@ const FAQS = () => {
 							faqs.map((ques, index) => {
 								return (
 									<>
-										<Link
-											onClick={() => {
-												setActive(ques.id);
-												handleQuestions(ques.id);
-											}}
-											style={{
-												marginBottom: '10px',
-												color: active === ques.id ? 'red' : 'blue',
-											}}
-											
-											
-										> {ques.topic}</Link>
-										<br />
-									</>
-								);
-							})}
-					</div>
-					<div
-												id='doc'
-												style={{
-													width: '753px',
-													border: '1px solid black',
-													height: "fit-content"
-												}}>
-					{/* <div style={{ marginTop: '28px' }}> */}
-					<div >
-						{qus &&
-							qus.map((ques, index) => {
-								return (
-									<>
-										<div
-											style={{
-												width: '750px',
-												backgroundColor: '	#DCDCDC',
-												padding: '10px',
-											}}
-											onClick={(e) => handleCollapse(e, ques.id)}>
-											<label htmlFor={'acc' + index}>
-												{ques.question}
-												{!statusOpened[ques.id] ? (
-													<ArrowDropDownIcon style={{ float: 'right' }} />
-												) : (
-													<ArrowDropUpIcon style={{ float: 'right' }} />
-												)}
-											</label>
-											<Collapse
-												isOpened={statusOpened[ques.id]}
-												id={'acc' + index}>
-												<div
-													style={{
-														backgroundColor: '#A9A9A9',
-														width: '700px',
-														padding: '10px',
-														marginTop: '3px',
-													}}>
-													<p>{ques.answer}</p>
-													<div style={{textAlign:"right"}}>
-													<FontAwesomeIcon
-														style={{ cursor: 'pointer' }}
-														onClick={() => history.push(`/viewStaticContent/${id}/editFaqs/${ques.id}`)}
-														className='text-red-600 trash w-5 h-5'
-														color='red'
-														icon={faPencilAlt}
-													/>
-													<FontAwesomeIcon
-														className='text-red-600 trash w-5 h-5'
-														color='red'
-														onClick={() => {
-															setDeleteModal(true);
-															setQuestionId(ques.topic_id)
-														}}
-														icon={faTrashAlt}
-													/></div>
-												</div>
-											</Collapse>
-										</div>
-										<hr style={{ width: '750px' }} />
-									</>
-								);
-							})}
-					</div>
-				</div>
-				</div>
-				{/* <DeleteFaqs
-					{...{
-						setDeleteFaqsModal,
-						deleteFaqsModal,
+										<div style={{ display: 'flex' }} key={index}>
 
-						faqs, questionId
-					}}
-				/> */}
-				<DeleteModal {...{deleteModal, setDeleteModal, name:'FAQs', handleDelete}}/>
+											{
+												showInput === index ?
+													<>
+														<div className='form-layout text-base '>
+															<div className='flex flex-row items-center '>
+																<div className='font-semibold py-4 px-6 w-1/2 text-right'>
+																	<input id={ques.id}
+																		value={ques.topic}
+																		onChange={(e) => {
+																			let data = e.target.value;
+																			let updatedFaqs = [...faqs];
+																			updatedFaqs[index].topic = data;
+
+																			let updateData = { ...changeTopic };
+																			updateData['topic_id'] = ques.id;
+																			updateData['topic_name'] = data;
+																			setChangeTopic(updateData);
+
+																			setFaqs(updatedFaqs);
+																		}}
+																		style={{ borderColor: 'black', padding: '5px', outline: '0', borderWidth: '0 0 2px' }} />
+																</div>
+																<div className='px-8' style={{ maxWidth: '50%' }}>
+																	<button
+																		style={{ height: '3rem' }}
+																		onClick={handleTopicChange}
+																		className='shadow bg-blue-500 ml-3 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded'
+																		type='button'>
+																		Save
+								                                   </button>
+																</div>
+															</div>
+														</div>
+
+													</> :
+													<>
+														<div className='form-layout text-base  w-full'>
+															<div className='flex flex-row items-center '>
+																<div className='font-semibold py-4 px-6 w-1/2 text-left' style={{ wordBreak: 'break-all' }}>
+																	<Link
+																		to={`/viewStaticContent/${id}/faqs/${ques.id}`}
+																		onClick={() => {
+																			setActive(ques.id);
+																			setQuestionId(ques.id);
+																			// handleQuestions(ques.id);
+																		}}
+																		style={{
+																			marginBottom: '10px',
+																			fontSize: '20px',
+																			color: topicid == ques.id ? 'red' : 'blue',
+																		}}
+
+																	> {ques.topic}</Link>
+																</div>
+																<div className='px-8' style={{ maxWidth: '50%' }}>
+
+																	<FontAwesomeIcon
+																		style={{ cursor: 'pointer' }}
+																		onClick={() => setShowInput(index)}
+																		className='text-red-600 trash w-5 h-5'
+																		color='red'
+																		icon={faPencilAlt}
+																	/>
+																	<FontAwesomeIcon
+																		className='text-red-600 trash w-5 h-5 ml-5'
+																		color='red'
+																		onClick={() => {
+																			setShow('Topic')
+																			setDeleteModal(true);
+																			setTopicId(ques.id)
+																		}}
+																		icon={faTrashAlt}
+																	/>
+
+
+																</div>
+															</div>
+														</div>
+
+														<br />
+
+													</>
+											}
+										</div>
+
+									</>
+								);
+							})}
+					</div>
+					{qus && <div style={{ backgroundColor: 'white', padding: '20px', height: 'fit-content', marginTop: '50px', border: error != null ? '1px solid white' : '1px solid black' }}>
+						<div
+							id='doc'
+							style={{
+								width: '753px',
+								height: "fit-content"
+							}}>
+
+
+							{error ? <p
+								style={{
+									color: 'red',
+									fontSize: '20px',
+									textAlign: 'center',
+									width: '100%',
+									marginTop: '12px',
+
+								}}>
+								{error}
+							</p> :
+								qus.map((ques, index) => {
+									return (
+										<>
+											<div
+												style={{
+													width: '750px',
+													// backgroundColor: '	#DCDCDC',
+													padding: '10px',
+												}}
+												onClick={(e) => handleCollapse(e, ques.id)}>
+												<label htmlFor={'acc' + index} style={{ fontSize: '20px' }} className='font-semibold'>
+													{ques.question}
+													{!statusOpened[ques.id] ? (
+														<ArrowDropDownIcon style={{ float: 'right' }} />
+													) : (
+														<ArrowDropUpIcon style={{ float: 'right' }} />
+													)}
+												</label>
+												<Collapse
+													isOpened={statusOpened[ques.id]}
+													id={'acc' + index}>
+													<div
+														style={{
+															backgroundColor: 'lightgrey',
+															width: '722px',
+															padding: '10px',
+															marginTop: '3px',
+														}}>
+														<p style={{ fontSize: '17px' }}>{ques.answer}</p>
+														<div style={{ textAlign: "right" }}>
+															<FontAwesomeIcon
+																style={{ cursor: 'pointer' }}
+																onClick={() => history.push(`/viewStaticContent/${id}/faqs/${topicid}/editFaqs/${ques.id}`)}
+																className='text-red-600 trash w-5 h-5'
+																color='red'
+																icon={faPencilAlt}
+															/>
+															<FontAwesomeIcon
+																className='text-red-600 trash w-5 h-5 ml-4'
+																color='red'
+																onClick={() => {
+																	setShow('Question')
+																	setDeleteModal(true);
+																	setQuestionId(ques.id)
+																}}
+																icon={faTrashAlt}
+															/></div>
+													</div>
+												</Collapse>
+											</div>
+											{index != qus.length - 1 && <hr style={{ width: '750px' }} />}
+										</>
+									);
+								})}
+
+						</div>
+					</div>}
+				</div>
+
+				<DeleteModal {...{ deleteModal, setDeleteModal, name: `FAQs ${show}`, handleDelete, show }} />
 			</div>
 		</>
 

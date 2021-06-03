@@ -36,7 +36,7 @@ const ChangeFeeSetting = (props) => {
 
 	const closeModal = () => {
 		props.setIsOpen(false);
-		window.location.reload();
+		// window.location.reload();
 	};
 
 	useEffect(() => {
@@ -56,7 +56,6 @@ const ChangeFeeSetting = (props) => {
 			.catch((error) => {
 				console.log(error);
 			});
-
 	}
 	const getFeeDetails = () => {
 		let id = props.id;
