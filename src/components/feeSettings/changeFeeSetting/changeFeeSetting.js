@@ -84,11 +84,14 @@ const ChangeFeeSetting = (props) => {
 					</div>
 					<div className='flex flex-row items-center mt-5  '>
 						<div className='   w-1/3 text-left '>Restaurant Name</div>
-						<b style={{ marginBottom: "0px", paddingLeft: "100px" }}>{props.restaurantName}{console.log('restaurant_name',props.restaurantName)}</b>
+						<b style={{ marginBottom: "0px", paddingLeft: "100px" }}>{props.restaurantName}</b>
 					</div>
 					<div className='flex flex-row items-center mt-5  '>
 						<div className='w-1/2 text-left '>Percentage Fee</div>
 						<input
+						type="number"
+						min="1"
+						max="100"
 							className='appearance-none ml-5 block w-1/3 bg-gray-100 border border-100 rounded-half py-2 px-8 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-200'
 							value={props.percentageFee}
 							id='fee'
@@ -99,8 +102,7 @@ const ChangeFeeSetting = (props) => {
 							value='%'
 							disabled
 						/>
-					</div>
-
+					</div>                  
 					<div style={{ display: 'flex', marginTop: '40px' }}>
 						<button
 							onClick={closeModal}
