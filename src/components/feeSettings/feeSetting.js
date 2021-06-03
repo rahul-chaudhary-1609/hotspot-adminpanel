@@ -5,8 +5,10 @@ import { useSelector } from 'react-redux';
 import { addFee, editFee, editRestaurantFee, deleteDriverFee } from '../../api';
 import ChangeFeeSetting from './changeFeeSetting/changeFeeSetting';
 import DeleteModal from '../deleteModal/deleteModal';
+import {toast} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-
+toast.configure();
 const FeeSettings = () => {
 	const token = useSelector((state) => state.auth.isSignedIn);
 
@@ -100,6 +102,8 @@ const FeeSettings = () => {
 				driverFeeSetting();
 			})
 			.catch((error) => {
+				toast.error(error, 
+				{position: toast.POSITION.TOP_CENTER})
 				console.log(error);
 			});
 	}

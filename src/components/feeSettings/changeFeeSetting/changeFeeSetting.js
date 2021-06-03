@@ -79,7 +79,7 @@ const ChangeFeeSetting = (props) => {
 			if (props.percentageFee > 100)
 				setError('Restaurant percentage fee cannot exceed 100%!');
 			else if (props.percentageFee < 0 || props.percentageFee == 0)
-				setError('Restaurant percentage fee cannot be negative or 0!');
+				setError('Restaurant percentage fee cannot be negative or 0% !');
 			else if (props.percentageFee == '')
 				setError('Please enter Restaurant Percentage Fee!');
 			else {
@@ -245,7 +245,7 @@ const ChangeFeeSetting = (props) => {
 					<div className='flex flex-row items-center mt-5  '>
 						<div className='w-1/2 text-left '>{`${props.feeType ? props.feeType.label.split(" ")[0] : "Driver"}'s earnings`}</div>
 						<input
-							type="integer"
+							type="number"
 							min="0"
 							className='appearance-none block w-1/3 bg-gray-100 border border-100 rounded-half py-2 px-8 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-200'
 							style={{ marginLeft: "-96px" }}
