@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import { addFee, editFee, editRestaurantFee, deleteDriverFee } from '../../api';
 import ChangeFeeSetting from './changeFeeSetting/changeFeeSetting';
 import DeleteModal from '../deleteModal/deleteModal';
+import { getFee, getRestaurantById } from '../../api';
 
 
 const FeeSettings = () => {
@@ -93,57 +94,6 @@ const FeeSettings = () => {
 		}
 	}, [feeDetails]);
 
-	const handleFee = () => {
-		if (isRestaurant) {
-			if (percentageFee == '')
-				alert('Please nter Restaurant Percentage Fee!');
-			else {
-				let data = {
-					restaurant_id: id,
-					percentage_fee: parseInt(percentageFee)
-				};
-				editRestaurantFee(token, data)
-					.then((resp) => {
-						setIsOpen(false);
-						setIsRestaurant(false);
-					})
-					.catch((error) => {
-						console.log(error);
-					});
-			}
-		}
-		else {
-			if (title === 'Add') {
-				let data = {
-					order_range_from: orderRangeFrom,
-					order_range_to: orderRangeTo,
-					fee: fee,
-				};
-				addFee(token, data)
-					.then((resp) => {
-						setIsOpen(false);
-					})
-					.catch((error) => {
-						console.log(error);
-					});
-			} else if (title === 'Edit') {
-				let data = {
-					order_range_from: orderRangeFrom,
-					order_range_to: orderRangeTo,
-					fee_id: id,
-					fee: fee,
-				};
-				editFee(token, id, data)
-					.then((resp) => {
-						setIsOpen(false);
-					})
-					.catch((error) => {
-						console.log(error);
-					});
-			}
-		}
-	};
-
 	const handleDelete = () => {
 		deleteDriverFee(token, driverFeeId)
 			.then((res) => {
@@ -184,7 +134,6 @@ const FeeSettings = () => {
 					{...{
 						setIsOpen,
 						modalIsOpen,
-						handleFee,
 						setOrderRangeFrom,
 						setOrderRangeTo,
 						setFee,
@@ -197,6 +146,7 @@ const FeeSettings = () => {
 						id,
 						setFeeDetails,
 						isRestaurant,
+						setIsRestaurant,
 						percentageFee,
 						restaurantName,
 						setPercentageFee

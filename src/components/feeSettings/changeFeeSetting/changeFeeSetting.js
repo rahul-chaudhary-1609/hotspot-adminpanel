@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Modal from 'react-modal';
 import { useSelector } from 'react-redux';
-import Select from 'react-select';
-import { getFee, getRestaurantById } from '../../../api';
+import { getFee, getRestaurantById, addFee, editFee, editRestaurantFee } from '../../../api';
 
 const ChangeFeeSetting = (props) => {
 	const customsStyles = {
@@ -33,18 +32,25 @@ const ChangeFeeSetting = (props) => {
 	};
 
 	const token = useSelector((state) => state.auth.isSignedIn);
+	const [error, setError] = useState(null)
 
 	const closeModal = () => {
 		props.setIsOpen(false);
-		window.location.reload();
+		setError(null);
+		if (props.isRestaurant)
+			props.setIsRestaurant(!props.isRestaurant);
+
 	};
 
 	useEffect(() => {
 		if (props.isRestaurant) {
-			getRestaurantDetails()
+			getRestaurantDetails();
+			setError(null);
 		}
-		else getFeeDetails();
-	}, [props.id]);
+
+		else if (props.id)
+			getFeeDetails();
+	}, [props.id, props.isRestaurant]);
 
 	const getRestaurantDetails = () => {
 		let id = props.id
@@ -68,6 +74,72 @@ const ChangeFeeSetting = (props) => {
 				console.log(error);
 			});
 	};
+
+	const handleFee = () => {
+		if (props.isRestaurant) {
+			if (props.percentageFee > 100)
+				setError('Restaurant percentage fee cannot exceed 100%!');
+			else if (props.percentageFee < 0 || props.percentageFee == 0)
+				setError('Restaurant percentage fee cannot be negative or 0!');
+			else if (props.percentageFee == '')
+				setError('Please enter Restaurant Percentage Fee!');
+			else {
+				let data = {
+					restaurant_id: props.id,
+					percentage_fee: parseFloat(props.percentageFee)
+				};
+				editRestaurantFee(token, data)
+					.then((resp) => {
+						props.setIsOpen(false);
+						props.setIsRestaurant(false);
+						setError(null);
+					})
+					.catch((error) => {
+						setError(error)
+						console.log(error);
+					});
+			}
+		}
+		else {
+			if (props.title === 'Add') {
+				let data = {
+					order_range_from: parseInt(props.orderRangeFrom),
+					order_range_to: parseInt(props.orderRangeTo),
+					fee: parseInt(props.fee),
+				};
+				addFee(token, data)
+					.then((resp) => {
+						props.setIsOpen(false);
+						setError(null);
+					})
+					.catch((error) => {
+						setError(error)
+						console.log(error);
+					});
+			} else if (props.title === 'Edit') {
+				if (parseInt(props.fee) < 0 || parseInt(props.fee) == 0)
+					setError('Driver Fee cannot be negative or 0!');
+				else {
+					let data = {
+						order_range_from: parseInt(props.orderRangeFrom),
+						order_range_to: parseInt(props.orderRangeTo),
+						fee_id: parseInt(props.id),
+						fee: parseInt(props.fee),
+					};
+					editFee(token, props.id, data)
+						.then((resp) => {
+							props.setIsOpen(false);
+							setError(null);
+						})
+						.catch((error) => {
+							setError(error)
+							console.log(error);
+						});
+				}
+			}
+		}
+	};
+
 	return (
 		<>
 			{props.isRestaurant == true ?
@@ -89,9 +161,9 @@ const ChangeFeeSetting = (props) => {
 					<div className='flex flex-row items-center mt-5  '>
 						<div className='w-1/2 text-left '>Percentage Fee</div>
 						<input
-						type="number"
-						min="1"
-						max="100"
+							type="number"
+							min="0"
+							max="100"
 							className='appearance-none ml-5 block w-1/3 bg-gray-100 border border-100 rounded-half py-2 px-8 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-200'
 							value={props.percentageFee}
 							id='fee'
@@ -102,7 +174,18 @@ const ChangeFeeSetting = (props) => {
 							value='%'
 							disabled
 						/>
-					</div>                  
+					</div>
+					<div>{error && (
+						<p
+							style={{
+								color: 'red',
+								fontSize: '20px',
+								textAlign: 'center',
+								width: '100%',
+							}}>
+							{error}
+						</p>
+					)}</div>
 					<div style={{ display: 'flex', marginTop: '40px' }}>
 						<button
 							onClick={closeModal}
@@ -117,7 +200,7 @@ const ChangeFeeSetting = (props) => {
 				</button>
 						<button
 							type='submit'
-							onClick={props.handleFee}
+							onClick={handleFee}
 							style={{
 								width: '100%',
 								height: '40px',
@@ -142,15 +225,15 @@ const ChangeFeeSetting = (props) => {
 						<b style={{ marginBottom: "0px", paddingLeft: "8px" }}>Driver Fee</b>
 					</div>
 					<div className='flex flex-row  mt-5  '>
-						<div className='w-1/2 text-left '>Order Range</div>
+						<div className='w-1/2 text-left ' style={{ marginTop: "27px" }}>Order Range</div>
 						<input
 							className='appearance-none block w-1/3 ml-10 bg-gray-100 border border-100 rounded-half py-2 px-6 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-200'
 							value={props.orderRangeFrom}
-							style={{marginLeft:"-10px"}}
+							style={{ marginLeft: "-10px" }}
 							onChange={(e) => props.setOrderRangeFrom(e.target.value)}
 						/>{' '}
-						<p style={{ fontSize: '30px', marginTop: '5px' }}>$</p>
-						<p className='text-xl ml-3 mr-3'>To</p>
+						<p style={{ fontSize: '30px', marginTop: '15px' }}>$</p>
+						<p className='text-xl ml-3 mr-3' style={{ marginTop: "23px" }}>To</p>
 						<input
 							className='appearance-none block w-1/3 bg-gray-100 border border-100 rounded-half py-2 px-6 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-200'
 							value={props.orderRangeTo}
@@ -158,13 +241,15 @@ const ChangeFeeSetting = (props) => {
 								props.setOrderRangeTo(e.target.value);
 							}}
 						/>
-						<p style={{ fontSize: '30px', marginTop: '5px' }}>$</p>
+						<p style={{ fontSize: '30px', marginTop: '15px' }}>$</p>
 					</div>
 					<div className='flex flex-row items-center mt-5  '>
 						<div className='w-1/2 text-left '>{`${props.feeType ? props.feeType.label.split(" ")[0] : "Driver"}'s earnings`}</div>
 						<input
+							type="integer"
+							min="0"
 							className='appearance-none block w-1/3 bg-gray-100 border border-100 rounded-half py-2 px-8 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-200'
-							style={{marginLeft:"-96px"}}
+							style={{ marginLeft: "-96px" }}
 							value={props.fee}
 							id='fee'
 							onChange={(e) => props.setFee(e.target.value)}
@@ -175,7 +260,17 @@ const ChangeFeeSetting = (props) => {
 							disabled
 						/>
 					</div>
-
+					<div>{error && (
+						<p
+							style={{
+								color: 'red',
+								fontSize: '20px',
+								textAlign: 'center',
+								width: '100%',
+							}}>
+							{error}
+						</p>
+					)}</div>
 					<div style={{ display: 'flex', marginTop: '40px' }}>
 						<button
 							onClick={closeModal}
@@ -189,7 +284,7 @@ const ChangeFeeSetting = (props) => {
 							Cancel
 					</button>
 						<button
-							onClick={props.handleFee}
+							onClick={handleFee}
 							style={{
 								width: '100%',
 								height: '40px',

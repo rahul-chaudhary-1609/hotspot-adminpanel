@@ -1321,10 +1321,10 @@ export const editFee = (token, id, data) => {
 	});
 };
 
-export const getFee = (token, id) => {
+export const getFee = (token, fee_id) => {
 	return new Promise(async (resolve, reject) => {
 		try {
-			const response = await fetch(`${baseURL}getDriverFeeById/${id}`, {
+			const response = await fetch(`${baseURL}getDriverFeeById/${fee_id}`, {
 				headers: {
 					Accept: 'application/json',
 					Authorization: token,
