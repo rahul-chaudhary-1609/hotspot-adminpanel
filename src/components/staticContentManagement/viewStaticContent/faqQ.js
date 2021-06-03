@@ -32,7 +32,7 @@ const FAQS = () => {
 	const [topicId, setTopicId] = useState(null);
 
 	const [show, setShow] = useState(null);
-	const [showInput, setShowInput] = useState(false);
+	const [showInput, setShowInput] = useState(null);
 	const [error, setError] = useState(null);
 
 	const [changeTopic, setChangeTopic] = useState({
@@ -45,10 +45,10 @@ const FAQS = () => {
 	}, []);
 
 	useEffect(() => {
-		if (showInput) {
+		if (showInput != null) {
 			let data = { ...changeTopic };
-			data['topic_id'] = data['topic_id'] ? data['topic_id'] : faqs[showInput].id;
-			data['topic_name'] = data['topic_name'] ? data['topic_name'] : faqs[showInput].topic;
+			data['topic_id'] = faqs[showInput].id;
+			data['topic_name'] = faqs[showInput].topic;
 			setChangeTopic(data)
 		}
 	}, [showInput])
@@ -197,13 +197,7 @@ const FAQS = () => {
 																			let data = e.target.value;
 																			let updatedFaqs = [...faqs];
 																			updatedFaqs[index].topic = data;
-
-																			let updateData = { ...changeTopic };
-																			updateData['topic_id'] = ques.id;
-																			updateData['topic_name'] = data;
-																			setChangeTopic(updateData);
-
-																			setFaqs(updatedFaqs);
+                                                                 			setFaqs(updatedFaqs);
 																		}}
 																		style={{ borderColor: 'black', padding: '5px', outline: '0', borderWidth: '0 0 2px' }} />
 																</div>
