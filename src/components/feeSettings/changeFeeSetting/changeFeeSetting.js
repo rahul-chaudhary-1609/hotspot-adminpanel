@@ -105,7 +105,7 @@ const ChangeFeeSetting = (props) => {
 				let data = {
 					order_range_from: parseInt(props.orderRangeFrom),
 					order_range_to: parseInt(props.orderRangeTo),
-					fee: parseInt(props.fee),
+					fee: parseFloat(props.fee).toFixed(2),
 				};
 				addFee(token, data)
 					.then((resp) => {
@@ -124,7 +124,7 @@ const ChangeFeeSetting = (props) => {
 						order_range_from: parseInt(props.orderRangeFrom),
 						order_range_to: parseInt(props.orderRangeTo),
 						fee_id: parseInt(props.id),
-						fee: parseInt(props.fee),
+						fee: parseFloat(props.fee).toFixed(2)
 					};
 					editFee(token, props.id, data)
 						.then((resp) => {
@@ -232,7 +232,7 @@ const ChangeFeeSetting = (props) => {
 							style={{ marginLeft: "-10px" }}
 							onChange={(e) => props.setOrderRangeFrom(e.target.value)}
 						/>{' '}
-						<p style={{ fontSize: '30px', marginTop: '15px' }}>$</p>
+						<p style={{ fontSize: '30px', marginTop: '15px',paddingLeft: '7px' }}>$</p>
 						<p className='text-xl ml-3 mr-3' style={{ marginTop: "23px" }}>To</p>
 						<input
 							className='appearance-none block w-1/3 bg-gray-100 border border-100 rounded-half py-2 px-6 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-200'
@@ -241,7 +241,7 @@ const ChangeFeeSetting = (props) => {
 								props.setOrderRangeTo(e.target.value);
 							}}
 						/>
-						<p style={{ fontSize: '30px', marginTop: '15px' }}>$</p>
+						<p style={{ fontSize: '30px', marginTop: '15px' ,paddingLeft: '7px'}}>$</p>
 					</div>
 					<div className='flex flex-row items-center mt-5  '>
 						<div className='w-1/2 text-left '>{`${props.feeType ? props.feeType.label.split(" ")[0] : "Driver"}'s earnings`}</div>
@@ -253,12 +253,13 @@ const ChangeFeeSetting = (props) => {
 							value={props.fee}
 							id='fee'
 							onChange={(e) => props.setFee(e.target.value)}
-						/>{' '}
-						<input
+						/>
+						<p style={{ fontSize: '30px', marginTop: '15px',paddingLeft: '7px' }}>$</p>
+						{/* <input
 							className='appearance-none block w-1/6 text-center bg-red-500 ml-4 border border-100 rounded-half py-2 px-6 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-200'
 							value='$'
 							disabled
-						/>
+						/> */}
 					</div>
 					<div>{error && (
 						<p

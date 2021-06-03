@@ -5,7 +5,6 @@ import { useSelector } from 'react-redux';
 import { addFee, editFee, editRestaurantFee, deleteDriverFee } from '../../api';
 import ChangeFeeSetting from './changeFeeSetting/changeFeeSetting';
 import DeleteModal from '../deleteModal/deleteModal';
-import { getFee, getRestaurantById } from '../../api';
 
 
 const FeeSettings = () => {
