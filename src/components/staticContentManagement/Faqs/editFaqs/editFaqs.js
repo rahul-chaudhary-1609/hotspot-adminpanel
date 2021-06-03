@@ -101,6 +101,7 @@ const EditFqs = () => {
 					className='p-4 md:p-8 mt-6 lg:mt-0 rounded shadow bg-white'>
 					<h1 className='text-2xl'>Edit FAQ</h1>
 					<br />
+					<div style={{marginLeft:'80%', marginTop:'-78px'}}>
 					<button
 						style={{ height: '3rem' }}
 						onClick={() => history.push(`/viewStaticContent/${id}/faqs/${topicid}`)}
@@ -115,6 +116,7 @@ const EditFqs = () => {
 						type='button'>
 						Save
 					</button>
+					</div>
 					<br />
 					{error && (
 						<p
