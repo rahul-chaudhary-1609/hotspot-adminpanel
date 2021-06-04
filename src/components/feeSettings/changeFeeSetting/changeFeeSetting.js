@@ -48,9 +48,8 @@ const ChangeFeeSetting = (props) => {
 			setError(null);
 		}
 
-		else if (props.id)
 			getFeeDetails();
-	}, [props.id, props.isRestaurant]);
+	}, [props.id, props.isRestaurant,props.isOpen]);
 
 	const getRestaurantDetails = () => {
 		let id = props.id
@@ -163,7 +162,7 @@ const ChangeFeeSetting = (props) => {
 							type="number"
 							min="0"
 							max="100"
-							className='appearance-none ml-5 block w-1/3 bg-gray-100 border border-100 rounded-half py-2 px-8 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-200'
+							className='appearance-none block w-1/3 bg-gray-100 border border-100 rounded-half py-2 px-8 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-200'
 							value={props.percentageFee}
 							id='fee'
 							onChange={(e) => props.setPercentageFee(e.target.value)}
@@ -254,11 +253,6 @@ const ChangeFeeSetting = (props) => {
 							onChange={(e) => props.setFee(e.target.value)}
 						/>
 						<p style={{ fontSize: '30px', marginTop: '15px',paddingLeft: '7px' }}>$</p>
-						{/* <input
-							className='appearance-none block w-1/6 text-center bg-red-500 ml-4 border border-100 rounded-half py-2 px-6 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-200'
-							value='$'
-							disabled
-						/> */}
 					</div>
 					<div>{error && (
 						<p
