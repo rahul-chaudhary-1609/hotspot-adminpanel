@@ -82,7 +82,7 @@ const EditFqs = () => {
 			editFaqs(token, data)
 				.then((res) => {
 					setError(null)
-					setSuccessMsg('Faqs updated successfully');
+					setSuccessMsg('FAQ updated successfully');
 					setTimeout(() => {
 						history.push(`/viewStaticContent/${id}/faqs/${topicid}`);
 					}, 1000);
@@ -172,6 +172,7 @@ const EditFqs = () => {
 									className='w-full h-10 mt-5 p-3'
 									placeholder='Enter new topic '
 									disabled
+									maxlength = "100"
 								/>
 							</div>
 						</div>

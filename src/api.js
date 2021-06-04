@@ -1463,12 +1463,20 @@ export const uploadImage = (token, data) => {
 				},
 				method: 'PUT',
 			}).then((res) => res.json());
+		
+			
 			if (response.status == 200) {
 				resolve(response);
-			} else {
+			}
+			//  else if(response.status == 413){
+				
+            //     reject('Too larger');
+			// }
+			else {
 				reject(response.message);
 			}
 		} catch (error) {
+			
 			console.log(error);
 		}
 	});

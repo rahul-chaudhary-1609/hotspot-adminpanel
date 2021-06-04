@@ -63,7 +63,7 @@ const AddFaqs = () => {
 			data['topic_name'] ? delete data['topic_id'] : delete data['topic_name'];
 			addFaq(token, data)
 				.then((res) => {
-					setSuccessMsg('Faqs added successfully');
+					setSuccessMsg('FAQs added successfully');
 					setTimeout(() => {
 						history.push(`/viewStaticContent/${id}/faqs`);
 					}, 1000);
@@ -153,6 +153,7 @@ const AddFaqs = () => {
 									className='w-full h-10 mt-5 p-3'
 									placeholder='Enter new topic'
 									disabled={data['topic_id']}
+									maxlength = "100"
 									onChange={(e) => {
 										let updatedData = { ...data };
 										updatedData['topic_name'] = e.target.value;

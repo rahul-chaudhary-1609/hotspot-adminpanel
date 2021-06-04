@@ -22,6 +22,9 @@ const EditStaticContent = () => {
 	const [error, setError] = useState(null);
 	const [successMsg, setSuccessMsg] = useState(null);
 
+	const[filename, setFilename]= useState(null);
+	const[vedioname, setvedioname]= useState(null);
+
 	useEffect(() => {
 		getContent();
 	}, []);
@@ -45,6 +48,7 @@ const EditStaticContent = () => {
 	}
 
 	const handleUploadFile = async (e) => {
+		setFilename(e.target.files[0].name);
 		let data = {
 			image: e.target.files[0],
 			folderName: 'other',
@@ -53,13 +57,14 @@ const EditStaticContent = () => {
 		try {
 			const res = await uploadImage(token, data);
 			if (res.status == 200) {
+				setError(null);
 				let updatedData = { ...staticContentDetails };
 				updatedData.page_url = res.image_url;
 				setStaticContentDetails(updatedData);
 				updateContent(res.image_url);
 			}
 		} catch (error) {
-			console.log(error);
+			setError(error);
 		}
 	};
 
@@ -74,7 +79,7 @@ const EditStaticContent = () => {
 	};
 
 	const handleUploadVedio = async (e) => {
-		console.log(e.target.files);
+		setvedioname(e.target.files[0].name)
 		let data = {
 			image: e.target.files[0],
 			folderName: 'other',
@@ -84,6 +89,7 @@ const EditStaticContent = () => {
 			setImageLoader(true);
 			const res = await uploadImage(token, data);
 			if (res.status == 200) {
+				setError(null);
 				let updatedData = { ...staticContentDetails };
 				updatedData.video_url = res.image_url;
 				setStaticContentDetails(updatedData);
@@ -91,6 +97,7 @@ const EditStaticContent = () => {
 			}
 		} catch (error) {
 			console.log(error);
+			setError(error);
 			setImageLoader(false);
 		}
 	};
@@ -238,8 +245,7 @@ const EditStaticContent = () => {
 															onChange={handleUploadVedio}
 															id='uploadNew'
 															style={{ display: 'none', padding: '10px' }}
-														// accept='image/x-png,image/gif,image/jpeg'
-														// accept='text/html'
+														    accept='video/*'
 														/>
 													</div>
 												</label>
@@ -250,6 +256,7 @@ const EditStaticContent = () => {
 													title='Upload the mp4 vedio type'>
 													<InfoIcon style={{ color: 'black' }} />
 												</button>
+												{vedioname && <p style={{marginTop:'12px', fontSize:'15px', marginLeft:'10px'}}>{vedioname}</p>}
 											</div>
 											<br />
 										</>
@@ -279,7 +286,7 @@ const EditStaticContent = () => {
 													onChange={handleUploadFile}
 													id='upload'
 													style={{ display: 'none', padding: '10px' }}
-												// accept='image/x-png,image/gif,image/jpeg'
+												   accept='.html'
 												/>
 
 											</div>
@@ -291,6 +298,7 @@ const EditStaticContent = () => {
 											title='Upload the html type file'>
 											<InfoIcon style={{ color: 'black' }} />
 										</button>
+										{filename && <p style={{marginTop:'12px',  fontSize:'15px', marginLeft:'10px'}}>{filename}</p>}
 									</div>
 								</div>
 							</div>
