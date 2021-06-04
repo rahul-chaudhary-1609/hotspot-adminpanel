@@ -22,8 +22,8 @@ const EditStaticContent = () => {
 	const [error, setError] = useState(null);
 	const [successMsg, setSuccessMsg] = useState(null);
 
-	const[filename, setFilename]= useState(null);
-	const[vedioname, setvedioname]= useState(null);
+	const [filename, setFilename] = useState(null);
+	const [vedioname, setvedioname] = useState(null);
 
 	useEffect(() => {
 		getContent();
@@ -79,27 +79,40 @@ const EditStaticContent = () => {
 	};
 
 	const handleUploadVedio = async (e) => {
-		setvedioname(e.target.files[0].name)
-		let data = {
-			image: e.target.files[0],
-			folderName: 'other',
-		};
 
-		try {
-			setImageLoader(true);
-			const res = await uploadImage(token, data);
-			if (res.status == 200) {
-				setError(null);
-				let updatedData = { ...staticContentDetails };
-				updatedData.video_url = res.image_url;
-				setStaticContentDetails(updatedData);
+		let size = e.target.files[0].size;
+		let fSExt = new Array('Bytes', 'KB', 'MB', 'GB'),
+			i = 0; while (size > 900) { size /= 1024; i++; }
+		let exactSize = (Math.round(size * 100) / 100) + ' ' + fSExt[i];
+
+		if (parseInt(exactSize.split(' ')[0]) >= 10) {
+			setError(`File size ${exactSize} ,it should be less than 10MB.`);
+		} else {
+			setError(null);
+			setvedioname(e.target.files[0].name)
+			let data = {
+				image: e.target.files[0],
+				folderName: 'other',
+			};
+
+			try {
+				setImageLoader(true);
+				const res = await uploadImage(token, data);
+				if (res.status == 200) {
+					setError(null);
+					let updatedData = { ...staticContentDetails };
+					updatedData.video_url = res.image_url;
+					setStaticContentDetails(updatedData);
+					setImageLoader(false);
+				}
+			} catch (error) {
+				console.log(error);
+				setError(error);
 				setImageLoader(false);
 			}
-		} catch (error) {
-			console.log(error);
-			setError(error);
-			setImageLoader(false);
 		}
+
+
 	};
 
 	const handleSubmitUpdatedFile = () => {
@@ -238,14 +251,14 @@ const EditStaticContent = () => {
 												<label for='uploadNew' className='w-1/2 block '>
 													<div
 														className='w-full px-2 py-1 ml-5 my-2 flex justify-around items-center bg-gray-400 rounded-lg text-white'
-														>
+													>
 														Upload New Video
 													<input
 															type='file'
 															onChange={handleUploadVedio}
 															id='uploadNew'
 															style={{ display: 'none', padding: '10px' }}
-														    accept='video/*'
+															accept='video/*'
 														/>
 													</div>
 												</label>
@@ -256,7 +269,7 @@ const EditStaticContent = () => {
 													title='Upload the mp4 vedio type'>
 													<InfoIcon style={{ color: 'black' }} />
 												</button>
-												{vedioname && <p style={{marginTop:'12px', fontSize:'15px', marginLeft:'10px'}}>{vedioname}</p>}
+												{vedioname && <p style={{ marginTop: '12px', fontSize: '15px', marginLeft: '10px' }}>{vedioname}</p>}
 											</div>
 											<br />
 										</>
@@ -265,7 +278,7 @@ const EditStaticContent = () => {
 									<div
 										id='doc'
 										style={{
-											marginLeft: '100px',
+											marginLeft: '70px',
 											fontSize: '15px',
 											marginLeft: '10px',
 											width: '634px',
@@ -279,14 +292,14 @@ const EditStaticContent = () => {
 										<label for='upload' className='w-24 block '>
 											<div
 												className='w-full px-2 py-1 ml-5 my-2 flex justify-around items-center bg-gray-400 rounded-lg text-white'
-												>
+											>
 												Upload File
 											<input
 													type='file'
 													onChange={handleUploadFile}
 													id='upload'
 													style={{ display: 'none', padding: '10px' }}
-												   accept='.html'
+													accept='.html'
 												/>
 
 											</div>
@@ -298,7 +311,7 @@ const EditStaticContent = () => {
 											title='Upload the html type file'>
 											<InfoIcon style={{ color: 'black' }} />
 										</button>
-										{filename && <p style={{marginTop:'12px',  fontSize:'15px', marginLeft:'10px'}}>{filename}</p>}
+										{filename && <p style={{ marginTop: '12px', fontSize: '15px', marginLeft: '10px' }}>{filename}</p>}
 									</div>
 								</div>
 							</div>

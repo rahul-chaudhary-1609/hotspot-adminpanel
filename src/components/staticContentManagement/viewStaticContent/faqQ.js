@@ -147,7 +147,9 @@ const FAQS = () => {
 
 	return (
 		<>
-			<div className='main-content pb-16 md:pb-5 flex-1 pt-20 px-2'>
+			<div className='main-content pb-16 md:pb-5 flex-1 pt-20 px-2'
+				style={{ overflowY: 'scroll', height: '100vh' }}
+			>
 
 				<div
 					id='recipients'
@@ -245,7 +247,7 @@ const FAQS = () => {
 
 																	> {ques.topic}</Link>
 																</div>
-																<div className='px-8' style={{ maxWidth: '50%' }}>
+																<div className='px-8' style={{ Width: '70%' }}>
 
 																	<FontAwesomeIcon
 																		style={{ cursor: 'pointer' }}
@@ -284,13 +286,13 @@ const FAQS = () => {
 							})}
 					</div>
 					{qus && <div style={{
-						marginLeft: '50px',
+						marginLeft: '90px',
 						backgroundColor: 'white', padding: '20px', height: 'fit-content', marginTop: '50px', border: error != null ? '1px solid white' : '1px solid black'
 					}}>
 						<div
 							id='doc'
 							style={{
-								width: '750px',
+								width: '700px',
 								height: "fit-content"
 							}}>
 
@@ -311,12 +313,12 @@ const FAQS = () => {
 										<>
 											<div
 												style={{
-													width: '750px',
+													maxWidth: '700px',
 													// backgroundColor: '	#DCDCDC',
 													padding: '10px',
 												}}
 												onClick={(e) => handleCollapse(e, ques.id)}>
-												<label htmlFor={'acc' + index} style={{ fontSize: '20px' }} className='font-semibold'>
+												<label htmlFor={'acc' + index} style={{ fontSize: '20px' , wordBreak: 'break-all'}} className='font-semibold'>
 													{ques.question}
 													{!statusOpened[ques.id] ? (
 														<ArrowDropDownIcon style={{ float: 'right' }} />
@@ -330,7 +332,7 @@ const FAQS = () => {
 													<div
 														style={{
 															backgroundColor: 'lightgrey',
-															width: '722px',
+															width: '680px',
 															padding: '10px',
 															marginTop: '3px',
 														}}>
@@ -356,7 +358,7 @@ const FAQS = () => {
 													</div>
 												</Collapse>
 											</div>
-											{index != qus.length - 1 && <hr style={{ width: '750px' }} />}
+											{index != qus.length - 1 && <hr style={{ width: '700px' }} />}
 										</>
 									);
 								})}

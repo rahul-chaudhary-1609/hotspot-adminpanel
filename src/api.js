@@ -1467,12 +1467,7 @@ export const uploadImage = (token, data) => {
 			
 			if (response.status == 200) {
 				resolve(response);
-			}
-			//  else if(response.status == 413){
-				
-            //     reject('Too larger');
-			// }
-			else {
+			}else {
 				reject(response.message);
 			}
 		} catch (error) {
