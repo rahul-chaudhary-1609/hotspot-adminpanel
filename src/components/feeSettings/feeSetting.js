@@ -44,6 +44,7 @@ const FeeSettings = () => {
 				setDriverFee(resp.driverFeeList.rows);
 			})
 			.catch((error) => {
+				setDriverFee([]);
 				console.log(error);
 			});
 	};
@@ -98,8 +99,8 @@ const FeeSettings = () => {
 	const handleDelete = () => {
 		deleteDriverFee(token, driverFeeId)
 			.then((res) => {
-				setDeleteModal(false);
 				driverFeeSetting();
+				setDeleteModal(false);				
 			})
 			.catch((error) => {
 				toast.error(error, 
