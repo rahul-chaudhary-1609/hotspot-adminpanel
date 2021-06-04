@@ -66,8 +66,9 @@ const FAQS = () => {
 			.then((res) => {
 				setFaqs(res.faqTopics);
 				setOldFaqs(_.cloneDeep(res.faqTopics));
-				// handleQuestions(res.getFaqTopicsData[0].id);
 				// setActive(res.getFaqTopicsData[0].id);
+				let topicId = res.faqTopics[0].id;
+				history.push(`/viewStaticContent/${id}/faqs/${topicId}`)
 			})
 			.catch((error) => {
 				console.log(error);
