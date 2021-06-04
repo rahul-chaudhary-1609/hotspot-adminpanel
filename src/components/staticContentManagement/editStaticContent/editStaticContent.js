@@ -57,13 +57,14 @@ const EditStaticContent = () => {
 		try {
 			const res = await uploadImage(token, data);
 			if (res.status == 200) {
+				setError(null);
 				let updatedData = { ...staticContentDetails };
 				updatedData.page_url = res.image_url;
 				setStaticContentDetails(updatedData);
 				updateContent(res.image_url);
 			}
 		} catch (error) {
-			console.log(error);
+			setError(error);
 		}
 	};
 
@@ -88,6 +89,7 @@ const EditStaticContent = () => {
 			setImageLoader(true);
 			const res = await uploadImage(token, data);
 			if (res.status == 200) {
+				setError(null);
 				let updatedData = { ...staticContentDetails };
 				updatedData.video_url = res.image_url;
 				setStaticContentDetails(updatedData);
@@ -95,6 +97,7 @@ const EditStaticContent = () => {
 			}
 		} catch (error) {
 			console.log(error);
+			setError(error);
 			setImageLoader(false);
 		}
 	};

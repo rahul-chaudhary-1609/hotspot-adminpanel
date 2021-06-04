@@ -82,7 +82,7 @@ const EditFqs = () => {
 			editFaqs(token, data)
 				.then((res) => {
 					setError(null)
-					setSuccessMsg('Faqs updated successfully');
+					setSuccessMsg('FAQ updated successfully');
 					setTimeout(() => {
 						history.push(`/viewStaticContent/${id}/faqs/${topicid}`);
 					}, 1000);

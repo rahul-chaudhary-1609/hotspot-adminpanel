@@ -63,7 +63,7 @@ const AddFaqs = () => {
 			data['topic_name'] ? delete data['topic_id'] : delete data['topic_name'];
 			addFaq(token, data)
 				.then((res) => {
-					setSuccessMsg('Faqs added successfully');
+					setSuccessMsg('FAQs added successfully');
 					setTimeout(() => {
 						history.push(`/viewStaticContent/${id}/faqs`);
 					}, 1000);
