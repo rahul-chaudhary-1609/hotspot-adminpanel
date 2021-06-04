@@ -153,6 +153,7 @@ const AddFaqs = () => {
 									className='w-full h-10 mt-5 p-3'
 									placeholder='Enter new topic'
 									disabled={data['topic_id']}
+									maxlength = "100"
 									onChange={(e) => {
 										let updatedData = { ...data };
 										updatedData['topic_name'] = e.target.value;

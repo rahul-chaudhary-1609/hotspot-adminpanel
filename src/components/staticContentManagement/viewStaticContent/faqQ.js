@@ -10,6 +10,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPencilAlt, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom'
 import DeleteModal from '../../deleteModal/deleteModal';
+import _  from 'lodash';
+
 const FAQS = () => {
 	const token = useSelector((state) => state.auth.isSignedIn);
 	const history = useHistory();
@@ -21,6 +23,7 @@ const FAQS = () => {
 
 
 	const [faqs, setFaqs] = useState([]);
+	const [oldFaqs, setOldFaqs] = useState([]);
 	const [statusOpened, setStatusOpened] = useState({});
 
 	const [qus, setQus] = useState(null);
@@ -33,6 +36,7 @@ const FAQS = () => {
 
 	const [show, setShow] = useState(null);
 	const [showInput, setShowInput] = useState(null);
+	const[flag, setFlag] = useState(false);
 	const [error, setError] = useState(null);
 
 	const [changeTopic, setChangeTopic] = useState({
@@ -44,14 +48,6 @@ const FAQS = () => {
 		getFaqTopicsList();
 	}, []);
 
-	useEffect(() => {
-		if (showInput != null) {
-			let data = { ...changeTopic };
-			data['topic_id'] = faqs[showInput].id;
-			data['topic_name'] = faqs[showInput].topic;
-			setChangeTopic(data)
-		}
-	}, [showInput])
 
 	const faqsList = () => {
 		getFaqs(token)
@@ -69,6 +65,7 @@ const FAQS = () => {
 		getFaqTopics(token)
 			.then((res) => {
 				setFaqs(res.faqTopics);
+				setOldFaqs(_.cloneDeep(res.faqTopics));
 				// handleQuestions(res.getFaqTopicsData[0].id);
 				// setActive(res.getFaqTopicsData[0].id);
 			})
@@ -133,15 +130,19 @@ const FAQS = () => {
 		}
 	}
 
-	const handleTopicChange = () => {
-
-			editFaqTopic(token, changeTopic)
-				.then((res) => {
-					setShowInput(null)
-				})
-				.catch((error) => {
-					setError(error);
-				});
+	const handleTopicChange = (index) => {
+		let data = {};
+		data['topic_id'] = faqs[index].id;
+		data['topic_name'] = faqs[index].topic;
+		
+		editFaqTopic(token, data)
+			.then((res) => {
+				setShowInput(null)
+				setFlag(false)
+			})
+			.catch((error) => {
+				setError(error);
+			});
 	}
 
 	return (
@@ -192,22 +193,33 @@ const FAQS = () => {
 															<div className='flex flex-row items-center '>
 																<div className='font-semibold py-4 px-6 w-1/2 text-right'>
 																	<input id={ques.id}
-																		value={ques.topic}
+																		value={faqs[index].topic}
 																		onChange={(e) => {
 																			let data = e.target.value;
 																			let updatedFaqs = [...faqs];
 																			updatedFaqs[index].topic = data;
-                                                                 			setFaqs(updatedFaqs);
+																			setFaqs(updatedFaqs);
 																		}}
 																		style={{ borderColor: 'black', padding: '5px', outline: '0', borderWidth: '0 0 2px' }} />
 																</div>
-																<div className='px-8' style={{ maxWidth: '50%' }}>
+																<div className='px-8' style={{ maxWidth: '50%', display: 'flex' }}>
 																	<button
 																		style={{ height: '3rem' }}
-																		onClick={handleTopicChange}
+																		onClick={() => handleTopicChange(index)}
 																		className='shadow bg-blue-500 ml-3 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded'
 																		type='button'>
 																		Save
+								                                   </button>
+																	<button
+																		style={{ height: '3rem' }}
+																		onClick={() => {
+																			
+																			setFaqs(_.cloneDeep(oldFaqs));
+																			setShowInput(null)
+																		}}
+																		className='shadow bg-red-500 ml-3 hover:bg-red-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded'
+																		type='button'>
+																		Cancel
 								                                   </button>
 																</div>
 															</div>
@@ -217,7 +229,7 @@ const FAQS = () => {
 													<>
 														<div className='form-layout text-base  w-full'>
 															<div className='flex flex-row items-center '>
-																<div className='font-semibold py-4 px-6 w-1/2 text-left' style={{ wordBreak: 'break-all' }}>
+																<div className='font-semibold py-4 px-6  text-left' style={{ wordBreak: 'break-all', width: '70%' }}>
 																	<Link
 																		to={`/viewStaticContent/${id}/faqs/${ques.id}`}
 																		onClick={() => {
@@ -237,7 +249,10 @@ const FAQS = () => {
 
 																	<FontAwesomeIcon
 																		style={{ cursor: 'pointer' }}
-																		onClick={() => setShowInput(index)}
+																		onClick={() => {
+																			setShowInput(index)
+																			
+																		}}
 																		className='text-red-600 trash w-5 h-5'
 																		color='red'
 																		icon={faPencilAlt}
@@ -268,11 +283,14 @@ const FAQS = () => {
 								);
 							})}
 					</div>
-					{qus && <div style={{ backgroundColor: 'white', padding: '20px', height: 'fit-content', marginTop: '50px', border: error != null ? '1px solid white' : '1px solid black' }}>
+					{qus && <div style={{
+						marginLeft: '50px',
+						backgroundColor: 'white', padding: '20px', height: 'fit-content', marginTop: '50px', border: error != null ? '1px solid white' : '1px solid black'
+					}}>
 						<div
 							id='doc'
 							style={{
-								width: '753px',
+								width: '750px',
 								height: "fit-content"
 							}}>
 

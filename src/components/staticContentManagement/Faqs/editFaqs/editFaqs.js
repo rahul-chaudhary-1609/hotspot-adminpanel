@@ -172,6 +172,7 @@ const EditFqs = () => {
 									className='w-full h-10 mt-5 p-3'
 									placeholder='Enter new topic '
 									disabled
+									maxlength = "100"
 								/>
 							</div>
 						</div>
