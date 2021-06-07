@@ -32,7 +32,7 @@ const ChangeFeeSetting = (props) => {
 	};
 
 	const token = useSelector((state) => state.auth.isSignedIn);
-	const [error, setError] = useState(null)
+	const [error, setError] = useState(null);
 
 	const closeModal = () => {
 		props.setIsOpen(false);
@@ -92,48 +92,62 @@ const ChangeFeeSetting = (props) => {
 						props.setIsOpen(false);
 						props.setIsRestaurant(false);
 						setError(null);
+						props.setSuccessMsg("Restaurant Fee updated successfully");
 					})
 					.catch((error) => {
 						setError(error)
 						console.log(error);
+						props.setSuccessMsg(null);
 					});
 			}
 		}
 		else {
-			if (props.title === 'Add') {
-				let data = {
-					order_range_from: parseInt(props.orderRangeFrom),
-					order_range_to: parseInt(props.orderRangeTo),
-					fee: parseFloat(props.fee).toFixed(2),
-				};
-				addFee(token, data)
-					.then((resp) => {
-						props.setIsOpen(false);
-						setError(null);
-					})
-					.catch((error) => {
-						setError(error)
-						console.log(error);
-					});
-			} else if (props.title === 'Edit') {
-				if (parseInt(props.fee) < 0 || parseInt(props.fee) == 0)
-					setError('Driver Fee cannot be negative or 0!');
-				else {
+			if ((props.orderRangeFrom == null) && (props.fee == null))
+				setError("Driver's Order Range and Earning cannot be empty!");
+			else if (props.fee == null)
+				setError("Driver's Earning cannot be empty!");
+			else if (props.orderRangeFrom == null)
+				setError("Driver's Order Range From cannot be empty");
+			else {
+				if (props.title === 'Add') {
 					let data = {
 						order_range_from: parseInt(props.orderRangeFrom),
 						order_range_to: parseInt(props.orderRangeTo),
-						fee_id: parseInt(props.id),
-						fee: parseFloat(props.fee).toFixed(2)
+						fee: parseFloat(props.fee).toFixed(2),
 					};
-					editFee(token, props.id, data)
+					addFee(token, data)
 						.then((resp) => {
 							props.setIsOpen(false);
 							setError(null);
+							props.setSuccessMsg("Driver Fee added successfully")
 						})
 						.catch((error) => {
 							setError(error)
 							console.log(error);
+							props.setSuccessMsg(null);
 						});
+				} else if (props.title === 'Edit') {
+					if (parseInt(props.fee) < 0 || parseInt(props.fee) == 0)
+						setError('Driver Fee cannot be negative or 0!');
+					else {
+						let data = {
+							order_range_from: parseInt(props.orderRangeFrom),
+							order_range_to: parseInt(props.orderRangeTo),
+							fee_id: parseInt(props.id),
+							fee: parseFloat(props.fee).toFixed(2)
+						};
+						editFee(token, props.id, data)
+							.then((resp) => {
+								props.setIsOpen(false);
+								setError(null);
+								props.setSuccessMsg("Driver Fee updated successfully")
+							})
+							.catch((error) => {
+								setError(error)
+								console.log(error);
+								props.setSuccessMsg(null);
+							});
+					}
 				}
 			}
 		}
@@ -168,11 +182,7 @@ const ChangeFeeSetting = (props) => {
 							id='fee'
 							onChange={(e) => props.setPercentageFee(e.target.value)}
 						/>{' '}
-						<input
-							className='appearance-none block w-1/6 text-center bg-red-500 ml-4 border border-100 rounded-half py-2 px-6 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-200'
-							value='%'
-							disabled
-						/>
+						<p style={{ fontSize: '30px', marginTop: '-12px', paddingLeft: '7px' }}>%</p>
 					</div>
 					<div>{error && (
 						<p
@@ -224,15 +234,15 @@ const ChangeFeeSetting = (props) => {
 						<b style={{ marginBottom: "0px", paddingLeft: "8px" }}>Driver Fee</b>
 					</div>
 					<div className='flex flex-row  mt-5  '>
-						<div className='w-1/2 text-left ' style={{ marginTop: "27px" }}>Order Range</div>
+						<div className='w-1/2 text-left ' style={{ marginTop: "10px" }}>Order Range</div>
 						<input
 							className='appearance-none block w-1/3 ml-10 bg-gray-100 border border-100 rounded-half py-2 px-6 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-200'
 							value={props.orderRangeFrom}
 							style={{ marginLeft: "-10px" }}
 							onChange={(e) => props.setOrderRangeFrom(e.target.value)}
 						/>{' '}
-						<p style={{ fontSize: '30px', marginTop: '15px', paddingLeft: '7px' }}>$</p>
-						<p className='text-xl ml-3 mr-3' style={{ marginTop: "23px" }}>To</p>
+						<p style={{ fontSize: '30px', marginTop: '-7px', paddingLeft: '7px' }}>$</p>
+						<p className='text-xl ml-3 mr-3' style={{ marginTop: "3px" }}>To</p>
 						<input
 							className='appearance-none block w-1/3 bg-gray-100 border border-100 rounded-half py-2 px-6 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-200'
 							value={props.orderRangeTo}
@@ -240,7 +250,7 @@ const ChangeFeeSetting = (props) => {
 								props.setOrderRangeTo(e.target.value);
 							}}
 						/>
-						<p style={{ fontSize: '30px', marginTop: '15px', paddingLeft: '7px' }}>$</p>
+						<p style={{ fontSize: '30px', marginTop: '-7px', paddingLeft: '7px' }}>$</p>
 					</div>
 					<div className='flex flex-row items-center mt-5  '>
 						<div className='w-1/2 text-left '>{`${props.feeType ? props.feeType.label.split(" ")[0] : "Driver"}'s earnings`}</div>
@@ -253,7 +263,7 @@ const ChangeFeeSetting = (props) => {
 							id='fee'
 							onChange={(e) => props.setFee(e.target.value)}
 						/>
-						<p style={{ fontSize: '30px', marginTop: '15px', paddingLeft: '7px' }}>$</p>
+						<p style={{ fontSize: '30px', marginTop: '-15px', paddingLeft: '7px' }}>$</p>
 					</div>
 					<div>{error && (
 						<p

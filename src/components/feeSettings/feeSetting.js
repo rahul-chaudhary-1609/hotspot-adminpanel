@@ -31,6 +31,7 @@ const FeeSettings = () => {
 	const [feeDetails, setFeeDetails] = useState(null);
 	const [deleteModal, setDeleteModal] = useState(false);
 	const [driverFeeId, setDriverFeeId] = useState(null);
+	const [successMsg, setSuccessMsg] = useState(null);
 
 	useEffect(() => {
 		driverFeeSetting();
@@ -52,9 +53,11 @@ const FeeSettings = () => {
 		getFeeList(token, 'hotspot')
 			.then((resp) => {
 				setHotspotFee(resp.hotspotCommissionList);
+				setSuccessMsg(null);
 			})
 			.catch((error) => {
 				console.log(error);
+				setSuccessMsg(null);
 			});
 	};
 	const restaurantFeeSetting = () => {
@@ -111,6 +114,7 @@ const FeeSettings = () => {
 
 	return (
 		<>
+
 			<div className='main-content pb-16 md:pb-5 flex-1 pt-20 px-2' style={{ height: '100vh' }}>
 				<div style={{ display: 'flex' }}>
 					<h1 style={{ fontSize: '40px' }} className='text-xl mt-10 ml-10'>
@@ -132,6 +136,19 @@ const FeeSettings = () => {
 							setTitle('Add');
 						}}>
 						Add Driver Fee
+					{successMsg && (
+						<div
+							style={{
+								backgroundColor: '#9ACD32',
+								padding: '8px',
+								width: 'max-content',
+								marginLeft: 'auto',
+								marginRight: 'auto',
+								marginTop: '35px',
+							}}>
+							{successMsg}
+						</div>
+					)}
 					</button>
 				</div>
 				<ChangeFeeSetting
@@ -153,7 +170,9 @@ const FeeSettings = () => {
 						setIsRestaurant,
 						percentageFee,
 						restaurantName,
-						setPercentageFee
+						setPercentageFee,
+						setSuccessMsg,
+						successMsg
 					}}
 				/>
 				<CommonTable
@@ -180,7 +199,6 @@ const FeeSettings = () => {
 					}}
 				/>
 			</div>
-
 			{deleteModal && <DeleteModal  {...{ deleteModal, setDeleteModal, name: 'Driver Fee', handleDelete }} />}
 		</>
 	);
