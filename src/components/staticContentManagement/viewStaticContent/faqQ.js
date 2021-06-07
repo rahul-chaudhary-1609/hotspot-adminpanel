@@ -105,7 +105,7 @@ const FAQS = () => {
 	};
 
 	const handleDelete = () => {
-		if (show == 'Topic') {
+		if (show == 'topic') {
 			deleteFaqsTopic(token, topicId)
 				.then((res) => {
 					setError(null)
@@ -248,7 +248,7 @@ const FAQS = () => {
 
 																	> {ques.topic}</Link>
 																</div>
-																<div className='px-8' style={{ Width: '70%' }}>
+																<div className='px-6' style={{ Width: '70%' }}>
 
 																	<FontAwesomeIcon
 																		style={{ cursor: 'pointer' }}
@@ -264,7 +264,7 @@ const FAQS = () => {
 																		className='text-red-600 trash w-5 h-5 ml-5'
 																		color='red'
 																		onClick={() => {
-																			setShow('Topic')
+																			setShow('topic')
 																			setDeleteModal(true);
 																			setTopicId(ques.id)
 																		}}
@@ -350,7 +350,7 @@ const FAQS = () => {
 																className='text-red-600 trash w-5 h-5 ml-4'
 																color='red'
 																onClick={() => {
-																	setShow('Question')
+																	setShow('question')
 																	setDeleteModal(true);
 																	setQuestionId(ques.id)
 																}}

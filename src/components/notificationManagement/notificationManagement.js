@@ -186,7 +186,7 @@ const NotificationManagement = () => {
 					)}
 					<ReactTable
 						style={{
-							width: '990px',
+							width: '100%',
 							marginTop: '70px'
 						}}
 						showPagination={false}

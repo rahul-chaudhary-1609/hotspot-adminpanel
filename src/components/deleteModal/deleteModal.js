@@ -28,8 +28,8 @@ const DeleteModal = (props) => {
 					Delete {props.name}
 				</h2>
 			{props.restaurants &&<div>{props.message}</div>}
-			{props.show == 'Topic' &&<div>{"All the Questions which are belongs to this topic will also be deleted."}</div>}
-				<div style={{marginTop: '10px' }}>Are you sure you want to Delete the {props.name}? </div>
+			{props.show == 'topic' &&<div>{"All the questions that belong to this topic will be deleted."}</div>}
+				<div style={{marginTop: '10px' }}>Are you sure you want to delete this {props.name}? </div>
 				<div style={{ display: 'flex', marginTop: '40px' }}>
 					<button
 						onClick={closeModal}

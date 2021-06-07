@@ -266,9 +266,10 @@ const EditStaticContent = () => {
 													type='button'
 													className='btn btn-lg btn-danger ml-6'
 													data-toggle='popover'
-													title='Upload the mp4 vedio type'>
+													// title='Upload the mp4 vedio type'
+													>
 													<InfoIcon style={{ color: 'black' }} />
-												</button>
+												</button><span style={{color:"red",paddingTop:"13px"}}>Upload the mp4 vedio type</span>
 												{vedioname && <p style={{ marginTop: '12px', fontSize: '15px', marginLeft: '10px' }}>{vedioname}</p>}
 											</div>
 											<br />
@@ -308,9 +309,10 @@ const EditStaticContent = () => {
 											type='button'
 											className='btn btn-lg btn-danger ml-6'
 											data-toggle='popover'
-											title='Upload the html type file'>
+											// title='Upload the html type file'
+											>
 											<InfoIcon style={{ color: 'black' }} />
-										</button>
+										</button><span style={{color:"red",paddingTop:"13px"}}>Upload the html type file</span>
 										{filename && <p style={{ marginTop: '12px', fontSize: '15px', marginLeft: '10px' }}>{filename}</p>}
 									</div>
 								</div>

@@ -53,7 +53,10 @@ const FeeSettings = () => {
 		getFeeList(token, 'hotspot')
 			.then((resp) => {
 				setHotspotFee(resp.hotspotCommissionList);
-				setSuccessMsg(null);
+				setTimeout(() => {
+					setSuccessMsg(null);
+				}, 1000);
+				
 			})
 			.catch((error) => {
 				console.log(error);
@@ -116,6 +119,19 @@ const FeeSettings = () => {
 		<>
 
 			<div className='main-content pb-16 md:pb-5 flex-1 pt-20 px-2' style={{ height: '100vh' }}>
+			{successMsg && (
+						<div
+							style={{
+								backgroundColor: '#9ACD32',
+								padding: '10px',
+								marginLeft: 'auto',
+								marginRight: 'auto',
+								marginTop: '24px',
+								width: 'fit-content',
+							}}>
+							{successMsg}
+						</div>
+					)}
 				<div style={{ display: 'flex' }}>
 					<h1 style={{ fontSize: '40px' }} className='text-xl mt-10 ml-10'>
 						Fee Setting
@@ -136,19 +152,7 @@ const FeeSettings = () => {
 							setTitle('Add');
 						}}>
 						Add Driver Fee
-					{successMsg && (
-						<div
-							style={{
-								backgroundColor: '#9ACD32',
-								padding: '8px',
-								width: 'max-content',
-								marginLeft: 'auto',
-								marginRight: 'auto',
-								marginTop: '35px',
-							}}>
-							{successMsg}
-						</div>
-					)}
+					
 					</button>
 				</div>
 				<ChangeFeeSetting

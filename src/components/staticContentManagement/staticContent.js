@@ -16,7 +16,7 @@ const StaticContent = () => {
 	const columns = [
 		{
 			Header: '#',
-			width: 30,
+			width: 40,
 			id: 1,
 			className: 'text-center view-details',
 
@@ -36,7 +36,6 @@ const StaticContent = () => {
 		{
 			id: 2,
 			Header: 'Title',
-			width: 200,
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (
@@ -132,7 +131,7 @@ const StaticContent = () => {
 							className='-highlight'
 							columns={columns}
 							style={{
-								width: '900px',
+								width: '100%',
 							}}
 						/>
 					</div>

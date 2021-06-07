@@ -61,7 +61,7 @@ const ViewStaticContent = () => {
 								marginTop: '20px',
 								backgroundColor: 'lightgrey',
 								padding: '20px',
-								width: '990px',
+								width: '100%',
 							}}>
 							<div className='flex '>
 								<h1 className='text-xl'>Title</h1>
@@ -118,8 +118,8 @@ const ViewStaticContent = () => {
 									<div
 										id='doc'
 										style={{
-											width: '634px',
-											maxHeight: '200px',
+											width: '734px',
+											maxHeight: '230px',
 											height: '300px',
 											overflow: 'auto',
 											border: '1px solid black',
