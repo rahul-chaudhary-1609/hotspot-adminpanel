@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { getFaqs, getFaqTopics } from '../../../api';
+import Pagination from 'react-js-pagination';
 import { useSelector } from 'react-redux';
 import { Collapse } from 'react-collapse';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
@@ -38,6 +39,9 @@ const FAQS = () => {
 	const [showInput, setShowInput] = useState(null);
 	const[flag, setFlag] = useState(false);
 	const [error, setError] = useState(null);
+	const [pageSize, setPageSize] = useState(10);
+	const [activePage, setCurrentPage] = useState(1);
+	const [totalItems, setTotalItems] = useState(null);
 
 	const [changeTopic, setChangeTopic] = useState({
 		topic_id: null,
@@ -85,10 +89,10 @@ const FAQS = () => {
 		if (topicid) {
 			handleQuestions(topicid)
 		}
-	}, [topicid])
+	}, [topicid,activePage])
 
 	const handleQuestions = (id) => {
-		getFaqQuestions(token, id)
+		getFaqQuestions(token, id,activePage,pageSize)
 			.then((res) => {
 				setError(null)
 				let rows = res.faqQuestions.rows;
@@ -96,6 +100,7 @@ const FAQS = () => {
 				rows.forEach(({ id }) => (status[id] = false));
 				setStatusOpened(status);
 				setQus(res.faqQuestions.rows);
+				setTotalItems(res.faqQuestions.count);
 			})
 			.catch((error) => {
 				setError(error);
@@ -146,10 +151,14 @@ const FAQS = () => {
 			});
 	}
 
+	const handlePageChange = (pageNumber) => {
+		setCurrentPage(pageNumber);
+	};
+
 	return (
 		<>
 			<div className='main-content pb-16 md:pb-5 flex-1 pt-20 px-2'
-				style={{ overflowY: 'scroll', height: '100vh' }}
+				style={{  height: '100vh' }}
 			>
 
 				<div
@@ -362,7 +371,17 @@ const FAQS = () => {
 											{index != qus.length - 1 && <hr style={{ width: '700px' }} />}
 										</>
 									);
-								})}
+								})
+								}
+								<div style={{ textAlign: 'right' }}>
+						<Pagination
+							activePage={activePage}
+							itemsCountPerPage={pageSize}
+							totalItemsCount={totalItems}
+							pageRangeDisplayed={3}
+							onChange={handlePageChange}
+						/>
+					</div>
 
 						</div>
 					</div>}

@@ -79,38 +79,45 @@ const EditStaticContent = () => {
 	};
 
 	const handleUploadVedio = async (e) => {
+		let type = e.target.files[0].type;
 
-		let size = e.target.files[0].size;
-		let fSExt = new Array('Bytes', 'KB', 'MB', 'GB'),
-			i = 0; while (size > 900) { size /= 1024; i++; }
-		let exactSize = (Math.round(size * 100) / 100) + ' ' + fSExt[i];
+		if (type !== "video/mp4") {
+			setError("Invalid File type");
+		}
+		else {
+			let size = e.target.files[0].size;
+			let fSExt = new Array('Bytes', 'KB', 'MB', 'GB'),
+				i = 0; while (size > 900) { size /= 1024; i++; }
+			let exactSize = (Math.round(size * 100) / 100) + ' ' + fSExt[i];
 
-		if (parseInt(exactSize.split(' ')[0]) >= 10) {
-			setError(`File size ${exactSize} ,it should be less than 10MB.`);
-		} else {
-			setError(null);
-			setvedioname(e.target.files[0].name)
-			let data = {
-				image: e.target.files[0],
-				folderName: 'other',
-			};
+			if (parseInt(exactSize.split(' ')[0]) >= 10) {
+				setError(`File size ${exactSize} ,it should be less than 10MB.`);
+			} else {
+				setError(null);
+				setvedioname(e.target.files[0].name)
+				let data = {
+					image: e.target.files[0],
+					folderName: 'other',
+				};
 
-			try {
-				setImageLoader(true);
-				const res = await uploadImage(token, data);
-				if (res.status == 200) {
-					setError(null);
-					let updatedData = { ...staticContentDetails };
-					updatedData.video_url = res.image_url;
-					setStaticContentDetails(updatedData);
+				try {
+					setImageLoader(true);
+					const res = await uploadImage(token, data);
+					if (res.status == 200) {
+						setError(null);
+						let updatedData = { ...staticContentDetails };
+						updatedData.video_url = res.image_url;
+						setStaticContentDetails(updatedData);
+						setImageLoader(false);
+					}
+				} catch (error) {
+					console.log(error);
+					setError(error);
 					setImageLoader(false);
 				}
-			} catch (error) {
-				console.log(error);
-				setError(error);
-				setImageLoader(false);
 			}
 		}
+
 
 
 	};
@@ -212,22 +219,6 @@ const EditStaticContent = () => {
 													lineHeight: '190px',
 												}}>Uploading the video... </div> :
 												staticContentDetails['video_url'] &&
-												// <ReactPlayer
-												// 	width='631px'
-												// 	url={
-												// 		staticContentDetails.video_url
-												// 			? staticContentDetails.video_url
-												// 			: '../../../assets/img/vedio.png'
-												// 	}
-												// 	style={{
-												// 		maxHeight: '200px',
-												// 		height: '300px',
-												// 		overflow: 'auto',
-												// 		border: '1px solid black',
-												// 	    padding: '10px',
-												// 	}}
-												// 	playing={true}
-												// />
 
 												<video style={{
 													maxHeight: '200px',
@@ -258,18 +249,19 @@ const EditStaticContent = () => {
 															onChange={handleUploadVedio}
 															id='uploadNew'
 															style={{ display: 'none', padding: '10px' }}
-															accept='video/*'
+															accept=".mp4,.flv"
 														/>
 													</div>
 												</label>
-												<button
+												{/* <button
 													type='button'
 													className='btn btn-lg btn-danger ml-6'
 													data-toggle='popover'
 													// title='Upload the mp4 vedio type'
 													>
 													<InfoIcon style={{ color: 'black' }} />
-												</button><span style={{color:"red",paddingTop:"13px"}}>Upload the mp4 vedio type</span>
+												</button> */}
+												<span className='btn btn-lg btn-danger ml-6' style={{ color: "red", paddingTop: "13px" }}>Upload mp4 type file</span>
 												{vedioname && <p style={{ marginTop: '12px', fontSize: '15px', marginLeft: '10px' }}>{vedioname}</p>}
 											</div>
 											<br />
@@ -305,14 +297,7 @@ const EditStaticContent = () => {
 
 											</div>
 										</label>
-										<button
-											type='button'
-											className='btn btn-lg btn-danger ml-6'
-											data-toggle='popover'
-											// title='Upload the html type file'
-											>
-											<InfoIcon style={{ color: 'black' }} />
-										</button><span style={{color:"red",paddingTop:"13px"}}>Upload the html type file</span>
+										<span className='btn btn-lg btn-danger ml-6' style={{ color: "red", paddingTop: "13px" }}>Upload file of type html</span>
 										{filename && <p style={{ marginTop: '12px', fontSize: '15px', marginLeft: '10px' }}>{filename}</p>}
 									</div>
 								</div>

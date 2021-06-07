@@ -1785,10 +1785,10 @@ export const getFaqs = (token) => {
 	});
 };
 
-export const getFaqQuestions = (token, id) => {
+export const getFaqQuestions = (token, id,activePage,pageSize) => {
 	return new Promise(async (resolve, reject) => {
 		try {
-			const response = await fetch(`${baseURL}getFaqQuestions?id=${id}`, {
+			const response = await fetch(`${baseURL}getFaqQuestions?id=${id}&&page=${activePage}&&page_size=${pageSize}`, {
 				headers: {
 					Accept: 'application/json',
 					Authorization: token,

@@ -2,6 +2,7 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { SidebarData } from './SidebarData';
 import '../css/disableField.css';
+import { useLocation } from 'react-router';
 import { useDispatch } from 'react-redux';
 
 function SideNavbar() {
@@ -12,9 +13,13 @@ function SideNavbar() {
 			payload: null,
 		});
 	};
+
+	const { pathname } = useLocation();
+	console.log("pathname",pathname.split('/')[1])
+	
 	return (
 		<div
-			style={{ width: '23rem', height: 'calc(130vh - 68px)' }}
+			style={pathname.split('/')[2]== 7 && pathname.split('/')[1] == 'viewStaticContent'?{ width: '23rem', height: 'calc(185vh - 68px)' }:{ width: '23rem', height: 'calc(130vh - 68px)' }}
 			className='bg-gray-dark  fixed bottom-0 md:relative md:min-h-screen z-10 w-full md:w-64 md:pt-24 md:pb-5 md:mt-0 overflow-x-scroll md:overflow-x-hidden'>
 			<div
 				className='brand-logo justify-center hidden md:flex'
