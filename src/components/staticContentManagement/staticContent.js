@@ -120,7 +120,7 @@ const StaticContent = () => {
 				<div
 					id='recipients'
 					className='p-4 md:p-8 mt-6 lg:mt-0 rounded shadow bg-white'>
-					<h1 className='text-xl'>Static Content Management</h1>
+						<div style={{ marginLeft: '1rem', fontSize: '2rem' }}>Static Content Management</div>
 					<div className='mt-20'>
 						<ReactTable
 							showPagination={false}

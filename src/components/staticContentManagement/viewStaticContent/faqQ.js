@@ -11,7 +11,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPencilAlt, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom'
 import DeleteModal from '../../deleteModal/deleteModal';
-import _  from 'lodash';
+import _ from 'lodash';
 
 const FAQS = () => {
 	const token = useSelector((state) => state.auth.isSignedIn);
@@ -37,11 +37,14 @@ const FAQS = () => {
 
 	const [show, setShow] = useState(null);
 	const [showInput, setShowInput] = useState(null);
-	const[flag, setFlag] = useState(false);
+	const [flag, setFlag] = useState(false);
 	const [error, setError] = useState(null);
 	const [pageSize, setPageSize] = useState(10);
 	const [activePage, setCurrentPage] = useState(1);
 	const [totalItems, setTotalItems] = useState(null);
+	const [startId, setStartId] = useState(0);
+	let endId = qus && (startId < 0 ? 0 : startId + qus.length);
+	let currentId = startId;
 
 	const [changeTopic, setChangeTopic] = useState({
 		topic_id: null,
@@ -80,7 +83,8 @@ const FAQS = () => {
 	}
 
 	const handleCollapse = (e, id) => {
-		let updatedStatus = { ...statusOpened };
+		// let updatedStatus = { ...statusOpened };
+		let updatedStatus = { statusOpened };
 		updatedStatus[id] = !updatedStatus[id];
 		setStatusOpened(updatedStatus);
 	};
@@ -89,10 +93,10 @@ const FAQS = () => {
 		if (topicid) {
 			handleQuestions(topicid)
 		}
-	}, [topicid,activePage])
+	}, [topicid, activePage])
 
 	const handleQuestions = (id) => {
-		getFaqQuestions(token, id,activePage,pageSize)
+		getFaqQuestions(token, id, activePage, pageSize)
 			.then((res) => {
 				setError(null)
 				let rows = res.faqQuestions.rows;
@@ -101,6 +105,8 @@ const FAQS = () => {
 				setStatusOpened(status);
 				setQus(res.faqQuestions.rows);
 				setTotalItems(res.faqQuestions.count);
+				let newStartId = pageSize * (activePage - 1);
+				setStartId(newStartId);
 			})
 			.catch((error) => {
 				setError(error);
@@ -140,7 +146,7 @@ const FAQS = () => {
 		let data = {};
 		data['topic_id'] = faqs[index].id;
 		data['topic_name'] = faqs[index].topic;
-		
+
 		editFaqTopic(token, data)
 			.then((res) => {
 				setShowInput(null)
@@ -158,7 +164,7 @@ const FAQS = () => {
 	return (
 		<>
 			<div className='main-content pb-16 md:pb-5 flex-1 pt-20 px-2'
-				style={{  height: '100vh' }}
+				style={{ height: '100vh' }}
 			>
 
 				<div
@@ -225,7 +231,7 @@ const FAQS = () => {
 																	<button
 																		style={{ height: '3rem' }}
 																		onClick={() => {
-																			
+
 																			setFaqs(_.cloneDeep(oldFaqs));
 																			setShowInput(null)
 																		}}
@@ -263,7 +269,7 @@ const FAQS = () => {
 																		style={{ cursor: 'pointer' }}
 																		onClick={() => {
 																			setShowInput(index)
-																			
+
 																		}}
 																		className='text-red-600 trash w-5 h-5'
 																		color='red'
@@ -328,13 +334,13 @@ const FAQS = () => {
 													padding: '10px',
 												}}
 												onClick={(e) => handleCollapse(e, ques.id)}>
-												<label htmlFor={'acc' + index} style={{ fontSize: '20px' , wordBreak: 'break-all'}} className='font-semibold'>
+												<label htmlFor={'acc' + index} style={{ fontSize: '20px', wordBreak: 'break-all' }} className='font-semibold'>
 													{ques.question}
 													{!statusOpened[ques.id] ? (
 														<ArrowDropDownIcon style={{ float: 'right' }} />
 													) : (
-														<ArrowDropUpIcon style={{ float: 'right' }} />
-													)}
+															<ArrowDropUpIcon style={{ float: 'right' }} />
+														)}
 												</label>
 												<Collapse
 													isOpened={statusOpened[ques.id]}
@@ -372,16 +378,18 @@ const FAQS = () => {
 										</>
 									);
 								})
-								}
-								<div style={{ textAlign: 'right' }}>
-						<Pagination
-							activePage={activePage}
-							itemsCountPerPage={pageSize}
-							totalItemsCount={totalItems}
-							pageRangeDisplayed={3}
-							onChange={handlePageChange}
-						/>
-					</div>
+							}
+							<br/>
+							(showing {startId < 0 ? 0 : startId + 1} - {endId} of {totalItems})
+							<div style={{ textAlign: 'right' }}>
+								<Pagination
+									activePage={activePage}
+									itemsCountPerPage={pageSize}
+									totalItemsCount={totalItems}
+									pageRangeDisplayed={3}
+									onChange={handlePageChange}
+								/>
+							</div>
 
 						</div>
 					</div>}
