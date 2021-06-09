@@ -245,7 +245,7 @@ const ChangeFeeSetting = (props) => {
 						<p className='text-xl ml-3 mr-3' style={{ marginTop: "3px" }}>To</p>
 						<input
 							className='appearance-none block w-1/3 bg-gray-100 border border-100 rounded-half py-2 px-6 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-200'
-							value={props.orderRangeTo}
+							value={props.orderRangeTo!=null?props.orderRangeTo:''}
 							onChange={(e) => {
 								props.setOrderRangeTo(e.target.value);
 							}}
