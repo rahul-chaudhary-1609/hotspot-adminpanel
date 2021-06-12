@@ -148,6 +148,15 @@ function Menumanagement({ ...props }) {
 					}}
 					className='text-center'
 					onClick={(e) => e.stopPropagation()}>
+						<FontAwesomeIcon
+						style={{ cursor: 'pointer' }}
+						onClick={() =>
+							history.push(`/${path}/${id}/viewDish/${item.id}`)
+						}
+						className='text-red-600 trash w-5 h-5'
+						color='red'
+						icon={faEye}
+					/>
 					<FontAwesomeIcon
 						style={{ cursor: 'pointer' }}
 						onClick={() =>
