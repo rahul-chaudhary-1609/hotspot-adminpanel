@@ -2314,3 +2314,117 @@ export const getFaqTopics = (token) => {
 		}
 	});
 };
+
+export const getAddonsLists = (token, restaurant_dish_id) => {
+	return new Promise(async (resolve, reject) => {
+		try {
+			const response = await fetch(
+				`${baseURL}listDishAddon?restaurant_dish_id=${restaurant_dish_id}`,
+				{
+					headers: {
+						Accept: 'application/json',
+						Authorization: token,
+					},
+				}
+			).then((res) => res.json());
+			if (response.status == 200) {
+				resolve(response);
+			} else {
+				reject(response.message);
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	});
+};
+
+export const deleteDishAddon = (token, dish_addon_id) => {
+	return new Promise(async (resolve, reject) => {
+		try {
+			const response = await fetch(`${baseURL}deleteDishAddon/${dish_addon_id}`, {
+				headers: {
+					Accept: 'application/json',
+					Authorization: token,
+				},
+				method: 'DELETE',
+			}).then((res) => res.json());
+			if (response.status == 200) {
+				resolve(response);
+			} else {
+				reject(response.message);
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	});
+};
+
+export const addDishAddon = (token, data) => {
+	delete data['images'];
+	delete data['react-select-3-input'];
+	return new Promise(async (resolve, reject) => {
+		try {
+			const response = await fetch(`${baseURL}addDishAddon`, {
+				body: JSON.stringify(data),
+				headers: {
+					Authorization: token,
+					'Content-Type': 'application/json',
+				},
+				method: 'POST',
+			}).then((res) => res.json());
+			if (response.status == 200) {
+				resolve(response);
+			} else {
+				reject(response.message);
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	});
+};
+
+export const editDishAddon = (token, data) => {
+	delete data['images'];
+	delete ['react-select-5-input'];
+	delete data['react-select-3-input'];
+	return new Promise(async (resolve, reject) => {
+		try {
+			console.log("url",`${baseURL}editDishAddon`);
+			const response = await fetch(`${baseURL}editDishAddon`, {
+				body: JSON.stringify(data),
+				headers: {
+					Authorization: token,
+					'Content-Type': 'application/json',
+				},
+				method: 'PUT',
+			}).then((res) => res.json());
+			if (response.status == 200) {
+				resolve(response);
+			} else {
+				reject(response.message);
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	});
+};
+
+export const getDishAddonById = (token, id) => {
+	return new Promise(async (resolve, reject) => {
+		try {
+			const response = await fetch(`${baseURL}getDishAddonById/${id}`, {
+				headers: {
+					Accept: 'application/json',
+					Authorization: token,
+				},
+			}).then((res) => res.json());
+			if (response.status == 200) {
+				resolve(response);
+			} else {
+				reject(response.message);
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	});
+};

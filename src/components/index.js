@@ -21,6 +21,10 @@ import AddDish from './restaurantManagement/menuManagement/addDish/addDish.js';
 import EditDish from './restaurantManagement/menuManagement/editDish/editDish.js';
 import ViewDish from './restaurantManagement/menuManagement/viewdish/viewDish.js';
 
+import AddOnsmanagement from './restaurantManagement/menuManagement/AddOnsmanagement/AddOnsmanagement.js';
+import AddAddOns from './restaurantManagement/menuManagement/AddOnsmanagement/addform/addAddOns';
+import EditAddOns from './restaurantManagement/menuManagement/AddOnsmanagement/editForm/editAddOns';
+
 import CustomerManagement from './customerManagement/customerManagement.js';
 import ViewCustomerDetails from './customerManagement/viewCustomerDetails/viewCustomerDetails.js';
 
@@ -268,6 +272,21 @@ const Admin = () => {
 							exact
 							path={`/viewRestaurant/:id/viewDish/:id`}
 							component={ViewDish}
+						/>
+						<ProtectedRoutes
+							exact
+							path={ `/viewDish/:id/addOns`}
+							component={AddOnsmanagement}
+						/>
+						<ProtectedRoutes
+							exact
+							path={`/viewDish/:id/addDishAddon`}
+							component={AddAddOns}
+						/>
+						<ProtectedRoutes
+							exact
+							path={`/viewDish/:id/editDishAddon/:id`}
+							component={EditAddOns}
 						/>
 						<ProtectedRoutes
 							exact
