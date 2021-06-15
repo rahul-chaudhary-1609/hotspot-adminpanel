@@ -20,6 +20,8 @@ const EditDish = () => {
 	const [loading, setLoading] = useState(false);
 
 	const [restaurantId, setRestaurantId] = useState(null);
+	const [is_recommended, setIsrecommended] = useState(0);
+	const [is_quick_filter, setIsquick_filter] = useState(1);
 
 	useEffect(() => {
 		getData();
@@ -30,6 +32,8 @@ const EditDish = () => {
 			setLoading(true);
 			let { dish } = await getDishById(token, id);
 			setDish(dish);
+			setIsrecommended(dish.is_recommended);
+			setIsquick_filter(dish.is_quick_filter);
 			setRestaurantId(dish.restaurant_id);
 			let { dishCategories } = await getCategoryList(token);
 			setCategoryLists(dishCategories);
@@ -47,12 +51,13 @@ const EditDish = () => {
 	const handleDishes = (e) => {
 		e.preventDefault();
 		let data = {
-			restaurant_id: dish.RestaurantId,
+			restaurant_id: dish.restaurant_id,
 			image_url: dish.image_url,
-			dish_category_id: category ? category.id : null,
 			name: dish.name,
 			price: dish.price,
 			description: dish.description,
+			is_recommended : is_recommended,
+			is_quick_filter :is_quick_filter
 		};
 
 		editDish(token, id, data)
@@ -85,6 +90,10 @@ const EditDish = () => {
 				loading,
 				setLoading,
 				restaurantId,
+				setIsquick_filter,
+				setIsrecommended,
+				is_recommended,
+				is_quick_filter
 			}}
 		/>
 	);

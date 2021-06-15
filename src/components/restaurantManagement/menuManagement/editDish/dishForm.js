@@ -51,7 +51,6 @@ const DishForm = (props) => {
 
 	const handleStatus = (e) => {
 		props.setIsrecommended(props.is_recommended?0:1);
-		debugger
 	};
 
 	const handleQuickFilter = () => {
