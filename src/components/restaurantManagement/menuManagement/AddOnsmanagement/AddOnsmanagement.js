@@ -79,8 +79,8 @@ function AddOnsmanagement({ ...props }) {
                         style={{
                             padding: '6px',
                             cursor: 'pointer',
-                            width: '100%',
-                            height: '100px',
+                            width: '50px',
+                            marginLeft: '110px'
                         }}
                         src={item.image_url}
                     />

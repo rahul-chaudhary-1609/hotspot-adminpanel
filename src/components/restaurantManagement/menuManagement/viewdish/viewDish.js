@@ -37,7 +37,7 @@ const ViewDish = () => {
     return (
         <div
             className='main-content pb-16 md:pb-5 flex-1 pt-20 px-2'
-            style={{ overflowY: 'scroll', height: '100vh' }}>
+            style={{ height: '100vh' }}>
             <div className='p-4 md:p-8 mt-6 lg:mt-0 rounded shadow bg-white'>
                 <h3 className='text-2xl text-gray-400 font-bold mb-6'>
                     Menu Details
@@ -58,8 +58,8 @@ const ViewDish = () => {
                                     <button
                                         style={{ height: '3rem' }}
                                         onClick={() => history.push({
-                                        pathname:`/viewDish/${id}/addOns`,
-                                        state: { menuId: menuId, previousPath:path}
+                                            pathname: `/viewDish/${id}/addOns`,
+                                            state: { menuId: menuId, previousPath: path }
                                         })
                                         }
                                         className='shadow bg-500 mt-10 ml-3 hover:bg-white-400 focus:shadow-outline focus:outline-none text-black font-bold py-1 px-4 rounded'
@@ -70,7 +70,13 @@ const ViewDish = () => {
                                 <div style={{ marginLeft: '90%', marginTop: '-51px' }}>
                                     <button
                                         style={{ height: '3rem' }}
-                                        onClick={() => history.push(`/viewRestaurant/${menuId}/menu`)}
+                                        onClick={() => {
+                                            if (dish.id) {
+                                                history.push(`/viewDish/${menuId}/addOns`);
+                                            }
+                                            else
+                                                history.push(`/viewRestaurant/${menuId}/menu`)
+                                        }}
                                         className='shadow bg-blue-500 ml-3 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded'
                                         type='button'>
                                         Back

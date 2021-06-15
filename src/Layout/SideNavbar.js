@@ -19,7 +19,7 @@ function SideNavbar() {
 	
 	return (
 		<div
-			style={(pathname.split('/')[2]== 7 && pathname.split('/')[1] == 'viewStaticContent') || pathname.split('/')[1] == 'pickupEarning'|| pathname.split('/')[1] == 'hotspotEarning'|| pathname.split('/')[1] == 'feesettings'?{ width: '23rem', height: 'calc(150vh - 68px)' }:pathname.split('/')[1] == 'restaurantPayment'?{ width: '23rem', height: 'calc(204vh - 68px)' }:
+			style={(pathname.split('/')[2]== 7 && pathname.split('/')[1] == 'viewStaticContent') || pathname.split('/')[1] == 'pickupEarning'|| pathname.split('/')[1] == 'hotspotEarning'|| pathname.split('/')[1] == 'viewRestaurant' || pathname.split('/')[1] == 'feesettings'?{ width: '23rem', height: 'calc(150vh - 68px)' }:pathname.split('/')[1] == 'restaurantPayment'?{ width: '23rem', height: 'calc(204vh - 68px)' }:
 			pathname.split('/')[1] == 'order'
 			?{ width: '23rem', height: 'calc(131vh - 68px)' }:pathname.split('/')[1] == 'notification'?{ width: '23rem', height: 'calc(122vh - 68px)' }:{ width: '23rem', height: 'calc(100vh - 68px)' }}
 			className='bg-gray-dark  fixed bottom-0 md:relative md:min-h-screen z-10 w-full md:w-64 md:pt-24 md:pb-5 md:mt-0 overflow-x-scroll md:overflow-x-hidden'>

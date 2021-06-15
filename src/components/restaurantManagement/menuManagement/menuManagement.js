@@ -33,7 +33,7 @@ function Menumanagement({ ...props }) {
 	const val = useSelector((state) => state.auth.orderSearchText);
 	let searchText = val ? val : '';
 
-	const [pageSize, setPageSize] = useState(10);
+	const [pageSize, setPageSize] = useState(5);
 	const [totalItems, setTotalItems] = useState(null);
 	const [categoryLists, setCategoryLists] = useState([]);
 	const [toggleId, settoggleId] = useState(null);
