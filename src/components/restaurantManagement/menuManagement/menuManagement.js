@@ -8,7 +8,7 @@ import 'react-table/react-table.css';
 import SearchBox from '../../../globalComponent/layout/search';
 import { useHistory, useParams, useLocation } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { getMenuLists, getToggleDishAsRecommended } from '../../../api';
+import { getMenuLists, getToggleDishAsRecommended, getToggleDishAsQuickFilter} from '../../../api';
 import {
 	faEye,
 	faPencilAlt,
@@ -37,7 +37,9 @@ function Menumanagement({ ...props }) {
 	const [totalItems, setTotalItems] = useState(null);
 	const [categoryLists, setCategoryLists] = useState([]);
 	const [toggleId, settoggleId] = useState(null);
+	const [toggleQuickFilterId, settoggleQuickFilterId] = useState(null);
 	const [showStatus, setShowStatus] = useState(false);
+	const [quickFilterStatus, setQuickFilterStatus] = useState(false);
 
 	const [loading, setLoading] = useState(false);
 
@@ -109,7 +111,7 @@ function Menumanagement({ ...props }) {
 		},
 		{
 			id: 4,
-			Header: 'Recommended',
+			Header: 'Dish As Recommended',
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (
@@ -131,6 +133,28 @@ function Menumanagement({ ...props }) {
 		},
 		{
 			id: 5,
+			Header: 'Dish As QuickFilter',
+			className: 'text-center view-details',
+			accessor: (item) => {
+				return (
+					<div style={{ padding: '6px', cursor: 'pointer' }}>
+						{item.is_quick_filter == 1 ? (
+							<ToggleOnIcon
+								onClick={() => handleQuickFilterStatus(item.id)}
+								style={{ color: 'green', fontSize: '35' }}
+							/>
+						) : (
+								<ToggleOffIcon
+									onClick={() => handleQuickFilterStatus(item.id)}
+									style={{ color: 'red', fontSize: '35' }}
+								/>
+							)}
+					</div>
+				);
+			},
+		},
+		{
+			id: 6,
 			Header: 'Price per dish',
 			className: 'text-center view-details',
 			accessor: (item) => {
@@ -142,7 +166,7 @@ function Menumanagement({ ...props }) {
 			},
 		},
 		{
-			id: 6,
+			id: 7,
 			Header: 'Action',
 			className: 'text-center view-details',
 			accessor: (item) => {
@@ -263,11 +287,19 @@ function Menumanagement({ ...props }) {
 		setShowStatus(!showStatus);
 	};
 
+	const handleQuickFilterStatus = (id) => {
+		settoggleQuickFilterId(id);
+		setQuickFilterStatus(!quickFilterStatus);
+	};
+
 	useEffect(() => {
 		if (showStatus) {
 			handleStatusChange();
 		}
-	}, [toggleId, showStatus]);
+		else if(quickFilterStatus){
+			handleQuickFilterStatusChange();
+		}
+	}, [toggleId, showStatus, toggleQuickFilterId ,quickFilterStatus]);
 
 	const handleStatusChange = async () => {
 		try {
@@ -275,6 +307,18 @@ function Menumanagement({ ...props }) {
 			if (res.status == 200) {
 				getMenuDetails();
 				setShowStatus(!showStatus);
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
+	const handleQuickFilterStatusChange = async () => {
+		try {
+			const res = await getToggleDishAsQuickFilter(token, parseInt(toggleQuickFilterId));
+			if (res.status == 200) {
+				getMenuDetails();
+				setQuickFilterStatus(!quickFilterStatus);
 			}
 		} catch (error) {
 			console.log(error);

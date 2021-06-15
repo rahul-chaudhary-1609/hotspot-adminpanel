@@ -14,11 +14,13 @@ const AddDish = () => {
 		price: '',
 		description: '',
 		image_url: '',
-		dish_category_id: null,
+		dish_category_id: null
 	});
 
 	const [categoryLists, setCategoryLists] = useState([]);
 	const [successMsg, setSuccessMsg] = useState(null);
+	const [is_recommended, setIsrecommended] = useState(0);
+	const [is_quick_filter, setIsquick_filter] = useState(1);
     const[error,setError] = useState(null);
 	useEffect(() => {
 		getData();
@@ -47,6 +49,8 @@ const AddDish = () => {
 			name: dish.name,
 			price: dish.price,
 			description : dish.description,
+			is_recommended : is_recommended,
+			is_quick_filter :is_quick_filter
 		
 		};
 		addDish(token,data).then(res => {
@@ -72,13 +76,17 @@ const AddDish = () => {
 		<DishForm
 			{...{
 				title: 'Add New Dish',
-				handleDishes,
 				setCategory,
 				dish,
 				setDish,
 				categoryLists,
 				setCategoryLists,
-				successMsg,error,setError
+				setIsrecommended,
+				setIsquick_filter,
+				is_recommended,
+				is_quick_filter,
+				successMsg,error,setError,
+				handleDishes
 			}}
 		/>
 	);

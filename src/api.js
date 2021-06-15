@@ -2454,3 +2454,30 @@ export const getToggleDishAsRecommended = (token, data) => {
 		}
 	});
 };
+
+export const getToggleDishAsQuickFilter = (token, data) => {
+	return new Promise(async (resolve, reject) => {
+		try {
+			let bodyFormData = {
+				dishId: data
+			}
+			const response = await fetch(`${baseURL}toggleDishAsQuickFilter`, {
+				body: JSON.stringify(bodyFormData),
+				headers: {
+					'Accept': 'application/json',
+					'Authorization': token,
+					'Content-Type': 'application/json'
+				},
+				method: 'PUT',
+			}).then((res) => res.json());
+			console.log(response);
+			if (response.status == 200) {
+				resolve(response);
+			} else {
+				reject(response.message);
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	});
+};

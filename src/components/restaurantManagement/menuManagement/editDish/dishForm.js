@@ -4,6 +4,8 @@ import Select from 'react-select';
 import { getCategoryList, uploadImage, getDishById } from '../../../../api';
 import { useSelector } from 'react-redux';
 import Loader from '../../../../globalComponent/layout/loader';
+import ToggleOffIcon from '@material-ui/icons/ToggleOff';
+import ToggleOnIcon from '@material-ui/icons/ToggleOn';
 
 const DishForm = (props) => {
 	const history = useHistory();
@@ -46,6 +48,17 @@ const DishForm = (props) => {
 		updatedDish[e.target.id] = e.target.value;
 		props.setDish(updatedDish);
 	};
+
+	const handleStatus = (e) => {
+		props.setIsrecommended(props.is_recommended?0:1);
+		debugger
+	};
+
+	const handleQuickFilter = () => {
+		props.setIsquick_filter(props.is_quick_filter?0:1);
+	};
+
+
 	return (
 		<>
 			<div
@@ -102,137 +115,182 @@ const DishForm = (props) => {
 					{props.loading || !dish ? (
 						<Loader />
 					) : (
-						<form
-							id='myForm'
-							onSubmit={props.handleDishes}
-							className='w-full mt-6 max-w-full text-base text-gray-200'>
-							<div className='flex flex-wrap -mx-3 mb-3'>
-								<div className='w-full  px-3 mb-3 md:mb-0'>
-									<label
-										className='block tracking-wide mb-2 text-gray-300'
-										for='name'>
-										Name
+							<form
+								id='myForm'
+								onSubmit={props.handleDishes}
+								className='w-full mt-6 max-w-full text-base text-gray-200'>
+								<div className='flex flex-wrap -mx-3 mb-3'>
+									<div className='w-full  px-3 mb-3 md:mb-0'>
+										<label
+											className='block tracking-wide mb-2 text-gray-300'
+											for='name'>
+											Name
 									</label>
-									<input
-										className='appearance-none block w-full bg-gray-100 bg-100 border  rounded-half py-3 px-6 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-200'
-										id='name'
-										type='text'
-										onChange={handleDishChange}
-										value={dish.name}
-									/>
-								</div>
-								<div className='w-full  px-3 mb-3 md:mb-0'>
-									<label
-										className='block tracking-wide mb-2 text-gray-300'
-										for='price'>
-										Price
+										<input
+											className='appearance-none block w-full bg-gray-100 bg-100 border  rounded-half py-3 px-6 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-200'
+											id='name'
+											type='text'
+											onChange={handleDishChange}
+											value={dish.name}
+										/>
+									</div>
+									<div className='w-full  px-3 mb-3 md:mb-0'>
+										<label
+											className='block tracking-wide mb-2 text-gray-300'
+											for='price'>
+											Price
 									</label>
-									<input
-										className='appearance-none block w-full bg-gray-100 border border-100 rounded-half py-3 px-6 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-200'
-										id='price'
-										onChange={handleDishChange}
-										type='price'
-										value={dish.price}
-									/>
+										<input
+											className='appearance-none block w-full bg-gray-100 border border-100 rounded-half py-3 px-6 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-200'
+											id='price'
+											onChange={handleDishChange}
+											type='price'
+											value={dish.price}
+										/>
+									</div>
 								</div>
-							</div>
-							<div className='flex flex-wrap -mx-3 mb-3'>
-								<div className='w-full  px-3 mb-3 md:mb-0'>
-									<label
-										className='block tracking-wide text-gray-300 mb-2'
-										for='category'>
-										Category
+								<div className='flex flex-wrap -mx-3 mb-3'>
+									<div className='w-full  px-3 mb-3 md:mb-0'>
+										<label
+											className='block tracking-wide text-gray-300 mb-2'
+											for='category'>
+											Category
 									</label>
 
-									<Select
-										// value={categoryLists.filter(({id}) =>id ===dish.dish_category_id )[0]}
-										value={props.category}
-										styles={customStyles}
-										getOptionLabel={(option) => option.name}
-										getOptionValue={(option) => option.id}
-										options={props.categoryLists}
-										// inputId='dish_category_id'
-										id='dish_category_id'
-										onChange={(selectedValue) =>
-											props.setCategory(selectedValue)
-										}
-									/>
-								</div>
-								<div className='w-full mt-3 px-3 mb-2  md:mb-0'>
-									<label className='block tracking-wide mb-2 text-gray-300'>
-										Images
+										<Select
+											// value={categoryLists.filter(({id}) =>id ===dish.dish_category_id )[0]}
+											value={props.category}
+											styles={customStyles}
+											getOptionLabel={(option) => option.name}
+											getOptionValue={(option) => option.id}
+											options={props.categoryLists}
+											// inputId='dish_category_id'
+											id='dish_category_id'
+											onChange={(selectedValue) =>
+												props.setCategory(selectedValue)
+											}
+										/>
+									</div>
+									<div className='w-full mt-3 px-3 mb-2  md:mb-0'>
+										<label className='block tracking-wide mb-2 text-gray-300'>
+											Images
 									</label>
-									{imageLoader ? (
-										<label
-											className='block tracking-wide  mb-2 text-gray-300  w-1/2'
-											for='images'>
-											<div
-												style={{
-													minHeight: '200px',
-													minWidth: '100%',
-													backgroundColor: 'lightgray',
-													textAlign: 'center',
-													lineHeight: '190px',
-												}}>
-												Loading..........
-											</div>
-										</label>
-									) : (
-										<>
+										{imageLoader ? (
 											<label
 												className='block tracking-wide  mb-2 text-gray-300  w-1/2'
 												for='images'>
-												{dish.image_url ? (
-													<img
-														style={{
-															minHeight: '200px',
-															minWidth: '100%',
-															backgroundColor: 'lightgray',
-															textAlign: 'center',
-														}}
-														src={dish.image_url}
-													/>
-												) : (
-													<div
-														style={{
-															minHeight: '200px',
-															minWidth: '100%',
-															backgroundColor: 'lightgray',
-															textAlign: 'center',
-															lineHeight: '190px',
-														}}>
-														{' '}
-														Upload Dish Image
-													</div>
-												)}
+												<div
+													style={{
+														minHeight: '200px',
+														minWidth: '100%',
+														backgroundColor: 'lightgray',
+														textAlign: 'center',
+														lineHeight: '190px',
+													}}>
+													Loading..........
+											</div>
 											</label>
-											<input
-												type='file'
-												onChange={handleImageChange}
-												id='images'
-												style={{ display: 'none' }}
-											/>
-										</>
-									)}
+										) : (
+												<>
+													<label
+														className='block tracking-wide  mb-2 text-gray-300  w-1/2'
+														for='images'>
+														{dish.image_url ? (
+															<img
+																style={{
+																	minHeight: '200px',
+																	minWidth: '100%',
+																	backgroundColor: 'lightgray',
+																	textAlign: 'center',
+																}}
+																src={dish.image_url}
+															/>
+														) : (
+																<div
+																	style={{
+																		minHeight: '200px',
+																		minWidth: '100%',
+																		backgroundColor: 'lightgray',
+																		textAlign: 'center',
+																		lineHeight: '190px',
+																	}}>
+																	{' '}
+														Upload Dish Image
+																</div>
+															)}
+													</label>
+													<input
+														type='file'
+														onChange={handleImageChange}
+														id='images'
+														style={{ display: 'none' }}
+													/>
+												</>
+											)}
+									</div>
 								</div>
-							</div>
-							<div className='flex flex-wrap -mx-3 mb-6'>
-								<div className='w-full  px-3'>
-									<label
-										className='block tracking-wide text-gray-300 mb-2'
-										for='description'>
-										Short description
+								<div className='flex flex-wrap -mx-3 mb-6'>
+									<div className='w-full  px-3'>
+										<label
+											className='block tracking-wide text-gray-300 mb-2'
+											for='description'>
+											Short description
 									</label>
-									<textarea
-										id='description'
-										value={dish.description}
-										onChange={handleDishChange}
-										className='appearance-none block w-full bg-gray-100 border border-100 rounded-half py-3 px-6 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-200'
-									/>
+										<textarea
+											id='description'
+											value={dish.description}
+											onChange={handleDishChange}
+											className='appearance-none block w-full bg-gray-100 border border-100 rounded-half py-3 px-6 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-200'
+										/>
+									</div>
 								</div>
-							</div>
-						</form>
-					)}
+								<div className='flex flex-wrap -mx-3 mb-6'>
+									<div className='w-full  px-3'>
+										<label
+											className='block tracking-wide text-gray-300 mb-2'
+											for='recommended'>
+											Dish As Recommended
+									</label>
+										<div style={{ padding: '6px', cursor: 'pointer' }}>
+											{props.is_recommended == 1 ? (
+												<ToggleOnIcon
+													onClick={handleStatus}
+													id='recommended'
+													style={{ color: 'green', fontSize: '45' }}
+												/>
+											) : (
+													<ToggleOffIcon
+														onClick={handleStatus}
+														style={{ color: 'red', fontSize: '45' }}
+													/>
+												)}
+										</div>
+									</div>
+								</div>
+								<div className='flex flex-wrap -mx-3 mb-6'>
+									<div className='w-full  px-3'>
+										<label
+											className='block tracking-wide text-gray-300 mb-2'
+											for='filter'>
+											Dish As Quick Filter
+									</label>
+										<div style={{ padding: '6px', cursor: 'pointer' }}>
+											{props.is_quick_filter == 1 ? (
+												<ToggleOnIcon
+													onClick={handleQuickFilter}
+													style={{ color: 'green', fontSize: '45' }}
+												/>
+											) : (
+													<ToggleOffIcon
+														onClick={handleQuickFilter}
+														style={{ color: 'red', fontSize: '45' }}
+													/>
+												)}
+										</div>
+									</div>
+								</div>
+							</form>
+						)}
 				</div>
 			</div>
 		</>
