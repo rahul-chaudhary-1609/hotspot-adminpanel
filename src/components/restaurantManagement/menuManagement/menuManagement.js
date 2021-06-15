@@ -1,21 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import ReactTable from 'react-table';
-import { toast, ToastContainer } from 'react-toastify';
+import ToggleOffIcon from '@material-ui/icons/ToggleOff';
+import ToggleOnIcon from '@material-ui/icons/ToggleOn';
 import 'react-toastify/dist/ReactToastify.css';
 import Pagination from 'react-js-pagination';
 import 'react-table/react-table.css';
-import { confirmAlert } from 'react-confirm-alert';
-import 'react-confirm-alert/src/react-confirm-alert.css';
 import SearchBox from '../../../globalComponent/layout/search';
-// import GlobalFilterData from '../../globalComponent/layout/filterData';
 import { useHistory, useParams, useLocation } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { getMenuLists } from '../../../api';
+import { getMenuLists, getToggleDishAsRecommended } from '../../../api';
 import {
 	faEye,
 	faPencilAlt,
-	faTrashAlt,
-	faClipboardList,
+	faTrashAlt
 } from '@fortawesome/free-solid-svg-icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteDish, getCategoryList } from '../../../api';
@@ -29,7 +26,7 @@ function Menumanagement({ ...props }) {
 	const { id } = useParams();
 	const { pathname } = useLocation();
 	let path = pathname.split('/')[1];
-	
+
 	const [menuLists, setMenuLists] = useState([]);
 	const [activePage, setCurrentPage] = useState(1);
 
@@ -39,150 +36,159 @@ function Menumanagement({ ...props }) {
 	const [pageSize, setPageSize] = useState(10);
 	const [totalItems, setTotalItems] = useState(null);
 	const [categoryLists, setCategoryLists] = useState([]);
+	const [toggleId, settoggleId] = useState(null);
+	const [showStatus, setShowStatus] = useState(false);
 
-    const[loading,setLoading] = useState(false);
+	const [loading, setLoading] = useState(false);
 
-	const[deleteModal,setDeleteModal]= useState(false);
+	const [deleteModal, setDeleteModal] = useState(false);
 
-    const[dishId,setDishId] = useState(null);
+	const [dishId, setDishId] = useState(null);
 
 	const [startId, setStartId] = useState(0);
 	let endId = startId < 0 ? 0 : startId + menuLists.length;
-    let currentId = startId;
+	let currentId = startId;
 
 
 	const [error, setError] = useState();
 
 	const [columns, setColumns] = useState([]);
 
-    const column = [
-	{
-		Header: '#',
-		width: 30,
-		id: 1,
-		className: 'text-center view-details',
-		accessor: (item) => {
-			return (
-				<>
-					<div
-						className='flex items-center'
-						style={{ cursor: 'pointer' }}>
-						<div className='text-sm'>
-							<p className='text-gray-300 leading-none'>{item.idx}</p>
+	const column = [
+		{
+			Header: '#',
+			width: 30,
+			id: 1,
+			className: 'text-center view-details',
+			accessor: (item) => {
+				return (
+					<>
+						<div
+							className='flex items-center'
+							style={{ cursor: 'pointer' }}>
+							<div className='text-sm'>
+								<p className='text-gray-300 leading-none'>{item.idx}</p>
+							</div>
 						</div>
+					</>
+				);
+			},
+		},
+		{
+			id: 2,
+			Header: 'Dish Name',
+			className: 'text-center view-details',
+			accessor: (item) => {
+				return (
+					<div style={{
+						padding: '6px', cursor: 'pointer', wordBreak: 'break-word',
+						whiteSpace: 'normal'
+					}}>
+						{item.name}
 					</div>
-				</>
-			);
+				);
+			},
 		},
-	},
-	{
-		id: 2,
-		Header: 'Dish Name',
-		className: 'text-center view-details',
-		accessor: (item) => {
-			return (
-				<div style={{ padding: '6px', cursor: 'pointer' , wordBreak: 'break-word',
-				whiteSpace: 'normal'}}>
-					{item.name}
-				</div>
-			);
+		{
+			id: 3,
+			Header: 'Dish Picture',
+			className: 'text-center view-details',
+			accessor: (item) => {
+				return (
+					<img
+						style={{
+							padding: '6px',
+							cursor: 'pointer',
+							width: '100%',
+							height: '100px',
+						}}
+						src={item.image_url}
+					/>
+				);
+			},
 		},
-	},
-	{
-		id: 3,
-		Header: 'Dish Picture',
-		className: 'text-center view-details',
-		accessor: (item) => {
-			return (
-				<img
-					style={{
-						padding: '6px',
-						cursor: 'pointer',
-						width: '100%',
-						height: '100px',
-					}}
-					src={item.image_url}
-				/>
-			);
+		{
+			id: 4,
+			Header: 'Recommended',
+			className: 'text-center view-details',
+			accessor: (item) => {
+				return (
+					<div style={{ padding: '6px', cursor: 'pointer' }}>
+						{item.is_recommended == 1 ? (
+							<ToggleOnIcon
+								onClick={() => handleStatus(item.id)}
+								style={{ color: 'green', fontSize: '35' }}
+							/>
+						) : (
+								<ToggleOffIcon
+									onClick={() => handleStatus(item.id)}
+									style={{ color: 'red', fontSize: '35' }}
+								/>
+							)}
+					</div>
+				);
+			},
 		},
-	},
-	{
-		id: 4,
-		Header: 'Category',
-		className: 'text-center view-details',
-		accessor: (item) => {
-			return (
-				<div style={{ padding: '6px', cursor: 'pointer' }}>
-					{
-						categoryLists.filter(
-							(category) => category.id === item.dish_category_id
-						)[0].name
-					}
-				</div>
-			);
+		{
+			id: 5,
+			Header: 'Price per dish',
+			className: 'text-center view-details',
+			accessor: (item) => {
+				return (
+					<div style={{ padding: '6px', cursor: 'pointer' }}>
+						$ {item.price}
+					</div>
+				);
+			},
 		},
-	},
-	{
-		id: 5,
-		Header: 'Price per dish',
-		className: 'text-center view-details',
-		accessor: (item) => {
-			return (
-				<div style={{ padding: '6px', cursor: 'pointer' }}>
-					$ {item.price}
-				</div>
-			);
-		},
-	},
-	{
-		id: 6,
-		Header: 'Action',
-		className: 'text-center view-details',
-		accessor: (item) => {
-			return (
-				<div
-					style={{
-						display: 'flex',
-						flexDirection: 'row',
-						justifyContent: 'space-evenly',
-					}}
-					className='text-center'
-					onClick={(e) => e.stopPropagation()}>
+		{
+			id: 6,
+			Header: 'Action',
+			className: 'text-center view-details',
+			accessor: (item) => {
+				return (
+					<div
+						style={{
+							display: 'flex',
+							flexDirection: 'row',
+							justifyContent: 'space-evenly',
+						}}
+						className='text-center'
+						onClick={(e) => e.stopPropagation()}>
 						<FontAwesomeIcon
-						style={{ cursor: 'pointer' }}
-						onClick={() =>
-							history.push(`/${path}/${id}/viewDish/${item.id}`)
-						}
-						className='text-red-600 trash w-5 h-5'
-						color='red'
-						icon={faEye}
-					/>
-					<FontAwesomeIcon
-						style={{ cursor: 'pointer' }}
-						onClick={() =>
-							history.push(`/${path}/${id}/editDish/${item.id}`)
-						}
-						className='text-red-600 trash w-5 h-5'
-						color='red'
-						icon={faPencilAlt}
-					/>
-					<FontAwesomeIcon
-						className='text-red-600 trash w-5 h-5'
-						color='red'
-						onClick={() => handleDeleteDish(item.id)}
-						icon={faTrashAlt}
-					/>
-					{/* <ToastContainer /> */}
-				</div>
-			);
+							style={{ cursor: 'pointer' }}
+							onClick={() =>
+								history.push(`/${path}/${id}/viewDish/${item.id}`)
+							}
+							className='text-red-600 trash w-5 h-5'
+							color='red'
+							icon={faEye}
+						/>
+						<FontAwesomeIcon
+							style={{ cursor: 'pointer' }}
+							onClick={() =>
+								history.push(`/${path}/${id}/editDish/${item.id}`)
+							}
+							className='text-red-600 trash w-5 h-5'
+							color='red'
+							icon={faPencilAlt}
+						/>
+						<FontAwesomeIcon
+							className='text-red-600 trash w-5 h-5'
+							color='red'
+							onClick={() => handleDeleteDish(item.id)}
+							icon={faTrashAlt}
+						/>
+					</div>
+				);
+			},
 		},
-	},
-];
-	
+	];
+
 	useEffect(() => {
 		if (categoryLists.length) {
 			setColumns(column);
-			currentId=0
+			currentId = 0
 		}
 	}, [categoryLists]);
 
@@ -198,15 +204,14 @@ function Menumanagement({ ...props }) {
 
 	useEffect(() => {
 		getMenuDetails();
-		// currentId=0
 	}, [searchText, activePage]);
 
 	const getMenuDetails = async () => {
 		try {
 			setLoading(true);
 			let currentPage = searchText.length > 0 ? 1 : activePage;
-            
-			const res = await getMenuLists(token,id, searchText, currentPage, pageSize);
+
+			const res = await getMenuLists(token, id, searchText, currentPage, pageSize);
 			if (res.status == 200) {
 				setLoading(false);
 				let newStartId = pageSize * (activePage - 1);
@@ -214,8 +219,8 @@ function Menumanagement({ ...props }) {
 				setError(null);
 				setTotalItems(res.dishes.count);
 				let rows = res.dishes.rows
-				rows.map((row,id)=>{
-					row.idx = id+1;
+				rows.map((row, id) => {
+					row.idx = id + 1;
 				})
 				setMenuLists(rows);
 				if (searchText.length) {
@@ -242,19 +247,43 @@ function Menumanagement({ ...props }) {
 			});
 	}, []);
 
-	const handleDelete = () =>{	
-        deleteDish(token, dishId)
+	const handleDelete = () => {
+		deleteDish(token, dishId)
 			.then((res) => {
 				getMenuDetails();
-                setDeleteModal(false);
+				setDeleteModal(false);
 			})
 			.catch((error) => {
 				console.log(error);
 			});
 	}
+
+	const handleStatus = (id) => {
+		settoggleId(id);
+		setShowStatus(!showStatus);
+	};
+
+	useEffect(() => {
+		if (showStatus) {
+			handleStatusChange();
+		}
+	}, [toggleId, showStatus]);
+
+	const handleStatusChange = async () => {
+		try {
+			const res = await getToggleDishAsRecommended(token, parseInt(toggleId));
+			if (res.status == 200) {
+				getMenuDetails();
+				setShowStatus(!showStatus);
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
 	return (
 		<>
-			<div className='main-content pb-16 md:pb-5 flex-1 pt-20 px-2' style={{  height: '100vh'}}>
+			<div className='main-content pb-16 md:pb-5 flex-1 pt-20 px-2' style={{ height: '100vh' }}>
 				{/* <GlobalFilterData /> */}
 				<div style={{ marginLeft: '1rem', fontSize: '2rem' }}>
 					Menu Management
@@ -344,8 +373,8 @@ function Menumanagement({ ...props }) {
 					</div>
 				</div>
 			</div>
-			{deleteModal && <DeleteModal  {...{deleteModal,setDeleteModal, name:'Dish', handleDelete}}/>}
-			</>
+			{deleteModal && <DeleteModal  {...{ deleteModal, setDeleteModal, name: 'Dish', handleDelete }} />}
+		</>
 	);
 }
 

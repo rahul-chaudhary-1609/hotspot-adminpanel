@@ -1463,15 +1463,15 @@ export const uploadImage = (token, data) => {
 				},
 				method: 'PUT',
 			}).then((res) => res.json());
-		
-			
+
+
 			if (response.status == 200) {
 				resolve(response);
-			}else {
+			} else {
 				reject(response.message);
 			}
 		} catch (error) {
-			
+
 			console.log(error);
 		}
 	});
@@ -1785,7 +1785,7 @@ export const getFaqs = (token) => {
 	});
 };
 
-export const getFaqQuestions = (token, id,activePage,pageSize) => {
+export const getFaqQuestions = (token, id, activePage, pageSize) => {
 	return new Promise(async (resolve, reject) => {
 		try {
 			const response = await fetch(`${baseURL}getFaqQuestions?id=${id}&&page=${activePage}&&page_size=${pageSize}`, {
@@ -2274,7 +2274,7 @@ export const editRestaurantFee = (token, data) => {
 	});
 };
 
-export const deleteDriverFee = (token, fee_id) => {	
+export const deleteDriverFee = (token, fee_id) => {
 	return new Promise(async (resolve, reject) => {
 		try {
 			const response = await fetch(`${baseURL}deleteDriverFee/${fee_id}`, {
@@ -2389,7 +2389,6 @@ export const editDishAddon = (token, data) => {
 	delete data['react-select-3-input'];
 	return new Promise(async (resolve, reject) => {
 		try {
-			console.log("url",`${baseURL}editDishAddon`);
 			const response = await fetch(`${baseURL}editDishAddon`, {
 				body: JSON.stringify(data),
 				headers: {
@@ -2418,6 +2417,33 @@ export const getDishAddonById = (token, id) => {
 					Authorization: token,
 				},
 			}).then((res) => res.json());
+			if (response.status == 200) {
+				resolve(response);
+			} else {
+				reject(response.message);
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	});
+};
+
+export const getToggleDishAsRecommended = (token, data) => {
+	return new Promise(async (resolve, reject) => {
+		try {
+			let bodyFormData = {
+				dishId: data
+			}
+			const response = await fetch(`${baseURL}toggleDishAsRecommended`, {
+				body: JSON.stringify(bodyFormData),
+				headers: {
+					'Accept': 'application/json',
+					'Authorization': token,
+					'Content-Type': 'application/json'
+				},
+				method: 'PUT',
+			}).then((res) => res.json());
+			console.log(response);
 			if (response.status == 200) {
 				resolve(response);
 			} else {
