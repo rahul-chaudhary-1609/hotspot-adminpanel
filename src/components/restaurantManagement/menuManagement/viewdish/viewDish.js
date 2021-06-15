@@ -112,15 +112,6 @@ const ViewDish = () => {
                                 </div>
                                 <div className='flex flex-row items-center border-t border-gray-200'>
                                     <div className='bg-gray-100 font-semibold py-4 px-6 w-1/3 text-right'>
-                                        Category
-								</div>
-                                    <div className='px-8' style={{ width: '65%' }}>
-                                        {categoryy}
-
-                                    </div>
-                                </div>
-                                <div className='flex flex-row items-center border-t border-gray-200'>
-                                    <div className='bg-gray-100 font-semibold py-4 px-6 w-1/3 text-right'>
                                         Short Description
 								</div>
                                     <div className='px-8' style={{ width: '65%' }}>{dish.description}</div>

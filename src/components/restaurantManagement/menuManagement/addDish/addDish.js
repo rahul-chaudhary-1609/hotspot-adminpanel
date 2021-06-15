@@ -13,8 +13,7 @@ const AddDish = () => {
 		name: '',
 		price: '',
 		description: '',
-		image_url: '',
-		dish_category_id: null
+		image_url: ''
 	});
 
 	const [categoryLists, setCategoryLists] = useState([]);
@@ -45,7 +44,6 @@ const AddDish = () => {
 		let data = {
 			restaurant_id: id,
 			image_url: dish.image_url,
-			dish_category_id: category? category.id : null,
 			name: dish.name,
 			price: dish.price,
 			description : dish.description,
@@ -61,9 +59,7 @@ const AddDish = () => {
 			},1200)
 		     
 		}).catch(error => {
-			if(error == "dish_category_id must be a number"){
-				setError("Please select the category");
-			}else if(error == "image_url is not allowed to be empty"){
+			if(error == "image_url is not allowed to be empty"){
 				setError("Please upload the image of dish")
 			}else{
 				let updatedError = 	error.charAt(0).toUpperCase() + error.slice(1);

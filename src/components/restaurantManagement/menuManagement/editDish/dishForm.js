@@ -150,7 +150,7 @@ const DishForm = (props) => {
 									</div>
 								</div>
 								<div className='flex flex-wrap -mx-3 mb-3'>
-									<div className='w-full  px-3 mb-3 md:mb-0'>
+									{/* <div className='w-full  px-3 mb-3 md:mb-0'>
 										<label
 											className='block tracking-wide text-gray-300 mb-2'
 											for='category'>
@@ -170,7 +170,7 @@ const DishForm = (props) => {
 												props.setCategory(selectedValue)
 											}
 										/>
-									</div>
+									</div> */}
 									<div className='w-full mt-3 px-3 mb-2  md:mb-0'>
 										<label className='block tracking-wide mb-2 text-gray-300'>
 											Images
