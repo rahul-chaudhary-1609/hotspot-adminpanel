@@ -10,6 +10,8 @@ import { useSelector } from "react-redux";
 import moment from "moment";
 import Loader from "../../../globalComponent/layout/loader";
 
+import {formatDateWithTime} from '../../../utils/redableDateTime'
+
 const OrderDetails = () => {
   const history = useHistory();
   const token = useSelector((state) => state.auth.isSignedIn);
@@ -119,8 +121,9 @@ const OrderDetails = () => {
                 Received on
               </div>
               <div className="px-8 text-xl text-gray-300">
-                {orderDetails.createdAt.split("T")[0]}{" "}
-                {moment(orderDetails.createdAt).format("h:mm A")}
+                {formatDateWithTime(orderDetails.createdAt)}
+                {/* {orderDetails.createdAt.split("T")[0]}{" "}
+                {moment(orderDetails.createdAt).format("h:mm A")} */}
               </div>
             </div>
           </div>
@@ -135,8 +138,7 @@ const OrderDetails = () => {
               </div>
               <div className="px-8 text-xl text-gray-300">
                 {" "}
-                {orderDetails.deliveryDateTime.split("T")[0]}{" "}
-                {moment(orderDetails.deliveryDateTime).format("h:mm A")}
+                {formatDateWithTime(orderDetails.deliveryDateTime)}
               </div>
             </div>
           </div>
@@ -205,6 +207,17 @@ const OrderDetails = () => {
 
           <div style={{ marginTop: "40px", width: "60%", marginLeft: "235px" }}>
             {orderDetails.orderItems.map((item) => {
+              var addOnName = ""
+              {item.itemAddOn.map((addOn) => {
+                
+                 addOnName =  <div
+                      style={{ backgroundColor: "lightgrey", fontSize:"13px" }}
+                      className=""
+                    >
+                      {addOn.name + "($ " + addOn.price + ")"}
+                    </div>
+
+              })}
               return (
                 <div className="form-layout text-base border border-gray-200 ">
                   <div className="flex flex-row items-center ">
@@ -213,12 +226,27 @@ const OrderDetails = () => {
                       className="bg-gray-100 font-semibold py-4 px-6 w-1/2 text-right"
                     >
                       {item.itemName} * {item.itemCount}
+
+                      {addOnName}
+                    
                     </div>
-                    <div className="px-8">$ {item.itemPrice}</div>
+                    <div className="px-8">$ {item.itemPrice}
+                    </div>
                   </div>
                 </div>
               );
             })}
+                <div className="form-layout text-base border border-gray-200 ">
+                  <div className="flex flex-row items-center ">
+                    <div
+                      style={{ backgroundColor: "lightgrey" }}
+                      className="bg-gray-100 font-semibold py-4 px-6 w-1/2 text-right"
+                    >
+                      Tip
+                    </div>
+                    <div className="px-8">$ {orderDetails.tipAmount}</div>
+                  </div>
+                </div>
           </div>
           <div className="flex flex-row items-center text-xl font-bold ml-20">
             <div className=" font-bold py-2 px-6 w-1/2 text-right">

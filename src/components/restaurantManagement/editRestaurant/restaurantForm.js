@@ -301,11 +301,45 @@ const RestaurantForm = (props) => {
 									marginTop: '40px',
 								}}>
 								<div className=' d-flex flex-column -mx-3 '>
+									<div className='w-full flex px-3 mb-6 md:mb-0 d-inline-flex'>
+										<label
+											className='block w-1/2 tracking-wide text-gray-300 py-3 px-6 mb-3'
+											for='restaurant_name'>
+											Restaurant Name
+										</label>
+										<input
+											className='appearance-none block w-1/2 bg-gray-100 border border-gray-200 rounded-half py-3 px-6 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-200'
+											id='restaurant_name'
+											type='text'
+											required
+											onChange={handleInputChange}
+											value={restaurant.restaurant_name}
+											// defaultValue={restaurant.restaurant_name}
+										/>
+									</div>
+
+									<div className='w-full flex px-3 mb-6 md:mb-0'>
+										<label
+											className='block w-1/2 tracking-wide py-3 px-6 mb-3 text-gray-300'
+											for='role'>
+											Role
+										</label>
+										<input
+											className='appearance-none block w-1/2 bg-gray-100 border border-gray-200 rounded-half py-3 px-6 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-200'
+											id='role'
+											type='text'
+											required
+											value={restaurant.role}
+											onChange={handleInputChange}
+										/>
+									</div>
+								</div>
+								<div className='d-flex flex-column -mx-3 '>
 									<div className='w-full flex  px-3 justify-content-around'>
 										<label
 											className=' w-1/2 block tracking-wide py-3 px-6 mb-3 text-gray-300'
 											for='name'>
-											Name
+											Owner Name
 										</label>
 										<input
 											className='appearance-none block w-1/2 bg-gray-100 border border-gray-200 rounded-half py-3 px-6 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-200'
@@ -317,6 +351,7 @@ const RestaurantForm = (props) => {
 											// defaultValue={restaurant.owner_name}
 										/>
 									</div>
+
 									<div className='w-full flex  px-3 mb-6 md:mb-0'>
 										<label
 											className='w-1/2 block tracking-wide py-3 px-6 mb-3 text-gray-300'
@@ -365,39 +400,8 @@ const RestaurantForm = (props) => {
 											/>
 										</div>
 									</div>
-									<div className='w-full flex px-3 mb-6 md:mb-0'>
-										<label
-											className='block w-1/2 tracking-wide py-3 px-6 mb-3 text-gray-300'
-											for='role'>
-											Role
-										</label>
-										<input
-											className='appearance-none block w-1/2 bg-gray-100 border border-gray-200 rounded-half py-3 px-6 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-200'
-											id='role'
-											type='text'
-											required
-											value={restaurant.role}
-											onChange={handleInputChange}
-										/>
-									</div>
-								</div>
-								<div className=' d-flex flex-column -mx-3 '>
-									<div className='w-full flex px-3 mb-6 md:mb-0 d-inline-flex'>
-										<label
-											className='block w-1/2 tracking-wide text-gray-300 py-3 px-6 mb-3'
-											for='restaurant_name'>
-											Restaurant Name
-										</label>
-										<input
-											className='appearance-none block w-1/2 bg-gray-100 border border-gray-200 rounded-half py-3 px-6 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-200'
-											id='restaurant_name'
-											type='text'
-											required
-											onChange={handleInputChange}
-											value={restaurant.restaurant_name}
-											// defaultValue={restaurant.restaurant_name}
-										/>
-									</div>
+							
+									
 									<div className='w-full flex px-3 mb-6 md:mb-0'>
 										<label
 											className='block w-1/2 tracking-wide py-3 px-6 mb-3 text-gray-300'

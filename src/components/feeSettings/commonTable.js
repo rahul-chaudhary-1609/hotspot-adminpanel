@@ -30,7 +30,7 @@ const CommonTable = (props) => {
 			},
 			{
 				id: 2,
-				Header: 'Restaurant',
+				Header: 'Restaurant Name',
 				className: 'text-center view-details',
 				accessor: 'restaurant_name',		
 				

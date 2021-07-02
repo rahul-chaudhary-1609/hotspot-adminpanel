@@ -50,7 +50,13 @@ function RestaurantManagement({ ...props }) {
 		},
 		{
 			id: 2,
-			Header: 'Full Name',
+			Header: 'Restaurant Name',
+			className: 'text-center view-details',
+			accessor: 'restaurant_name',
+		},
+		{
+			id: 3,
+			Header: 'Owner Name',
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (
@@ -61,7 +67,7 @@ function RestaurantManagement({ ...props }) {
 			},
 		},
 		{
-			id: 3,
+			id: 4,
 			Header: 'Email Address',
 			className: 'text-center view-details',
 			accessor: (item) => {
@@ -74,7 +80,7 @@ function RestaurantManagement({ ...props }) {
 			},
 		},
 		{
-			id: 4,
+			id: 5,
 			Header: 'Phone Number',
 			className: 'text-center view-details',
 			accessor: (item) => {
@@ -85,12 +91,6 @@ function RestaurantManagement({ ...props }) {
 					</div>
 				);
 			},
-		},
-		{
-			id: 5,
-			Header: 'Restaurant',
-			className: 'text-center view-details',
-			accessor: 'restaurant_name',
 		},
 		//createdAt
 		{

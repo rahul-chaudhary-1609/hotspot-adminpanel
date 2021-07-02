@@ -40,7 +40,7 @@ const ViewDish = () => {
             style={{ height: '100vh' }}>
             <div className='p-4 md:p-8 mt-6 lg:mt-0 rounded shadow bg-white'>
                 <h3 className='text-2xl text-gray-400 font-bold mb-6'>
-                    Menu Details
+                    Dish Details
 				</h3>
                 {!dish ?
                     <Loader />
@@ -53,7 +53,7 @@ const ViewDish = () => {
                                         className='shadow mt-10 bg-blue-500 ml-3 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-1 px-4 rounded'
                                         type='button'
                                         disabled>
-                                        Menu Details
+                                        Dish Details
 								</button>
                                     <button
                                         style={{ height: '3rem' }}
@@ -71,12 +71,14 @@ const ViewDish = () => {
                                     <button
                                         style={{ height: '3rem' }}
                                         onClick={() => {
-                                            if (dish.id) {
-                                                history.push(`/viewDish/${menuId}/addOns`);
+                                            history.push(`/viewRestaurant/${menuId}/menu`)
+                                            // if (dish.id) {
+                                            //     history.push(`/viewDish/${menuId}/addOns`);
+                                            // }
+                                            // else
+                                            //     history.push(`/viewRestaurant/${menuId}/menu`)
                                             }
-                                            else
-                                                history.push(`/viewRestaurant/${menuId}/menu`)
-                                        }}
+                                        }
                                         className='shadow bg-blue-500 ml-3 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded'
                                         type='button'>
                                         Back

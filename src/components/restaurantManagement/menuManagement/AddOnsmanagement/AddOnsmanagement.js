@@ -5,7 +5,7 @@ import 'react-table/react-table.css';
 import 'react-confirm-alert/src/react-confirm-alert.css';
 import { useHistory, useParams, useLocation } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { getAddonsLists } from '../../../../api';
+import { getAddonsLists, getDishById } from '../../../../api';
 import {
     faPencilAlt,
     faTrashAlt
@@ -22,6 +22,8 @@ function AddOnsmanagement({ ...props }) {
     const { pathname } = useLocation();
     let path = pathname.split('/')[1];
 
+    const [distDetails, setdistDetails] = useState([]);
+    
     const [addOnsList, setAddOnsList] = useState([]);
 
     const [loading, setLoading] = useState(false);
@@ -56,7 +58,7 @@ function AddOnsmanagement({ ...props }) {
         },
         {
             id: 2,
-            Header: 'Dish Name',
+            Header: 'Add-On Name',
             className: 'text-center view-details',
             accessor: (item) => {
                 return (
@@ -71,7 +73,7 @@ function AddOnsmanagement({ ...props }) {
         },
         {
             id: 3,
-            Header: 'Dish Picture',
+            Header: 'Add-On Picture',
             className: 'text-center view-details',
             accessor: (item) => {
                 return (
@@ -89,7 +91,7 @@ function AddOnsmanagement({ ...props }) {
         },
         {
             id: 5,
-            Header: 'Price per dish',
+            Header: 'Price per Add-On',
             className: 'text-center view-details',
             accessor: (item) => {
                 return (
@@ -148,7 +150,8 @@ function AddOnsmanagement({ ...props }) {
     const getAddOnsDetails = async () => {
         try {
             setLoading(true);
-
+                let { dish } = await getDishById(token, id);
+                setdistDetails(dish);
             const res = await getAddonsLists(token, parseInt(id));
             if (res.status == 200) {
                 setLoading(false);
@@ -163,6 +166,7 @@ function AddOnsmanagement({ ...props }) {
             setLoading(false);
             setError(error);
             setAddOnsList([]);
+            setdistDetails([]);
         }
     };
 
@@ -190,7 +194,7 @@ function AddOnsmanagement({ ...props }) {
                         history.push(`/${props.location.state ? props.location.state.previousPath : 'viewRestaurant'}/${props.location.state ? props.location.state.menuId : window.localStorage.getItem('menuId')}/viewDish/${id}`)
                     }
                 >
-                    Menu Details
+                    Dish Details
 				</button>
                 <button
                     style={{ height: '3rem' }}
@@ -203,7 +207,11 @@ function AddOnsmanagement({ ...props }) {
                 <div
                     id='recipients'
                     className='p-4 md:p-8 mt-6 lg:mt-0 rounded shadow bg-white'>
-                    <div className='flex flex-wrap -mx-3 mb-6'>
+                    <div className='flex -mx-3 mb-6'>
+                    
+                        <div className='w-full px-3 mb-6 md:mb-0' style={{ marginLeft: '1rem', fontSize: '1.5rem' }}>
+                            { distDetails.name  &&  distDetails.name + "'s Add-Ons"}
+				        </div>
 
                         <div className='w-full px-3 mb-6 md:mb-0 search-text'>
                             <button
@@ -213,6 +221,8 @@ function AddOnsmanagement({ ...props }) {
                                 Add New
 							</button>
                         </div>
+
+                        
                     </div>
                     {error && (
                         <p
