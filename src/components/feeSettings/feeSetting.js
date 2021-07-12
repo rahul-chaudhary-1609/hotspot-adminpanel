@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import CommonTable from './commonTable';
-import { getFeeList, getRestaurantLists } from '../../api';
+import { getFeeList, getRestaurantLists, getTipAmount } from '../../api';
 import { useSelector } from 'react-redux';
 import { addFee, editFee, editRestaurantFee, deleteDriverFee } from '../../api';
 import ChangeFeeSetting from './changeFeeSetting/changeFeeSetting';
 import DeleteModal from '../deleteModal/deleteModal';
 import {toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import TipModal from './changeFeeSetting/tipModal';
 
 toast.configure();
 const FeeSettings = () => {
@@ -14,6 +15,7 @@ const FeeSettings = () => {
 
 	const [driverFee, setDriverFee] = useState([]);
 	const [restaurantFee, setRestaurantFee] = useState([]);
+	const [tipAmount, setTipAmount] = useState([]);
 	const [hotspotFee, setHotspotFee] = useState([]);
 
 	const [feeType, setFeeType] = useState(null);
@@ -23,10 +25,12 @@ const FeeSettings = () => {
 	const [restaurantName, setRestaurantName] = useState(null)
 	const [fee, setFee] = useState(null);
 
+	const [editTip, setEditTip] = useState([])
 	const [modalIsOpen, setIsOpen] = useState(false);
 	const [isRestaurant, setIsRestaurant] = useState(false);
 	const [title, setTitle] = useState('');
 	const [id, setId] = useState(null);
+	const [tipModal, setTipModal] = useState(false);
 
 	const [feeDetails, setFeeDetails] = useState(null);
 	const [deleteModal, setDeleteModal] = useState(false);
@@ -37,6 +41,7 @@ const FeeSettings = () => {
 		driverFeeSetting();
 		hotspotFeeSetting();
 		restaurantFeeSetting();
+		tipAmountFetch();
 	}, [modalIsOpen]);
 
 	const driverFeeSetting = () => {
@@ -71,6 +76,17 @@ const FeeSettings = () => {
 			pageSize)
 			.then((resp) => {
 				setRestaurantFee(resp.restaurantList.rows);
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+	};
+
+	const tipAmountFetch = () => {
+		let searchText = '', currentPage = '', pageSize = '';
+		getTipAmount(token)
+			.then((resp) => {
+				setTipAmount(resp.tips);
 			})
 			.catch((error) => {
 				console.log(error);
@@ -118,7 +134,7 @@ const FeeSettings = () => {
 	return (
 		<>
 
-			<div className='main-content pb-16 md:pb-5 flex-1 pt-20 px-2' style={{ height: '100vh' }}>
+			<div className='main-content pb-16 md:pb-5 flex-1 pt-20 px-2' style={{ height: '150vh' }}>
 			{successMsg && (
 						<div
 							style={{
@@ -179,6 +195,7 @@ const FeeSettings = () => {
 						successMsg
 					}}
 				/>
+				<TipModal  {...{setTipModal,setEditTip,tipModal,editTip,setSuccessMsg,tipAmountFetch}}></TipModal>
 				<CommonTable
 					{...{
 						title: 'Driver Fee',
@@ -188,7 +205,7 @@ const FeeSettings = () => {
 						setTitle,
 						setId,
 						setDriverFeeId,
-						setDeleteModal
+						setDeleteModal,
 					}}
 				/>
 				<CommonTable
@@ -200,6 +217,15 @@ const FeeSettings = () => {
 						setTitle,
 						setId,
 						setIsRestaurant
+					}}
+				/>
+				<CommonTable
+					{...{
+						title: 'Tip Amount',
+						type: 'Tip',
+						feeSetting: tipAmount,
+						setTipModal,
+						setEditTip,
 					}}
 				/>
 			</div>

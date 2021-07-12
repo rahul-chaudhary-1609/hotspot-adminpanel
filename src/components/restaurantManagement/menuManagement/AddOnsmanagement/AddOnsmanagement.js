@@ -118,7 +118,7 @@ function AddOnsmanagement({ ...props }) {
                         <FontAwesomeIcon
                             style={{ cursor: 'pointer' }}
                             onClick={() =>
-                                history.push(`/${path}/${id}/editDishAddon/${item.id}`)
+                                history.push(`/${'viewRestaurant'}/${window.localStorage.getItem('menuId')}/viewDish/${id}/editDishAddon/${item.id}`)
                             }
                             className='text-red-600 trash w-5 h-5'
                             color='red'
@@ -191,7 +191,7 @@ function AddOnsmanagement({ ...props }) {
                     type='button'
                     className='shadow bg-500 mt-10 ml-3 hover:bg-white-400 focus:shadow-outline focus:outline-none text-black font-bold py-1 px-4 rounded'
                     onClick={() =>
-                        history.push(`/${props.location.state ? props.location.state.previousPath : 'viewRestaurant'}/${props.location.state ? props.location.state.menuId : window.localStorage.getItem('menuId')}/viewDish/${id}`)
+                        history.push(`/${'viewRestaurant'}/${window.localStorage.getItem('menuId')}/viewDish/${id}`)
                     }
                 >
                     Dish Details
@@ -215,7 +215,7 @@ function AddOnsmanagement({ ...props }) {
 
                         <div className='w-full px-3 mb-6 md:mb-0 search-text'>
                             <button
-                                onClick={() => history.push(`/${path}/${id}/addDishAddon`)}
+                                onClick={() => history.push(`/${'viewRestaurant'}/${window.localStorage.getItem('menuId')}/viewDish/${id}/addDishAddon`)}
                                 className='shadow bg-blue-500 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded'
                                 type='button'>
                                 Add New

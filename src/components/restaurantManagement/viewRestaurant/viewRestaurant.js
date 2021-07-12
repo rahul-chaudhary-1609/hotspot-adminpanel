@@ -23,7 +23,12 @@ const ViewRestaurant = () => {
 	const [category, setCategory] = useState([]);
 
 	useEffect(() => {
-		getRestaurantDetails();
+		if(id && parseInt(id))
+		{
+			getRestaurantDetails();
+		}else{
+			history.push('/login')
+		}
 	}, []);
 
 	const getRestaurantDetails = async () => {
@@ -183,13 +188,28 @@ const ViewRestaurant = () => {
 						</div>
 						
 						<div className='form-layout text-base border border-gray-200'>
+
+
 							<div className='flex flex-row items-center '>
 								<div className='bg-gray-100 font-semibold py-4 px-6 w-1/3 text-right'>
-									Name
+									Restaurant Name
+								</div>
+								<div className='px-8'>{restaurantDetails.restaurant_name}</div>
+							</div>
+
+							<div className='flex flex-row items-center border-t border-gray-200'>
+								<div className='bg-gray-100 font-semibold py-4 px-6 w-1/3 text-right'>
+									Owner Name
 								</div>
 								<div className='px-8' style={{ maxWidth: '50%' }}>
 									{restaurantDetails.owner_name}
 								</div>
+							</div>
+							<div className='flex flex-row items-center border-t border-gray-200'>
+								<div className='bg-gray-100 font-semibold py-4 px-6 w-1/3 text-right'>
+									Role
+								</div>
+								<div className='px-8'>{restaurantDetails.role}</div>
 							</div>
 							<div className='flex flex-row items-center border-t border-gray-200'>
 								<div className='bg-gray-100 font-semibold py-4 px-6 w-1/3 text-right'>
@@ -203,18 +223,8 @@ const ViewRestaurant = () => {
 								</div>
 								<div className='px-8'>{restaurantDetails.owner_phone}</div>
 							</div>
-							<div className='flex flex-row items-center border-t border-gray-200'>
-								<div className='bg-gray-100 font-semibold py-4 px-6 w-1/3 text-right'>
-									Role
-								</div>
-								<div className='px-8'>{restaurantDetails.role}</div>
-							</div>
-							<div className='flex flex-row items-center border-t border-gray-200'>
-								<div className='bg-gray-100 font-semibold py-4 px-6 w-1/3 text-right'>
-									Brand Name
-								</div>
-								<div className='px-8'>{restaurantDetails.restaurant_name}</div>
-							</div>
+							
+							
 							<div className='flex flex-row items-center border-t border-gray-200'>
 								<div className='bg-gray-100 font-semibold py-4 px-6 w-1/3 text-right'>
 									Category

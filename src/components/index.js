@@ -206,7 +206,11 @@ const Admin = () => {
 							path={`/addNotification`}
 							component={AddNotification}
 						/>
-						<ProtectedRoutes exact path={`/static`} component={StaticContent} />
+						<ProtectedRoutes 
+							exact 
+							path={`/static`} 
+							component={StaticContent} 
+						/>
 						<ProtectedRoutes
 							exact
 							path={`/viewStaticContent/:id`}
@@ -240,7 +244,7 @@ const Admin = () => {
 						/>
 						<ProtectedRoutes
 							exact
-							path={`/viewRestaurant/:id`}
+							path={`/restaurant/:id`}
 							component={ViewRestaurant}
 						/>
 						<ProtectedRoutes
@@ -275,17 +279,17 @@ const Admin = () => {
 						/>
 						<ProtectedRoutes
 							exact
-							path={ `/viewDish/:id/addOns`}
+							path={ `/viewRestaurant/:id/viewDish/:id/addOns`}
 							component={AddOnsmanagement}
 						/>
 						<ProtectedRoutes
 							exact
-							path={`/viewDish/:id/addDishAddon`}
+							path={`/viewRestaurant/:id/viewDish/:id/addDishAddon`}
 							component={AddAddOns}
 						/>
 						<ProtectedRoutes
 							exact
-							path={`/viewDish/:id/editDishAddon/:id`}
+							path={`/viewRestaurant/:id/viewDish/:id/editDishAddon/:id`}
 							component={EditAddOns}
 						/>
 						<ProtectedRoutes

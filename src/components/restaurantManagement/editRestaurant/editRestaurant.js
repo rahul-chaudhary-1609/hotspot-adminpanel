@@ -173,7 +173,7 @@ const EditRestaurent = () => {
 					setLocation,
 					loading,
 					setLoading,
-					error,successMsg,
+					error,successMsg,setError,
 				}}
 			/>
 		</>

@@ -119,7 +119,7 @@ const CommonTable = (props) => {
 				},
 			},
 		]
-		: [
+		: props.type == 'driver' ? [
 			{
 				Header: '#',
 				width: 100,
@@ -191,6 +191,67 @@ const CommonTable = (props) => {
                            }}
 							icon={faTrashAlt}
 						/>
+						</div>
+					);
+				},
+			},
+		] : [
+			{
+				Header: '#',
+				width: 30,
+				id: 1,
+				className: 'text-center view-details',
+				accessor: (item) => {
+					currentId++;
+					return (
+						<>
+							<div className='flex items-center' style={{ cursor: 'pointer' }}>
+								<div className='text-sm'>
+									<p className='text-gray-300 leading-none'>{currentId}</p>
+								</div>
+							</div>
+						</>
+					);
+				},
+			},
+			{
+				id: 2,
+				Header: 'Tip Amount',
+				className: 'text-center view-details',
+				accessor: (item) => {
+					return (
+						<div style={{ padding: '6px', cursor: 'pointer' }}>
+							${item.tip_amount}
+						</div>
+					);
+				},		
+				
+			},
+			{
+				id: 3,
+				Header: 'Action',
+				className: 'text-center view-details',
+				accessor: (item) => {
+					return (
+						<div
+							style={{
+								display: 'flex',
+								flexDirection: 'row',
+								justifyContent: 'space-around',
+								cursor:"pointer"
+							}}
+							className='text-center'
+							onClick={(e) => e.stopPropagation()}>
+							<FontAwesomeIcon
+								style={{ cursor: 'pointer' }}
+								onClick={() => {
+									props.setTipModal(true);
+									props.setEditTip({'id':item.id,"amount":item.tip_amount})
+								}}
+								className='text-red-600 trash w-5 h-5'
+								color='red'
+								icon={faPencilAlt}
+							/>
 						</div>
 					);
 				},

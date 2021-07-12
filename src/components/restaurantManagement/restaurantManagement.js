@@ -138,7 +138,7 @@ function RestaurantManagement({ ...props }) {
 						onClick={(e) => e.stopPropagation()}>
 						<FontAwesomeIcon
 							style={{ cursor: 'pointer', marginTop: '6px' }}
-							onClick={() => history.push(`/viewRestaurant/${item.id}`)}
+							onClick={() => history.push(`/restaurant/${item.id}`)}
 							className='text-red-600 trash w-5 h-5'
 							color='red'
 							icon={faEye}

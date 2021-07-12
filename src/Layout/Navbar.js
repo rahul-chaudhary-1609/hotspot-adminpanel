@@ -10,13 +10,13 @@ function NavBar(props) {
 		<nav
 			className='bg-white h-auto w-full fixed top-0 z-20 py-3 px-4 shadow'
 			style={{ height: '68px' }}>
-			<div className='flex items-center justify-between'>
-				<div>
+			<div className='flex items-center justify-end'>
+				{/* <div>
 					<h1 className='text-lg  md:text-3xl flex '>
 						<p style={{ color: '#B60203', fontWeight: 'bold' }}> HOT</p>
 						<p style={{ fontWeight: 'bold' }}>SPOT</p>
 					</h1>
-				</div>
+				</div> */}
 				<div>
 					<div className='relative inline-block'>
 						<button

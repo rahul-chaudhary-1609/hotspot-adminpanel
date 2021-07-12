@@ -10,7 +10,8 @@ const ViewDish = () => {
     const { pathname } = useLocation();
     let path = pathname.split('/')[1];
     let menuId = pathname.split('/')[2];
-
+    localStorage.setItem("dishId", "");
+    localStorage.setItem("dishId", id);
     const token = useSelector((state) => state.auth.isSignedIn);
 
     const [categoryy, setCategory] = useState([]);
@@ -58,7 +59,7 @@ const ViewDish = () => {
                                     <button
                                         style={{ height: '3rem' }}
                                         onClick={() => history.push({
-                                            pathname: `/viewDish/${id}/addOns`,
+                                            pathname: `/viewRestaurant/${menuId}/viewDish/${id}/addOns`,
                                             state: { menuId: menuId, previousPath: path }
                                         })
                                         }

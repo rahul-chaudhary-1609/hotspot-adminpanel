@@ -126,7 +126,7 @@ const StaticContent = () => {
 							showPagination={false}
 							minRows={0}
 							NoDataComponent={() => null}
-							defaultPageSize={10}
+							defaultPageSize={15}
 							data={staticContent}
 							className='-highlight'
 							columns={columns}

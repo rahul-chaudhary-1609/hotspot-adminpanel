@@ -124,7 +124,7 @@ function AddRestaurent({ history, ...props }) {
 					setHotspotList,
 					hotspot,
 					setHotspot,
-					orderType,
+					orderType,setError,
 					setOrderType,
 					restaurantCategoryList,
 					setRestaurantCategoryList,

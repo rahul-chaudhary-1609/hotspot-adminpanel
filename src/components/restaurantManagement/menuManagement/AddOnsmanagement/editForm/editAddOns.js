@@ -6,7 +6,6 @@ import { getDishAddonById, editDishAddon } from '../../../../../api';
 
 const EditAddOns = () => {
 	const { id } = useParams();
-	console.log(id);
 	const token = useSelector((state) => state.auth.isSignedIn);
 	const history = useHistory();
 
@@ -24,12 +23,10 @@ const EditAddOns = () => {
 	}, []);
 
 	const getData = async () => {
-        debugger
 		try {
             setLoading(true);
             
             let { dishAddon } = await getDishAddonById(token, id);
-            debugger
 			setDish(dishAddon);
 			setRestaurantId(dishAddon.restaurant_dish_id);
 			setLoading(false);
@@ -39,7 +36,6 @@ const EditAddOns = () => {
 		}
 	};
 	const handleDishes = (e) => {
-        debugger
 		e.preventDefault();
 		let data = {
 			dish_addon_id: id,
@@ -48,14 +44,14 @@ const EditAddOns = () => {
 			name: dish.name,
 			price: dish.price
 		};
-
+		console.log(restaurantId);
 		editDishAddon(token, data)
 			.then((res) => {
 				setError(null);
 				setSuccessMsg('Dish update successfully');
 
 				setTimeout(() => {
-                    history.push(`/viewDish/${restaurantId}/addOns`)
+                    history.push(`/${'viewRestaurant'}/${window.localStorage.getItem('menuId')}/viewDish/${window.localStorage.getItem('dishId')}/addOns`)
                 }, 1200)
 			})
 			.catch((error) => {
@@ -76,6 +72,7 @@ const EditAddOns = () => {
 				loading,
 				setLoading,
 				restaurantId,
+				setError,
 			}}
 		/>
 	);

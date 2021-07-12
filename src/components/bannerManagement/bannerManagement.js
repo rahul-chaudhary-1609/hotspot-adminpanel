@@ -3,15 +3,14 @@ import ReactTable from 'react-table';
 import Pagination from 'react-js-pagination';
 import { useHistory } from 'react-router';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPencilAlt, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
+import { faPencilAlt, faTrashAlt, faArrowUp, faArrowDown } from '@fortawesome/free-solid-svg-icons';
 import DeleteModal from '../deleteModal/deleteModal';
-import {getBannerList, deleteBanner} from '../../api';
+import {getBannerList, deleteBanner, updateBannerOrder} from '../../api';
 import { useSelector } from 'react-redux';
 
 const BannerManagement = () => {
 	const history = useHistory();
 	const token = useSelector((state) => state.auth.isSignedIn);
-
 	const [error, setError] = useState(null);
      
     const[bannerData, setBannerData] = useState([])
@@ -20,13 +19,23 @@ const BannerManagement = () => {
     let currentId = startId;
     
 	const [loading, setLoading] = useState(false);
-	const [pageSize, setPageSize] = useState(10);
+	const [pageSize, setPageSize] = useState(15);
 	const [totalItems, setTotalItems] = useState(null);
 	const [activePage, setCurrentPage] = useState(1);
 
 
     const[bannerId, setBannerId] = useState(null);
     const[deleteModal,setDeleteModal]= useState(false);
+
+	function handleOrderChange(id,order,newOrder) {
+		let data = {"banner_id" : id, "current_order":order,"new_order":newOrder }
+		console.log(data)
+		updateBannerOrder(token,data).then(res=>{
+			getBannerLists()
+		}).catch(error =>{
+			console.log(data)
+		})
+	} 
 
 	const columns = [
 		{
@@ -132,12 +141,28 @@ const BannerManagement = () => {
                            }}
 							icon={faTrashAlt}
 						/>
+						<FontAwesomeIcon
+							style={parseInt(item.order) === 1 ? {display: "none"} : {display: "block"}}
+							className='text-red-600 trash w-5 h-5'
+							color='red'
+							icon={faArrowUp}
+							onClick={()=>handleOrderChange(item.id,item.order,parseInt(item.order - 1))}
+						/>
+						<FontAwesomeIcon
+							style={parseInt(item.order) === parseInt(totalItems) ? {display: "none"} : {display: "block"}}
+							className='text-red-600 trash w-5 h-5'
+							color='red'
+							icon={faArrowDown}
+							onClick={()=>handleOrderChange(item.id,item.order,parseInt(item.order + 1))}
+						/>
 					</div>
 				);
 			},
 		},
 	];
     
+	
+
 	useEffect(() =>{
 		getBannerLists();
 	},[activePage])
@@ -145,6 +170,7 @@ const BannerManagement = () => {
 	const getBannerLists = () =>{
 		setLoading(true);      
 		getBannerList(token,activePage,pageSize).then(res =>{
+
 			setTotalItems(res.banners.count);
 			// let rows = res.banners.rows
 			// 	rows.map((row,id)=>{
@@ -209,7 +235,7 @@ const BannerManagement = () => {
 						showPagination={false}
 						minRows={0}
 						NoDataComponent={() => null}
-						defaultPageSize={10}
+						defaultPageSize={15}
 					   data={bannerData}
 						className='-highlight'
 						columns={columns}

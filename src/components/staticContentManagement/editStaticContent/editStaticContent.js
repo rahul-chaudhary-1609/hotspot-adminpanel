@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, ReactDOM } from 'react';
 import { useHistory, useParams } from 'react-router';
 import { useSelector } from 'react-redux';
 import {
@@ -71,7 +71,7 @@ const EditStaticContent = () => {
 	const updateContent = (url) => {
 		getFileContent(token, url)
 			.then((rsp) => {
-				document.getElementById('doc').innerHTML = rsp;
+				ReactDOM.render("doc", <div dangerouslySetInnerHTML={{__html: rsp}} />)
 			})
 			.catch((error) => {
 				console.log(error);
@@ -123,12 +123,19 @@ const EditStaticContent = () => {
 	};
 
 	const handleSubmitUpdatedFile = () => {
-		let data = {
+
+		var data = {
 			id: id,
 			page_url: staticContentDetails.page_url,
-			video_url: staticContentDetails.video_url
 		};
-
+		if(staticContentDetails.title === "Customer -How it works" || staticContentDetails.title === "Driver -How it works")
+		{
+			data = {
+				id: id,
+				page_url: staticContentDetails.page_url,
+				video_url: staticContentDetails.video_url
+			};
+		}
 		updateStaticContent(token, data)
 			.then((rsp) => {
 				setSuccessMsg('Content updated successfully');
@@ -159,7 +166,7 @@ const EditStaticContent = () => {
 						<button
 							style={{ height: '3rem' }}
 							onClick={handleSubmitUpdatedFile}
-							className='shadow bg-blue-500 ml-3 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded'
+							className='shadow bg-red-500 ml-3 hover:bg-red-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded'
 							type='button'>
 							Save
 						</button>
@@ -192,7 +199,6 @@ const EditStaticContent = () => {
 						<div
 							style={{
 								marginTop: '20px',
-								backgroundColor: 'lightgrey',
 								padding: '20px',
 								width: '990px',
 								height: '610px',
@@ -238,10 +244,10 @@ const EditStaticContent = () => {
 
 
 											}
-											<div style={{ display: 'flex' }}>
-												<label for='uploadNew' className='w-1/2 block '>
+											<div style={{ display: 'flex', marginTop : 10 }}>
+												<label htmlFor='uploadNew' >
 													<div
-														className='w-full px-2 py-1 ml-5 my-2 flex justify-around items-center bg-gray-400 rounded-lg text-white'
+														className='shadow bg-blue-500 ml-3 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded'
 													>
 														Upload New Video
 													<input
@@ -253,15 +259,6 @@ const EditStaticContent = () => {
 														/>
 													</div>
 												</label>
-												{/* <button
-													type='button'
-													className='btn btn-lg btn-danger ml-6'
-													data-toggle='popover'
-													// title='Upload the mp4 vedio type'
-													>
-													<InfoIcon style={{ color: 'black' }} />
-												</button> */}
-												<span className='btn btn-lg btn-danger ml-6' style={{ color: "red", paddingTop: "13px" }}>Upload mp4 type file</span>
 												{vedioname && <p style={{ marginTop: '12px', fontSize: '15px', marginLeft: '10px' }}>{vedioname}</p>}
 											</div>
 											<br />
@@ -281,10 +278,10 @@ const EditStaticContent = () => {
 											padding: '10px',
 											border: '1px solid black',
 										}}></div>
-									<div style={{ display: 'flex' }}>
+									<div style={{ display: 'flex' , marginTop : 10}}>
 										<label for='upload' className='w-24 block '>
 											<div
-												className='w-full px-2 py-1 ml-5 my-2 flex justify-around items-center bg-gray-400 rounded-lg text-white'
+												className='shadow bg-blue-500 ml-3 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded'
 											>
 												Upload File
 											<input
@@ -297,8 +294,7 @@ const EditStaticContent = () => {
 
 											</div>
 										</label>
-										<span className='btn btn-lg btn-danger ml-6' style={{ color: "red", paddingTop: "13px" }}>Upload file of type html</span>
-										{filename && <p style={{ marginTop: '12px', fontSize: '15px', marginLeft: '10px' }}>{filename}</p>}
+										{filename && <p style={{ marginTop: '12px', fontSize: '15px', marginLeft: '25px' }}>{filename}</p>}
 									</div>
 								</div>
 							</div>

@@ -18,6 +18,7 @@ const ViewStaticContent = () => {
 			.then((res) => {
 				getFileContent(token, res.page_url)
 					.then((rsp) => {
+						debugger
 						document.getElementById('doc').innerHTML = rsp;
 					})
 					.catch((error) => {
@@ -59,7 +60,7 @@ const ViewStaticContent = () => {
 						<div
 							style={{
 								marginTop: '20px',
-								backgroundColor: 'lightgrey',
+								// backgroundColor: 'lightgrey',
 								padding: '20px',
 								width: '100%',
 							}}>
@@ -76,7 +77,7 @@ const ViewStaticContent = () => {
 								<div className='flex flex-col ml-40' >
 									{(staticContentDetails.title === "Customer -How it works" || staticContentDetails.title === "Driver -How it works") && (
 										staticContentDetails['video_url'] && <div>
-											{/* 
+											{/*
 											<ReactPlayer
 												maxWidth='631px'
 												url={
@@ -95,16 +96,15 @@ const ViewStaticContent = () => {
                                             //   playing={true}
 											/> */}
 											<video style={{
-												maxHeight: '200px',
+												// maxHeight: '200px',
 												height: '300px',
 												overflow: 'auto',
 												border: '1px solid black',
 												padding: '10px',
+												width: "631px",
 											}}
-												width="631"
-												height="300"
 												controlsList="nodownload novolume nofullscreen  "
-												disablepictureinpicture 
+												disablepictureinpicture
 												controls>
 												<source src={staticContentDetails.video_url} type="video/mp4" />
 
@@ -119,7 +119,6 @@ const ViewStaticContent = () => {
 										id='doc'
 										style={{
 											width: '734px',
-											maxHeight: '230px',
 											height: '300px',
 											overflow: 'auto',
 											border: '1px solid black',

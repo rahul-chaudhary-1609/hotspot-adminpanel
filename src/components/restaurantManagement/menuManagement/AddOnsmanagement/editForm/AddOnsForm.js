@@ -4,6 +4,7 @@ import { uploadImage } from '../../../../../api';
 import { useSelector } from 'react-redux';
 import Loader from '../../../../../globalComponent/layout/loader';
 
+
 const AddOnsForm = (props) => {
 	const history = useHistory();
 	const token = useSelector((state) => state.auth.isSignedIn);
@@ -25,29 +26,48 @@ const AddOnsForm = (props) => {
 	};
 
 	const handleImageChange = (e) => {
-		let data = {
-			image: e.target.files[0],
-			folderName: 'dish',
-		};
-		setImageLoader(true);
-		uploadImage(token, data)
-			.then((res) => {
-				let updatedDish = { ...dish };
-				updatedDish.image_url = res.image_url;
-				props.setDish(updatedDish);
-				setImageLoader(false);
-			})
-			.catch((error) => {
-				setImageLoader(false);
-				props.setError(error);
-			});
+		if(e.target.files[0])
+		{
+			var imageArray = e.target.files[0].name.split('.');
+			if(imageArray.length > 2  && imageArray.length < 2 )
+			{
+				props.setError("Double extension files are not allowed.");
+			}else if(imageArray[1] !== "jpeg" && imageArray[1] !== "jpg" && imageArray[1] !== "png" ){
+				props.setError("Only jpeg, jpg or png images are allowed.");
+			}else{
+				let data = {
+					image: e.target.files[0],
+					folderName: 'dish',
+				};
+				setImageLoader(true);
+				uploadImage(token, data)
+					.then((res) => {
+						let updatedDish = { ...dish };
+						updatedDish.image_url = res.image_url;
+						props.setDish(updatedDish);
+						setImageLoader(false);
+						props.setError("");
+					})
+					.catch((error) => {
+						setImageLoader(false);
+						props.setError(error);
+					});
+			}
+		}
 	};
 	let dish = props.dish;
 
 	const handleDishChange = (e) => {
-		let updatedDish = { ...dish };
-		updatedDish[e.target.id] = e.target.value;
-		props.setDish(updatedDish);
+			if(e.target.id === "price" && e.target.value === "0")
+			{
+				props.setError("Price should be greater than zero.");
+			}
+			else{
+				let updatedDish = { ...dish };
+				updatedDish[e.target.id] = e.target.value;
+				props.setDish(updatedDish);
+				props.setError("");
+			}
 	};
 	return (
 		<>
@@ -60,7 +80,7 @@ const AddOnsForm = (props) => {
 					<button
 						style={{ height: '3rem' }}
 						onClick={() => history.push({
-							pathname:`/viewDish/${props.restaurantId}/addOns`,
+							pathname:`/${'viewRestaurant'}/${window.localStorage.getItem('menuId')}/viewDish/${window.localStorage.getItem('dishId')}/addOns`,
 							state: { menuId: menuId, previousPath:path}
 							})
 							}
@@ -111,11 +131,11 @@ const AddOnsForm = (props) => {
 								<div className='w-full  px-3 mb-3 md:mb-0'>
 									<label
 										className='block tracking-wide mb-2 text-gray-300'
-										for='name'>
+										htmlFor='name'>
 										Name
 									</label>
 									<input
-										className='appearance-none block w-full bg-gray-100 bg-100 border  rounded-half py-3 px-6 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-200'
+										className='appearance-none block w-full bg-gray-100 bg-100 border rounded-half py-3 px-6 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-200'
 										id='name'
 										type='text'
 										onChange={handleDishChange}
@@ -125,7 +145,7 @@ const AddOnsForm = (props) => {
 								<div className='w-full  px-3 mb-3 md:mb-0'>
 									<label
 										className='block tracking-wide mb-2 text-gray-300'
-										for='price'>
+										htmlFor='price'>
 										Price
 									</label>
 									<input
@@ -145,7 +165,7 @@ const AddOnsForm = (props) => {
 									{imageLoader ? (
 										<label
 											className='block tracking-wide  mb-2 text-gray-300  w-1/2'
-											for='images'>
+											htmlFor='images'>
 											<div
 												style={{
 													minHeight: '200px',
@@ -161,7 +181,7 @@ const AddOnsForm = (props) => {
 										<>
 											<label
 												className='block tracking-wide  mb-2 text-gray-300  w-1/2'
-												for='images'>
+												htmlFor='images'>
 												{dish.image_url ? (
 													<img
 														style={{

@@ -19,7 +19,6 @@ const EditBanner = () => {
 		setLoading(true);
 		getBannerById(token,id).then(res =>{
 			let updatedData = {...res};
-			updatedData['order'] = {label: res.order, value: res.order};
 			setBannerData(updatedData);
 			setLoading(false);
 			setError(null);
@@ -35,10 +34,11 @@ const EditBanner = () => {
 		if (image_url == '') {
 			setError('Please select the banner image');
 			error = true;
-		}else if(order == ""){
-			setError("Please select the order");
-			error = true;
 		}
+		// else if(order == ""){
+		// 	setError("Please select the order");
+		// 	error = true;
+		// }
 		return error;
 	}
 
@@ -48,7 +48,7 @@ const EditBanner = () => {
 			let data ={
 				name: bannerData.name,
 				image_url: bannerData.image_url,
-				order: bannerData.order.value,
+				//order: bannerData.order.value,
 			}
 			editBanner(token,data,id).then(res=>{
 				setError(null);
@@ -74,7 +74,7 @@ const EditBanner = () => {
 				error,
 				loading,
 				setLoading,
-				handleSubmit
+				handleSubmit,setError
 			}}
 		/>
 	);

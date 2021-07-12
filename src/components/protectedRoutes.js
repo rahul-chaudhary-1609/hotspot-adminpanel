@@ -13,7 +13,7 @@ export default ({ component: Component, ...rest }) => {
 					return (
 						<div className='font-body tracking-normal leading-normal'>
 							<Navbar />
-							<div className='flex flex-col md:flex-row'>
+							<div style={{overflow : 'hidden'}} className='flex flex-col md:flex-row'>
 								<SideNavbar />
 								<Component {...props} />
 							</div>

@@ -18,7 +18,9 @@ const AddAddOns = () => {
     const [error, setError] = useState(null);
 
 
+
     const handleDishes = (e) => {
+        debugger
         e.preventDefault();
         let data = {
             restaurant_dish_id: id,
@@ -31,7 +33,7 @@ const AddAddOns = () => {
             setError(null);
             setSuccessMsg("DishAddon added successfully")
             setTimeout(() => {
-                history.push(`/viewDish/${id}/addOns`)
+                history.push(`/${'viewRestaurant'}/${window.localStorage.getItem('menuId')}/viewDish/${window.localStorage.getItem('dishId')}/addOns`)
             }, 1200)
 
         }).catch(error => {

@@ -1998,6 +1998,28 @@ export const addBanner = (token, data) => {
 	});
 };
 
+export const updateBannerOrder = (token, data) => {
+	return new Promise(async (resolve, reject) => {
+		try {
+			const response = await fetch(`${baseURL}/updateBannerOrder`, {
+				body: JSON.stringify(data),
+				headers: {
+					'Content-Type': 'application/json',
+					Authorization: token,
+				},
+				method: 'PUT',
+			}).then((res) => res.json());
+			if (response.success) {
+				resolve(response);
+			} else {
+				reject(response.message);
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	});
+};
+
 export const editBanner = (token, data, id) => {
 	return new Promise(async (resolve, reject) => {
 		try {
@@ -2471,6 +2493,71 @@ export const getToggleDishAsQuickFilter = (token, data) => {
 				method: 'PUT',
 			}).then((res) => res.json());
 			console.log(response);
+			if (response.status == 200) {
+				resolve(response);
+			} else {
+				reject(response.message);
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	});
+};
+
+export const getTipAmount = (token) => {
+	return new Promise(async (resolve, reject) => {
+		try {
+			const response = await fetch(
+				`${baseURL}/listTip`,
+				{
+					headers: {
+						Accept: 'application/json',
+						Authorization: token,
+					},
+				}
+			).then((res) => res.json());
+			if (response.status == 200) {
+				resolve(response);
+			} else {
+				reject(response.message);
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	});
+};
+
+export const gettipAmountById = (token, id) => {
+	return new Promise(async (resolve, reject) => {
+		try {
+			const response = await fetch(`${baseURL}getTipById/${id}`, {
+				headers: {
+					Accept: 'application/json',
+					Authorization: token,
+				},
+			}).then((res) => res.json());
+			if (response.status == 200) {
+				resolve(response);
+			} else {
+				reject(response.message);
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	});
+};
+
+export const editTipAmount = (token, data) => {
+	return new Promise(async (resolve, reject) => {
+		try {
+			const response = await fetch(`${baseURL}editTip`, {
+				body: JSON.stringify(data),
+				headers: {
+					Authorization: token,
+					'Content-Type': 'application/json',
+				},
+				method: 'PUT',
+			}).then((res) => res.json());
 			if (response.status == 200) {
 				resolve(response);
 			} else {

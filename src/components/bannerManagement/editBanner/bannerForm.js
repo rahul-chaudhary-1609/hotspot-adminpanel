@@ -49,6 +49,15 @@ const BannerForm = (props) => {
 		props.setBannerData(updatedData);
 	};
 	const handleImageChange = (e) => {
+		if(e.target.files[0])
+		{
+			var imageArray = e.target.files[0].name.split('.');
+			if(imageArray.length > 2  && imageArray.length < 2 )
+			{
+				props.setError("Double extension files are not allowed.");
+			}else if(imageArray[1] !== "jpeg" && imageArray[1] !== "jpg" && imageArray[1] !== "png" ){
+				props.setError("Only jpeg, jpg or png images are allowed.");
+			}else{
 		let data = {
 			image: e.target.files[0],
 			folderName: 'other',
@@ -65,6 +74,8 @@ const BannerForm = (props) => {
 				setImageLoader(false);
 				console.log(error);
 			});
+		}
+	}
 	};
 	return (
 		<>
@@ -200,7 +211,7 @@ const BannerForm = (props) => {
 									</>
 								)}
 							</div>
-							<div className='flex flex-wrap -mx-3 mb-3 mt-3'>
+							{/* <div className='flex flex-wrap -mx-3 mb-3 mt-3'>
 								<div className='w-full flex  px-3 mb-3 md:mb-0'>
 									<label
 										className='block w-1/2 tracking-wide py-3 px-6 mb-3 text-gray-300'
@@ -224,7 +235,7 @@ const BannerForm = (props) => {
 										/>
 									</div>
 								</div>
-							</div>
+							</div> */}
 						</form>
 					)}
 				</div>

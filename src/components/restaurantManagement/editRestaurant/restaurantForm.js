@@ -22,9 +22,15 @@ import DeleteModal from '../../deleteModal/deleteModal';
 const RestaurantForm = (props) => {
 	const history = useHistory();
 	const { id } = useParams();
-
 	const token = useSelector((state) => state.auth.isSignedIn);
 	const { pathname } = useLocation();
+	if(!id && pathname === '/editRestaurant'){
+		debugger
+		history.push('/restaurant')
+	}
+	
+
+
 
 	const customStyles = {
 		control: (provided, state) => ({
@@ -52,6 +58,16 @@ const RestaurantForm = (props) => {
 	const [imageLoader, setImageLoader] = useState(false);
 
 	const handleImageChange = (e) => {
+		if(e.target.files[0])
+		{
+			var imageArray = e.target.files[0].name.split('.');
+			if(imageArray.length > 2  && imageArray.length < 2 )
+			{
+				props.setError("Double extension files are not allowed.");
+			}else if(imageArray[1] !== "jpeg" && imageArray[1] !== "jpg" && imageArray[1] !== "png" ){
+				props.setError("Only jpeg, jpg or png images are allowed.");
+			}else{
+
 		let data = {
 			image: e.target.files[0],
 			folderName: 'restaurant',
@@ -68,6 +84,8 @@ const RestaurantForm = (props) => {
 				setImageLoader(false);
 				console.log(error);
 			});
+			}
+		}
 	};
 
 	let location = props.location;
