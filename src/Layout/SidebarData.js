@@ -1,65 +1,101 @@
-import React, { Component }  from 'react';
+import React, { Component } from 'react';
 import * as FaIcons from 'react-icons/fa';
+import RestaurantIcon from '@material-ui/icons/Restaurant';
+import MotorcycleIcon from '@material-ui/icons/Motorcycle';
+import GroupIcon from '@material-ui/icons/Group';
+import InsertPhotoIcon from '@material-ui/icons/InsertPhoto';
+import LocalAtmIcon from '@material-ui/icons/LocalAtm';
+import NotificationsIcon from '@material-ui/icons/Notifications';
+import SettingsIcon from '@material-ui/icons/Settings';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import LocalMallIcon from '@material-ui/icons/LocalMall';
+import DashboardIcon from '@material-ui/icons/Dashboard';
 
 export const SidebarData = [
     {
-        label: 'Overview',
+        label: 'Dashboard',
         to: '/dashboard',
-        icon: <FaIcons.FaHome />,
-        cName:"nav-text md:px-4 md:py-3 md:flex-row "
+        icon: <DashboardIcon />,
+        cName: "nav-text md:px-4 md:py-3 md:flex-row "
     },
     {
-        label: 'Users',
-        to: '/userListing',
-        icon:<FaIcons.FaUsers />,
-        cName:"nav-text md:px-4 md:py-3 md:flex-row "
+        label: 'Customer Management',
+        to: '/customer',
+        icon: <GroupIcon />,
+        cName: "nav-text md:px-4 md:py-3 md:flex-row "
     },
     {
-        label: 'Report',
-        to: '/report',
-        icon:<FaIcons.FaFileAlt />,
-        cName:"nav-text md:px-4 md:py-3 md:flex-row "
+        label: 'Restaurant Management',
+        to: '/restaurant',
+        icon: <LocalMallIcon/>,
+        cName: "nav-text md:px-4 md:py-3 md:flex-row "
     },
     {
-        label: 'Advertisements',
-        to: '/advertisements',
-        icon:<FaIcons.FaAd />,
-        cName:"nav-text md:px-4 md:py-3 md:flex-row "
+        label: 'Driver Management',
+        to: '/driver',
+        icon: <MotorcycleIcon />,
+        cName: "nav-text md:px-4 md:py-3 md:flex-row "
     },
     {
-        label: 'Push Notification',
-        to: '/pushNotification',
-        icon:<FaIcons.FaBell />,
-        cName:"nav-text md:px-4 md:py-3 md:flex-row "
+        label: 'Order Management',
+        to: '/activeOrder',
+        icon: <RestaurantIcon />,
+        cName: "nav-text md:px-4 md:py-3 md:flex-row"
     },
     {
-        label: 'Email Notification',
-        to: '/emailNotification',
-        icon:<FaIcons.FaEnvelope />,
-        cName:"nav-text md:px-4 md:py-3 md:flex-row"
+        label: 'Banner Management',
+        to: '/banners',
+        icon: <InsertPhotoIcon />,
+        cName: "nav-text md:px-4 md:py-3 md:flex-row"
     },
     {
-        label: 'Support Request',
-        to: '/supportRequest',
-        icon:<FaIcons.FaLifeRing/>,
-        cName:"nav-text md:px-4 md:py-3 md:flex-row"
+        label: 'Driver Payment Management',
+        to: '/driverPayment',
+        icon: <LocalAtmIcon />,
+        cName: "nav-text md:px-4 md:py-3 md:flex-row "
     },
     {
-        label: 'Terms & Conditions',
-        to: '/termsCondition',
-        icon:<FaIcons.FaClipboardList />,
-        cName:"nav-text md:px-4 md:py-3 md:flex-row "
+        label: 'Restaurant Payment Management',
+        to: '/restaurantPayment',
+        icon: <LocalAtmIcon/>,
+        cName: "nav-text md:px-4 md:py-3 md:flex-row "
     },
     {
-        label: 'Privacy Policies',
-        to: '/privacyPolicy',
-        icon:<FaIcons.FaClipboardCheck/>,
-        cName:"nav-text md:px-4 md:py-3 md:flex-row"
+        label: 'Admin Earnings',
+        to: '/hotspotEarning',
+        icon: <LocalAtmIcon />,
+        cName: "nav-text md:px-4 md:py-3 md:flex-row "
     },
     {
-        label: 'FAQ',
-        to: '/faq',
-        icon:<FaIcons.FaQuestionCircle />,
-        cName:"nav-text md:px-4 md:py-3 md:flex-row "
-    }
+        label: 'Notification Management',
+        to: '/notification',
+        icon: <NotificationsIcon />,
+        cName: "nav-text md:px-4 md:py-3 md:flex-row "
+    },
+    {
+        label: 'Static Content Management',
+        to: '/static',
+        icon: <FaIcons.FaBook />,
+        cName: "nav-text md:px-4 md:py-3 md:flex-row "
+    },
+    {
+        label: 'Fee Settings',
+        to: '/feesettings',
+        icon: <SettingsIcon/>,
+        cName: "nav-text md:px-4 md:py-3 md:flex-row "
+    },
+    {
+        label: 'Hotspot Settings',
+        to: '/hotspots',
+        icon: <SettingsIcon />,
+        cName: "nav-text md:px-4 md:py-3 md:flex-row "
+    },
+
+    {
+        label: 'Log Out',
+        to: '/logout',
+        icon: <ExitToAppIcon />,
+        cName: "nav-text md:px-4 md:py-3 md:flex-row "
+    },
+
 ]

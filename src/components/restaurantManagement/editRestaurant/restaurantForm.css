@@ -1,0 +1,20 @@
+#restaurant .react-tel-input .form-control {
+    width: 100%  !important ;
+    height: 44px  !important;
+    background-color: #fafafa !important;
+    border-color: grey !important;
+    border-radius: 0px !important;
+}
+
+.react-tel-input .form-control{
+    padding-left: 20px  !important;
+}
+
+#restaurant .react-tel-input .flag-dropdown {
+    border-top-left-radius: 0px !important;
+    border-bottom-left-radius: 0px !important;
+    border-color: grey !important;
+    /* width : 0px !important */
+    display: none;
+}
+

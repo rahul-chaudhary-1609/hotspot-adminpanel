@@ -1,0 +1,12 @@
+export const SIGN_IN = 'SIGN_IN';
+export const SIGN_OUT = 'SIGN_OUT';
+export const EMAIL ='EMAIL';
+export const SEARCH_TEXT= 'SEARCH_TEXT'
+export const ORDER_SEARCH_TEXT ='ORDER_SEARCH_TEXT'
+export const ADMIN_DATA = 'ADMIN_DATA'
+export const STATUS = 'STATUS'
+export const FILTER_BY = 'FILTER_BY'
+export const START_DATE_FILTER = 'START_DATE_FILTER'
+export const END_DATE_FILTER = 'END_DATE_FILTER'
+export const CLEAR_DATA = "CLEAR_DATA"
+export const URL_CHANGE = "URL_CHANGE"

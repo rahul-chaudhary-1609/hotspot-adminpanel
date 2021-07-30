@@ -1,29 +1,27 @@
 {
   "files": {
-    "main.css": "/static/css/main.459c6a7e.chunk.css",
-    "main.js": "/static/js/main.978fa649.chunk.js",
-    "main.js.map": "/static/js/main.978fa649.chunk.js.map",
+    "main.css": "/static/css/main.4120d8fe.chunk.css",
+    "main.js": "/static/js/main.8cdd347f.chunk.js",
+    "main.js.map": "/static/js/main.8cdd347f.chunk.js.map",
     "runtime-main.js": "/static/js/runtime-main.6088bc52.js",
     "runtime-main.js.map": "/static/js/runtime-main.6088bc52.js.map",
-    "static/css/2.b50421ca.chunk.css": "/static/css/2.b50421ca.chunk.css",
-    "static/js/2.fa9a3b39.chunk.js": "/static/js/2.fa9a3b39.chunk.js",
-    "static/js/2.fa9a3b39.chunk.js.map": "/static/js/2.fa9a3b39.chunk.js.map",
+    "static/css/2.26bbce79.chunk.css": "/static/css/2.26bbce79.chunk.css",
+    "static/js/2.a12baf8f.chunk.js": "/static/js/2.a12baf8f.chunk.js",
+    "static/js/2.a12baf8f.chunk.js.map": "/static/js/2.a12baf8f.chunk.js.map",
     "index.html": "/index.html",
-    "precache-manifest.60b3eb1912a523e4b781aa28fc4df2d4.js": "/precache-manifest.60b3eb1912a523e4b781aa28fc4df2d4.js",
+    "precache-manifest.33050da6035fbe2b06c05c2a06493138.js": "/precache-manifest.33050da6035fbe2b06c05c2a06493138.js",
     "service-worker.js": "/service-worker.js",
-    "static/css/2.b50421ca.chunk.css.map": "/static/css/2.b50421ca.chunk.css.map",
-    "static/css/main.459c6a7e.chunk.css.map": "/static/css/main.459c6a7e.chunk.css.map",
-    "static/js/2.fa9a3b39.chunk.js.LICENSE.txt": "/static/js/2.fa9a3b39.chunk.js.LICENSE.txt",
-    "static/media/algoworksLogo.png": "/static/media/algoworksLogo.752e8741.png",
+    "static/css/2.26bbce79.chunk.css.map": "/static/css/2.26bbce79.chunk.css.map",
+    "static/css/main.4120d8fe.chunk.css.map": "/static/css/main.4120d8fe.chunk.css.map",
+    "static/js/2.a12baf8f.chunk.js.LICENSE.txt": "/static/js/2.a12baf8f.chunk.js.LICENSE.txt",
     "static/media/icon-user.png": "/static/media/icon-user.1cac38c0.png",
-    "static/media/logo.png": "/static/media/logo.085d08e8.png",
     "static/media/work-time-amico.png": "/static/media/work-time-amico.f8380185.png"
   },
   "entrypoints": [
     "static/js/runtime-main.6088bc52.js",
-    "static/css/2.b50421ca.chunk.css",
-    "static/js/2.fa9a3b39.chunk.js",
-    "static/css/main.459c6a7e.chunk.css",
-    "static/js/main.978fa649.chunk.js"
+    "static/css/2.26bbce79.chunk.css",
+    "static/js/2.a12baf8f.chunk.js",
+    "static/css/main.4120d8fe.chunk.css",
+    "static/js/main.8cdd347f.chunk.js"
   ]
 }

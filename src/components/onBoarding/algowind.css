@@ -94402,3 +94402,6 @@ video {
 }
 
 
+.react-confirm-alert-body{
+  background-color: 'green' !important
+}
