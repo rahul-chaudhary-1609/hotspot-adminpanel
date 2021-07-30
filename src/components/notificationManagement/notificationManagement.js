@@ -90,20 +90,20 @@ const NotificationManagement = () => {
 						onClick={(e) => e.stopPropagation()}>
 						<FontAwesomeIcon
 							style={{ cursor: 'pointer' }}
-							onClick={() => history.push(`/viewNotification/${item.id}`)}
+							onClick={() => history.push({pathname:`/notification/${item.id}`, state:item})}
 							className='text-red-600 trash w-5 h-5'
 							color='red'
 							icon={faEye}
-						/>
-						<FontAwesomeIcon
-							className='text-red-600 trash w-1 h-5'
-							onClick={() => {
-								setDeleteModal(true);
-		                          setId(item.id);
-							}}
-							color='red'
-							icon={faTrashAlt}
-						/>
+						// />
+						// <FontAwesomeIcon
+						// 	className='text-red-600 trash w-1 h-5'
+						// 	onClick={() => {
+						// 		setDeleteModal(true);
+		                //           setId(item.id);
+						// 	}}
+						// 	color='red'
+						// 	icon={faTrashAlt}
+						 />
 					</div>
 				);
 			},
@@ -153,18 +153,11 @@ const NotificationManagement = () => {
 	}
 	return (
 		<>
-			<div
-				className='main-content pb-16 md:pb-5 flex-1 pt-20 px-2 mt-5'
-				style={{ 
-					// overflowY: 'overlay', 
-					height: '100vh' }}>
-				<div style={{ marginLeft: '1rem', fontSize: '2rem' }}>
-					Notification Management
-				</div>
-				<div
-					id='recipients'
-					className='p-4 md:p-8 mt-6 lg:mt-0 rounded shadow bg-white'>
-					<div style={{ marginLeft:'80%', marginTop:'-70px' }}>
+			<div className='main-content md:pb-5 flex-1 p-8 px-2' style={{ overflowY: 'auto', height: '100vh' }}>
+				<div id='recipients' className='p-4 md:p-8 mt-6 lg:mt-0 rounded shadow bg-white'>
+					<h1 className='text-xl'>Notification Management</h1>
+					<div className='flex flex-wrap -mx-3 mb-6 mt-5' style={{justifyContent: 'space-between' }}>
+							<div style={{position: "relative",left: "89%"}}>
 						<button
 							style={{ height: '3rem' }}
 							onClick={() => history.push('/addNotification')}
@@ -172,6 +165,7 @@ const NotificationManagement = () => {
 							type='button'>
 							Add New
 						</button>
+					</div>
 					</div>
 					{error && (
 						<p
@@ -185,10 +179,6 @@ const NotificationManagement = () => {
 						</p>
 					)}
 					<ReactTable
-						style={{
-							width: '100%',
-							marginTop: '70px'
-						}}
 						showPagination={false}
 						minRows={0}
 						loading={loading}
@@ -199,7 +189,7 @@ const NotificationManagement = () => {
 						columns={columns}
 					/>
 					<br/>
-					(showing {startId == 0 ? 1 : startId + 1} - {endId} of {totalItems})
+					{totalItems > 0 ? `(showing ${startId + 1} - ${endId} of ${totalItems})` : 'showing 0 result'}
 					<div style={{ textAlign: 'right' }}>
 						<Pagination
 							activePage={activePage}

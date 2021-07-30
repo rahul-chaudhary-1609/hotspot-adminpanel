@@ -27,7 +27,8 @@ const EditForm = (props) => {
       ...provided,
       width: "100%",
       backgroundColor: "#fafafa",
-      borderColor: "grey",
+      borderColor: "grey",height:"100%",
+			minHeight:"50px",marginBottom:"12px",
       // borderRadius: '9999px',
     }),
     container: (provided, state) => ({
@@ -151,7 +152,7 @@ const EditForm = (props) => {
   const handleDelete = () => {
     deleteHotspot(token, id)
       .then((res) => {
-        history.push("/hotspot");
+        history.push("/hotspots");
         setDeleteModal(false);
       })
       .catch((error) => {
@@ -177,9 +178,9 @@ const EditForm = (props) => {
               style={{ height: "3rem" }}
               onClick={() => {
                 if (props.id) {
-                  history.push(`/hotspotDetails/${props.id}`);
+                  history.push(`/hotspots/${props.id}`);
                 } else {
-                  history.push("/hotspot");
+                  history.push("/hotspots");
                 }
               }}
               className="shadow bg-blue-500 ml-3 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"

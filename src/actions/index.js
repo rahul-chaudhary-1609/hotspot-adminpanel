@@ -10,6 +10,7 @@ import {
 	END_DATE_FILTER,
 	FILTER_BY,
 	CLEAR_DATA,
+	URL_CHANGE
 } from './types';
 import history from '../history';
 
@@ -72,6 +73,13 @@ export const setEndDate = () => async (dispatch, getState) => {
 export const setFilterBy = () => async (dispatch, getState) => {
 	dispatch({
 		type: FILTER_BY,
+		payload: getState(),
+	});
+};
+
+export const setURLCHANGE = () => async (dispatch, getState) => {
+	dispatch({
+		type: URL_CHANGE,
 		payload: getState(),
 	});
 };

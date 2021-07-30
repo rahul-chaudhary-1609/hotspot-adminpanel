@@ -3,6 +3,8 @@ import TableModal from '../../TableModal/index';
 import { getRestaurantEarningListById } from '../../../api';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
+import { formatDate } from '../../../utils/redableDateTime';
+
 
 const ViewRestaurantPaymentDetails = (props) => {
 	const token = useSelector((state) => state.auth.isSignedIn);
@@ -67,7 +69,7 @@ const ViewRestaurantPaymentDetails = (props) => {
 			accessor: (item) => {
 				return (
 					<div style={{ padding: '6px', cursor: 'pointer' }}>
-						{item.delivery_datetime && item.delivery_datetime.split('T')[0]}
+						{item.delivery_datetime && formatDate(item.delivery_datetime)}
 					</div>
 				);
 			},

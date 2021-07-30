@@ -24,22 +24,34 @@ const DishForm = (props) => {
 	};
 
 	const handleImageChange = (e) => {
-		let data = {
-			image: e.target.files[0],
-			folderName: 'dish',
-		};
-		setImageLoader(true);
-		uploadImage(token, data)
-			.then((res) => {
-				let updatedDish = { ...dish };
-				updatedDish.image_url = res.image_url;
-				props.setDish(updatedDish);
-				setImageLoader(false);
-			})
-			.catch((error) => {
-				setImageLoader(false);
-				props.setError(error);
-			});
+		if(e.target.files[0])
+		{
+			var imageArray = e.target.files[0].name.split('.');
+			if(imageArray.length > 2  && imageArray.length < 2 )
+			{
+				props.setError("Double extension files are not allowed.");
+			}else if(imageArray[1] !== "jpeg" && imageArray[1] !== "jpg" && imageArray[1] !== "png" ){
+				props.setError("Only jpeg, jpg or png images are allowed.");
+			}else{
+			let data = {
+				file: e.target.files[0],
+				mimeType:e.target.files[0].type,
+				folderName: 'dish',
+			};
+			setImageLoader(true);
+			uploadImage(token, data)
+				.then((res) => {
+					let updatedDish = { ...dish };
+					updatedDish.image_url = res.image_url;
+					props.setDish(updatedDish);
+					setImageLoader(false);
+				})
+				.catch((error) => {
+					setImageLoader(false);
+					props.setError(error);
+				});
+			}
+		}
 	};
 	let dish = props.dish;
 
@@ -70,9 +82,9 @@ const DishForm = (props) => {
 						style={{ height: '3rem' }}
 						onClick={() => {
 							if (props.restaurantId) {
-								history.push(`/viewRestaurant/${props.restaurantId}/menu`);
+								history.push(`/restaurant/${props.restaurantId}/menu`);
 							} else {
-								history.push(`/viewRestaurant/${id}/menu`);
+								history.push(`/restaurant/${id}/menu`);
 							}
 						}}
 						className='shadow bg-blue-500 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded'
@@ -149,27 +161,6 @@ const DishForm = (props) => {
 									</div>
 								</div>
 								<div className='flex flex-wrap -mx-3 mb-3'>
-									{/* <div className='w-full  px-3 mb-3 md:mb-0'>
-										<label
-											className='block tracking-wide text-gray-300 mb-2'
-											for='category'>
-											Category
-									</label>
-
-										<Select
-											// value={categoryLists.filter(({id}) =>id ===dish.dish_category_id )[0]}
-											value={props.category}
-											styles={customStyles}
-											getOptionLabel={(option) => option.name}
-											getOptionValue={(option) => option.id}
-											options={props.categoryLists}
-											// inputId='dish_category_id'
-											id='dish_category_id'
-											onChange={(selectedValue) =>
-												props.setCategory(selectedValue)
-											}
-										/>
-									</div> */}
 									<div className='w-full mt-3 px-3 mb-2  md:mb-0'>
 										<label className='block tracking-wide mb-2 text-gray-300'>
 											Images

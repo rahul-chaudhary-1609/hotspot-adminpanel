@@ -36,15 +36,15 @@ const StatusComponent = (props) => {
 	};
 
 	return (
-		<div className='flex mt-5'>
-			<div className='w-1/2 bg-white' style={{height: '300px'}}>
+		<div className='flex mt-5' style={{height :280}}>
+			<div className='w-1/2 bg-white'>
 				<h2
 					style={{
-						width: '100%',
+						width: '50%',
 						padding: '10px',
-						fontSize: '30px',
-						backgroundColor: 'lightgrey',
+						backgroundColor: 'pink',
 					}}>
+					{' '}
 					Orders
 				</h2>
 				{orderStatusDetails && (
@@ -52,7 +52,7 @@ const StatusComponent = (props) => {
 						<Piechart
 							contentStyle={{
 								marginTop: '-120px',
-								marginLeft: '50px',
+								marginLeft: '45px',
 								fontSize: '15px',
 								fontWeight: 'bold',
 							}}
@@ -85,7 +85,7 @@ const StatusComponent = (props) => {
 							// style={{ marginLeft: '10px', fontSize: '16px' }}
 						/>
 						<div style={{ marginTop: '50px', fontSize: '20px' }}>
-							<h1>Order Count : {props.totalOrders}</h1>
+							<h1>Order Count : {orderStatusDetails.numberOfTotalOrders}</h1>
 							<h1>
 								{' '}
 								<span style={{ color: 'green', fontWeight:'bold'  }}>Today</span> :{' '}
@@ -113,11 +113,11 @@ const StatusComponent = (props) => {
 				}}>
 				<h2
 					style={{
-						width: '100%',
+						width: '50%',
 						padding: '10px',
-						fontSize: '30px',
-						backgroundColor: 'lightgrey',
+						backgroundColor: 'pink',
 					}}>
+					{' '}
 					Earnings
 				</h2>
 				{revenueStatusDetails && (
@@ -128,13 +128,13 @@ const StatusComponent = (props) => {
 							subContent={`${revenueStatusDetails.totalRevenue}$`}
 							contentStyle={{
 								marginTop: '-120px',
-								marginLeft: '67px',
+								marginLeft: '64px',
 								fontSize: '15px',
 								fontWeight: 'bold',
 							}}
 							subContentStyle={{
 								marginTop: '3px',
-								marginLeft: '50px',
+								marginLeft: '60px',
 								fontSize: '14px',
 								fontWeight: 'bold',
 							}}

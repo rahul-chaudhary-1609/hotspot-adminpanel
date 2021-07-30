@@ -38,13 +38,13 @@ export const SidebarData = [
     },
     {
         label: 'Order Management',
-        to: '/order',
+        to: '/activeOrder',
         icon: <RestaurantIcon />,
         cName: "nav-text md:px-4 md:py-3 md:flex-row"
     },
     {
         label: 'Banner Management',
-        to: '/banner',
+        to: '/banners',
         icon: <InsertPhotoIcon />,
         cName: "nav-text md:px-4 md:py-3 md:flex-row"
     },
@@ -86,7 +86,7 @@ export const SidebarData = [
     },
     {
         label: 'Hotspot Settings',
-        to: '/hotspot',
+        to: '/hotspots',
         icon: <SettingsIcon />,
         cName: "nav-text md:px-4 md:py-3 md:flex-row "
     },

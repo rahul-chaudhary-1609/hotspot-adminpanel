@@ -54,7 +54,7 @@ const EditBanner = () => {
 				setError(null);
 				setSuccessMsg("Banner updated successfully")
 				setTimeout(() =>{
-					history.push('/banner')
+					history.push('/banners')
 				},1200)
 			}).catch(error =>{
 				setError(error);

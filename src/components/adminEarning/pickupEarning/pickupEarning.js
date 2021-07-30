@@ -5,6 +5,8 @@ import CommonComponent from '../commonComponent';
 import { useSelector } from 'react-redux';
 import SearchComponent from '../../searchComponent/index';
 import { getPickupOrdersList } from '../../../api'
+import { Link } from 'react-router-dom';
+import { formatDate } from '../../../utils/redableDateTime';
 
 const PickupEarning = (props) => {
 	const token = useSelector((state) => state.auth.isSignedIn);
@@ -53,7 +55,7 @@ const PickupEarning = (props) => {
 			},
 		},
 		{
-			Header: 'order Id ',
+			Header: 'Order Id ',
 			id: 2,
 			className: 'text-center view-details',
 			accessor: (item) => {
@@ -61,9 +63,13 @@ const PickupEarning = (props) => {
 					<>
 						<div
 							className='flex items-center'
-							style={{ cursor: 'pointer', textAlign: 'center' }}>
+							style={{ cursor: 'pointer', textAlign: 'center',padding: '6px' }}>
 							<div className='text-sm'>
-								{item.order_id}
+								<Link
+									to={`/activeOrder/${item.order_id}`}
+									style={{ color: '#39B7CD' }}>
+									{item.order_id}
+								</Link>
 							</div>
 						</div>
 					</>
@@ -72,19 +78,19 @@ const PickupEarning = (props) => {
 		},
 		{
 			id: 3,
-			Header: 'Date',
+			Header: 'Delivery date',
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (
 					<div style={{ padding: '6px', cursor: 'pointer' }}>
-						{item.delivery_datetime.split('T')[0]}
+						{formatDate(item.delivery_datetime)}
 					</div>
 				);
 			},
 		},
 		{
 			id: 4,
-			Header: 'Total delivery amount',
+			Header: 'Order amt.',
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (
@@ -96,19 +102,7 @@ const PickupEarning = (props) => {
 		},
 		{
 			id: 5,
-			Header: 'Total order count',
-			className: 'text-center view-details',
-			accessor: (item) => {
-				return (
-					<div style={{ padding: '6px', cursor: 'pointer' }}>
-						{item.ordered_items && item.ordered_items.itemCount}
-					</div>
-				);
-			},
-		},
-		{
-			id: 6,
-			Header: 'Tip amount',
+			Header: 'Tip amt.',
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (
@@ -119,18 +113,18 @@ const PickupEarning = (props) => {
 			},
 		},
 		{
-			id: 7,
-			Header: 'Restaurant Fee',
+			id: 6,
+			Header: 'Restaurant fee',
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (
-					<div style={{ padding: '6px', cursor: 'pointer' }}>${item.restaurant_fee}</div>
+					<div style={{ padding: '6px', cursor: 'pointer' }}>${item.restaurant_fee+ "(" + item.order_details.restaurant.percentage_fee + "%)"}</div>
 				);
 			},
 		},
 		{
-			id: 8,
-			Header: 'Hotspot Comission',
+			id: 7,
+			Header: 'Hotspot earning',
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (
@@ -158,7 +152,6 @@ const PickupEarning = (props) => {
 				activePage,
 				pageSize
 			);
-
 			if (res.success) {
 				setTotalItems(res.orders.count);
 				setPickupLists(res.orders.rows);
@@ -185,17 +178,15 @@ const PickupEarning = (props) => {
 
 	return (
 		<>
-			<div
-				id='recipient'
-				className='p-4  md:p-8 mt-6 lg:mt-12 rounded shadow bg-white '
-				style={{ width: '75%', marginTop: "100px" }}
-			>
+			<div className='main-content md:pb-5 flex-1 p-8 px-2' style={{ overflowY: 'auto', height: '100vh' }}>
+				<div id='recipients' className='p-4 md:p-8 mt-6 lg:mt-0 rounded shadow bg-white'>
+					<h1 className='text-xl'>Admin Earning</h1>
 				<div>
 					<CommonComponent /></div>
 				<div className='mt-5'>
 					<SearchComponent
 						{...{
-							placeholder: 'Search by Order number,Restaurant',
+							placeholder: 'Search by Order number',
 							handleSearch
 						}}
 					/></div>
@@ -221,6 +212,8 @@ const PickupEarning = (props) => {
 					/>
 				</div>
 			</div>
+			</div>
+			
 		</>
 	);
 };

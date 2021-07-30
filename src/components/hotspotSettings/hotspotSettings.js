@@ -82,7 +82,7 @@ const HotspotSettings = () => {
           >
             <FontAwesomeIcon
               style={{ cursor: "pointer" }}
-              onClick={() => history.push(`/hotspotDetails/${item.id}`)}
+              onClick={() => history.push(`/hotspots/${item.id}`)}
               className="text-red-600 trash w-5 h-5"
               color="red"
               icon={faEye}
@@ -123,31 +123,20 @@ const HotspotSettings = () => {
   };
   return (
     <>
-      <div
-        className="main-content pb-16 md:pb-5 flex-1 pt-20 px-2"
-        style={{ overflowY: "scroll", height: "100vh" }}
-      >
-        <div
-          id="recipients"
-          className="p-4 md:p-8 mt-6 lg:mt-0 rounded shadow bg-white"
-        >
-          <div style={{ display: "flex" }}>
-            <h1 className="text-xl" style={{ fontSize: "2rem" }}>
-              Hotspot Settings
-            </h1>
-            <button
-              style={{
-                height: "3rem",
-                marginLeft: "60%",
-                // position: 'absolute', right: '30px'
-              }}
-              onClick={() => history.push("/addHotspot")}
-              className="shadow bg-blue-500 hover:bg-blue-400  focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
-              type="button"
-            >
-              Add New
-            </button>
-          </div>
+      <div className='main-content md:pb-5 flex-1 p-8 px-2' style={{ overflowY: 'auto', height: '100vh' }}>
+				<div id='recipients' className='p-4 md:p-8 mt-6 lg:mt-0 rounded shadow bg-white'>
+					<h1 className='text-xl'>Hotspot Settings</h1>
+            <div className='flex flex-wrap -mx-3 mb-6 mt-5' style={{justifyContent: 'space-between' }}>
+                <div style={{position: "relative",left: "89%"}}>
+                <button
+                  onClick={() => history.push("/hotspot")}
+                  className="shadow bg-blue-500 hover:bg-blue-400  focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
+                  type="button"
+                >
+                  Add New
+                </button>
+             </div>
+           </div>
           {error && (
             <p
               style={{
@@ -169,10 +158,6 @@ const HotspotSettings = () => {
             className="-highlight"
             loading={loading}
             columns={columns}
-            style={{
-              width: "990px",
-              marginTop: "90px",
-            }}
           />
           <br />
           <p
@@ -180,7 +165,7 @@ const HotspotSettings = () => {
               marginLeft: "20px",
             }}
           >
-            (Showing {startId < 0 ? 0 : startId + 1} - {endId} of {totalItems})
+           {totalItems > 0 ? `(showing ${startId + 1} - ${endId} of ${totalItems})` : 'showing 0 result'}
           </p>
           <div style={{ textAlign: "right" }}>
             <Pagination

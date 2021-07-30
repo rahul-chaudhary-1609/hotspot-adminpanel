@@ -36,7 +36,8 @@ const AddOnsForm = (props) => {
 				props.setError("Only jpeg, jpg or png images are allowed.");
 			}else{
 				let data = {
-					image: e.target.files[0],
+					file: e.target.files[0],
+					mimeType:e.target.files[0].type,
 					folderName: 'dish',
 				};
 				setImageLoader(true);
@@ -58,7 +59,8 @@ const AddOnsForm = (props) => {
 	let dish = props.dish;
 
 	const handleDishChange = (e) => {
-			if(e.target.id === "price" && e.target.value === "0")
+		debugger
+			if(e.target.id === "price" && parseFloat(e.target.value) === 0)
 			{
 				props.setError("Price should be greater than zero.");
 			}
@@ -80,7 +82,7 @@ const AddOnsForm = (props) => {
 					<button
 						style={{ height: '3rem' }}
 						onClick={() => history.push({
-							pathname:`/${'viewRestaurant'}/${window.localStorage.getItem('menuId')}/viewDish/${window.localStorage.getItem('dishId')}/addOns`,
+							pathname:`/${'restaurant'}/${window.localStorage.getItem('menuId')}/menu/${window.localStorage.getItem('dishId')}/dishAddOns`,
 							state: { menuId: menuId, previousPath:path}
 							})
 							}

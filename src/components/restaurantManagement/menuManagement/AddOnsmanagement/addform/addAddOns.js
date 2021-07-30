@@ -33,7 +33,7 @@ const AddAddOns = () => {
             setError(null);
             setSuccessMsg("DishAddon added successfully")
             setTimeout(() => {
-                history.push(`/${'viewRestaurant'}/${window.localStorage.getItem('menuId')}/viewDish/${window.localStorage.getItem('dishId')}/addOns`)
+                history.push(`/${'restaurant'}/${window.localStorage.getItem('menuId')}/menu/${window.localStorage.getItem('dishId')}/dishAddOns`)
             }, 1200)
 
         }).catch(error => {

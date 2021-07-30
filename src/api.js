@@ -1,7 +1,9 @@
 import axios from 'axios';
 import qs from 'qs';
 
-const baseURL = `http://3.228.159.69/admin/`;
+export const baseURL = `http://3.228.159.69/admin/`;
+
+export const baseURLWeb = `http://3.228.159.69/website/`;
 
 // export const api2 = axios.create({
 //     baseURL: `http://3.236.82.67:9001`
@@ -248,9 +250,9 @@ export const deleteDish = (token, id) => {
 // 	});
 // };
 export const editDish = (token, id, data) => {
-	delete data['images'];
-	delete ['react-select-5-input'];
-	delete data['react-select-3-input'];
+	// delete data['images'];
+	// delete ['react-select-5-input'];
+	// delete data['react-select-3-input'];
 	return new Promise(async (resolve, reject) => {
 		try {
 			const response = await fetch(`${baseURL}editDish/${id}`, {
@@ -883,7 +885,7 @@ export const getDriverLists = (token, seachString, pageNumber, pageSize) => {
 	return new Promise(async (resolve, reject) => {
 		try {
 			const response = await fetch(
-				`${baseURL}listDrivers?searchKey=${seachString}&page=${pageNumber}&page_size=${pageSize}`,
+				`${baseURL}listAllDriver?searchKey=${seachString}&page=${pageNumber}&page_size=${pageSize}`,
 				{
 					headers: {
 						Accept: 'application/json',
@@ -1346,7 +1348,7 @@ export const getListHotspots = (token, page, pageSize) => {
 	return new Promise(async (resolve, reject) => {
 		try {
 			const response = await fetch(
-				`${baseURL}listHotspots?page=${page}&page_size=${pageSize}`,
+				`${baseURL}listAllHotspot`,
 				{
 					headers: {
 						Accept: 'application/json',
@@ -1452,11 +1454,12 @@ export const deleteHotspot = (token, id) => {
 
 export const uploadImage = (token, data) => {
 	let form = new FormData();
-	form.append('image', data.image);
+	form.append('file', data.file);
 	form.append('folderName', data.folderName);
+	form.append('mimeType', data.mimeType);
 	return new Promise(async (resolve, reject) => {
 		try {
-			const response = await fetch(`${baseURL}uploadImage`, {
+			const response = await fetch(`${baseURL}uploadFile`, {
 				body: form,
 				headers: {
 					Authorization: token,
@@ -2557,6 +2560,95 @@ export const editTipAmount = (token, data) => {
 					'Content-Type': 'application/json',
 				},
 				method: 'PUT',
+			}).then((res) => res.json());
+			if (response.status == 200) {
+				resolve(response);
+			} else {
+				reject(response.message);
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	});
+};
+
+export const fetchDriverPaymentDetails = (token, data) => {
+	return new Promise(async (resolve, reject) => {
+		try {
+			const response = await fetch(`${baseURL}paymentDriver`, {
+				body: JSON.stringify(data),
+				headers: {
+					Authorization: token,
+					'Content-Type': 'application/json',
+				},
+				method: 'POST',
+			}).then((res) => res.json());
+			if (response.status == 200) {
+				resolve(response);
+			} else {
+				reject(response.message);
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	});
+};
+
+export const handleDriverPaymentDetails = (token, data) => {
+	return new Promise(async (resolve, reject) => {
+		try {
+			const response = await fetch(`${baseURL}driverPaymentSuccess`, {
+				body: JSON.stringify(data),
+				headers: {
+					Authorization: token,
+					'Content-Type': 'application/json',
+				},
+				method: 'POST',
+			}).then((res) => res.json());
+			if (response.status == 200) {
+				resolve(response);
+			} else {
+				reject(response.message);
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	});
+};
+
+
+export const fetchResturantPaymentDetails = (token, data) => {
+	return new Promise(async (resolve, reject) => {
+		try {
+			const response = await fetch(`${baseURL}paymentRestaurant`, {
+				body: JSON.stringify(data),
+				headers: {
+					Authorization: token,
+					'Content-Type': 'application/json',
+				},
+				method: 'POST',
+			}).then((res) => res.json());
+			if (response.status == 200) {
+				resolve(response);
+			} else {
+				reject(response.message);
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	});
+};
+
+export const handleResturantPaymentDetails = (token, data) => {
+	return new Promise(async (resolve, reject) => {
+		try {
+			const response = await fetch(`${baseURL}restaurantPaymentSuccess`, {
+				body: JSON.stringify(data),
+				headers: {
+					Authorization: token,
+					'Content-Type': 'application/json',
+				},
+				method: 'POST',
 			}).then((res) => res.json());
 			if (response.status == 200) {
 				resolve(response);

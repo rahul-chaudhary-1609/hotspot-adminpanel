@@ -4,10 +4,14 @@ import Pagination from 'react-js-pagination';
 import SearchComponent from '../searchComponent/index';
 import { getRestaurantEarningList } from '../../api';
 import { useSelector } from 'react-redux';
+import { useHistory } from 'react-router';
 import ViewRestaurantPaymentDetails from './viewRestaurantPaymentDetails/viewRestaurantPaymentDetals';
+import { formatDate } from '../../utils/redableDateTime';
 
 const RestaurantPayment = () => {
 	const token = useSelector((state) => state.auth.isSignedIn);
+
+	const history = useHistory();
 
 	const val = useSelector((state) => state.auth.searchText);
 	let searchText = val ? val : '';
@@ -100,7 +104,7 @@ const RestaurantPayment = () => {
 			accessor: (item) => {
 				return (
 					<div style={{ padding: '6px', cursor: 'pointer' }}>
-						{item.createdAt.split('T')[0]}
+						{formatDate(item.createdAt)}
 					</div>
 				);
 			},
@@ -113,7 +117,7 @@ const RestaurantPayment = () => {
 			accessor: (item) => {
 				return (
 					<div style={{ padding: '6px', cursor: 'pointer' }}>
-						{item.from_date} to {item.to_date}
+						{formatDate(item.from_date)} to {formatDate(item.to_date)}
 					</div>
 				);
 			},
@@ -170,7 +174,7 @@ const RestaurantPayment = () => {
 							justifyContent: 'space-around',
 						}}
 						className='text-center'
-						onClick={(e) => e.stopPropagation()}>
+						onClick={(e) => {item.status == 0 ? history.push({pathname:`/restaurantPayment/resturantPayNow`, state:item}) : e.stopPropagation()}}>
 						<button
 							style={{ height: '3rem' }}
 							// onClick={() => history.push('/addBanner')}
@@ -226,13 +230,9 @@ const RestaurantPayment = () => {
 
 	return (
 		<>
-			<div
-				className='main-content pb-16 md:pb-5 flex-1 pt-20 px-2'
-				style={{ overflowY: 'unset', height: '90vh', marginTop: '30px' }}>
-				<div style={{ marginLeft: '1rem', fontSize: '2rem' }}>
-					Restaurant Payment Management
-				</div>
-				<br />
+			<div className='main-content md:pb-5 flex-1 p-8 px-2' style={{ overflowY: 'auto', height: '100vh' }}>
+				<div id='recipients' className='p-4 md:p-8 mt-6 lg:mt-0 rounded shadow bg-white'>
+					<h1 className='text-xl'>Restaurant Payment Management</h1>
 				<SearchComponent
 					{...{
 						placeholder: 'Search by restaurant name, payment id',
@@ -240,9 +240,6 @@ const RestaurantPayment = () => {
 					}}
 				/>
 
-				<div
-					id='recipients'
-					className='p-4 md:p-8 mt-6 lg:mt-0 rounded shadow bg-white'>
 					{error && (
 						<p
 							style={{
@@ -262,14 +259,11 @@ const RestaurantPayment = () => {
 						data={restaurantPayment}
 						className='-highlight'
 						columns={columns}
-						style={{
-							width: '100%',
-							marginTop: '0px',
-						}}
 						loading={loading}
+						style={{marginTop:20}}
 					/>
 					<br />
-					(showing {startId < 0 ? 0 : startId + 1} - {endId} of {totalItems})
+					{totalItems > 0 ? `(showing ${startId + 1} - ${endId} of ${totalItems})` : 'showing 0 result'}
 					<div style={{ textAlign: 'right' }}>
 						<Pagination
 							activePage={activePage}

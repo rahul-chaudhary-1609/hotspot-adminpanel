@@ -87,6 +87,9 @@ const FeeSettings = () => {
 		getTipAmount(token)
 			.then((resp) => {
 				setTipAmount(resp.tips);
+				setTimeout(() => {
+					setSuccessMsg(null);
+				}, 1000);
 			})
 			.catch((error) => {
 				console.log(error);
@@ -134,7 +137,7 @@ const FeeSettings = () => {
 	return (
 		<>
 
-			<div className='main-content pb-16 md:pb-5 flex-1 pt-20 px-2' style={{ height: '150vh' }}>
+			<div className='main-content pb-16 md:pb-5 flex-1 pt-20 px-2' style={{ overflowY: 'scroll', height: '100vh' }}>
 			{successMsg && (
 						<div
 							style={{
@@ -149,7 +152,7 @@ const FeeSettings = () => {
 						</div>
 					)}
 				<div style={{ display: 'flex' }}>
-					<h1 style={{ fontSize: '40px' }} className='text-xl mt-10 ml-10'>
+					<h1 className='text-xl'>
 						Fee Setting
 					</h1>
 					<button
@@ -157,8 +160,8 @@ const FeeSettings = () => {
 							height: '3rem',
 							marginLeft: '60%'
 						}}
-						className='shadow mt-10 h-2 bg-blue-500 ml-3 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-1 px-4 rounded'
-						type='button'
+						className='shadow bg-blue-500 hover:bg-red-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded'
+								type='button'
 						onClick={() => {
 							setOrderRangeFrom(null);
 							setOrderRangeTo(null);

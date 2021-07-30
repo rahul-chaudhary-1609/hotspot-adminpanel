@@ -37,7 +37,7 @@ const AddBanner = () => {
 				setError(null);
 				setSuccessMsg("Banner added successfully")
 				setTimeout(() =>{
-					history.push('/banner')
+					history.push('/banners')
 				},1200)
 			}).catch(error =>{
 				setError(error);

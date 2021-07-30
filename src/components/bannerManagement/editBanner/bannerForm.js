@@ -59,7 +59,8 @@ const BannerForm = (props) => {
 				props.setError("Only jpeg, jpg or png images are allowed.");
 			}else{
 		let data = {
-			image: e.target.files[0],
+			file: e.target.files[0],
+			mimeType:e.target.files[0].type,
 			folderName: 'other',
 		};
 		setImageLoader(true);
@@ -88,7 +89,7 @@ const BannerForm = (props) => {
 					<button
 						style={{ height: '3rem' }}
 						onClick={() => {
-							history.push(`/banner`);
+							history.push(`/banners`);
 						}}
 						className='shadow bg-blue-500 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded'
 						type='button'>

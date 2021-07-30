@@ -66,25 +66,10 @@ const ViewDriverDetails = () => {
 	};
 	return (
 		<>
-			<div
-				className='main-content pb-16 md:pb-5 flex-1 pt-20 px-2'
-				style={{ overflowY: 'scroll', height: '100vh' }}>
-				<div className='p-4 md:p-8 mt-6 lg:mt-0 rounded shadow bg-white'>
-					<div style={{ display: 'flex' }}>
-						<h3 className='text-2xl text-gray-400 font-bold mb-6'>
-							Driver Details
-						</h3>
-						{/* {driverDetails && driverDetails.personalDetails.is_approved && (
-							<button
-								style={{ height: '3rem', position: 'absolute', right: '50px' }}
-								onClick={() => history.push('/driver')}
-								className='shadow bg-blue-500 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded'
-								type='button'>
-								View Calendar
-							</button>
-						)} */}
-					</div>
-
+			<div className='main-content md:pb-5 flex-1 p-8 px-2' style={{ overflowY: 'auto', height: '100vh' }}>
+				<div id='recipients' className='p-4 md:p-8 mt-6 lg:mt-0 rounded shadow bg-white'>
+					<h1 className='text-xl'>Driver Details</h1>
+					
 					<button
 						style={{ height: '3rem' }}
 						onClick={() => history.push('/driver')}

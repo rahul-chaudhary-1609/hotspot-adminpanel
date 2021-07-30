@@ -3,6 +3,8 @@ import TableModal from '../../TableModal/index';
 import { getOrderDeliveryDetailById } from '../../../api';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
+import { Link } from 'react-router-dom';
+import { formatDate ,formatTime} from '../../../utils/redableDateTime';
 
 const HotspotEarningDetails = (props) => {
 	const token = useSelector((state) => state.auth.isSignedIn);
@@ -54,9 +56,19 @@ const HotspotEarningDetails = (props) => {
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (
-					<div style={{ padding: '6px', cursor: 'pointer' }}>
-						{item.order_id}
-					</div>
+					<>
+						<div
+							className='flex items-center'
+							style={{ cursor: 'pointer', textAlign: 'center',padding: '6px' }}>
+							<div className='text-sm'>
+								<Link
+									to={`/activeOrder/${item.order_id}`}
+									style={{ color: '#39B7CD' }}>
+									{item.order_id}
+								</Link>
+							</div>
+						</div>
+					</>
 				);
 			},
 		},
@@ -67,7 +79,7 @@ const HotspotEarningDetails = (props) => {
 			accessor: (item) => {
 				return (
 					<div style={{ padding: '6px', cursor: 'pointer' }}>
-						{item.delivery_datetime && item.delivery_datetime.split('T')[0]}
+						{item.delivery_datetime && formatDate(item.delivery_datetime)}
 					</div>
 				);
 			},
@@ -80,7 +92,7 @@ const HotspotEarningDetails = (props) => {
 			accessor: (item) => {
 				return (
 					<div style={{ padding: '6px', cursor: 'pointer' }}>
-						{moment(item.delivery_datetime).format('h:mm A')}
+						{formatTime(item.delivery_datetime)}
 					</div>
 				);
 			},
@@ -126,7 +138,7 @@ const HotspotEarningDetails = (props) => {
 		},
 		{
 			id: 9,
-			Header: 'Order amount',
+			Header: 'Total amount',
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (
@@ -138,25 +150,38 @@ const HotspotEarningDetails = (props) => {
 		},
 		{
 			id: 10,
-			Header: 'Restaurant Fee',
-			className: 'text-center view-details',
-			accessor: (item) => {
-				return (
-					<div style={{ padding: '6px', cursor: 'pointer' }}>
-						${item.order_details.restaurant.fee}
-					</div>
-				);
-			},
-		},
-		{
-			id: 11,
 			Header: 'Tip',
-			width: 150,
+			width: 50,
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (
 					<div style={{ padding: '6px', cursor: 'pointer' }}>
 						{item.tip_amount}
+					</div>
+				);
+			},
+		},
+
+		{
+			id: 11,
+			Header: 'Order amount',
+			className: 'text-center view-details',
+			accessor: (item) => {
+				return (
+					<div style={{ padding: '6px', cursor: 'pointer' }}>
+						${parseFloat(item.amount)- parseFloat(item.tip_amount)}
+					</div>
+				);
+			},
+		},
+		{
+			id: 12,
+			Header: 'Restaurant Fee (% Fee)',
+			className: 'text-center view-details',
+			accessor: (item) => {
+				return (
+					<div style={{ padding: '6px', cursor: 'pointer' }}>
+						${item.order_details.restaurant.fee + "(" + parseFloat(item.order_details.restaurant.percentage_fee) + "%)"} 
 					</div>
 				);
 			},

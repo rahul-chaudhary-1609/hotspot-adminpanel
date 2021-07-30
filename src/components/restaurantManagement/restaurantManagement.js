@@ -10,6 +10,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye } from '@fortawesome/free-solid-svg-icons';
 import { getRestaurantLists } from '../../api';
 import { useDispatch, useSelector } from 'react-redux';
+import {formatDate} from '../../utils/redableDateTime'
 
 function RestaurantManagement({ ...props }) {
 	const dispatch = useDispatch();
@@ -101,7 +102,7 @@ function RestaurantManagement({ ...props }) {
 			accessor: (item) => {
 				return (
 					<div style={{ padding: '6px', cursor: 'pointer' }}>
-						{item.createdAt ? item.createdAt.slice(0, 10) : ''}
+						{item.createdAt ? formatDate(item.createdAt) : ''}
 					</div>
 				);
 			},
@@ -123,6 +124,21 @@ function RestaurantManagement({ ...props }) {
 		},
 		{
 			id: 8,
+			Header: 'Agrement Doc',
+			width: 100,
+			className: 'text-center view-details',
+			accessor: (item) => {
+				return (
+					<div onClick={(e) => {e.stopPropagation(); window.open(item.agreement_doc_url,'_blank')}}
+						className="text-green-600"
+						style={{ padding: '6px', cursor: 'pointer' }}>
+						{item.agreement_doc_url && 'View'}
+					</div>
+				);
+			},
+		},
+		{
+			id: 9,
 			Header: 'Action',
 			className: 'text-center view-details',
 			accessor: (item) => {
@@ -194,15 +210,10 @@ function RestaurantManagement({ ...props }) {
 
 	return (
 		<>
-			<div className='main-content pb-16 md:pb-5 flex-1 pt-20 px-2' style={{overflowY: 'scroll', height: '100vh'}}>
-				{/* <GlobalFilterData /> */}
-				<div style={{ marginLeft: '1rem', fontSize: '2rem' }}>
-					Restaurant Management
-				</div>
-				<div
-					id='recipients'
-					className='p-4 md:p-8 mt-6 lg:mt-0 rounded shadow bg-white'>
-					<div style={{ display: 'flex', justifyContent: 'space-between' }}>
+			<div className='main-content md:pb-5 flex-1 p-8 px-2' style={{ overflowY: 'auto', height: '100vh' }}>
+				<div id='recipients' className='p-4 md:p-8 mt-6 lg:mt-0 rounded shadow bg-white'>
+					<h1 className='text-xl'>Restaurant Management</h1>
+					<div className='flex flex-wrap -mx-3 mb-6 mt-5' style={{justifyContent: 'space-between' }}>
 						<div className='w-full md:w-1/2 px-3 mb-6 md:mb-0 search-text'>
 							<SearchBox
 								placeholder='Search by name, email address, restaurant name'
@@ -218,13 +229,12 @@ function RestaurantManagement({ ...props }) {
 
 						<button
 							style={{ height: '3rem' }}
-							onClick={() => history.push('/addRestaurant')}
+							onClick={() => history.push('/restro')}
 							className='shadow bg-blue-500 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded'
 							type='button'>
 							Add New
 						</button>
 					</div>
-					<br/>
 					{error && (
 						<p
 							style={{
@@ -249,7 +259,7 @@ function RestaurantManagement({ ...props }) {
 						}}
 						loading={loading}
 					/>
-					(showing {startId < 0 ? 0 : startId + 1} - {endId} of {totalItems})
+					{totalItems > 0 ? `(showing ${startId + 1} - ${endId} of ${totalItems})` : 'showing 0 result'}
 					<div style={{ textAlign: 'right' }}>
 						<Pagination
 							activePage={activePage}

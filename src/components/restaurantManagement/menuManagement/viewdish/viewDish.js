@@ -36,19 +36,15 @@ const ViewDish = () => {
     };
 
     return (
-        <div
-            className='main-content pb-16 md:pb-5 flex-1 pt-20 px-2'
-            style={{ height: '100vh' }}>
-            <div className='p-4 md:p-8 mt-6 lg:mt-0 rounded shadow bg-white'>
-                <h3 className='text-2xl text-gray-400 font-bold mb-6'>
-                    Dish Details
-				</h3>
+        <div className='main-content md:pb-5 flex-1 p-8 px-2' style={{ overflowY: 'auto', height: '100vh' }}>
+				<div id='recipients' className='p-4 md:p-8 mt-6 lg:mt-0 rounded shadow bg-white'>
+					<h1 className='text-xl'>Dish Details</h1>
                 {!dish ?
                     <Loader />
                     : (
                         <>
-                            <div style={{ marginLeft: '10px', marginTop: ' 70px' }}>
-                                <div style={{ marginTop: '-70px' }}>
+                        <div className='flex flex-wrap -mx-3 mb-6 mt-5' style={{justifyContent: 'space-between' }}>
+							<div style={{ marginTop: '-40px' }}>
                                     <button
                                         style={{ height: '3rem' }}
                                         className='shadow mt-10 bg-blue-500 ml-3 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-1 px-4 rounded'
@@ -59,7 +55,7 @@ const ViewDish = () => {
                                     <button
                                         style={{ height: '3rem' }}
                                         onClick={() => history.push({
-                                            pathname: `/viewRestaurant/${menuId}/viewDish/${id}/addOns`,
+                                            pathname: `/restaurant/${menuId}/menu/${id}/dishAddOns`,
                                             state: { menuId: menuId, previousPath: path }
                                         })
                                         }
@@ -68,16 +64,11 @@ const ViewDish = () => {
                                         Add-On Management
 								</button>
                                 </div>
-                                <div style={{ marginLeft: '90%', marginTop: '-51px' }}>
+                                <div>
                                     <button
                                         style={{ height: '3rem' }}
                                         onClick={() => {
-                                            history.push(`/viewRestaurant/${menuId}/menu`)
-                                            // if (dish.id) {
-                                            //     history.push(`/viewDish/${menuId}/addOns`);
-                                            // }
-                                            // else
-                                            //     history.push(`/viewRestaurant/${menuId}/menu`)
+                                            history.push(`/restaurant/${menuId}/menu`)
                                             }
                                         }
                                         className='shadow bg-blue-500 ml-3 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded'

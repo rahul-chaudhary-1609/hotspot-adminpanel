@@ -13,6 +13,7 @@ import { getDriverLists, getDriverById, changeDriverStatus } from '../../api';
 import ToggleOffIcon from '@material-ui/icons/ToggleOff';
 import ToggleOnIcon from '@material-ui/icons/ToggleOn';
 import StatusManagement from '../statusManagement/statusManagement';
+import { formatDate } from '../../utils/redableDateTime';
 
 const DriverManagement = () => {
 	const history = useHistory();
@@ -105,7 +106,7 @@ const DriverManagement = () => {
 			accessor: (item) => {
 				return (
 					<div style={{ padding: '6px', cursor: 'pointer' }}>
-						{item.signupDate.split('T')[0]}
+						{formatDate(item.signupDate)}
 					</div>
 				);
 			},
@@ -166,7 +167,7 @@ const DriverManagement = () => {
 								color: 'red',
 								marginTop: '6px',
 							}}
-							onClick={() => history.push(`/viewDriver/${item.id}`)}
+							onClick={() => history.push(`/driver/${item.id}`)}
 							className='text-red-600 trash w-5 h-5'
 							color='red'
 							icon={faEye}
@@ -267,25 +268,11 @@ const DriverManagement = () => {
 	};
 	return (
 		<>
-			<div
-				className='main-content pb-16 md:pb-5 flex-1 pt-20 px-2'
-				style={{ overflowY: 'scroll', height: '100vh' }}
-				>
-				<div
-					id='recipients'
-					className='p-4 md:p-8 mt-6 lg:mt-0 rounded shadow bg-white'>
-					<div style={{ display: 'flex' }}>
-						<h1 className='text-xl'>Driver Management</h1>
-						{/* <button
-							style={{ height: '3rem', position: 'absolute', right: '40px' }}
-							onClick={() => history.push('/rejectedDrivers')}
-							className='shadow bg-red-500 hover:bg-red-400  focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded'
-							type='button'>
-							Rejected Drivers
-						</button> */}
-					</div>
+			<div className='main-content md:pb-5 flex-1 p-8 px-2' style={{ overflowY: 'auto', height: '100vh' }}>
+				<div id='recipients' className='p-4 md:p-8 mt-6 lg:mt-0 rounded shadow bg-white'>
+					<h1 className='text-xl'>Driver Management</h1>
 					<div className='flex flex-wrap -mx-3 mb-6 mt-5'>
-						<div className='w-full md:w-1/2 px-3 mb-6 md:mb-0 search-text mt-6'>
+						<div className='w-full md:w-1/2 px-3 mb-6 md:mb-0 search-text'>
 							<SearchBox
 								placeholder='Search by name,email address'
 								setSearchText={(val) =>
@@ -318,12 +305,9 @@ const DriverManagement = () => {
 						className='-highlight'
 						loading={loading}
 						columns={columns}
-						style={{
-							width: '100%',
-						}}
 					/>
 					<br />
-					(showing {startId < 0 ? 0 : startId + 1} - {endId} of {totalItems})
+					{totalItems > 0 ? `(showing ${startId + 1} - ${endId} of ${totalItems})` : 'showing 0 result'}
 					<div style={{ textAlign: 'right' }}>
 						<Pagination
 							activePage={activePage}

@@ -1,30 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory, useParams } from 'react-router';
 import { useSelector } from 'react-redux';
-import { getStaticContentDetails, getFileContent } from '../../../api';
+import { getStaticContentDetails, htmlFileUrlToTextConvert, baseURL} from '../../../api';
 import ReactPlayer from 'react-player';
 import FAQS from './faqQ';
-
 import PauseCircleOutlineIcon from '@material-ui/icons/PauseCircleOutline';
+
 const ViewStaticContent = () => {
 	const history = useHistory();
 	const { id } = useParams();
 	const token = useSelector((state) => state.auth.isSignedIn);
 
-	const [staticContentDetails, setStaticContentDetails] = useState([]);
+	const [staticContentDetails, setStaticContentDetails] =  useState([]);
 
 	useEffect(() => {
 		getStaticContentDetails(token, id)
 			.then((res) => {
-				getFileContent(token, res.page_url)
-					.then((rsp) => {
-						debugger
-						document.getElementById('doc').innerHTML = rsp;
-					})
-					.catch((error) => {
-						console.log(error);
-					});
-
+				//const newUrl = `${baseURL}htmlFileUrlToTextConvert?file_url=${res.page_url}`;
+				document.getElementById('doc').src = res.page_url
 				setStaticContentDetails(res);
 			})
 			.catch((error) => {
@@ -33,12 +26,10 @@ const ViewStaticContent = () => {
 	}, []);
 	return (
 		<>
-			<div className='main-content pb-16 md:pb-5 flex-1 pt-20 px-2'>
+			<div className='main-content md:pb-5 flex-1 p-8 px-2' style={{ overflowY: 'auto', height: '100vh' }}>
 				{staticContentDetails && (
-					<div
-						id='recipients'
-						className='p-4 md:p-8 mt-6 lg:mt-0 rounded shadow bg-white'>
-						<h1 style={{ marginLeft: '0.5 rem', fontSize: '2rem' }}>{staticContentDetails.title}</h1>
+					<div id='recipients' className='p-4 md:p-8 mt-6 lg:mt-0 rounded shadow bg-white'>
+						<h1 className='text-xl'>{staticContentDetails.title}</h1>
 						<br />
 						<button
 							style={{ height: '3rem' }}
@@ -47,8 +38,6 @@ const ViewStaticContent = () => {
 							type='button'>
 							Back
 						</button>
-						{/* {staticContentDetails.title != 'FAQs' ? (
-							<> */}
 						<button
 							style={{ height: '3rem' }}
 							onClick={() => history.push(`/editStaticContent/${id}`)}
@@ -74,7 +63,7 @@ const ViewStaticContent = () => {
 							<div className='flex mt-10 '>
 								<h1 className='text-xl ml-50 '>Description</h1>
 								{/* <ReactPlayer url={staticContentDetails.video_url} /> */}
-								<div className='flex flex-col ml-40' >
+								<div className='flex flex-col ml-16' >
 									{(staticContentDetails.title === "Customer -How it works" || staticContentDetails.title === "Driver -How it works") && (
 										staticContentDetails['video_url'] && <div>
 											{/*
@@ -115,15 +104,15 @@ const ViewStaticContent = () => {
 										</div>
 									)}
 									<br />
-									<div
+									<iframe
 										id='doc'
 										style={{
 											width: '734px',
-											height: '300px',
+											height: '400px',
 											overflow: 'auto',
 											border: '1px solid black',
 											padding: '10px',
-										}}></div>
+										}}></iframe>
 								</div>
 							</div>
 						</div>

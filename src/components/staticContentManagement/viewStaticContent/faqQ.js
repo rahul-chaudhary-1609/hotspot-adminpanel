@@ -75,7 +75,7 @@ const FAQS = () => {
 				setOldFaqs(_.cloneDeep(res.faqTopics));
 				// setActive(res.getFaqTopicsData[0].id);
 				let topicId = res.faqTopics[0].id;
-				history.push(`/viewStaticContent/${id}/faqs/${topicId}`)
+				history.push(`/static/${id}/faqs/${topicId}`)
 			})
 			.catch((error) => {
 				console.log(error);
@@ -123,7 +123,7 @@ const FAQS = () => {
 					setDeleteModal(false);
 					getFaqTopicsList();
 					setQus(null)
-					history.push(`/viewStaticContent/${id}/faqs`)
+					history.push(`/static/${id}/faqs`)
 				})
 				.catch((error) => {
 					setError(error);
@@ -170,9 +170,9 @@ const FAQS = () => {
 				<div
 					id='recipients'
 					className='p-4 md:p-8 mt-6 lg:mt-0 rounded  '>
-					<h1 className='text-3xl'>FAQs</h1>
+					<h1 className='text-xl'>FAQs</h1>
 					<br />
-					<div style={{ marginLeft: '80%', marginTop: '-88px' }}>
+					<div style={{ marginLeft: '80%', marginTop: '-66px' }}>
 						<button
 							style={{ height: '3rem' }}
 							onClick={() => history.push('/static')}
@@ -185,7 +185,7 @@ const FAQS = () => {
 
 						<button
 							style={{ height: '3rem' }}
-							onClick={() => history.push(`/viewStaticContent/${id}/addFaqs`)}
+							onClick={() => history.push(`/static/${id}/addFaqs`)}
 							className='shadow bg-blue-500 ml-3 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded'
 							type='button'>
 							Add New
@@ -249,13 +249,14 @@ const FAQS = () => {
 															<div className='flex flex-row items-center '>
 																<div className='font-semibold py-4 px-6  text-left' style={{ wordBreak: 'break-all', width: '70%' }}>
 																	<Link
-																		to={`/viewStaticContent/${id}/faqs/${ques.id}`}
+																		to={`/static/${id}/faqs/${ques.id}`}
 																		onClick={() => {
 																			setActive(ques.id);
 																			setQuestionId(ques.id);
 																			// handleQuestions(ques.id);
 																		}}
 																		style={{
+																			wordBreak:'break-word',
 																			marginBottom: '10px',
 																			fontSize: '20px',
 																			color: topicid == ques.id ? 'red' : 'blue',
@@ -263,7 +264,7 @@ const FAQS = () => {
 
 																	> {ques.topic}</Link>
 																</div>
-																<div className='px-6' style={{ Width: '70%' }}>
+																<div className='font-semibold text-left' style={{ Width: '70%' }}>
 
 																	<FontAwesomeIcon
 																		style={{ cursor: 'pointer' }}
@@ -356,7 +357,7 @@ const FAQS = () => {
 														<div style={{ textAlign: "right" }}>
 															<FontAwesomeIcon
 																style={{ cursor: 'pointer' }}
-																onClick={() => history.push(`/viewStaticContent/${id}/faqs/${topicid}/editFaqs/${ques.id}`)}
+																onClick={() => history.push(`/static/${id}/faqs/${topicid}/editFaqs/${ques.id}`)}
 																className='text-red-600 trash w-5 h-5'
 																color='red'
 																icon={faPencilAlt}

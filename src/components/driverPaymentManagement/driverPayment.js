@@ -6,6 +6,7 @@ import { getDriverEarningList } from '../../api';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 import SearchComponent from '../searchComponent';
+import { formatDate } from '../../utils/redableDateTime';
 
 const DriverPayment = () => {
 	const history = useHistory();
@@ -108,7 +109,7 @@ const DriverPayment = () => {
 			accessor: (item) => {
 				return (
 					<div style={{ padding: '6px', cursor: 'pointer' }}>
-						{item.from_date} to {item.to_date}
+						{formatDate(item.from_date)} to {formatDate(item.to_date)}
 					</div>
 				);
 			},
@@ -125,9 +126,20 @@ const DriverPayment = () => {
 				);
 			},
 		},
-
 		{
 			id: 6,
+			Header: 'Driver fees',
+			className: 'text-center view-details',
+			accessor: (item) => {
+				return (
+					<div style={{ padding: '6px', cursor: 'pointer' }}>
+						${item.driver_fee}
+					</div>
+				);
+			},
+		},
+		{
+			id: 7,
 			Header: 'Action',
 			className: 'text-center view-details',
 			accessor: (item) => {
@@ -139,10 +151,9 @@ const DriverPayment = () => {
 							justifyContent: 'space-around',
 						}}
 						className='text-center'
-						onClick={(e) => e.stopPropagation()}>
+						onClick={(e) => {item.status == 0 ? history.push({pathname:`/driverPayment/driverPaymentNow`, state:item}) : e.stopPropagation()}}>
 						<button
 							style={{ height: '3rem' }}
-							// onClick={() => history.push('/addBanner')}
 							className='shadow bg-white-500 hover:bg-white-400 focus:shadow-outline focus:outline-none text-black font-bold py-2 px-4 rounded'
 							type='button'>
 							{item.status == 0 ? 'Pay Now' : 'Settled'}
@@ -194,23 +205,10 @@ const DriverPayment = () => {
 
 	return (
 		<>
-			<div
-				className='main-content pb-16 md:pb-5 flex-1 pt-20 px-2'
-				style={{ overflowY: 'auto', height: '100vh' }}>
-				<div
-					id='recipients'
-					className='p-4 md:p-8 mt-6 lg:mt-0 rounded shadow bg-white'>
-					<div style={{ display: 'flex' }}>
-						<h1 className='text-xl'>Driver Payment Management</h1>
-						{/* <button
-							style={{ height: '3rem', position: 'absolute', right: '30px' }}
-							// onClick={() => history.push('/addSchedule')}
-							className='shadow bg-red-500 hover:bg-red-400  focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded'
-							type='button'>
-							Bonus
-						</button> */}
-					</div>
-					<br />
+			<div className='main-content md:pb-5 flex-1 p-8 px-2' style={{ overflowY: 'auto', height: '100vh' }}>
+				<div id='recipients' className='p-4 md:p-8 mt-6 lg:mt-0 rounded shadow bg-white'>
+					<h1 className='text-xl'>Driver Payment Management</h1>
+					
 					<SearchComponent
 						{...{ placeholder: 'Search by driver name', handleSearch }}
 					/>
@@ -220,7 +218,7 @@ const DriverPayment = () => {
 							paddingTop: '1em',
 							paddingBottom: '1em',
 							width: '100%',
-							marginTop: '60px',
+							marginTop: '10px',
 						}}>
 							{error && (
 						<p
@@ -242,14 +240,10 @@ const DriverPayment = () => {
 							className='-highlight'
 							loading={loading}
 							columns={columns}
-							style={{
-								width: '100%',
-								marginTop: '0px',
-							}}
 						/>
 					</div>
 					<br />
-					(showing {startId < 0 ? 0 : startId + 1} - {endId} of {totalItems})
+					{totalItems > 0 ? `(showing ${startId + 1} - ${endId} of ${totalItems})` : 'showing 0 result'}
 					<div style={{ textAlign: 'right' }}>
 						<Pagination
 							activePage={activePage}

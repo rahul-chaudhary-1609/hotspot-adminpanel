@@ -21,6 +21,8 @@ function AddRestaurent({ history, ...props }) {
 		working_hours_to: null,
 		location: [],
 		hotspot_location_ids: [],
+		stripe_publishable_key: '',
+      	stripe_secret_key:'',
 	});
 	const [hotspotList, setHotspotList] = useState([]);
 	const [restaurantCategoryList, setRestaurantCategoryList] = useState([]);
@@ -65,6 +67,7 @@ function AddRestaurent({ history, ...props }) {
 		return error;
 	};
 	const handleRestaurant = async (e) => {
+		
 		e.preventDefault();
 
 		if (!handleValidation()) {
@@ -94,8 +97,9 @@ function AddRestaurent({ history, ...props }) {
 				working_hours_to: restaurantDetails.working_hours_to,
 				order_type: orderType.value,
 				restaurant_category_ids : categoryIds,
+				agreement_doc_url : restaurantDetails.agreement_doc_url
 			};
-
+debugger
 			try {
 				const response = await addRestaurant(token, data);
 				if (response.success) {
@@ -103,7 +107,7 @@ function AddRestaurent({ history, ...props }) {
 					let restaurantId = response.restaurant_id;
 					setSuccessMsg('Restaurant added successfully');
 					setTimeout(() => {
-						history.push(`/viewRestaurant/${restaurantId}`);
+						history.push(`/restaurant`);
 					}, 1000);
 				}
 			} catch (error) {

@@ -50,7 +50,7 @@ const TableModal = (props) => {
 					loading={props.loading}
 				/>
 				<br />
-					(showing {props.startId < 0 ? 0 : props.startId + 1} - {props.endId} of {props.totalItems})
+					{props.totalItems > 0 ? `(showing ${props.startId + 1} - ${props.endId} of ${props.totalItems})` : 'showing 0 result'}
 					<div style={{ textAlign: 'right' }}>
 						<Pagination
 							activePage={props.activePage}

@@ -95,19 +95,15 @@ const ViewRestaurant = () => {
 		}
 	}
 	return (
-		<div
-			className='main-content pb-16 md:pb-5 flex-1 pt-20 px-2'
-			style={{ overflowY: 'scroll', height: '100vh' }}>
-			<div className='p-4 md:p-8 mt-6 lg:mt-0 rounded shadow bg-white'>
-				<h3 className='text-2xl text-gray-400 font-bold mb-6'>
-					Restaurant Details
-				</h3>
+		<div className='main-content md:pb-5 flex-1 p-8 px-2' style={{ overflowY: 'auto', height: '100vh' }}>
+				<div id='recipients' className='p-4 md:p-8 mt-6 lg:mt-0 rounded shadow bg-white'>
+					<h1 className='text-xl'>Restaurant Details</h1>
 				{!restaurantDetails ?
 				<Loader />
 				:(
 					<>
-						<div style={{ marginLeft: '10px', marginTop: ' 70px' }}>
-							<div style={{ marginTop: '-70px' }}>
+						<div className='flex flex-wrap -mx-3 mb-6 mt-5' style={{justifyContent: 'space-between' }}>
+							<div style={{ marginTop: '-40px' }}>
 								<button
 									style={{ height: '3rem' }}
 									className='shadow mt-10 bg-blue-500 ml-3 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-1 px-4 rounded'
@@ -123,7 +119,7 @@ const ViewRestaurant = () => {
 									Menu Management
 								</button>
 							</div>
-							<div style={{ marginLeft: '59%', marginTop: '-51px' }}>
+							<div>
 								<button
 									style={{ height: '3rem' }}
 									onClick={() => history.push('/restaurant')}
@@ -145,7 +141,7 @@ const ViewRestaurant = () => {
 
 								<button
 									style={{ height: '3rem' }}
-									onClick={() => history.push(`/editRestaurant/${id}`)}
+									onClick={() => history.push(`/restro/${id}`)}
 									className='shadow bg-blue-500 ml-3 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded'
 									type='button'>
 									Edit
@@ -311,6 +307,22 @@ const ViewRestaurant = () => {
 										restaurantDetails.working_hours_to,
 										'HH:mm:ss'
 									).format('h:mm A')}
+								</div>
+							</div>
+							<div className='flex flex-row items-center border-t border-gray-200'>
+								<div className='bg-gray-100 font-semibold py-4 px-6 w-1/3 text-right'>
+								Stripe publishable key 
+								</div>
+								<div style={{overflowY: 'scroll',width: '65%'}} className='px-8'>
+									<p>{restaurantDetails.stripe_publishable_key}</p>
+								</div>
+							</div>
+							<div className='flex flex-row items-center border-t border-gray-200'>
+								<div className='bg-gray-100 font-semibold py-4 px-6 w-1/3 text-right'>
+								Stripe secret key
+								</div>
+								<div style={{overflowY: 'scroll',width: '65%'}} className='px-8'>
+									<p >{restaurantDetails.stripe_secret_key}</p>
 								</div>
 							</div>
 						</div>

@@ -1,17 +1,18 @@
 import React, { useState, useEffect, useRef, ReactDOM } from 'react';
-import { useHistory, useParams } from 'react-router';
+import { useHistory, useParams,useLocation } from 'react-router';
 import { useSelector } from 'react-redux';
 import {
 	getStaticContentDetails,
 	updateStaticContent,
 	uploadImage,
-	getFileContent,
+	getFileContent,baseURL
 } from '../../../api';
 import ReactPlayer from 'react-player';
 import Loader from '../../../globalComponent/layout/loader';
 import InfoIcon from '@material-ui/icons/Info';
 
 const EditStaticContent = () => {
+	debugger
 	const history = useHistory();
 	const { id } = useParams();
 	const token = useSelector((state) => state.auth.isSignedIn);
@@ -34,7 +35,8 @@ const EditStaticContent = () => {
 			.then((res) => {
 				getFileContent(token, res.page_url)
 					.then((rsp) => {
-						document.getElementById('doc').innerHTML = rsp;
+						//const newUrl = `${baseURL}htmlFileUrlToTextConvert?file_url=${res.page_url}`;
+						document.getElementById('doc').src = res.page_url
 					})
 					.catch((error) => {
 						console.log(error);
@@ -50,33 +52,36 @@ const EditStaticContent = () => {
 	const handleUploadFile = async (e) => {
 		setFilename(e.target.files[0].name);
 		let data = {
-			image: e.target.files[0],
+			file: e.target.files[0],
+			mimeType:e.target.files[0].type,
 			folderName: 'other',
 		};
-
 		try {
 			const res = await uploadImage(token, data);
 			if (res.status == 200) {
+				debugger
 				setError(null);
 				let updatedData = { ...staticContentDetails };
 				updatedData.page_url = res.image_url;
 				setStaticContentDetails(updatedData);
-				updateContent(res.image_url);
+				//const newUrl = `${baseURL}htmlFileUrlToTextConvert?file_url=${res.image_url}`;
+				document.getElementById('doc').src = res.image_url
 			}
 		} catch (error) {
 			setError(error);
 		}
 	};
 
-	const updateContent = (url) => {
-		getFileContent(token, url)
-			.then((rsp) => {
-				ReactDOM.render("doc", <div dangerouslySetInnerHTML={{__html: rsp}} />)
-			})
-			.catch((error) => {
-				console.log(error);
-			});
-	};
+	// const updateContent = (url) => {
+	// 	getFileContent(token, url)
+	// 		.then((rsp) => {
+	// 			const newUrl = `${baseURL}htmlFileUrlToTextConvert?file_url=${rsp.page_url}`;
+	// 			document.getElementById('doc').src = newUrl
+	// 		})
+	// 		.catch((error) => {
+	// 			console.log(error);
+	// 		});
+	// };
 
 	const handleUploadVedio = async (e) => {
 		let type = e.target.files[0].type;
@@ -96,7 +101,8 @@ const EditStaticContent = () => {
 				setError(null);
 				setvedioname(e.target.files[0].name)
 				let data = {
-					image: e.target.files[0],
+					file: e.target.files[0],
+					mimeType:e.target.files[0].type,
 					folderName: 'other',
 				};
 
@@ -149,12 +155,12 @@ const EditStaticContent = () => {
 	};
 	return (
 		<>
-			<div className='main-content pb-16 md:pb-5 flex-1 pt-20 px-2'>
+			<div className='main-content pb-16 md:pb-5 flex-1 pt-20 px-2' style={{ overflowY: 'auto', height: '100vh' }}>
 				{!staticContentDetails ? <Loader /> : (
 					<div
 						id='recipients'
 						className='p-4 md:p-8 mt-6 lg:mt-0 rounded shadow bg-white'>
-						<h1 style={{ marginLeft: '0.5 rem', fontSize: '2rem' }}>{staticContentDetails.title}</h1>
+						<h1 className='text-xl'>{staticContentDetails.title}</h1>
 						<br />
 						<button
 							style={{ height: '3rem' }}
@@ -244,9 +250,9 @@ const EditStaticContent = () => {
 
 
 											}
-											<div style={{ display: 'flex', marginTop : 10 }}>
-												<label htmlFor='uploadNew' >
-													<div
+											<div style={{ display: 'flex', marginTop : 10}}>
+												<label htmlFor='uploadNew'  style={{width:140}}>
+													<div 
 														className='shadow bg-blue-500 ml-3 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded'
 													>
 														Upload New Video
@@ -265,21 +271,20 @@ const EditStaticContent = () => {
 										</>
 									)}
 
-									<div
+									<iframe
 										id='doc'
 										style={{
 											marginLeft: '70px',
 											fontSize: '15px',
 											marginLeft: '10px',
 											width: '634px',
-											maxHeight: '200px',
-											height: '300px',
+											height: '400px',
 											overflow: 'auto',
 											padding: '10px',
 											border: '1px solid black',
-										}}></div>
+										}}></iframe>
 									<div style={{ display: 'flex' , marginTop : 10}}>
-										<label for='upload' className='w-24 block '>
+										<label for='upload'  style={{width:140}}>
 											<div
 												className='shadow bg-blue-500 ml-3 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded'
 											>

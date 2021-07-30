@@ -7,7 +7,8 @@ import { getDriverEarningListById, getDriverById } from '../../../api';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
 
-const DriverPaymentDetails = () => {
+const DriverPaymentDetails = (props) => {
+
 	const history = useHistory();
 	const {state} = useLocation();
 
@@ -191,6 +192,7 @@ const DriverPaymentDetails = () => {
 		try {
 			const res = await getDriverById(token, id);
 			if (res.status == 200) {
+				debugger
 				setDriverDetails(res.personalDetails);
 			}
 		} catch (error) {
@@ -303,7 +305,7 @@ const DriverPaymentDetails = () => {
 							columns={columns}
 						/>
 					</div>
-					(showing {startId < 0 ? 0 : startId + 1} - {endId} of {totalItems})
+					{totalItems > 0 ? `(showing ${startId + 1} - ${endId} of ${totalItems})` : 'showing 0 result'}
 				
 					<div style={{ textAlign: 'right' }}>
 						<Pagination

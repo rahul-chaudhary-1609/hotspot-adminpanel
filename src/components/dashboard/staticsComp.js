@@ -39,6 +39,7 @@ const StaticsComponent = (props) => {
 			totalProcessingOrdersViaHotspot();
 			totalCompletedOrdersViaHotspot();
 			totalEarningsViaHotspot();
+			setTotalHotspots(1);
 		} else {
 			TotalCustomers();
 			TotalDrivers();
@@ -182,7 +183,6 @@ const StaticsComponent = (props) => {
 				style={{
 					width: '50%',
 					backgroundColor: 'white',
-					height: '400px',
 				}}>
 				<h2
 					style={{
@@ -229,7 +229,6 @@ const StaticsComponent = (props) => {
 				style={{
 					width: '50%',
 					backgroundColor: 'white',
-					height: '400px',
 					marginLeft: '20px',
 				}}>
 				<h2

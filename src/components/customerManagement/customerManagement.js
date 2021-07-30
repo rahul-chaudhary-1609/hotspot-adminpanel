@@ -15,6 +15,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import ToggleOffIcon from '@material-ui/icons/ToggleOff';
 import ToggleOnIcon from '@material-ui/icons/ToggleOn';
 import StatusManagement from '../statusManagement/statusManagement';
+import {formatDate} from '../../utils/redableDateTime'
 
 const CustomerManagement = () => {
 	const history = useHistory();
@@ -132,7 +133,7 @@ const CustomerManagement = () => {
 			accessor: (item) => {
 				return (
 					<div style={{ padding: '6px', cursor: 'pointer' }}>
-						{item.signupDate.split('T')[0]}
+						{formatDate(item.signupDate)}
 					</div>
 				);
 			},
@@ -173,7 +174,7 @@ const CustomerManagement = () => {
 								color: 'red',
 								marginTop: '6px',
 							}}
-							onClick={() => history.push(`/viewCustomer/${item.id}`)}
+							onClick={() => history.push(`/customer/${item.id}`)}
 							// className='text-red-600 trash w-5 h-5'
 							color='red'
 							icon={faEye}
@@ -270,12 +271,8 @@ const CustomerManagement = () => {
 	};
 	return (
 		<>
-			<div
-				className='main-content pb-16 md:pb-5 flex-1 pt-20 px-2 '
-				style={{ overflowY: 'auto', height: '100vh' }}>
-				<div
-					id='recipients'
-					className='p-4 md:p-8 mt-6 lg:mt-0 rounded shadow bg-white'>
+			<div className='main-content md:pb-5 flex-1 p-8 px-2' style={{ overflowY: 'auto', height: '100vh' }}>
+				<div id='recipients' className='p-4 md:p-8 mt-6 lg:mt-0 rounded shadow bg-white'>
 					<h1 className='text-xl'>Customer Management</h1>
 					<div className='flex flex-wrap -mx-3 mb-6 mt-5'>
 						<div className='w-full md:w-1/2 px-3 mb-6 md:mb-0 search-text'>
@@ -315,7 +312,7 @@ const CustomerManagement = () => {
 						}}
 					/>
 					<br />
-					(showing {startId < 0 ? 0 : startId + 1} - {endId} of {totalItems})
+					{totalItems > 0 ? `(showing ${startId + 1} - ${endId} of ${totalItems})` : 'showing 0 result'}
 					<div style={{ textAlign: 'right' }}>
 						<Pagination
 							activePage={activePage}

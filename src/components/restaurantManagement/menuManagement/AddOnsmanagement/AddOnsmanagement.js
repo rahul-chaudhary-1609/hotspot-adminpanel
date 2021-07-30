@@ -118,7 +118,7 @@ function AddOnsmanagement({ ...props }) {
                         <FontAwesomeIcon
                             style={{ cursor: 'pointer' }}
                             onClick={() =>
-                                history.push(`/${'viewRestaurant'}/${window.localStorage.getItem('menuId')}/viewDish/${id}/editDishAddon/${item.id}`)
+                                history.push(`/${'restaurant'}/${window.localStorage.getItem('menuId')}/menu/${id}/dishAddOns/addOn/${item.id}`)
                             }
                             className='text-red-600 trash w-5 h-5'
                             color='red'
@@ -182,48 +182,39 @@ function AddOnsmanagement({ ...props }) {
     }
     return (
         <>
-            <div className='main-content pb-16 md:pb-5 flex-1 pt-20 px-2' style={{ height: '100vh' }}>
-                <div style={{ marginLeft: '1rem', fontSize: '2rem' }}>
-                    Add-On Management
-				</div>
-                <button
-                    style={{ height: '3rem' }}
-                    type='button'
-                    className='shadow bg-500 mt-10 ml-3 hover:bg-white-400 focus:shadow-outline focus:outline-none text-black font-bold py-1 px-4 rounded'
-                    onClick={() =>
-                        history.push(`/${'viewRestaurant'}/${window.localStorage.getItem('menuId')}/viewDish/${id}`)
-                    }
-                >
-                    Dish Details
-				</button>
-                <button
-                    style={{ height: '3rem' }}
-                    disabled
-                    className='shadow mt-10 bg-blue-500 ml-3 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-1 px-4 rounded'
-                    type='button'>
-                    Add-On Management
-				</button>
-
-                <div
-                    id='recipients'
-                    className='p-4 md:p-8 mt-6 lg:mt-0 rounded shadow bg-white'>
-                    <div className='flex -mx-3 mb-6'>
-                    
-                        <div className='w-full px-3 mb-6 md:mb-0' style={{ marginLeft: '1rem', fontSize: '1.5rem' }}>
-                            { distDetails.name  &&  distDetails.name + "'s Add-Ons"}
-				        </div>
-
-                        <div className='w-full px-3 mb-6 md:mb-0 search-text'>
+            <div className='main-content md:pb-5 flex-1 p-8 px-2' style={{ overflowY: 'auto', height: '100vh' }}>
+				<div id='recipients' className='p-4 md:p-8 mt-6 lg:mt-0 rounded shadow bg-white'>
+					<h1 className='text-xl'>{ distDetails.name  &&  distDetails.name + "'s Add-Ons"}</h1>
+                    <div className='flex flex-wrap -mx-3 mb-6 mt-5' style={{justifyContent: 'space-between' }}>
+						<div style={{ marginTop: '-40px' }}>
                             <button
-                                onClick={() => history.push(`/${'viewRestaurant'}/${window.localStorage.getItem('menuId')}/viewDish/${id}/addDishAddon`)}
+                                style={{ height: '3rem' }}
+                                type='button'
+                                className='shadow bg-500 mt-10 ml-3 hover:bg-white-400 focus:shadow-outline focus:outline-none text-black font-bold py-1 px-4 rounded'
+                                onClick={() =>
+                                    history.push(`/${'restaurant'}/${window.localStorage.getItem('menuId')}/menu/${id}`)
+                                }
+                            >
+                                Dish Details
+                            </button>
+                            <button
+                                style={{ height: '3rem' }}
+                                disabled
+                                className='shadow mt-10 bg-blue-500 ml-3 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-1 px-4 rounded'
+                                type='button'>
+                                Add-On Management
+                            </button>
+                        </div>
+                        <div>
+                            <button
+                                onClick={() => history.push(`/${'restaurant'}/${window.localStorage.getItem('menuId')}/menu/${id}/dishAddOns/addOn`)}
                                 className='shadow bg-blue-500 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded'
                                 type='button'>
                                 Add New
 							</button>
                         </div>
-
-                        
                     </div>
+                        
                     {error && (
                         <p
                             style={{
@@ -239,7 +230,6 @@ function AddOnsmanagement({ ...props }) {
                         showPagination={false}
                         minRows={0}
                         NoDataComponent={() => null}
-                        defaultPageSize={10}
                         data={addOnsList}
                         loading={loading}
                         className='-highlight'
@@ -250,7 +240,7 @@ function AddOnsmanagement({ ...props }) {
                     />
                 </div>
             </div>
-            {deleteModal && <DeleteModal  {...{ deleteModal, setDeleteModal, name: 'Dish', handleDelete }} />}
+            {deleteModal && <DeleteModal  {...{ deleteModal, setDeleteModal, name: 'Add On', handleDelete }} />}
         </>
     );
 }

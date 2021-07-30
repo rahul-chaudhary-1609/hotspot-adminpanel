@@ -1,5 +1,7 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
+import {baseURL} from '../../../api'
+import { Document, Page, pdfjs } from "react-pdf";
 
 const DriverForm = (props) => {
 	const url = useLocation();
@@ -8,12 +10,12 @@ const DriverForm = (props) => {
 	let vehicle = props.driverDetails
 		? props.driverDetails.driverVehicleDetail
 		: null;
-
+		
 	return (
 		<>
 			{props.driverDetails && (
-				<div className='main-content pb-16 md:pb-5 flex-1  px-2 mt-5'>
-					<div className='p-4 md:p-8 lg:mt-0 rounded shadow bg-white w-3/4 mx-auto'>
+				<div className='main-content pb-16 md:pb-5 flex-1  px-2 mt-5'> 
+					<div className='p-4 md:p-8 lg:mt-0 rounded bg-white w-3/4 mx-auto'>
 						<form
 							id='myForm'
 							className='w-full max-w-full text-base text-gray-200'>
@@ -27,8 +29,8 @@ const DriverForm = (props) => {
 											class='rounded-full h-full w-full'
 											alt='upload image'
 											src={
-												driver.passport_picture_url
-													? driver.passport_picture_url
+												driver.profile_picture_url
+													? driver.profile_picture_url
 													: require('../../../assets/img/icon-user.png')
 											}
 											accept='image/*'
@@ -123,26 +125,6 @@ const DriverForm = (props) => {
 										/>
 									</div>
 								</div>
-								<div className='w-full md:w-1/2 px-3 mb-6 md:mb-0'>
-									<label
-										className='block tracking-wide mb-2 text-gray-300'
-										for='nationality'>
-										Nationality
-									</label>
-									<div className='relative'>
-										<input
-											id='nationality'
-											defaultValue={driver.nationality}
-											disabled={props.disable}
-											className={
-												'appearance-none block w-full border bg-gray-100  rounded-full py-3 px-6 mb-3 leading-tight focus:outline-none focus:bg-white'
-											}
-										/>
-									</div>
-								</div>
-							</div>
-
-							<div className='flex flex-wrap -mx-3 '>
 								<div className='w-full md:w-1/2 px-3 '>
 									<label
 										className='block tracking-wide text-gray-300 mb-2'
@@ -151,7 +133,6 @@ const DriverForm = (props) => {
 									</label>
 									<input
 										id='dob'
-										type='date'
 										disabled={props.disable}
 										defaultValue={driver.dob}
 										className={
@@ -161,6 +142,88 @@ const DriverForm = (props) => {
 								</div>
 							</div>
 
+							<div className='flex flex-wrap -mx-3 '>
+								<div className='w-full md:w-1/2 px-3 mb-6 md:mb-0'>
+										<label
+											className='block tracking-wide mb-2 text-gray-300'
+											for='nationality'>
+											Nationality
+										</label>
+										<div className='relative'>
+											<input
+												id='nationality'
+												defaultValue={driver.nationality}
+												disabled={props.disable}
+												className={
+													'appearance-none block w-full border bg-gray-100  rounded-full py-3 px-6 mb-3 leading-tight focus:outline-none focus:bg-white'
+												}
+											/>
+										</div>
+									</div>
+									<div className='w-full md:w-1/2 px-3 mb-6 md:mb-0'>
+										<label
+											className='block tracking-wide mb-2 text-gray-300'
+											for='nationality'>
+											Nationality Id No
+										</label>
+										<div className='relative'>
+											<input
+												id='nationality'
+												defaultValue={driver.passport_number}
+												disabled={props.disable}
+												className={
+													'appearance-none block w-full border bg-gray-100  rounded-full py-3 px-6 mb-3 leading-tight focus:outline-none focus:bg-white'
+												}
+											/>
+										</div>
+									</div>
+								
+						
+								<label className='w-full md:w-1/2 px-3 mb-6 md:mb-0'
+									for='vehicle_type'>
+									Nationality Id Proof
+								</label>
+								{driver && driver.passport_picture_url ? (
+									driver.passport_picture_url.substr(driver.passport_picture_url.lastIndexOf('.') + 1) === 'pdf' ? (
+										<iframe
+										id='passport_picture_url' type="application/pdf"
+										style={{
+											minHeight: '200px',
+											minWidth: '100%',
+											backgroundColor: 'lightgray',
+											textAlign: 'center',
+											lineHeight: '190px',
+										}}
+										//src={vehicle && vehicle.image_url}
+										src={driver && driver.passport_picture_url}
+									/>
+									) :
+									<img
+										id='passport_picture_url'
+										style={{
+											minHeight: '200px',
+											minWidth: '100%',
+											backgroundColor: 'lightgray',
+											textAlign: 'center',
+											lineHeight: '190px',
+										}}
+										src={driver && driver.passport_picture_url}
+										accept='image/*'
+									/>
+								) : (
+									<div
+										style={{
+											minHeight: '200px',
+											minWidth: '100%',
+											backgroundColor: 'lightgray',
+											textAlign: 'center',
+											lineHeight: '190px',
+										}}>
+										{' '}
+										Upload vehicle image
+									</div>
+								)}
+							</div>
 							<label
 								className='block tracking-wide mb-2 mt-5 text-gray-500 text-bold'
 								style={{ fontSize: '20px', fontWeight: 'bold' }}
@@ -274,6 +337,20 @@ const DriverForm = (props) => {
 									/>
 								</div>
 								{vehicle && vehicle.image_url ? (
+									vehicle.image_url.substr(vehicle.image_url.lastIndexOf('.') + 1) === 'pdf' ? (
+										<iframe
+										id='vehicle_image_url' type="application/pdf"
+										style={{
+											minHeight: '100%',
+											minWidth: '100%',
+											backgroundColor: 'lightgray',
+											textAlign: 'center',
+											lineHeight: '190px',
+										}}
+										//src={vehicle && vehicle.image_url}
+										src={vehicle && vehicle.image_url}
+									/>
+									) :
 									<img
 										id='vehicle_image_url'
 										style={{
@@ -316,6 +393,20 @@ const DriverForm = (props) => {
 											}
 										/>
 										{vehicle && vehicle.license_image_url ? (
+											vehicle.license_image_url.substr(vehicle.license_image_url.lastIndexOf('.') + 1) === 'pdf' ? (
+												<iframe
+												id='licence_image_url' type="application/pdf"
+												style={{
+													minHeight: '200px',
+													minWidth: '100%',
+													backgroundColor: 'lightgray',
+													textAlign: 'center',
+													lineHeight: '190px',
+												}}
+												//src={vehicle && vehicle.image_url}
+												src={vehicle && vehicle.license_image_url}
+											/>
+											) :
 											<img
 												id='licence_image_url'
 												style={{
@@ -359,6 +450,20 @@ const DriverForm = (props) => {
 											}
 										/>
 										{vehicle && vehicle.insurance_image_url ? (
+											vehicle.insurance_image_url.substr(vehicle.insurance_image_url.lastIndexOf('.') + 1) === 'pdf' ? (
+												<iframe
+												id='insurance_image_url' type="application/pdf"
+												style={{
+													minHeight: '200px',
+													minWidth: '100%',
+													backgroundColor: 'lightgray',
+													textAlign: 'center',
+													lineHeight: '190px',
+												}}
+												//src={vehicle && vehicle.image_url}
+												src={vehicle && vehicle.insurance_image_url}
+											/>
+											) :
 											<img
 												id='insurance_image_url'
 												style={{

@@ -65,7 +65,7 @@ const AddFaqs = () => {
 				.then((res) => {
 					setSuccessMsg('FAQs added successfully');
 					setTimeout(() => {
-						history.push(`/viewStaticContent/${id}/faqs`);
+						history.push(`/static/${id}/faqs`);
 					}, 1000);
 
 					setError(null)
@@ -87,7 +87,7 @@ const AddFaqs = () => {
 					<div style={{marginLeft:'80%', marginTop:'-78px'}}>
 					<button
 						style={{ height: '3rem' }}
-						onClick={() => history.push(`/viewStaticContent/${id}/faqs`)}
+						onClick={() => history.push(`/static/${id}/faqs`)}
 						className='shadow bg-blue-500 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded'
 						type='button'>
 						Back

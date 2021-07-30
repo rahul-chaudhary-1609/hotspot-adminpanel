@@ -84,7 +84,7 @@ const EditFqs = () => {
 					setError(null)
 					setSuccessMsg('FAQ updated successfully');
 					setTimeout(() => {
-						history.push(`/viewStaticContent/${id}/faqs/${topicid}`);
+						history.push(`/static/${id}/faqs/${topicid}`);
 					}, 1000);
 				})
 				.catch((error) => {
@@ -104,7 +104,7 @@ const EditFqs = () => {
 					<div style={{marginLeft:'80%', marginTop:'-78px'}}>
 					<button
 						style={{ height: '3rem' }}
-						onClick={() => history.push(`/viewStaticContent/${id}/faqs/${topicid}`)}
+						onClick={() => history.push(`/static/${id}/faqs/${topicid}`)}
 						className='shadow bg-blue-500 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded'
 						type='button'>
 						Back

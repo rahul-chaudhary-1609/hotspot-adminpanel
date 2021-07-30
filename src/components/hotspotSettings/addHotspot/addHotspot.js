@@ -49,7 +49,7 @@ const AddHotspot = () => {
 					setError(null);
 				   setSuccessMsg("Hotspot added successfully");
 					setTimeout(() => {
-						history.push('/hotspot');
+						history.push('/hotspots');
 					}, 1200);
 					
 				})

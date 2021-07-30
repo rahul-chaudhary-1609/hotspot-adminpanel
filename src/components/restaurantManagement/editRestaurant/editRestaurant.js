@@ -133,16 +133,18 @@ const EditRestaurent = () => {
 				order_type: orderType.value,
 				restaurant_category_ids : categoryIds,
 				role: restaurantDetails.role,
-				// agreement_doc_url: restaurantDetails.agreement_doc_url
+				agreement_doc_url : !restaurantDetails.agreement_doc_url ? '' : restaurantDetails.agreement_doc_url,			
+				stripe_publishable_key: restaurantDetails.stripe_publishable_key,
+				stripe_secret_key:restaurantDetails.stripe_secret_key,
 			};
-
+			debugger
 			try {
 				let resp = await editRestaurant(token, id, data);
 				if (resp.success) {
 					setError(null);
 					setSuccessMsg('Restaurant updated successfully');
 					setTimeout(() => {
-						history.push('/restaurant');
+						history.push(`/restaurant/${id}`);
 					}, 1000);
 				
 				}

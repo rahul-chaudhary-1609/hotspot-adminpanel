@@ -22,7 +22,7 @@ function Dashboard({ history, ...props }) {
 	}, []);
 
 	const hotspotLists = () => {
-		getListHotspots(token, '', '')
+		getListHotspots(token)
 			.then((hotspots) => {
 				let markers = [];
 				hotspots.hotspotList.rows.map((hotspot) => {
@@ -85,11 +85,11 @@ function Dashboard({ history, ...props }) {
 				) : (
 					<div
 						style={{
-							height: '300px',
-							width: '100%',
-							backgroundColor: 'lightgray',
+							// height: '300px',
+							// width: '100%',
+							// backgroundColor: 'lightgray',
 							textAlign: 'center',
-							lineHeight: '190px',
+							// lineHeight: '190px',
 						}}>
 						{' '}
 						Loading the map...

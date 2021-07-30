@@ -56,17 +56,16 @@ const EditDish = () => {
 			name: dish.name,
 			price: dish.price,
 			description: dish.description,
-			is_recommended : is_recommended,
-			is_quick_filter :is_quick_filter
+			is_recommended : parseInt(is_recommended),
+			is_quick_filter :parseInt(is_quick_filter)
 		};
-
 		editDish(token, id, data)
 			.then((res) => {
 				setError(null);
 				setSuccessMsg('Dish update successfully');
 
 				setTimeout(() => {
-					history.push(`/viewRestaurant/${restaurantId}/menu`);
+					history.push(`/restaurant/${restaurantId}/menu`);
 				}, 1200);
 			})
 			.catch((error) => {
@@ -93,7 +92,7 @@ const EditDish = () => {
 				setIsquick_filter,
 				setIsrecommended,
 				is_recommended,
-				is_quick_filter
+				is_quick_filter,setError
 			}}
 		/>
 	);

@@ -9,3 +9,4 @@ export const FILTER_BY = 'FILTER_BY'
 export const START_DATE_FILTER = 'START_DATE_FILTER'
 export const END_DATE_FILTER = 'END_DATE_FILTER'
 export const CLEAR_DATA = "CLEAR_DATA"
+export const URL_CHANGE = "URL_CHANGE"

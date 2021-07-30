@@ -8,6 +8,8 @@ import CustomSelect from '../../../globalComponent/layout/select';
 import { getActiveOrders } from '../../../api';
 import { useSelector, useDispatch } from 'react-redux';
 import ButtonLayouts from '../buttonLayouts';
+import { formatDate,formatTime } from '../../../utils/redableDateTime';
+
 
 const NewOrders = () => {
 	const column = [
@@ -24,8 +26,8 @@ const NewOrders = () => {
 							style={{ cursor: 'pointer', textAlign: 'center' }}>
 							<div className='text-sm'>
 								<Link
-									to={`/order/orderDetails/${item.orderId}`}
-									style={{ color: '#39B7CD	' }}>
+									to={`/activeOrder/${item.orderId}`}
+									style={{ color: '#39B7CD' }}>
 									{item.orderId}
 								</Link>
 							</div>
@@ -41,27 +43,37 @@ const NewOrders = () => {
 			accessor: (item) => {
 				return (
 					<div style={{ padding: '6px', cursor: 'pointer' }}>
-						{item.delivery_datetime.split('T')[0]}
+						{formatDate(item.createdAt)}
 					</div>
 				);
 			},
 		},
 		{
 			id: 3,
-			Header: 'Delivery Time',
+			Header: 'Delivery Date',
 			className: 'text-center view-details',
 			accessor: (item) => {
-					return (
+				return (
 					<div style={{ padding: '6px', cursor: 'pointer' }}>
-						{moment(item.delivery_datetime).format(
-							'h:mm A'
-						)}
+						{formatDate(item.delivery_datetime)}
 					</div>
 				);
 			},
 		},
 		{
 			id: 4,
+			Header: 'Delivery Time',
+			className: 'text-center view-details',
+			accessor: (item) => {
+					return (
+					<div style={{ padding: '6px', cursor: 'pointer' }}>
+						{formatTime(item.delivery_datetime)}
+					</div>
+				);
+			},
+		},
+		{
+			id: 5,
 			Header: 'Customer Name',
 			className: 'text-center view-details',
 			accessor: (item) => {
@@ -73,7 +85,7 @@ const NewOrders = () => {
 			},
 		},
 		{
-			id: 5,
+			id: 6,
 			Header: 'Hotspot Name',
 			className: 'text-center view-details',
 			accessor: (item) => {
@@ -85,7 +97,7 @@ const NewOrders = () => {
 			},
 		},
 		{
-			id: 6,
+			id: 7,
 			width: 100,
 			Header: 'Order Value',
 			className: 'text-center view-details',
@@ -96,7 +108,7 @@ const NewOrders = () => {
 			},
 		},
 		{
-			id: 7,
+			id: 8,
 			Header: 'Restaurant',
 			width: 100,
 			className: 'text-center view-details',
@@ -109,7 +121,7 @@ const NewOrders = () => {
 			},
 		},
 		{
-			id: 8,
+			id: 9,
 			Header: 'Status',
 			width: 150,
 			className: 'text-center view-details',
@@ -185,13 +197,13 @@ const NewOrders = () => {
 
 	return (
 		<>
-			<div
-				className='main-content pb-16 md:pb-5 flex-1 pt-20 px-2'
-				style={{ overflowY: 'unset', height: '100vh' }}>
-				<div style={{ marginLeft: '1rem', fontSize: '2rem' }}>Orders</div>
+			
+			<div className='main-content md:pb-5 flex-1 p-8 px-2' style={{ overflowY: 'auto', height: '100vh' }}>
+				<div id='recipients' className='p-4 md:p-8 mt-6 lg:mt-0 rounded shadow bg-white'>
+					<h1 className='text-xl'>Order</h1>
 				<ButtonLayouts />
-				<div className='flex mt-10 ml-3'>
-					<div className='w-full  md:w-1/2 px-3  mb-6 md:mb-0 search-text'>
+				<div className='flex flex-wrap -mx-3 mb-6 mt-5'>
+						<div className='w-full md:w-1/2 px-3 mb-6 md:mb-0 search-text'>
 						<SearchBox
 							placeholder='Search by Name, Order Id'
 							setSearchText={(val) =>
@@ -251,12 +263,7 @@ const NewOrders = () => {
 						{error}
 					</p>
 				)}
-				<div
-					style={{
-						width: '96%',
-						marginTop: '30px',
-						marginLeft: '20px',
-					}}>
+				
 					<ReactTable
 						showPagination={false}
 						minRows={0}
@@ -266,18 +273,14 @@ const NewOrders = () => {
 					   className='-highlight'
 						columns={column}
 						loading={loading}
-						style={{
-							width: '98%',
-						}}
 					/>
-				</div>
 
 				<br />
 				<p
 					style={{
 						marginLeft: '20px',
 					}}>
-					(Showing {startId < 0 ? 0 : startId + 1} - {endId} of {totalItems})
+					{totalItems > 0 ? `(showing ${startId + 1} - ${endId} of ${totalItems})` : 'showing 0 result'}
 				</p>
 				<div style={{ textAlign: 'right' }}>
 					<Pagination
@@ -288,6 +291,7 @@ const NewOrders = () => {
 						onChange={handlePageChange}
 					/>
 				</div>
+			</div>
 			</div>
 		</>
 	);

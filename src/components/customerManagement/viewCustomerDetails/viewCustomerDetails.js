@@ -3,6 +3,7 @@ import { useHistory, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { getCustomerById, changeCustomerStatus } from '../../../api';
 import StatusManagement from '../../statusManagement/statusManagement';
+import {formatDate} from '../../../utils/redableDateTime'
 
 const ViewCustomerDetails = () => {
 	const history = useHistory();
@@ -42,14 +43,9 @@ const ViewCustomerDetails = () => {
 	return (
 		<>
 			{customerDetails && (
-				<div
-					className='main-content pb-16 md:pb-5 flex-1 pt-20 px-2'
-					style={{ overflowY: 'scroll', height: '100vh' }}>
-					<div className='p-4 md:p-8 mt-6 lg:mt-0 rounded shadow bg-white'>
-						<h3 className='text-2xl text-gray-400 font-bold mb-6'>
-							Customer Details
-						</h3>
-
+				<div className='main-content md:pb-5 flex-1 p-8 px-2' style={{ overflowY: 'auto', height: '100vh' }}>
+				<div id='recipients' className='p-4 md:p-8 mt-6 lg:mt-0 rounded shadow bg-white'>
+					<h1 className='text-xl'>Customer Details</h1>
 						<button
 							style={{ height: '3rem' }}
 							onClick={() => history.push('/customer')}
@@ -94,8 +90,8 @@ const ViewCustomerDetails = () => {
 								</div>
 							</div>
 						</div>
-					</div>
-					<div className='form-layout text-base border border-gray-200'>
+					
+						<div className='form-layout text-base border border-gray-200'>
 						<div className='flex flex-row items-center '>
 							<div className='bg-gray-100 font-semibold py-4 px-6 w-1/3 text-right'>
 								Name
@@ -122,7 +118,7 @@ const ViewCustomerDetails = () => {
 								Registered ON
 							</div>
 							<div className='px-8'>
-								{customerDetails.signupDate.split('T')[0]}
+								{formatDate(customerDetails.signupDate)}
 							</div>
 						</div>
 						<div className='flex flex-row items-center border-t border-gray-200'>
@@ -145,6 +141,7 @@ const ViewCustomerDetails = () => {
 								{customerDetails.status == 1 ? 'Active' : 'Deactive'}
 							</div>
 						</div>
+					</div>
 					</div>
 				</div>
 			)}

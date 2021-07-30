@@ -82,7 +82,7 @@ const EditHotspot = () => {
 				setError(null);
 				setSuccessMsg('Hotspot updated successfully');
 				setTimeout(() => {
-					history.push(`/hotspotDetails/${id}`);
+					history.push(`/hotspots/${id}`);
 				}, 1200);
 			})
 			.catch((error) => {

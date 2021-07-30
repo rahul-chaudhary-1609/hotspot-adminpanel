@@ -3,27 +3,15 @@ import { useHistory, useParams } from 'react-router';
 import { getNotificationDetails } from '../../../api';
 import { useSelector } from 'react-redux';
 
-const ViewNotification = () => {
+const ViewNotification = (props) => {
 	const history = useHistory();
 	const token = useSelector((state) => state.auth.isSignedIn);
 	const { id } = useParams();
-
-	const [notification, setNotification] = useState(null);
-	useEffect(() => {
-		getNotificationDetails(token, id)
-			.then((resp) => {
-				setNotification(resp);
-			})
-			.catch((error) => {
-				console.log(error);
-			});
-	}, []);
+	const [notification, setNotification] = useState(props.location.state);
 	return (
-		<div className='main-content pb-16 md:pb-5 flex-1 pt-20 px-2'>
-			<div className='p-4 md:p-8 mt-6 lg:mt-0 rounded shadow bg-white'>
-				<h3 className='text-2xl text-gray-400 font-bold mb-6'>
-					Notification Details
-				</h3>
+		<div className='main-content md:pb-5 flex-1 p-8 px-2' style={{ overflowY: 'auto', height: '100vh' }}>
+				<div id='recipients' className='p-4 md:p-8 mt-6 lg:mt-0 rounded shadow bg-white'>
+					<h1 className='text-xl'>Notification Details</h1>
 
 					<button
 						style={{ height: '3rem' }}

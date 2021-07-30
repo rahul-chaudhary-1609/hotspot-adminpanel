@@ -19,7 +19,7 @@ const BannerManagement = () => {
     let currentId = startId;
     
 	const [loading, setLoading] = useState(false);
-	const [pageSize, setPageSize] = useState(15);
+	const [pageSize, setPageSize] = useState(20);
 	const [totalItems, setTotalItems] = useState(null);
 	const [activePage, setCurrentPage] = useState(1);
 
@@ -77,7 +77,7 @@ const BannerManagement = () => {
 			accessor: (item) => {
 				return (
 					<div style={{ padding: '6px', cursor: 'pointer' }}>
-						<img src={item.image_url}/>
+						<img style={{height:80}} src={item.image_url}/>
 					</div>
 				);
 			},
@@ -94,24 +94,24 @@ const BannerManagement = () => {
 				);
 			},
 		},
+		// {
+		// 	id: 5,
+		// 	Header: 'Status',
+		// 	width: 100,
+		// 	className: 'text-center view-details',
+		// 	accessor: (item) => {
+		// 		return (
+		// 			<div
+		// 				className={item.status == 1 ? 'text-green-600' : 'text-red-600'}
+		// 				style={{ padding: '6px', cursor: 'pointer' }}>
+		// 				{item.status == 1 ? 'Active' : 'Inactive'}
+                        
+		// 			</div>
+		// 		);
+		// 	},
+		// },
 		{
 			id: 5,
-			Header: 'Status',
-			width: 100,
-			className: 'text-center view-details',
-			accessor: (item) => {
-				return (
-					<div
-						className={item.status == 1 ? 'text-green-600' : 'text-red-600'}
-						style={{ padding: '6px', cursor: 'pointer' }}>
-						{item.status == 1 ? 'Active' : 'Inactive'}
-                        
-					</div>
-				);
-			},
-		},
-		{
-			id: 6,
 			Header: 'Action',
 			className: 'text-center view-details',
 			accessor: (item) => {
@@ -126,7 +126,7 @@ const BannerManagement = () => {
 						onClick={(e) => e.stopPropagation()}>
 						<FontAwesomeIcon
 							style={{ cursor: 'pointer' }}
-							 onClick={() => history.push(`/editBanner/${item.id}`)}
+							 onClick={() => history.push(`/banners/banner/${item.id}`)}
 							className='text-red-600 trash w-5 h-5'
 							color='red'
 							icon={faPencilAlt}
@@ -201,23 +201,20 @@ const BannerManagement = () => {
 	};
 	return (
 		<>
-			<div
-				className='main-content pb-16 md:pb-5 flex-1 pt-20 px-2'
-				style={{ overflowY: 'scroll', height: '90vh', marginTop: '30px' }}>
-				<div style={{ marginLeft: '1rem', fontSize: '2rem' }}>
-					Banner Management
-				</div>
-				<div
-					id='recipients'
-					className='p-4 md:p-8 mt-6 lg:mt-0 rounded shadow bg-white'>
-					<div style={{ marginLeft: '90%', marginTop: '-70px' }}>
-						<button
-							style={{ height: '3rem' }}
-							onClick={() => history.push('/addBanner')}
-							className='shadow bg-red-500 hover:bg-red-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded'
-							type='button'>
-							Add New
-						</button>
+			<div className='main-content md:pb-5 flex-1 p-8 px-2' style={{ overflowY: 'auto', height: '100vh' }}>
+				<div id='recipients' className='p-4 md:p-8 mt-6 lg:mt-0 rounded shadow bg-white'>
+					<h1 className='text-xl'>Banner Management</h1>
+				
+					<div className='flex flex-wrap -mx-3 mb-6 mt-5' style={{justifyContent: 'space-between' }}>
+							<div style={{position: "relative",left: "89%"}}>
+							<button
+								style={{ height: '3rem' }}
+								onClick={() => history.push('/banners/banner')}
+								className='shadow bg-blue-500 hover:bg-red-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded'
+								type='button'>
+								Add New
+							</button>
+						</div>
 					</div>
 					<br />
 					{error && (
@@ -235,18 +232,17 @@ const BannerManagement = () => {
 						showPagination={false}
 						minRows={0}
 						NoDataComponent={() => null}
-						defaultPageSize={15}
-					   data={bannerData}
+					   	data={bannerData}
 						className='-highlight'
 						columns={columns}
-						style={{
-							width: '100%',
-							marginTop: '60px',
-						}}
+						// style={{
+						// 	width: '100%',
+						// 	marginTop: '60px',
+						// }}
 						loading={loading}
 					/>
 					<br />
-					(showing {startId < 0 ? 0 : startId + 1} - {endId} of {totalItems})
+					{totalItems > 0 ? `(showing ${startId + 1} - ${endId} of ${totalItems})` : 'showing 0 result'}
 					<div style={{ textAlign: 'right' }}>
 						<Pagination
 							activePage={activePage}

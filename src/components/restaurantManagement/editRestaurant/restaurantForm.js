@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
+import GooglePlacesAutocomplete from 'react-google-places-autocomplete';
 import Select from 'react-select';
 import CustomTimePicker from '../../../globalComponent/layout/timePicker';
+import {baseURL} from '../../../api'
 
 import { useHistory, useParams, useLocation } from 'react-router';
 import {
@@ -12,7 +14,6 @@ import {
 } from '../../../api';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
-import GooglePlacesAutocomplete from 'react-google-places-autocomplete';
 import './restaurantForm.css';
 import InfoIcon from '@material-ui/icons/Info';
 import Loader from '../../../globalComponent/layout/loader';
@@ -24,20 +25,14 @@ const RestaurantForm = (props) => {
 	const { id } = useParams();
 	const token = useSelector((state) => state.auth.isSignedIn);
 	const { pathname } = useLocation();
-	if(!id && pathname === '/editRestaurant'){
-		debugger
-		history.push('/restaurant')
-	}
 	
-
-
-
 	const customStyles = {
 		control: (provided, state) => ({
 			...provided,
 			width: '100%',
 			backgroundColor: '#fafafa',
-			borderColor: 'grey',
+			borderColor: 'grey',height:"100%",
+			minHeight:"50px",marginBottom:"12px",
 			// borderRadius: '9999px',
 		}),
 		container: (provided, state) => ({
@@ -56,6 +51,9 @@ const RestaurantForm = (props) => {
 	const [showLoader, setShowLoader] = useState(false);
 
 	const [imageLoader, setImageLoader] = useState(false);
+	const [agrementDoc, setAgrementDoc] = useState('');
+
+
 
 	const handleImageChange = (e) => {
 		if(e.target.files[0])
@@ -69,7 +67,8 @@ const RestaurantForm = (props) => {
 			}else{
 
 		let data = {
-			image: e.target.files[0],
+			file: e.target.files[0],
+			mimeType:e.target.files[0].type,
 			folderName: 'restaurant',
 		};
 		setImageLoader(true);
@@ -90,8 +89,10 @@ const RestaurantForm = (props) => {
 
 	let location = props.location;
 	useEffect(() => {
+
 		getRestaurantCategories();
 		getHotspots();
+		//setAgrementDoc(restaurant && restaurant.agreement_doc_url);
 	}, []);
 
 	const getRestaurantCategories = async () => {
@@ -198,20 +199,41 @@ const RestaurantForm = (props) => {
 		}
 	};
 	const handleDocUpload = (e) =>{
-		let data = {
-			image: e.target.files[0],
-			folderName: 'others',
-		};
-		uploadImage(token, data)
-			.then((res) => {
+		if(e.target.files[0])
+		{
+			var imageArray = e.target.files[0].name.split('.');
+			if(imageArray.length > 2  && imageArray.length < 2 )
+			{
+				props.setError("Double extension files are not allowed.");
+			}else if(imageArray[1].toLowerCase() !== "jpeg" && imageArray[1].toLowerCase() !== "jpg" && imageArray[1].toLowerCase() !== "png" && imageArray[1].toLowerCase() !== "pdf" ){
+				props.setError("Only jpeg, jpg ,pdf, png images are allowed.");
+			}
+			else{
+				props.setError("");
+				let data = {
+					file: e.target.files[0],
+					mimeType:e.target.files[0].type,
+					folderName: 'others',
+				};
+				setShowLoader(true);
 				let updatedRestaurant = { ...restaurant };
-				updatedRestaurant.agreement_doc_url = res.image_url;
+				updatedRestaurant.agreement_doc_name = e.target.files[0].name;
 				props.setRestaurantDetails(updatedRestaurant);
-			})
-			.catch((error) => {
-			    console.log(error);
-			});
+				uploadImage(token, data)
+					.then((res) => {
+						updatedRestaurant.agreement_doc_url = res.image_url;
+						props.setRestaurantDetails(updatedRestaurant);
+						setAgrementDoc(res.image_url)
+						setAgrementDoc(props.restaurantDetails.agreement_doc_url)
+						setShowLoader(false);
+					})
+					.catch((error) => {
+						console.log(error);
+					});
+				}
+		}
 	}
+
 	return (
 		<>
 			<div
@@ -630,7 +652,7 @@ const RestaurantForm = (props) => {
 											minutes before shift ending
 										</p>
 									</div>
-									<div className='w-full flex px-3 mb-6 md:mb-0 d-inline-flex'>
+									<div style={{marginBottom:'10px'}} className='w-full flex px-3 mb-6 md:mb-0 d-inline-flex'>
 										<label
 											className='block w-1/2 tracking-wide py-3 px-6 mb-3 text-gray-300'
 											for='working_hours'>
@@ -653,13 +675,12 @@ const RestaurantForm = (props) => {
 														updatedDetails['working_hours_from'] =
 															moment(val).format('HH:mm:ss');
 													}
-
 													props.setRestaurantDetails(updatedDetails);
 												}}
 												className='appearance-none block w-1/2 bg-gray-100 border border-gray-200 rounded-half py-3 px-6 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-200'
 												id='working_hours_from'
 											/>
-
+<p style={{margin: "15px 20px 0 20px"}}>To</p>
 											<CustomTimePicker
 												use12Hours
 												format='h:mm A'
@@ -670,8 +691,12 @@ const RestaurantForm = (props) => {
 												}
 												onChange={(val) => {
 													let updatedDetails = { ...restaurant };
-													updatedDetails['working_hours_to'] =
-														moment(val).format('HH:mm:ss');
+													if (val == null) {
+														updatedDetails['working_hours_to'] = '';
+													} else {
+														updatedDetails['working_hours_to'] =
+															moment(val).format('HH:mm:ss');
+													}
 													props.setRestaurantDetails(updatedDetails);
 												}}
 												className='appearance-none block w-1/2 bg-gray-100 border border-gray-200 rounded-half py-3 px-6 mb-3 ml-5 leading-tight focus:outline-none focus:bg-white focus:border-gray-200'
@@ -680,6 +705,41 @@ const RestaurantForm = (props) => {
 										{/* )} */}
 									</div>
 								</div>
+
+								<div className=' d-flex flex-column -mx-3 '>
+									<div className='w-full flex px-3 mb-6 md:mb-0 d-inline-flex'>
+										<label
+											className='block w-1/2 tracking-wide text-gray-300 py-3 px-6 mb-3'
+											for='restaurant_name'>
+											Stripe Publishable Key
+										</label>
+										<input
+											className='appearance-none block w-1/2 bg-gray-100 border border-gray-200 rounded-half py-3 px-6 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-200'
+											id='stripe_publishable_key'
+											type='text'
+											required
+											onChange={handleInputChange}
+											value={restaurant.stripe_publishable_key}
+										/>
+									</div>
+
+									<div className='w-full flex px-3 mb-6 md:mb-0'>
+										<label
+											className='block w-1/2 tracking-wide py-3 px-6 mb-3 text-gray-300'
+											for='role'>
+											Stripe Secret Key
+										</label>
+										<input
+											className='appearance-none block w-1/2 bg-gray-100 border border-gray-200 rounded-half py-3 px-6 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-200'
+											id='stripe_secret_key'
+											type='text'
+											required
+											value={restaurant.stripe_secret_key}
+											onChange={handleInputChange}
+										/>
+									</div>
+								</div>
+
 								<div className='d-flex flex-column -mx-3 '>
 									<div className='w-full flex px-3'>
 										<label
@@ -708,7 +768,7 @@ const RestaurantForm = (props) => {
 									</div>
 									<div className='w-full  flex px-3'>
 										<label
-											className='block w-1/2 tracking-wide text-gray-300py-3 px-6 mb-3'
+											className='block w-1/2 tracking-wide text-gray-300 py-3 px-6 mb-3'
 											for='category'>
 											Category
 										</label>
@@ -731,15 +791,15 @@ const RestaurantForm = (props) => {
 									</div>
 									<div className='w-full mt-2 flex px-3'>
 										<div
-											className='block w-1/2 tracking-wide text-gray-300py-3 px-6 mb-3'
+											className='block w-1/2 tracking-wide text-gray-300 py-3 px-6'
 											>
 											Agreement Doc
 											
 										</div>
 										<label
-												style={{ height: '3rem' }}
+												style={{ margin: '0' }}
 												for='docAgr'
-												className='shadow bg-white-500 ml-3 hover:bg-white-400 focus:shadow-outline focus:outline-black text-black  py-2 px-4 rounded'>
+												className='shadow bg-blue-500 ml-3 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded'>
 												Upload Doc
 											</label>
 										<input
@@ -749,7 +809,50 @@ const RestaurantForm = (props) => {
 											// accept='application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document'
 											style={{ display: 'none' }}
 										/>
+										{/* <div className='text-gray-300py-3 px-6 mb-3' >{props.restaurantDetails.agreement_doc_name}</div> */}
+
 									</div>
+									<br/>
+										{restaurant.agreement_doc_url && restaurant.agreement_doc_url ? (
+										restaurant.agreement_doc_url.substr(restaurant.agreement_doc_url.lastIndexOf('.') + 1) === 'pdf' ? (
+										<iframe
+										id='docAgrementUrl' type="application/pdf"
+										style={{
+											minHeight: '500px',
+											minWidth: '100%',
+											backgroundColor: 'lightgray',
+											textAlign: 'center',
+											lineHeight: '190px',
+										}}
+										//src={vehicle && vehicle.image_url}
+										src={restaurant.agreement_doc_url && restaurant.agreement_doc_url}
+									/>
+									) :
+									<img
+										id='docAgrementUrl'
+										style={{
+											height: '250px',
+											width: '250px',
+											backgroundColor: 'lightgray',
+											textAlign: 'center',
+											lineHeight: '190px',
+										}}
+										src={restaurant.agreement_doc_url && restaurant.agreement_doc_url}
+										accept='image/*'
+									/>
+								) : (
+									<div
+										style={{
+											minHeight: '200px',
+											minWidth: '100%',
+											backgroundColor: 'lightgray',
+											textAlign: 'center',
+											lineHeight: '190px',
+										}}>
+										{' '}
+										Upload Agrement Doc
+									</div>
+								)}
 								</div>
 							</form>
 						)

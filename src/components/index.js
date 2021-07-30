@@ -40,6 +40,7 @@ import AddHotspot from './hotspotSettings/addHotspot/addHotspot.js';
 
 import DriverPayment from './driverPaymentManagement/driverPayment.js';
 import DriverPaymentDetails from './driverPaymentManagement/viewDriverPaymentDetails/driverPaymentDetails.js';
+import DriverPaymentNow from './driverPaymentManagement/driverPayNow.js'
 
 import NotificationManagement from './notificationManagement/notificationManagement.js';
 import ViewNotification from './notificationManagement/viewNotification/viewNotification.js';
@@ -62,6 +63,7 @@ import AddBanner from './bannerManagement/addBanner/addBanner.js';
 import EditBanner from './bannerManagement/editBanner/editBanner.js';
 
 import RestaurantPayment from './restaurantPayment/restaurantPayment.js';
+import ResturantPayNow from './restaurantPayment/resturantPayNow.js'
 
 import CompletedOrder from './orderManagement/completedOrders/completedOrders.js';
 import ScheduledOrder from './orderManagement/scheduledOrder/scheduledOrder.js';
@@ -71,11 +73,15 @@ import OrderDetails from './orderManagement/orderDetails/orderDetails.js';
 import HotspotEarning from './adminEarning/hotspotEarning.js';
 import PickupEarning from './adminEarning/pickupEarning/pickupEarning.js';
 import FAQS from './staticContentManagement/viewStaticContent/faqQ';
+import { useHistory, useParams,useLocation } from 'react-router';
 
 const Admin = () => {
 	const token = useSelector((state) => state.auth.isSignedIn);
 	const userId = useSelector((state) => state.auth.userId);
+	const URL_CHANGE = useSelector((state) => state.auth.URL_CHANGE);
+	const history = useHistory();
 	const dispatch = useDispatch();
+	
 
 	useEffect(() => {
 		if (userId) {
@@ -92,6 +98,18 @@ const Admin = () => {
 					});
 				});
 		}
+
+		// dispatch({
+		// 	type: 'URL_CHANGE',
+		// 	payload: parseInt(URL_CHANGE) + 1,
+		// });
+		// if(URL_CHANGE > 0)
+		// {
+		// 	dispatch({
+		// 		type: 'SIGN_OUT',
+		// 	});
+		// 	//window.location.href = "/login"
+		// }
 	}, [userId]);
 
 	return (
@@ -127,27 +145,27 @@ const Admin = () => {
 						/>
 						<ProtectedRoutes
 							exact
-							path={'/viewCustomer/:id'}
+							path={'/customer/:id'}
 							component={ViewCustomerDetails}
 						/>
 						<ProtectedRoutes
 							exact
-							path={'/hotspot'}
+							path={'/hotspots'}
 							component={HotspotSettings}
 						/>
 						<ProtectedRoutes
 							exact
-							path={'/hotspotDetails/:id'}
+							path={'/hotspots/:id'}
 							component={ViewHotspotDetails}
 						/>
 						<ProtectedRoutes
 							exact
-							path={'/editHotspot/:id'}
+							path={'/hotspot/:id'}
 							component={EditHotspot}
 						/>
 						<ProtectedRoutes
 							exact
-							path={'/addHotspot'}
+							path={'/hotspot'}
 							component={AddHotspot}
 						/>
 						<ProtectedRoutes
@@ -157,7 +175,7 @@ const Admin = () => {
 						/>
 						<ProtectedRoutes
 							exact
-							path={`/viewDriver/:id`}
+							path={`/driver/:id`}
 							component={ViewDriverDetails}
 						/>
 						<ProtectedRoutes
@@ -167,19 +185,28 @@ const Admin = () => {
 						/>
 						<ProtectedRoutes
 							exact
+							path={`/driverPayment/driverPaymentNow`}
+							component={DriverPaymentNow}
+						/>
+						<ProtectedRoutes
+							exact
 							path={`/driverPayment/:id`}
 							component={DriverPaymentDetails}
 						/>
 						<ProtectedRoutes
 							exact
 							path={[
-								`/order/orderDetails/:id`,
-								`/scheduledOrders/orderDetails/:id`,
-								`/completedOrders/orderDetails/:id`,
+								`/activeOrder/:id`,
+								`/scheduledOrders/:id`,
+								`/completedOrders/:id`,
 							]}
 							component={OrderDetails}
 						/>
-						<ProtectedRoutes exact path={`/order`} component={newOrders} />
+						<ProtectedRoutes 
+							exact 
+							path={`/activeOrder`} 
+							component={newOrders} 
+						/>
 						<ProtectedRoutes
 							exact
 							path={`/completedOrders`}
@@ -197,7 +224,7 @@ const Admin = () => {
 						/>
 						<ProtectedRoutes
 							exact
-							path={`/viewNotification/:id`}
+							path={`/notification/:id`}
 							component={ViewNotification}
 						/>
 						s
@@ -213,12 +240,12 @@ const Admin = () => {
 						/>
 						<ProtectedRoutes
 							exact
-							path={`/viewStaticContent/:id`}
+							path={`/static/:id`}
 							component={ViewStaticContent}
 						/>
 						<ProtectedRoutes
 							exact
-							path={[`/viewStaticContent/:id/faqs`,`/viewStaticContent/:id/faqs/:topicid`]}
+							path={[`/static/:id/faqs`,`/static/:id/faqs/:topicid`]}
 							component={FAQS}
 						/>
 						<ProtectedRoutes
@@ -228,10 +255,10 @@ const Admin = () => {
 						/>
 						<ProtectedRoutes
 							exact
-							path={`/viewStaticContent/:id/addFaqs`}
+							path={`/static/:id/addFaqs`}
 							component={AddFaqs}
 						/>
-						<ProtectedRoutes exact path={`/viewStaticContent/:id/faqs/:topicId/editFaqs/:questionId`} component={EditFqs} />
+						<ProtectedRoutes exact path={`/static/:id/faqs/:topicId/editFaqs/:questionId`} component={EditFqs} />
 						<ProtectedRoutes
 							exact
 							path={`/feesettings`}
@@ -249,64 +276,69 @@ const Admin = () => {
 						/>
 						<ProtectedRoutes
 							exact
-							path={`/editRestaurant/:id`}
+							path={`/restro/:id`}
 							component={EditRestaurant}
 						/>
 						<ProtectedRoutes
 							exact
-							path={`/addRestaurant`}
+							path={`/restro`}
 							component={AddRestaurent}
 						/>
 						<ProtectedRoutes
 							exact
-							path={ `/viewRestaurant/:id/menu`}
+							path={ `/restaurant/:id/menu`}
 							component={Menumanagement}
 						/>
 						<ProtectedRoutes
 							exact
-							path={`/viewRestaurant/:id/addDish`}
+							path={`/restaurant/:id/menu/dish`}
 							component={AddDish}
 						/>
 						<ProtectedRoutes
 							exact
-							path={`/viewRestaurant/:id/editDish/:id`}
+							path={`/restaurant/:id/menu/dish/:id`}
 							component={EditDish}
 						/>
 						<ProtectedRoutes
 							exact
-							path={`/viewRestaurant/:id/viewDish/:id`}
+							path={`/restaurant/:id/menu/:id`}
 							component={ViewDish}
 						/>
 						<ProtectedRoutes
 							exact
-							path={ `/viewRestaurant/:id/viewDish/:id/addOns`}
+							path={ `/restaurant/:id/menu/:id/dishAddOns`}
 							component={AddOnsmanagement}
 						/>
 						<ProtectedRoutes
 							exact
-							path={`/viewRestaurant/:id/viewDish/:id/addDishAddon`}
+							path={`/restaurant/:id/menu/:id/dishAddOns/addOn`}
 							component={AddAddOns}
 						/>
 						<ProtectedRoutes
 							exact
-							path={`/viewRestaurant/:id/viewDish/:id/editDishAddon/:id`}
+							path={`/restaurant/:id/menu/:id/dishAddOns/addOn/:id`}
 							component={EditAddOns}
 						/>
 						<ProtectedRoutes
 							exact
-							path={`/banner`}
+							path={`/banners`}
 							component={BannerManagement}
 						/>
-						<ProtectedRoutes exact path={`/addBanner`} component={AddBanner} />
+						<ProtectedRoutes exact path={`/banners/banner`} component={AddBanner} />
 						<ProtectedRoutes
 							exact
-							path={`/editBanner/:id`}
+							path={`/banners/banner/:id`}
 							component={EditBanner}
 						/>
 						<ProtectedRoutes
 							exact
 							path={`/restaurantPayment`}
 							component={RestaurantPayment}
+						/>
+						<ProtectedRoutes
+							exact
+							path={`/restaurantPayment/resturantPayNow`}
+							component={ResturantPayNow}
 						/>
 						<ProtectedRoutes
 							exact

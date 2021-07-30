@@ -29,7 +29,7 @@ const GoogleMap = (props) => {
 	}, [map, maps, markers]);
 
 	return (
-		<div style={{ height: '300px', width: '100%' }}>
+		<div style={{ height: '300px', width: '100%'}}>
 			<GoogleMapReact
 				bootstrapURLKeys={{
 					key: 'AIzaSyCqeKge8JYCJdvyt77p0QEqIr0dMyA8BOM',

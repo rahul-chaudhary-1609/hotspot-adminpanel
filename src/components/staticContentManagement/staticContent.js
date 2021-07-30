@@ -75,7 +75,7 @@ const StaticContent = () => {
 							<>
 							<FontAwesomeIcon
 							style={{ cursor: 'pointer' }}
-							onClick={() => history.push(`/viewStaticContent/${item.id}`)}
+							onClick={() => history.push(`/static/${item.id}`)}
 							className='text-red-600 trash w-5 h-5'
 							color='red'
 							icon={faEye}
@@ -91,7 +91,7 @@ const StaticContent = () => {
 						): 
 						<FontAwesomeIcon
 							style={{ cursor: 'pointer' }}
-							onClick={() => history.push(`/viewStaticContent/${item.id}/faqs`)}
+							onClick={() => history.push(`/static/${item.id}/faqs`)}
 							className='text-red-600 trash w-5 h-5'
 							color='red'
 							icon={faEye}
@@ -116,12 +116,10 @@ const StaticContent = () => {
 	}, []);
 	return (
 		<>
-			<div className='main-content pb-16 md:pb-5 flex-1 pt-20 px-2'>
-				<div
-					id='recipients'
-					className='p-4 md:p-8 mt-6 lg:mt-0 rounded shadow bg-white'>
-						<div style={{ marginLeft: '1rem', fontSize: '2rem' }}>Static Content Management</div>
-					<div className='mt-20'>
+			<div className='main-content md:pb-5 flex-1 p-8 px-2' style={{ overflowY: 'auto', height: '100vh' }}>
+				<div id='recipients' className='p-4 md:p-8 mt-6 lg:mt-0 rounded shadow bg-white'>
+					<h1 className='text-xl'>Static Content Management</h1>
+					<div className='mt-8'>
 						<ReactTable
 							showPagination={false}
 							minRows={0}

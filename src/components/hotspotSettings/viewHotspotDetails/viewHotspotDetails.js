@@ -60,7 +60,7 @@ const ViewHotspotDetails = () => {
 							}}>
 							<button
 								style={{ height: '3rem' }}
-								onClick={() => history.push('/hotspot')}
+								onClick={() => history.push('/hotspots')}
 								className='shadow bg-blue-500 ml-3 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded'
 								type='button'>
 								Back
@@ -68,7 +68,7 @@ const ViewHotspotDetails = () => {
 
 							<button
 								style={{ height: '3rem' }}
-								onClick={() => history.push(`/editHotspot/${id}`)}
+								onClick={() => history.push(`/hotspot/${id}`)}
 								className='shadow bg-blue-500 ml-3 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded'
 								type='button'>
 								Edit

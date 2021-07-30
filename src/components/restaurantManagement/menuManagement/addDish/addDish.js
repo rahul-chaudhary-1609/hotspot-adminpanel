@@ -55,7 +55,7 @@ const AddDish = () => {
 			setError(null);
 			setSuccessMsg("Dish added successfully")
 			setTimeout(() =>{
-				history.push(`/viewRestaurant/${id}/menu`)
+				history.push(`/restaurant/${id}/menu`)
 			},1200)
 		     
 		}).catch(error => {

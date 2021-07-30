@@ -5,6 +5,7 @@ import {gettipAmountById, editTipAmount} from '../../../api.js'
 
 export default function TipModal(props) {
 
+	const [err, setErr] = useState();
     console.log(props);
     const customsStyles = {
 		content: {
@@ -62,13 +63,13 @@ export default function TipModal(props) {
 	};
 
     const handleChange = (e) => {
-		if(e.target.id === "price" && e.target.value === "0")
-			{
-				props.setError("Price should be greater than zero.");
-			}else{
-        setTipAmount(e.target.value)
-    }
-}
+		if(e.target.value === "0")
+		{
+			setErr("Price should be greater than zero.");
+		}else{
+        	setTipAmount(e.target.value)
+    	}
+	}
 
     const handleFee = () => {
         let data = {
@@ -77,13 +78,15 @@ export default function TipModal(props) {
         };
         editTipAmount(token, data)
 					.then((resp) => {
-						props.setSuccessMsg("Tip Amount updated successfully");
-                        props.setTipModal(false);
+						setErr("Tip Amount updated successfully");
+						setTimeout(()=>{
+							props.setTipModal(false);
+						},1500)
                         props.tipAmountFetch()
 					})
 					.catch((error) => {
 						console.log(error);
-						props.setSuccessMsg(null);
+						setErr('');
 					});
     }
 
@@ -93,9 +96,8 @@ export default function TipModal(props) {
 					isOpen={props.tipModal}
 					onRequestClose={closeModal}
 					style={customsStyles}>
-					<h1 style={{ fontSize: '30px', textAlign: 'center' }}>
-						Edit Tip Amount
-			</h1>
+					<h1 style={{ fontSize: '30px', textAlign: 'center' }}>Edit Tip Amount</h1>
+					<h1 style={{ fontSize: '12px',color:'red' ,textAlign: 'center' }}>{err}</h1>
 					<div className='flex flex-row items-center mt-5  '>
 						<div className='   w-1/3 text-left '>Fee Type</div>
 						<b style={{ marginBottom: "0px", paddingLeft: "100px" }}>Tip</b>
@@ -103,6 +105,7 @@ export default function TipModal(props) {
 					<div className='flex flex-row items-center mt-5  '>
 						<div className='w-1/2 text-left '>Amount</div>
 						<input
+							type='number'
 							className='appearance-none block w-1/3 bg-gray-100 border border-100 rounded-half py-2 px-8 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-200'
 							style={{ marginLeft: "-96px" }}
 							value={tipAmount}

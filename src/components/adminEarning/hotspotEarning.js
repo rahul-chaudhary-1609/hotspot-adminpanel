@@ -3,10 +3,11 @@ import ReactTable from 'react-table';
 import Pagination from 'react-js-pagination';
 import CommonComponent from './commonComponent';
 import SearchComponent from '../searchComponent/index';
-import { getOrderDeliveiesList } from '../../api';
+import { getOrderDeliveiesList,getOrderDeliveryDetailById } from '../../api';
 import { useSelector } from 'react-redux';
 import moment from 'moment'
 import HotspotEarningDetails from './hotspotEarningDetails/hotspotEarningDetails';
+import { formatDate,formatTime } from '../../utils/redableDateTime';
 
 const HotspotEarning = () => {
 	const token = useSelector((state) => state.auth.isSignedIn);
@@ -32,7 +33,7 @@ const HotspotEarning = () => {
 
 	const [loading, setLoading] = useState(false);
 	const [pageSize, setPageSize] = useState(10);
-	const [totalItems, setTotalItems] = useState(null);
+	const [totalItems, setTotalItems] = useState(0);
 	const [activePage, setCurrentPage] = useState(1);
 
 	const [tableModal, setTableModal] = useState(false);
@@ -97,25 +98,25 @@ const HotspotEarning = () => {
 		},
 		{
 			id: 4,
-			Header: 'Date',
+			Header: 'Delivery date',
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (
 					<div style={{ padding: '6px', cursor: 'pointer' }}>
-						{item.createdAt.split('T')[0]}
+						{formatDate(item.delivery_datetime)}
 					</div>
 				);
 			},
 		},
 		{
 			id: 5,
-			Header: 'Delivery Time',
+			Header: 'Delivery time',
 			width: 80,
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (
 					<div style={{ padding: '6px', cursor: 'pointer' }}>
-						{moment(item.delivery_datetime).format('LT')}
+						{formatTime(item.delivery_datetime)}
 					</div>
 				);
 			},
@@ -135,19 +136,47 @@ const HotspotEarning = () => {
 		},
 		{
 			id: 7,
-			Header: 'Total order amount',
+			Header: '(F)Total delivery amt.',
+			width: 80,
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (
 					<div style={{ padding: '6px', cursor: 'pointer' }}>
-						{item.order_amount}
+						${parseFloat(item.order_amount) + parseFloat(item.tip_amount)}
 					</div>
 				);
 			},
 		},
 		{
 			id: 8,
-			Header: 'Tip amt.',
+			Header: '(G)Total order amt.',
+			className: 'text-center view-details',
+			accessor: (item) => {
+				return (
+					<div style={{ padding: '6px', cursor: 'pointer' }}>
+						${item.order_amount}
+					</div>
+				);
+			},
+		},
+
+		{
+			id: 9,
+			Header: '(H)(H= Restaurant % G)Restaurant fee',
+			className: 'text-center view-details',
+			accessor: (item) => {
+				
+				return (
+					<div style={{ padding: '6px', cursor: 'pointer' }}>
+						${item.restaurant_fee}
+					</div>
+				);
+			},
+		},
+
+		{
+			id: 10,
+			Header: '(I)Total tip amt.',
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (
@@ -158,13 +187,25 @@ const HotspotEarning = () => {
 			},
 		},
 		{
-			id: 9,
-			Header: 'Driver Fee',
+			id: 11,
+			Header: '(J) (J=Range based on F)Driver fee',
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (
 					<div style={{ padding: '6px', cursor: 'pointer' }}>
 						${item.driver_fee}
+					</div>
+				);
+			},
+		},
+		{
+			id: 12,
+			Header: '(K) (K =F-H-J)Hotspot earning',
+			className: 'text-center view-details',
+			accessor: (item) => {
+				return (
+					<div style={{ padding: '6px', cursor: 'pointer' }}>
+						${item.hotspot_fee}
 					</div>
 				);
 			},
@@ -197,10 +238,11 @@ const HotspotEarning = () => {
 				setError(null);
 			}
 		} catch (error) {
+			debugger
 			setError(error);
 			setLoading(false);
 			setEarningLists([]);
-			setTotalItems(null)
+			setTotalItems(0)
 		}
 	};
 	const handlePageChange = (pageNumber) => {
@@ -211,16 +253,11 @@ const HotspotEarning = () => {
 		hotspotEarningList();
 	};
 
-
 	return (
 		<>
-			<div
-				className='main-content pb-16 md:pb-5 flex-1 pt-20 px-2'
-				style={{ overflowY: 'unset', height: '90vh', marginTop: '30px' }}>
-
-				<div
-					id='recipients'
-					className='p-4 md:p-8 mt-6 lg:mt-0 rounded shadow bg-white'>
+			<div className='main-content md:pb-5 flex-1 p-8 px-2' style={{ overflowY: 'auto', height: '100vh' }}>
+				<div id='recipients' className='p-4 md:p-8 mt-6 lg:mt-0 rounded shadow bg-white'>
+					<h1 className='text-xl'>Admin Earning</h1>
 					<div>
 						<CommonComponent /></div>
 					<div className='mt-5'>
@@ -251,14 +288,12 @@ const HotspotEarning = () => {
 						data={earningLists}
 						className='-highlight'
 						columns={columns}
-						style={{
-							width: '100%',
-							marginTop: '0px',
-						}}
+						
+						style={{marginTop:20}}
 						loading={loading}
 					/>
 					<br />
-					(showing {startId < 0 ? 0 : startId + 1} - {endId} of {totalItems})
+					{totalItems > 0 ? `(showing ${startId + 1} - ${endId} of ${totalItems})` : 'showing 0 result'}
 					<div style={{ textAlign: 'right' }}>
 						<Pagination
 							activePage={activePage}

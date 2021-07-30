@@ -182,7 +182,7 @@ function Menumanagement({ ...props }) {
 						<FontAwesomeIcon
 							style={{ cursor: 'pointer' }}
 							onClick={() =>
-								history.push(`/${path}/${id}/viewDish/${item.id}`)
+								history.push(`/${path}/${id}/menu/${item.id}`)
 							}
 							className='text-red-600 trash w-5 h-5'
 							color='red'
@@ -191,7 +191,7 @@ function Menumanagement({ ...props }) {
 						<FontAwesomeIcon
 							style={{ cursor: 'pointer' }}
 							onClick={() =>
-								history.push(`/${path}/${id}/editDish/${item.id}`)
+								history.push(`/${path}/${id}/menu/dish/${item.id}`)
 							}
 							className='text-red-600 trash w-5 h-5'
 							color='red'
@@ -327,35 +327,35 @@ function Menumanagement({ ...props }) {
 
 	return (
 		<>
-			<div className='main-content pb-16 md:pb-5 flex-1 pt-20 px-2' style={{ overflowY: 'scroll', height: '90vh', marginTop: '30px' }}>
-				{/* <GlobalFilterData /> */}
-				<div style={{ marginLeft: '1rem', fontSize: '2rem' }}>
-					Menu Management
-				</div>
-				<button
-					style={{ height: '3rem' }}
-					type='button'
-					className='shadow bg-500 mt-10 ml-3 hover:bg-white-400 focus:shadow-outline focus:outline-none text-black font-bold py-1 px-4 rounded'
-					onClick={() => {
-						history.push(`/viewRestaurant/${id}`);
-						dispatch({
-							type: 'ORDER_SEARCH_TEXT',
-							payload: null,
-						})
-					}}>
-					Restaurant Details
-				</button>
-				<button
-					style={{ height: '3rem' }}
-					disabled
-					className='shadow mt-10 bg-blue-500 ml-3 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-1 px-4 rounded'
-					type='button'>
-					Menu Management
-				</button>
+			<div className='main-content md:pb-5 flex-1 p-8 px-2' style={{ overflowY: 'auto', height: '100vh' }}>
+				<div id='recipients' className='p-4 md:p-8 mt-6 lg:mt-0 rounded shadow bg-white'>
+					<h1 className='text-xl'>Menu Management</h1>
+					<div className='flex flex-wrap -mx-3 mb-6 mt-5' style={{justifyContent: 'space-between' }}>
+							<div style={{ marginTop: '-40px' }}>
+							<button
+								style={{ height: '3rem' }}
+								type='button'
+								className='shadow bg-500 mt-10 ml-3 hover:bg-white-400 focus:shadow-outline focus:outline-none text-black font-bold py-1 px-4 rounded'
+								onClick={() => {
+									history.push(`/restaurant/${id}`);
+									dispatch({
+										type: 'ORDER_SEARCH_TEXT',
+										payload: null,
+									})
+								}}>
+								Restaurant Details
+							</button>
+							<button
+								style={{ height: '3rem' }}
+								disabled
+								className='shadow mt-10 bg-blue-500 ml-3 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-1 px-4 rounded'
+								type='button'>
+								Menu Management
+							</button>
+						</div>
+					</div>
 
-				<div
-					id='recipients'
-					className='p-4 md:p-8 mt-6 lg:mt-0 rounded shadow bg-white'>
+				
 					<div className='flex flex-wrap -mx-3 mb-6'>
 						<div className='w-full md:w-1/2 px-3 mb-6 md:mb-0'>
 							<SearchBox
@@ -366,13 +366,13 @@ function Menumanagement({ ...props }) {
 									})
 								}
 								searchText={searchText}
-								placeholder='Search by name,category'
+								placeholder='Search by name'
 							/>
 						</div>
 
 						<div className='w-full md:w-1/2 px-3 mb-6 md:mb-0 search-text'>
 							<button
-								onClick={() => history.push(`/${path}/${id}/addDish`)}
+								onClick={() => history.push(`/${path}/${id}/menu/dish`)}
 								className='shadow bg-blue-500 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded'
 								type='button'>
 								Add New
@@ -405,7 +405,7 @@ function Menumanagement({ ...props }) {
 							}}
 						/>
 					)}
-					(showing {startId < 0 ? 0 : startId + 1} - {endId} of {totalItems})
+					{totalItems > 0 ? `(showing ${startId + 1} - ${endId} of ${totalItems})` : 'showing 0 result'}
 					<div style={{ textAlign: 'right' }}>
 						<Pagination
 							activePage={activePage}
