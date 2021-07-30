@@ -313,7 +313,7 @@ const ViewRestaurant = () => {
 								<div className='bg-gray-100 font-semibold py-4 px-6 w-1/3 text-right'>
 								Stripe publishable key 
 								</div>
-								<div style={{overflowY: 'scroll',width: '65%'}} className='px-8'>
+								<div style={{overflowWrap:"break-word",width: '65%'}} className='px-8'>
 									<p>{restaurantDetails.stripe_publishable_key}</p>
 								</div>
 							</div>
@@ -321,7 +321,7 @@ const ViewRestaurant = () => {
 								<div className='bg-gray-100 font-semibold py-4 px-6 w-1/3 text-right'>
 								Stripe secret key
 								</div>
-								<div style={{overflowY: 'scroll',width: '65%'}} className='px-8'>
+								<div style={{overflowWrap:"break-word",width: '65%'}} className='px-8'>
 									<p >{restaurantDetails.stripe_secret_key}</p>
 								</div>
 							</div>

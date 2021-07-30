@@ -43,6 +43,14 @@ const HotspotEarning = () => {
 		endDate: null,
 		order_delivery_id: null,
 	});
+
+	let clearSearchAndFilter = () => {
+		searchText = "";
+		startDate = "";
+		endDate = "";
+		filterby = "";
+	}
+
 	const columns = [
 		{
 			Header: '#',
@@ -265,6 +273,7 @@ const HotspotEarning = () => {
 							{...{
 								placeholder: 'Search by delivery id,hotspot',
 								handleSearch,
+								clearSearchAndFilter,
 								// id:"hotspotEarning"
 							}}
 						/>

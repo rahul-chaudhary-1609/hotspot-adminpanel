@@ -713,14 +713,14 @@ const RestaurantForm = (props) => {
 											for='restaurant_name'>
 											Stripe Publishable Key
 										</label>
-										<input
+										<textarea rows="4"
 											className='appearance-none block w-1/2 bg-gray-100 border border-gray-200 rounded-half py-3 px-6 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-200'
 											id='stripe_publishable_key'
 											type='text'
 											required
 											onChange={handleInputChange}
 											value={restaurant.stripe_publishable_key}
-										/>
+										></textarea>
 									</div>
 
 									<div className='w-full flex px-3 mb-6 md:mb-0'>
@@ -729,14 +729,14 @@ const RestaurantForm = (props) => {
 											for='role'>
 											Stripe Secret Key
 										</label>
-										<input
+										<textarea rows="4"
 											className='appearance-none block w-1/2 bg-gray-100 border border-gray-200 rounded-half py-3 px-6 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-200'
 											id='stripe_secret_key'
 											type='text'
 											required
 											value={restaurant.stripe_secret_key}
 											onChange={handleInputChange}
-										/>
+										></textarea>
 									</div>
 								</div>
 

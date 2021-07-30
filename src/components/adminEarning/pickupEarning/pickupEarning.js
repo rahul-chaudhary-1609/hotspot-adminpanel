@@ -35,6 +35,13 @@ const PickupEarning = (props) => {
 	const [totalItems, setTotalItems] = useState(null);
 	const [activePage, setCurrentPage] = useState(1);
 
+	let clearSearchAndFilter = () => {
+		searchText = "";
+		startDate = "";
+		endDate = "";
+		filterby = "";
+	}
+
 	const pickupColumn = [
 		{
 			id: 1,
@@ -187,7 +194,8 @@ const PickupEarning = (props) => {
 					<SearchComponent
 						{...{
 							placeholder: 'Search by Order number',
-							handleSearch
+								handleSearch,
+							clearSearchAndFilter,
 						}}
 					/></div>
 				<div className='stripe hover mt-5'>

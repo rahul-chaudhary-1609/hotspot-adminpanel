@@ -191,6 +191,7 @@ const SearchComponent = (props) => {
 					<button
 						onClick={() => {
 							dispatch(clearData(props.handleSearch));
+							if(props.clearSearchAndFilter) props.clearSearchAndFilter();
 							
 						}}
 						className='shadow bg-blue-500 ml-3 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded'
