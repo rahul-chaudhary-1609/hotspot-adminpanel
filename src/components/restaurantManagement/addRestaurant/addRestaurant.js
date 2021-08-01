@@ -97,7 +97,9 @@ function AddRestaurent({ history, ...props }) {
 				working_hours_to: restaurantDetails.working_hours_to,
 				order_type: orderType.value,
 				restaurant_category_ids : categoryIds,
-				agreement_doc_url : restaurantDetails.agreement_doc_url
+				agreement_doc_url : restaurantDetails.agreement_doc_url,
+				stripe_publishable_key: restaurantDetails.stripe_publishable_key,
+				stripe_secret_key:restaurantDetails.stripe_secret_key,
 			};
 debugger
 			try {
