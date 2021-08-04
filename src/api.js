@@ -1,9 +1,13 @@
 import axios from 'axios';
 import qs from 'qs';
 
-export const baseURL = `http://3.228.159.69/admin/`;
+// export const baseURL = `http://3.228.159.69/admin/`;
 
-export const baseURLWeb = `http://3.228.159.69/website/`;
+// export const baseURLWeb = `http://3.228.159.69/website/`;
+
+export const baseURL = `https://api.togohotspot.com/admin/`;
+
+export const baseURLWeb = `https://api.togohotspot.com/website/`;
 
 // export const api2 = axios.create({
 //     baseURL: `http://3.236.82.67:9001`
