@@ -35,11 +35,18 @@ const DriverPayment = () => {
 	const [selectedDriver, setSelectedDriver] = useState({
 		startDate: null,
 		endDate: null,
-		driverId: null,
+		driverPaymentId: null,
 	});
 	const [startId, setStartId] = useState(0);
 	let endId = startId < 0 ? 0 : startId + driverLists.length;
 	let currentId = startId;
+
+	let clearSearchAndFilter = () => {
+		searchText = "";
+		startDate = "";
+		endDate = "";
+		filterby = "";
+	}
 
 	const columns = [
 		{
@@ -72,11 +79,11 @@ const DriverPayment = () => {
 								let updatedData = { ...selectedDriver };
 								updatedData['startDate'] = item.from_date;
 								updatedData['endDate'] = item.to_date;
-								updatedData['driverId'] = item.driver_id;
+								updatedData['driverPaymentId'] = item.payment_id;
 								setSelectedDriver(updatedData);
 								setTimeout(() => {
 									history.push({
-										pathname: `/driverPayment/${item.driver_id}`,
+										pathname: `/driverPayment/${item.payment_id}`,
 										state: {
 											data: updatedData,
 											paymentDetails: item.payment_details,
@@ -210,7 +217,7 @@ const DriverPayment = () => {
 					<h1 className='text-xl'>Driver Payment Management</h1>
 					
 					<SearchComponent
-						{...{ placeholder: 'Search by driver name', handleSearch }}
+						{...{ placeholder: 'Search by driver name', handleSearch,clearSearchAndFilter, }}
 					/>
 					<div
 						className='stripe hover'

@@ -9,6 +9,10 @@ export const baseURL = `https://api.togohotspot.com/admin/`;
 
 export const baseURLWeb = `https://api.togohotspot.com/website/`;
 
+// export const baseURL = `http://localhost:7000/admin/`;
+
+// export const baseURLWeb = `http://localhost:7000/website/`;
+
 // export const api2 = axios.create({
 //     baseURL: `http://3.236.82.67:9001`
 // })
@@ -2200,7 +2204,7 @@ export const getRestaurantEarningListById = (
 	return new Promise(async (resolve, reject) => {
 		try {
 			const response = await fetch(
-				`${baseURL}getOrdersByRestaurantIdAndDateRange?restaurant_id=${id}&&start_date=${startDate}&&end_date=${endDate}&&page=${pageNo}&&page_size=${pageSize}`,
+				`${baseURL}getOrdersByRestaurantIdAndDateRange?restaurant_payment_id=${id}&&start_date=${startDate}&&end_date=${endDate}&&page=${pageNo}&&page_size=${pageSize}`,
 				{
 					headers: {
 						Accept: 'application/json',

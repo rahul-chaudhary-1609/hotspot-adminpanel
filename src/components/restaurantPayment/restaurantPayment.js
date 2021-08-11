@@ -42,8 +42,16 @@ const RestaurantPayment = () => {
 	const [selectedRestaurant, setSelectedRestaurant] = useState({
 		startDate: null,
 		endDate: null,
-		restaurantId: null,
+		restaurantPaymentId: null,
 	});
+
+	let clearSearchAndFilter = () => {
+		searchText = "";
+		startDate = "";
+		endDate = "";
+		filterby = "";
+	}
+
 	const columns = [
 		{
 			Header: '#',
@@ -75,7 +83,7 @@ const RestaurantPayment = () => {
 								let updatedData = { ...selectedRestaurant };
 								updatedData['startDate'] = item.from_date;
 								updatedData['endDate'] = item.to_date;
-								updatedData['restaurantId'] = item.restaurant_id;
+								updatedData['restaurantPaymentId'] = item.payment_id;
 								setSelectedRestaurant(updatedData);
 								setTableModal(true);
 							}}>
@@ -237,6 +245,7 @@ const RestaurantPayment = () => {
 					{...{
 						placeholder: 'Search by restaurant name, payment id',
 						handleSearch,
+						clearSearchAndFilter,
 					}}
 				/>
 

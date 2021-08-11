@@ -53,12 +53,13 @@ export default function DriverPayNow(props) {
 		setCardYear(dateString)
 	}
 	const handleCardValue = (e) => {
-		if (e.target.value.length > 0) {
-			if (e.target.value.length % 4 == 0) {
-				e.target.value += "  "
-				setCardNo(e.target.value += "  ")
-			}
-		}
+		// if (e.target.value.length > 0) {
+		// 	if (e.target.value.length % 4 == 0) {
+		// 		e.target.value += "  "
+		// 		setCardNo(e.target.value += "  ")
+		// 	}
+		// }
+		setCardNo(e.target.value)
 	}
 
     const onSubmit = (data) => {
@@ -83,7 +84,7 @@ export default function DriverPayNow(props) {
             	card_exp_month: cardMonth,//two digit
             	card_exp_year: cardYear,// fourDigit
             	card_cvc: data.cvv,// three or four digit
-            	amount: parseInt(props.location.state.driver_fee) // prefilled
+            	amount: parseFloat(props.location.state.driver_fee) // prefilled
 			}
 			getDriverPaymentDetails(sendData);
 		}

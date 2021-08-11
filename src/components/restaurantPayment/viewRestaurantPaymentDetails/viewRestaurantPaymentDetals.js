@@ -154,11 +154,11 @@ const ViewRestaurantPaymentDetails = (props) => {
 	];
 
 	useEffect(() => {
-		let { restaurantId, startDate, endDate } = props.selectedRestaurant;
+		let { restaurantPaymentId, startDate, endDate } = props.selectedRestaurant;
 		setLoading(true);
 		getRestaurantEarningListById(
 			token,
-			restaurantId,
+			restaurantPaymentId,
 			startDate,
 			endDate,
 			activePage,

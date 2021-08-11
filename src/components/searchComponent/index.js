@@ -100,7 +100,7 @@ const SearchComponent = (props) => {
 							value={filterby}
 							styles={customStyles}
 							menuPlacement='auto'
-							options={(pathname == '/hotspotEarning') || (pathname == '/pickupEarning') ?
+							options={(pathname == '/hotspotEarning') || (pathname == '/pickupEarning') || (pathname =='/restaurantPayment')?
 								[
 									{
 										label: 'Daily',
