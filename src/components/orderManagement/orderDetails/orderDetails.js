@@ -136,7 +136,7 @@ const OrderDetails = () => {
               </div>
               <div className="px-8 text-xl text-gray-300">
                 {" "}
-                {formatDateWithTime(orderDetails.deliveryDateTime)}
+                {formatDateWithTimeZ(orderDetails.deliveryDateTime)}
               </div>
             </div>
           </div>

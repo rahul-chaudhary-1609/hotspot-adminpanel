@@ -30,7 +30,7 @@ export const formatTime = (dateString) => {
         hour:  "numeric",
         minute: "numeric"
     }
-  return new Date(dateString.length > 10 ? dateString.substring(0, dateString.length - 1) : dateString).toLocaleTimeString("en-US", options)
+  return new Date(dateString).toLocaleTimeString("en-US", options)
 }
 
 export const formatDate = (dateString) => {
@@ -39,5 +39,5 @@ export const formatDate = (dateString) => {
         month: "numeric",
         day: "numeric" ,
     }
-  return new Date(dateString.length > 10 ? dateString.substring(0, dateString.length - 1) : dateString).toLocaleDateString("en-US", options)
+  return new Date(dateString).toLocaleDateString("en-US", options)
 }
