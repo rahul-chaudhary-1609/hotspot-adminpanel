@@ -145,8 +145,8 @@ const ScheduledOrder = () => {
 	// const [searchText, setSearchText] = useState('');
 	const [error, setError] = useState(null);
 
-	const [pageSize, setPageSize] = useState(10);
-	const [activePage, setCurrentPage] = useState(1);
+	const [pageSize, setPageSize] = useState(1);
+	const [activePage, setCurrentPage] = useState(10);
 	const [totalItems, setTotalItems] = useState(null);
 	const statusFilter = useSelector((state) => state.auth.status);
 	const [scheduledOrders, setScheduleorders] = useState([]);
@@ -267,7 +267,7 @@ const ScheduledOrder = () => {
 					showPagination={false}
 					minRows={0}
 					NoDataComponent={() => null}
-					defaultPageSize={10}
+					defaultPageSize={pageSize}
 					data={scheduledOrders}
 					className='-highlight'
 					columns={columns}

@@ -303,7 +303,7 @@ const CustomerManagement = () => {
 						showPagination={false}
 						minRows={0}
 						NoDataComponent={() => null}
-						defaultPageSize={10}
+						defaultPageSize={pageSize}
 						data={customerLists}
 						className='-highlight'
 						columns={columns}
@@ -318,7 +318,7 @@ const CustomerManagement = () => {
 							activePage={activePage}
 							itemsCountPerPage={pageSize}
 							totalItemsCount={totalItems}
-							pageRangeDisplayed={3}
+							 pageRangeDisplayed={3}
 							onChange={handlePageChange}
 						/>
 					</div>

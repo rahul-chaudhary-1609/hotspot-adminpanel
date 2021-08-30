@@ -6,7 +6,7 @@ import { getRestaurantEarningList } from '../../api';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 import ViewRestaurantPaymentDetails from './viewRestaurantPaymentDetails/viewRestaurantPaymentDetals';
-import { formatDate } from '../../utils/redableDateTime';
+import {formatDate, formatDateWithTimeZ, formatTime } from '../../utils/redableDateTime';
 
 const RestaurantPayment = () => {
 	const token = useSelector((state) => state.auth.isSignedIn);
@@ -117,21 +117,36 @@ const RestaurantPayment = () => {
 				);
 			},
 		},
+
 		{
 			id: 5,
-			Header: 'From to To Date',
+			Header: 'Delivery date',
 			width: 100,
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (
 					<div style={{ padding: '6px', cursor: 'pointer' }}>
-						{formatDate(item.from_date)} to {formatDate(item.to_date)}
+						{formatDate(item.delivery_datetime)}
+					</div>
+				);
+			},
+		},
+
+		{
+			id: 6,
+			Header: 'Delivery time',
+			width: 100,
+			className: 'text-center view-details',
+			accessor: (item) => {
+				return (
+					<div style={{ padding: '6px', cursor: 'pointer' }}>
+						{formatTime(item.delivery_datetime)}
 					</div>
 				);
 			},
 		},
 		{
-			id: 6,
+			id: 7,
 			Header: 'Number Of Orders',
 			width: 100,
 			className: 'text-center view-details',
@@ -144,7 +159,7 @@ const RestaurantPayment = () => {
 			},
 		},
 		{
-			id: 7,
+			id: 8,
 			Header: 'Total Order amount',
 			width: 100,
 			className: 'text-center view-details',
@@ -157,7 +172,7 @@ const RestaurantPayment = () => {
 			},
 		},
 		{
-			id: 8,
+			id: 9,
 			Header: 'Restaurant Fee',
 			width: 100,
 			className: 'text-center view-details',
@@ -170,7 +185,7 @@ const RestaurantPayment = () => {
 			},
 		},
 		{
-			id: 9,
+			id: 10,
 			Header: 'Action',
 			className: 'text-center view-details',
 			accessor: (item) => {

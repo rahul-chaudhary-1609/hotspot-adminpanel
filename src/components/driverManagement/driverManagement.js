@@ -300,7 +300,7 @@ const DriverManagement = () => {
 						showPagination={false}
 						minRows={0}
 						NoDataComponent={() => null}
-						defaultPageSize={10}
+						defaultPageSize={pageSize}
 						data={driverLists}
 						className='-highlight'
 						loading={loading}

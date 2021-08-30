@@ -112,6 +112,19 @@ const HotspotEarningDetails = (props) => {
 		},
 		{
 			id: 7,
+			Header: 'Restaurant',
+			width: 100,
+			className: 'text-center view-details',
+			accessor: (item) => {
+				return (
+					<div style={{ padding: '6px', cursor: 'pointer' }}>
+						{item.Restaurant && item.Restaurant.restaurant_name}
+					</div>
+				);
+			},
+		},
+		{
+			id: 8,
 			Header: 'Drop off location',
 			width: 100,
 			className: 'text-center view-details',
@@ -124,7 +137,7 @@ const HotspotEarningDetails = (props) => {
 			},
 		},
 		{
-			id: 8,
+			id: 9,
 			Header: 'Customer Name',
 			width: 100,
 			className: 'text-center view-details',
@@ -137,7 +150,7 @@ const HotspotEarningDetails = (props) => {
 			},
 		},
 		{
-			id: 9,
+			id: 10,
 			Header: 'Total amount',
 			className: 'text-center view-details',
 			accessor: (item) => {
@@ -149,7 +162,7 @@ const HotspotEarningDetails = (props) => {
 			},
 		},
 		{
-			id: 10,
+			id: 11,
 			Header: 'Tip',
 			width: 50,
 			className: 'text-center view-details',
@@ -163,7 +176,7 @@ const HotspotEarningDetails = (props) => {
 		},
 
 		{
-			id: 11,
+			id: 12,
 			Header: 'Order amount',
 			className: 'text-center view-details',
 			accessor: (item) => {
@@ -175,7 +188,7 @@ const HotspotEarningDetails = (props) => {
 			},
 		},
 		{
-			id: 12,
+			id: 13,
 			Header: 'Restaurant Fee (% Fee)',
 			className: 'text-center view-details',
 			accessor: (item) => {

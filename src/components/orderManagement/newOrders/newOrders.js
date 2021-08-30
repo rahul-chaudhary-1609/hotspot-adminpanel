@@ -268,7 +268,7 @@ const NewOrders = () => {
 						showPagination={false}
 						minRows={0}
 						NoDataComponent={() => null}
-						defaultPageSize={10}
+						defaultPageSize={pageSize}
 						data={activeOrders}
 					   className='-highlight'
 						columns={column}

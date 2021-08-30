@@ -52,12 +52,12 @@ export default function ResturantPayNow(props) {
 		setCardYear(dateString)
 	}
 	const handleCardValue = (e) => {
-		// if (e.target.value.length > 0) {
-		// 	if (e.target.value.length % 4 == 0) {
-		// 		e.target.value += "  "
-		// 		setCardNo(e.target.value += "  ")
-		// 	}
-		// }
+		if (e.target.value.length > 0) {
+			if (e.target.value.length % 4 == 0) {
+				e.target.value += "  "
+				setCardNo(e.target.value += "  ")
+			}
+		}
 		setCardNo(e.target.value)
 	}
 
@@ -79,12 +79,13 @@ export default function ResturantPayNow(props) {
 		}else{
 			const sendData = {
 				payment_id: props.location.state.payment_id, // prefilled
-            	card_number: cardNo,
+            	card_number: cardNo.replace(/ /g,''),
             	card_exp_month: cardMonth,//two digit
             	card_exp_year: cardYear,// fourDigit
             	card_cvc: data.cvv,// three or four digit
             	amount: parseFloat(props.location.state.restaurant_fee) // prefilled
 			}
+			debugger
 			getResturantPaymentDetails(sendData);
 		}
 	}

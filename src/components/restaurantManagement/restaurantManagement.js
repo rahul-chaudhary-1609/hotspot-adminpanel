@@ -250,7 +250,7 @@ function RestaurantManagement({ ...props }) {
 						showPagination={false}
 						minRows={0}
 						NoDataComponent={() => null}
-						defaultPageSize={10}
+						defaultPageSize={pageSize}
 						data={restaurantData}
 						className='-highlight'
 						columns={columns}

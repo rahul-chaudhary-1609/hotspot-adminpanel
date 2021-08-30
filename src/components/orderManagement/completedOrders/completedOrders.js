@@ -236,7 +236,7 @@ const CompletedOrder = () => {
 					showPagination={false}
 					minRows={0}
 					NoDataComponent={() => null}
-					defaultPageSize={10}
+					defaultPageSize={pageSize}
 					data={completedOrder}
 					className='-highlight'
 					columns={columns}
