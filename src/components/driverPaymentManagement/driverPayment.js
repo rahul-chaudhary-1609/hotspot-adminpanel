@@ -3,13 +3,15 @@ import ReactTable from 'react-table';
 import Pagination from 'react-js-pagination';
 import 'react-table/react-table.css';
 import { getDriverEarningList } from '../../api';
-import { useSelector } from 'react-redux';
+import { useSelector,useDispatch } from 'react-redux';
 import { useHistory } from 'react-router';
 import SearchComponent from '../searchComponent';
 import { formatDate } from '../../utils/redableDateTime';
+import { clearData } from '../../actions';
 
 const DriverPayment = () => {
 	const history = useHistory();
+	const dispatch = useDispatch();
 
 	const token = useSelector((state) => state.auth.isSignedIn);
 
@@ -175,6 +177,11 @@ const DriverPayment = () => {
 		getDriverList();
 	}, [activePage]);
 
+	useEffect(() => {
+		dispatch(clearSearchAndFilter);
+		dispatch(clearData(handleSearch));
+	  }, []);
+
 	const getDriverList = async () => {
 		try {
 			setLoading(true);
@@ -197,6 +204,7 @@ const DriverPayment = () => {
 			}
 		} catch (error) {
 			setLoading(false);
+			setTotalItems(0);
 			setError(error);
 			setDriverLists([]);
 		}
@@ -242,7 +250,7 @@ const DriverPayment = () => {
 							showPagination={false}
 							minRows={0}
 							NoDataComponent={() => null}
-							defaultPageSize={10}
+							defaultPageSize={pageSize}
 							data={driverLists}
 							className='-highlight'
 							loading={loading}

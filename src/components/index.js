@@ -64,6 +64,7 @@ import EditBanner from './bannerManagement/editBanner/editBanner.js';
 
 import RestaurantPayment from './restaurantPayment/restaurantPayment.js';
 import ResturantPayNow from './restaurantPayment/resturantPayNow.js'
+import RestaurantPaymentDetails from './restaurantPayment/viewRestaurantPaymentDetails/RestaurantPaymentDetals.js'
 
 import CompletedOrder from './orderManagement/completedOrders/completedOrders.js';
 import ScheduledOrder from './orderManagement/scheduledOrder/scheduledOrder.js';
@@ -339,6 +340,11 @@ const Admin = () => {
 							exact
 							path={`/restaurantPayment/resturantPayNow`}
 							component={ResturantPayNow}
+						/>
+						<ProtectedRoutes
+							exact
+							path={`/restaurantPayment/:id`}
+							component={RestaurantPaymentDetails}
 						/>
 						<ProtectedRoutes
 							exact

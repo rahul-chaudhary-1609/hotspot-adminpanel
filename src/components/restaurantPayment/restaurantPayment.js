@@ -3,14 +3,16 @@ import ReactTable from 'react-table';
 import Pagination from 'react-js-pagination';
 import SearchComponent from '../searchComponent/index';
 import { getRestaurantEarningList } from '../../api';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router';
-import ViewRestaurantPaymentDetails from './viewRestaurantPaymentDetails/viewRestaurantPaymentDetals';
-import {formatDate, formatDateWithTimeZ, formatTime } from '../../utils/redableDateTime';
+import {formatDate, formatTime } from '../../utils/redableDateTime';
+import { clearData } from '../../actions';
+
 
 const RestaurantPayment = () => {
 	const token = useSelector((state) => state.auth.isSignedIn);
 
+	const dispatch = useDispatch();
 	const history = useHistory();
 
 	const val = useSelector((state) => state.auth.searchText);
@@ -37,7 +39,6 @@ const RestaurantPayment = () => {
 	const [totalItems, setTotalItems] = useState(null);
 	const [activePage, setCurrentPage] = useState(1);
 
-	const [tableModal, setTableModal] = useState(false);
 
 	const [selectedRestaurant, setSelectedRestaurant] = useState({
 		startDate: null,
@@ -85,7 +86,15 @@ const RestaurantPayment = () => {
 								updatedData['endDate'] = item.to_date;
 								updatedData['restaurantPaymentId'] = item.payment_id;
 								setSelectedRestaurant(updatedData);
-								setTableModal(true);
+								
+									history.push({
+										pathname: `/restaurantPayment/${item.payment_id}`,
+										state: {
+											data: updatedData,
+											paymentDetails: item.payment_details,
+										},
+									});
+								
 							}}>
 							{item.payment_id}
 						</p>
@@ -215,6 +224,11 @@ const RestaurantPayment = () => {
 		restaurantEarningList();
 	}, [activePage]);
 
+	useEffect(() => {
+		dispatch(clearSearchAndFilter);
+		dispatch(clearData(handleSearch));
+	  }, []);
+
 	const restaurantEarningList = async () => {
 		setLoading(true);
 		try {
@@ -238,6 +252,7 @@ const RestaurantPayment = () => {
 			}
 		} catch (error) {
 			setError(error);
+			setTotalItems(0);
 			setLoading(false);
 			setRestaurantPayment([]);
 		}
@@ -299,11 +314,6 @@ const RestaurantPayment = () => {
 					</div>
 				</div>
 			</div>
-			{tableModal && (
-				<ViewRestaurantPaymentDetails
-					{...{ tableModal, setTableModal, selectedRestaurant }}
-				/>
-			)}
 		</>
 	);
 };

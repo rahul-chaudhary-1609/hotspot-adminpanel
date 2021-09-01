@@ -45,6 +45,7 @@
     "react-hook-form": "^7.11.0",
     "react-icons": "^3.11.0",
     "react-js-pagination": "^3.0.3",
+    "react-loading-overlay": "^1.0.1",
     "react-metismenu": "^1.4.0",
     "react-minimal-pie-chart": "^8.2.0",
     "react-modal": "^3.12.1",

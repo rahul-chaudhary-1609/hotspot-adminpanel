@@ -2,14 +2,16 @@ import React, { useState, useEffect } from 'react';
 import ReactTable from 'react-table';
 import Pagination from 'react-js-pagination';
 import CommonComponent from '../commonComponent';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import SearchComponent from '../../searchComponent/index';
 import { getPickupOrdersList } from '../../../api'
 import { Link } from 'react-router-dom';
 import { formatDate } from '../../../utils/redableDateTime';
+import { clearData } from '../../../actions';
 
 const PickupEarning = (props) => {
 	const token = useSelector((state) => state.auth.isSignedIn);
+	const dispatch = useDispatch();
 
 	const val = useSelector((state) => state.auth.searchText);
 	let searchText = val ? val : '';
@@ -146,6 +148,11 @@ const PickupEarning = (props) => {
 	useEffect(() => {
 		pickupList();
 	}, [activePage]);
+
+	useEffect(() => {
+		dispatch(clearSearchAndFilter);
+		dispatch(clearData(handleSearch));
+	}, []);
 
 	const pickupList = async () => {
 		setLoading(true);

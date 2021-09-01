@@ -575,7 +575,6 @@ const RestaurantForm = (props) => {
 																},
 															}}
 															apiKey={'AIzaSyCqeKge8JYCJdvyt77p0QEqIr0dMyA8BOM'}
-														
 														/>
 													</div>
 													<button

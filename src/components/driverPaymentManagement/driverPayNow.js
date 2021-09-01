@@ -8,6 +8,7 @@ import { useForm } from "react-hook-form";
 import { ToastContainer, toast } from "react-toastify";
 import { fetchDriverPaymentDetails, handleDriverPaymentDetails } from '../../api';
 import { loadStripe } from '@stripe/stripe-js';
+import Loader from '../../utils/Loader.js'
 
 
 export default function DriverPayNow(props) {
@@ -43,6 +44,7 @@ export default function DriverPayNow(props) {
 	const [cardMonth, setCardMonth] = useState(0);
 	const [cardYear, setCardYear] = useState(0);
 	const [cardNo, setCardNo] = useState();
+	const [showLoader, setShowLoader] = useState(false);
 
 
 
@@ -55,8 +57,12 @@ export default function DriverPayNow(props) {
 	const handleCardValue = (e) => {
 		if (e.target.value.length > 0) {
 			if (e.target.value.length % 4 == 0) {
-				e.target.value += "  "
-				setCardNo(e.target.value += "  ")
+				if(cardNo.length > e.target.value.length){
+					setCardNo(e.target.value)
+				}else{
+					e.target.value += "  "
+					setCardNo(e.target.value += "  ")
+				}
 			}
 		}
 		setCardNo(e.target.value)
@@ -78,6 +84,7 @@ export default function DriverPayNow(props) {
 		{
 			toast.error("Please enter a valid cvv.");
 		}else{
+			setShowLoader(true);
 			const sendData = {
 				payment_id: props.location.state.payment_id, // prefilled
             	card_number: cardNo.replace(/ /g,''),
@@ -96,13 +103,13 @@ export default function DriverPayNow(props) {
 			if (res.status == 200) {
 				
 				let stripe = await loadStripe(res.paymentResponse.stripePublishableKey);
-	
 				stripe.confirmCardPayment(res.paymentResponse.stripePaymentIntent.client_secret, {
 				payment_method: res.paymentResponse.stripePaymentMethod.id
 				}).then(async function(result) {
 					if (result.error) {
-					// Show error to your customer
-					console.log(result.error.message);
+						toast.error(result.error.message);
+						console.log(result.error.message);
+						setShowLoader(false);
 					} else {
 					if (result.paymentIntent.status === 'succeeded') {
 						// The payment is complete!
@@ -110,12 +117,15 @@ export default function DriverPayNow(props) {
 							payment_id: res.paymentResponse.paymentId,
 							payment_intent:result.paymentIntent,
 						}
+						console.log(sendData);
 						getPayhandler(sendData)
 					}
 					}
 				});
 			}
 		} catch (error) {
+			setShowLoader(false);
+			toast.error(error);
 			console.log(error);
 		}
 	};
@@ -124,16 +134,20 @@ export default function DriverPayNow(props) {
 		try {
 			const res = await handleDriverPaymentDetails(token,data);
 			if (res.status == 200) {
-				toast.success("Payment Success.");
-				console.log(res)
+				toast.success("Payment Success.");		
+					history.push('/driverPayment')
+					setShowLoader(false);
 			}
 		} catch (error) {
 			console.log(error);
+			toast.error(error);
+			setShowLoader(false);
 		}
 	};
 	
     return (
         <>
+		{showLoader && <Loader />}
 			<div
 				className='main-content pb-16 md:pb-5 flex-1 pt-20 px-2'
 				style={{ overflowY: 'scroll', height: '100vh' }}>
@@ -151,6 +165,7 @@ export default function DriverPayNow(props) {
 					<br />
 							<form
 								id='myForm'
+								autoComplete="off"
 								onSubmit={handleSubmit(onSubmit)}
 								className='w-full mt-50 max-w-full text-base text-gray-200'
 								style={{
@@ -198,7 +213,8 @@ export default function DriverPayNow(props) {
 										<input
 											className='appearance-none block w-1/2 bg-gray-100 border border-gray-200 rounded-half py-3 px-6 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-200'
 											id='cardNo'
-											type='text'
+											type='text' 
+											autoComplete='off'
 											onChange={(e) => handleCardValue(e)}
 											//value={cardNo}
 										/>
@@ -216,7 +232,7 @@ export default function DriverPayNow(props) {
 										<input
 											className='appearance-none block w-1/2 bg-gray-100 border border-gray-200 rounded-half py-3 px-6 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-200'
 											id='cvv'
-											type='password'
+											type='password' 
 											required
                                             {...register("cvv")}
 										/>

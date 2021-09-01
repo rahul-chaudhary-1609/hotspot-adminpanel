@@ -33,7 +33,6 @@ const GoogleMap = (props) => {
 			<GoogleMapReact
 				bootstrapURLKeys={{
 					key: 'AIzaSyCqeKge8JYCJdvyt77p0QEqIr0dMyA8BOM',
-					
 				}}
 				defaultCenter={{
 					lat: markers[0][1],

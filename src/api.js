@@ -956,6 +956,29 @@ export const getDriverById = (token, id) => {
 	});
 };
 
+export const getOrgersByDriverId = (token, data) => {
+	return new Promise(async (resolve, reject) => {
+		try {
+			const response = await fetch(`${baseURL}getOrdersByDriverIdAndDateRange?driver_payment_id=${data.driver_payment_id}&page=${data.pageNumber}&page_size=${data.pageSize}`, {
+				headers: {
+					Accept: 'application/json',
+					Authorization: token,
+				},
+			}).then((res) => res.json());
+			if (response.status == 200) {
+				resolve(response);
+			} else {
+				reject(response.message);
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	});
+};
+
+
+
+
 export const approveDriver = (token, id) => {
 	return new Promise(async (resolve, reject) => {
 		try {
@@ -2196,15 +2219,13 @@ export const getRestaurantEarningList = (
 export const getRestaurantEarningListById = (
 	token,
 	id,
-	startDate,
-	endDate,
 	pageNo,
 	pageSize
 ) => {
 	return new Promise(async (resolve, reject) => {
 		try {
 			const response = await fetch(
-				`${baseURL}getOrdersByRestaurantIdAndDateRange?restaurant_payment_id=${id}&&start_date=${startDate}&&end_date=${endDate}&&page=${pageNo}&&page_size=${pageSize}`,
+				`${baseURL}getOrdersByRestaurantIdAndDateRange?restaurant_payment_id=${id}&&page=${pageNo}&&page_size=${pageSize}`,
 				{
 					headers: {
 						Accept: 'application/json',

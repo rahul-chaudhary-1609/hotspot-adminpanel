@@ -4,13 +4,15 @@ import Pagination from 'react-js-pagination';
 import CommonComponent from './commonComponent';
 import SearchComponent from '../searchComponent/index';
 import { getOrderDeliveiesList,getOrderDeliveryDetailById } from '../../api';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import moment from 'moment'
 import HotspotEarningDetails from './hotspotEarningDetails/hotspotEarningDetails';
 import { formatDate,formatTime } from '../../utils/redableDateTime';
+import { clearData } from '../../actions';
 
 const HotspotEarning = () => {
 	const token = useSelector((state) => state.auth.isSignedIn);
+	const dispatch = useDispatch();
 
 	const val = useSelector((state) => state.auth.searchText);
 	let searchText = val ? val : '';
@@ -223,6 +225,12 @@ const HotspotEarning = () => {
 	useEffect(() => {
 		hotspotEarningList();
 	}, [activePage]);
+
+	useEffect(() => {
+		dispatch(clearSearchAndFilter);
+		dispatch(clearData(handleSearch));
+	}, []);
+
 
 	const hotspotEarningList = async () => {
 		setLoading(true);

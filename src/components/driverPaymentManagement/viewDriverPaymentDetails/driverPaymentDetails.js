@@ -3,12 +3,12 @@ import { useHistory, useLocation, useParams } from 'react-router';
 import ReactTable from 'react-table';
 import Pagination from 'react-js-pagination';
 import 'react-table/react-table.css';
-import { getDriverEarningListById, getDriverById } from '../../../api';
+import { getDriverEarningListById, getDriverById, getOrgersByDriverId } from '../../../api';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
+import { Link } from 'react-router-dom';
 
 const DriverPaymentDetails = (props) => {
-
 	const history = useHistory();
 	const {state} = useLocation();
 
@@ -66,9 +66,19 @@ const DriverPaymentDetails = (props) => {
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (
-					<div style={{ padding: '6px', cursor: 'pointer' }}>
-						{item.order_id}
-					</div>
+					<>
+						<div
+							className='flex items-center'
+							style={{ cursor: 'pointer', textAlign: 'center',padding: '6px' }}>
+							<div className='text-sm'>
+								<Link
+									to={`/activeOrder/${item.order_id}`}
+									style={{ color: '#39B7CD' }}>
+									{item.order_id}
+								</Link>
+							</div>
+						</div>
+					</>
 				);
 			},
 		},
@@ -168,15 +178,12 @@ const DriverPaymentDetails = (props) => {
 	}, [activePage]);
 
 	const driverEarning = () => {
-         const {startDate, endDate}  = state.data;
-		getDriverEarningListById(
-			token,
-			id,
-			startDate,
-			endDate,
-			activePage,
-			pageSize
-		)
+		const data = {
+			driver_payment_id:id,
+			pageNumber:activePage,
+			pageSize:pageSize
+		}
+		 getOrgersByDriverId(token,data)
 			.then((resp) => {
 				let newStartId = pageSize * (activePage - 1);
 				setStartId(newStartId);
@@ -192,7 +199,6 @@ const DriverPaymentDetails = (props) => {
 		try {
 			const res = await getDriverById(token, id);
 			if (res.status == 200) {
-				debugger
 				setDriverDetails(res.personalDetails);
 			}
 		} catch (error) {

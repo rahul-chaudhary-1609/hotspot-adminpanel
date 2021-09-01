@@ -8,6 +8,7 @@ import { useForm } from "react-hook-form";
 import { ToastContainer, toast } from "react-toastify";
 import { fetchResturantPaymentDetails, handleResturantPaymentDetails } from '../../api';
 import { loadStripe } from '@stripe/stripe-js';
+import Loader from '../../utils/Loader.js';
 
 
 export default function ResturantPayNow(props) {
@@ -43,6 +44,7 @@ export default function ResturantPayNow(props) {
 	const [cardMonth, setCardMonth] = useState(0);
 	const [cardYear, setCardYear] = useState(0);
 	const [cardNo, setCardNo] = useState();
+	const [showLoader, setShowLoader] = useState(false);
 
 
 	const handleCardMonth = (date, dateString) => {
@@ -52,13 +54,20 @@ export default function ResturantPayNow(props) {
 		setCardYear(dateString)
 	}
 	const handleCardValue = (e) => {
-		if (e.target.value.length > 0) {
-			if (e.target.value.length % 4 == 0) {
-				e.target.value += "  "
-				setCardNo(e.target.value += "  ")
+			if (e.target.value.length > 0 ) {
+				if (e.target.value.replace(/ /g,'').length % 4 == 0) {
+					if(cardNo.length > e.target.value.length){
+						let pq = e.target.value.trim();
+						e.target.value = e.target.value.trim();
+						setCardNo(pq)
+					}
+					else{
+							e.target.value += "  "
+							setCardNo(e.target.value += "  ")
+					}
+				}
 			}
-		}
-		setCardNo(e.target.value)
+			setCardNo(e.target.value)
 	}
 
     const onSubmit = (data) => {
@@ -77,6 +86,7 @@ export default function ResturantPayNow(props) {
 		{
 			toast.error("Please enter a valid cvv.");
 		}else{
+			setShowLoader(true);
 			const sendData = {
 				payment_id: props.location.state.payment_id, // prefilled
             	card_number: cardNo.replace(/ /g,''),
@@ -85,7 +95,6 @@ export default function ResturantPayNow(props) {
             	card_cvc: data.cvv,// three or four digit
             	amount: parseFloat(props.location.state.restaurant_fee) // prefilled
 			}
-			debugger
 			getResturantPaymentDetails(sendData);
 		}
 	}
@@ -94,28 +103,29 @@ export default function ResturantPayNow(props) {
 		try {
 			const res =  await fetchResturantPaymentDetails(token, data);
 			if (res.status == 200) {
-				
 				let stripe = await loadStripe(res.paymentResponse.stripePublishableKey);
-	
 				stripe.confirmCardPayment(res.paymentResponse.stripePaymentIntent.client_secret, {
 				payment_method: res.paymentResponse.stripePaymentMethod.id
 				}).then(async function(result) {
 					if (result.error) {
-					// Show error to your customer
-					console.log(result.error.message);
+						toast.error(result.error.message);
+						console.log(result.error.message);
+						setShowLoader(false);
 					} else {
 					if (result.paymentIntent.status === 'succeeded') {
 						// The payment is complete!
-						const sendData ={
-							payment_id: res.paymentResponse.paymentId,
-							payment_intent:result.paymentIntent,
+							const sendData ={
+								payment_id: res.paymentResponse.paymentId,
+								payment_intent:result.paymentIntent,
+							}
+							getPayhandler(sendData)
 						}
-						getPayhandler(sendData)
-					}
 					}
 				});
 			}
 		} catch (error) {
+			setShowLoader(false);
+			toast.error(error);
 			console.log(error);
 		}
 	};
@@ -125,15 +135,19 @@ export default function ResturantPayNow(props) {
 			const res = await handleResturantPaymentDetails(token,data);
 			if (res.status == 200) {
 				toast.success("Payment Success.");
-				console.log(res)
+					setShowLoader(false);
+					history.push('/restaurantPayment');
 			}
 		} catch (error) {
+			setShowLoader(false);
+			toast.error(error);
 			console.log(error);
 		}
 	};
 
     return (
         <>
+		{showLoader && <Loader />}
 			<div
 				className='main-content pb-16 md:pb-5 flex-1 pt-20 px-2'
 				style={{ overflowY: 'scroll', height: '100vh' }}>
@@ -150,6 +164,7 @@ export default function ResturantPayNow(props) {
                     
 					<br />
 							<form
+							autoComplete='off'
 								id='myForm'
 								onSubmit={handleSubmit(onSubmit)}
 								className='w-full mt-50 max-w-full text-base text-gray-200'
@@ -214,6 +229,7 @@ export default function ResturantPayNow(props) {
 											className='appearance-none block w-1/2 bg-gray-100 border border-gray-200 rounded-half py-3 px-6 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-200'
 											id='cvv'
 											type='password'
+											autoComplete='off'
 											required
                                             {...register("cvv")}
 										/>

@@ -1,14 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import TableModal from '../../TableModal/index';
+import ReactTable from 'react-table';
+import Pagination from 'react-js-pagination';
 import { getRestaurantEarningListById } from '../../../api';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
 import { formatDate } from '../../../utils/redableDateTime';
+import { Link } from 'react-router-dom';
+import { useHistory, useLocation, useParams } from 'react-router';
 
 
-const ViewRestaurantPaymentDetails = (props) => {
+const RestaurantPaymentDetails = (props) => {
 	const token = useSelector((state) => state.auth.isSignedIn);
-
+	const {state} = useLocation();
+	const { id } = useParams();
+	const history = useHistory();
 	const [pageSize, setPageSize] = useState(10);
 	const [totalItems, setTotalItems] = useState(null);
 	const [activePage, setCurrentPage] = useState(1);
@@ -56,9 +61,19 @@ const ViewRestaurantPaymentDetails = (props) => {
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (
-					<div style={{ padding: '6px', cursor: 'pointer' }}>
-						{item.order_id}
-					</div>
+					<>
+						<div
+							className='flex items-center'
+							style={{ cursor: 'pointer', textAlign: 'center',padding: '6px' }}>
+							<div className='text-sm'>
+								<Link
+									to={`/activeOrder/${item.order_id}`}
+									style={{ color: '#39B7CD' }}>
+									{item.order_id}
+								</Link>
+							</div>
+						</div>
+					</>
 				);
 			},
 		},
@@ -154,13 +169,10 @@ const ViewRestaurantPaymentDetails = (props) => {
 	];
 
 	useEffect(() => {
-		let { restaurantPaymentId, startDate, endDate } = props.selectedRestaurant;
 		setLoading(true);
 		getRestaurantEarningListById(
 			token,
-			restaurantPaymentId,
-			startDate,
-			endDate,
+			id,
 			activePage,
 			pageSize
 		)
@@ -176,24 +188,62 @@ const ViewRestaurantPaymentDetails = (props) => {
 				setLoading(false);
 			});
 	}, [activePage]);
+
+	const handlePageChange = (pageNumber) => {
+		setCurrentPage(pageNumber);
+	};
+
 	return (
 		<>
-			<TableModal
-				{...{
-					tableModal: props.tableModal,
-					columns,
-					setTableModal: props.setTableModal,
-					data: earningList,
-					setCurrentPage,
-					totalItems,
-					pageSize,
-					startId,
-					endId,
-					loading,
-				}}
-			/>
+			<div
+				className='main-content pb-16 md:pb-5 flex-1 pt-20 px-2 '
+				style={{ overflowY: 'scroll', height: '100vh' }}>
+				<div
+					id='recipients'
+					className='p-4 md:p-8 mt-6 lg:mt-0 rounded shadow bg-white'>
+					<div style={{ display: 'flex' }}>
+						<h1 className='text-xl'>Resturant Payment Management Details</h1>
+						<button
+							style={{ marginLeft: '60%', height: '3rem' }}
+							onClick={() => history.push('/restaurantPayment')}
+							className='shadow bg-red-500 hover:bg-red-400  focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded'
+							type='button'>
+							Back
+						</button>
+					</div>
+					<div
+						className='stripe hover'
+						style={{
+							paddingTop: '1em',
+							paddingBottom: '1em',
+							width: '100%',
+							marginTop: '60px',
+						}}>
+						<ReactTable
+							showPagination={false}
+							minRows={0}
+							NoDataComponent={() => null}
+							defaultPageSize={pageSize}
+							data={earningList}
+							className='-highlight'
+							columns={columns}
+						/>
+					</div>
+					{totalItems > 0 ? `(showing ${startId + 1} - ${endId} of ${totalItems})` : 'showing 0 result'}
+				
+					<div style={{ textAlign: 'right' }}>
+						<Pagination
+							activePage={activePage}
+							itemsCountPerPage={pageSize}
+							totalItemsCount={totalItems}
+							pageRangeDisplayed={3}
+							onChange={handlePageChange}
+						/>
+					</div>
+				</div>
+			</div>
 		</>
 	);
 };
 
-export default ViewRestaurantPaymentDetails;
+export default RestaurantPaymentDetails;
