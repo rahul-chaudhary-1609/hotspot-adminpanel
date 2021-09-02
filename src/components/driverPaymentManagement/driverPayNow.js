@@ -69,12 +69,21 @@ export default function DriverPayNow(props) {
 	}
 
     const onSubmit = (data) => {
-		if(cardMonth === 0 )
+		if(cardNo === '')
 		{
-			toast.error("Month can not be blank")
-		}else if(cardYear === 0 )
+			toast.error("Card No can not be blank.");
+		}
+		else if(data.cvv === '')
 		{
-			toast.error("Year can not be blank")
+			toast.error("CVV can not be blank.");
+		}
+		else if(cardMonth === 0 )
+		{
+			toast.error("Month can not be blank.")
+		}
+		else if(cardYear === 0 )
+		{
+			toast.error("Year can not be blank.")
 		}
 		else if(!validateCreditCardNumber(cardNo.replace(/ /g,'')))
 		{
@@ -83,7 +92,8 @@ export default function DriverPayNow(props) {
 		else if(data.cvv.length !== 3 || isNaN(data.cvv))
 		{
 			toast.error("Please enter a valid cvv.");
-		}else{
+		}
+		else{
 			setShowLoader(true);
 			const sendData = {
 				payment_id: props.location.state.payment_id, // prefilled
@@ -216,7 +226,6 @@ export default function DriverPayNow(props) {
 											type='text' 
 											autoComplete='off'
 											onChange={(e) => handleCardValue(e)}
-											//value={cardNo}
 										/>
 									</div>
 								</div>
@@ -232,8 +241,7 @@ export default function DriverPayNow(props) {
 										<input
 											className='appearance-none block w-1/2 bg-gray-100 border border-gray-200 rounded-half py-3 px-6 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-200'
 											id='cvv'
-											type='password' 
-											required
+											type='password'
                                             {...register("cvv")}
 										/>
 									</div>
@@ -249,7 +257,6 @@ export default function DriverPayNow(props) {
 										picker='month'
 										format='MM'
 										onChange={(date, dateString) => handleCardMonth(date, dateString)}
-										//{...register("cardMonth")}
 										className='appearance-none block w-1/2 bg-gray-100 border border-gray-200 rounded-half py-3 px-6 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-200'
 										id='cardMonth'
 										/>
@@ -258,7 +265,6 @@ export default function DriverPayNow(props) {
 										format='YYYY'
 										id='cardYear'
 										onChange={(date, dateString) => handleCardYear(date, dateString)}
-										//{...register("cardMonth")}
 										className='appearance-none block w-1/2 bg-gray-100 border border-gray-200 rounded-half py-3 px-6 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-200'
 										/>
 										</div>

@@ -78,7 +78,7 @@ const SearchComponent = (props) => {
 
 
 	return (
-		<div style={{ backgroundColor: '#d3d3d3' }} className='main-content px-2 '>
+		<div style={{ backgroundColor: '#d3d3d3', marginTop: '20px'}} className='main-content px-2 '>
 			<div className='flex w-full'>
 				<div className='px-3 mt-4 mb-3'>
 					<SearchBox

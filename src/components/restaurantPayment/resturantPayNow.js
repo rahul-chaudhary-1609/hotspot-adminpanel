@@ -43,7 +43,7 @@ export default function ResturantPayNow(props) {
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
 	const [cardMonth, setCardMonth] = useState(0);
 	const [cardYear, setCardYear] = useState(0);
-	const [cardNo, setCardNo] = useState();
+	const [cardNo, setCardNo] = useState('');
 	const [showLoader, setShowLoader] = useState(false);
 
 
@@ -71,12 +71,21 @@ export default function ResturantPayNow(props) {
 	}
 
     const onSubmit = (data) => {
-		if(cardMonth === 0 )
+		if(cardNo === '')
 		{
-			toast.error("Month can not be blank")
-		}else if(cardYear === 0 )
+			toast.error("Card No can not be blank.");
+		}
+		else if(data.cvv === '')
 		{
-			toast.error("Year can not be blank")
+			toast.error("CVV can not be blank.");
+		}
+		else if(cardMonth === 0 )
+		{
+			toast.error("Month can not be blank.")
+		}
+		else if(cardYear === 0 )
+		{
+			toast.error("Year can not be blank.")
 		}
 		else if(!validateCreditCardNumber(cardNo.replace(/ /g,'')))
 		{
@@ -85,7 +94,8 @@ export default function ResturantPayNow(props) {
 		else if(data.cvv.length !== 3 || isNaN(data.cvv))
 		{
 			toast.error("Please enter a valid cvv.");
-		}else{
+		}
+		else{
 			setShowLoader(true);
 			const sendData = {
 				payment_id: props.location.state.payment_id, // prefilled
@@ -230,7 +240,6 @@ export default function ResturantPayNow(props) {
 											id='cvv'
 											type='password'
 											autoComplete='off'
-											required
                                             {...register("cvv")}
 										/>
 									</div>

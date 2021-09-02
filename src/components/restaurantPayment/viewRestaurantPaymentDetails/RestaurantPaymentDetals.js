@@ -200,11 +200,11 @@ const RestaurantPaymentDetails = (props) => {
 				style={{ overflowY: 'scroll', height: '100vh' }}>
 				<div
 					id='recipients'
-					className='p-4 md:p-8 mt-6 lg:mt-0 rounded shadow bg-white'>
-					<div style={{ display: 'flex' }}>
-						<h1 className='text-xl'>Resturant Payment Management Details</h1>
+					className='p-4 md:p-8 lg:mt-0 rounded shadow bg-white'>
+					<div className='flex flex-wrap -mx-3' style={{justifyContent: 'space-between' }}>
+						<h1 className='text-xl'>Restaurant Payment Management Details</h1>
 						<button
-							style={{ marginLeft: '60%', height: '3rem' }}
+							style={{ height: '3rem' }}
 							onClick={() => history.push('/restaurantPayment')}
 							className='shadow bg-red-500 hover:bg-red-400  focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded'
 							type='button'>
@@ -217,7 +217,6 @@ const RestaurantPaymentDetails = (props) => {
 							paddingTop: '1em',
 							paddingBottom: '1em',
 							width: '100%',
-							marginTop: '60px',
 						}}>
 						<ReactTable
 							showPagination={false}

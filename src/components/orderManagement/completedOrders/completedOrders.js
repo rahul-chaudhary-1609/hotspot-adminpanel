@@ -202,7 +202,7 @@ const CompletedOrder = () => {
 		<>
 			<div className='main-content md:pb-5 flex-1 p-8 px-2' style={{ overflowY: 'auto', height: '100vh' }}>
 				<div id='recipients' className='p-4 md:p-8 mt-6 lg:mt-0 rounded shadow bg-white'>
-					<h1 className='text-xl'>Order</h1>
+					<h1 className='text-xl'>Order Management</h1>
 				<ButtonLayouts />
 				<div className='flex flex-wrap -mx-3 mb-6 mt-5'>
 						<div className='w-full md:w-1/2 px-3 mb-6 md:mb-0 search-text'>

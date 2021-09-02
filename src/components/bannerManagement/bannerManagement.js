@@ -64,9 +64,9 @@ const BannerManagement = () => {
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (
-					<div style={{ padding: '6px', cursor: 'pointer' }}>
+					<p style={{ padding: '6px', cursor: 'pointer' }}>
 						{item.name}
-					</div>
+					</p>
 				);
 			},
 		},
