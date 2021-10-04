@@ -1,68 +1,49 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Algoworks Work Product License
 
-## Available Scripts
+Version 1.0 -  October 4, 2021
+## Preamble
+1. This licence is granted by Algoworks (Consultant) to “Hotspot” (Client) for their Admin Panel platform developed by Algoworks based on the SOW for Design & Development of Mobile Application for “Hotspot LLC”.
 
-In the project directory, you can run:
+2. Modules covered under work product as per SOW - The following modules that are licensed are:
 
-### `npm start`
+Consultant’s Work Products:
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- Onboarding
+- Dashboard
+- Customer Management
+- Restaurant Management
+- Logout
+- Driver Management
+- Order Management
+- Banner Management
+- Driver Payment Management
+- Restaurant payment management
+- Notification Management
+- Static content management
+- FAQ
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+3. Intellectual Property Rights - These are covered by the initial SOW agreement as stated above between the Consultant and the Client. 
 
-### `npm test`
+4. Third Parties - Third party libraries or modules used for developing any of the Algoworks Work Product modules are not covered by this license. Please refer to the individual licenses of such libraries or modules. This license is for files and source code written by the Consultant for the specific modules as highlighted above. Individual files have a header component wherever relevant to clearly indicate that they are part of the Algoworks Work Product. The Consultant does not claim any ownership over the third party libraries or modules that might have been used in developing the Algoworks Work Product. 
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+ 
+## TERMS AND CONDITIONS
 
-### `npm run build`
+### 1. Basic Permissions.
+This License explicitly affirms your unlimited permission to run the unmodified Work Product (source files covered by Work Product License). 
+Sublicensing is not allowed. And the usage is limited to the application covered by Statement of Work as described in Preamble. 
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### 2. Conveying Non-Source Forms.
+The license does not permit distribution of non-source forms, if any.
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+### 3. Termination.
+This is a perpetual license for the work product “as is” and does not cover any upgrades or changes to the code. 
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### 4. Disclaimer of Warranty. 
 
-### `npm run eject`
+There is no warranty for the program, to the extent permitted by law. The program is provided “As Is” without warranty of any kind, either expressed or implied, including, but not limited to, the implied warranties of merchantability and fitness for a particular purpose. The entire risk as to the quality and performance of the program is with the client.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+### 5. Limitation of Liability.
+CLIENT agrees that CONSULTANT shall in no event be liable to CLIENT for lost profits or other financial loss of any type or description including any special, indirect, exemplary, punitive or consequential damages which may be caused directly or indirectly by any deficiency or defect in any work, Services or Software Applications provided hereunder, whether or not CONSULTANT has been advised of the possibility of such damages.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
