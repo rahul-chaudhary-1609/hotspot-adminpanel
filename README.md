@@ -1,18 +1,17 @@
 # Algoworks Work Product License
 
 Version 1.0 -  October 4, 2021
-## Preamble
+Preamble
 1. This licence is granted by Algoworks (Consultant) to “Hotspot” (Client) for their Admin Panel platform developed by Algoworks based on the SOW for Design & Development of Mobile Application for “Hotspot LLC”.
 
 2. Modules covered under work product as per SOW - The following modules that are licensed are:
 
-Consultant’s Work Products:
+## Consultant’s Work Products:
 
 - Onboarding
-- Dashboard
 - Customer Management
 - Restaurant Management
-- Logout
+- Admin Earning
 - Driver Management
 - Order Management
 - Banner Management
@@ -20,7 +19,8 @@ Consultant’s Work Products:
 - Restaurant payment management
 - Notification Management
 - Static content management
-- FAQ
+- Fee Setting
+- Hotspot setting
 
 3. Intellectual Property Rights - These are covered by the initial SOW agreement as stated above between the Consultant and the Client. 
 
@@ -45,5 +45,4 @@ There is no warranty for the program, to the extent permitted by law. The progra
 
 ### 5. Limitation of Liability.
 CLIENT agrees that CONSULTANT shall in no event be liable to CLIENT for lost profits or other financial loss of any type or description including any special, indirect, exemplary, punitive or consequential damages which may be caused directly or indirectly by any deficiency or defect in any work, Services or Software Applications provided hereunder, whether or not CONSULTANT has been advised of the possibility of such damages.
-
 
