@@ -16,6 +16,9 @@ import EditRestaurant from './restaurantManagement/editRestaurant/editRestaurant
 import AddRestaurent from './restaurantManagement/addRestaurant/addRestaurant';
 import ViewRestaurant from './restaurantManagement/viewRestaurant/viewRestaurant.js';
 
+import MenuCategoryManagement from './restaurantManagement/menuCategoryManagement/menuCategoryManagement';
+import ViewMenuCategory from './restaurantManagement/menuCategoryManagement/viewMenuCategory/viewMenuCategory';
+
 import Menumanagement from './restaurantManagement/menuManagement/menuManagement';
 import AddDish from './restaurantManagement/menuManagement/addDish/addDish.js';
 import EditDish from './restaurantManagement/menuManagement/editDish/editDish.js';
@@ -284,6 +287,16 @@ const Admin = () => {
 							exact
 							path={`/restro`}
 							component={AddRestaurent}
+						/>
+						<ProtectedRoutes
+							exact
+							path={`/restaurant/:id/menuCategory`}
+							component={MenuCategoryManagement}
+						/>
+						<ProtectedRoutes
+							exact
+							path={`/restaurant/:id/menuCategory/:id`}
+							component={ViewMenuCategory}
 						/>
 						<ProtectedRoutes
 							exact

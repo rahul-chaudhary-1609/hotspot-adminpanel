@@ -46,7 +46,7 @@ const ViewRestaurant = () => {
 				id
 			);
 			
-			let { restaurantCategoryList } = await getRestaurantCategoryList(token);
+			//let { restaurantCategoryList } = await getRestaurantCategoryList(token);
 
 			let phone = restaurant.owner_phone;
 
@@ -55,22 +55,22 @@ const ViewRestaurant = () => {
 				6
 			)}-${phone.slice(6)}`;
 
-			let categoryLists = restaurantCategoryList.rows;
+			//let categoryLists = restaurantCategoryList.rows;
 			
 			
-			let category = restaurant.restaurant_category_ids.map((restaurantId) => {
-				let rs = categoryLists.filter((h) => {
-					if (h.id === restaurantId) {
-						return true;
-					}
-				})[0];
-				return rs;
-			});
+			// let category = restaurant.restaurant_category_ids.map((restaurantId) => {
+			// 	let rs = categoryLists.filter((h) => {
+			// 		if (h.id === restaurantId) {
+			// 			return true;
+			// 		}
+			// 	})[0];
+			// 	return rs;
+			// });
           
-			setRestaurantCategoryList(categoryLists);
+			//setRestaurantCategoryList(categoryLists);
 
 			setRestaurantDetails(restaurant);
-			setCategory(category);
+			//setCategory(category);
 
 			setCoveringHotspots(coveringHotspots);
 		} catch (error) {
@@ -121,10 +121,10 @@ const ViewRestaurant = () => {
 								</button>
 								<button
 									style={{ height: '3rem' }}
-									onClick={() => history.push(`/${path}/${id}/menu`)}
+									onClick={() => history.push(`/restaurant/${id}/menuCategory`)}
 									className='shadow bg-500 mt-10 ml-3 hover:bg-white-400 focus:shadow-outline focus:outline-none text-black font-bold py-1 px-4 rounded'
 									type='button'>
-									Menu Management
+									Menu Category Management
 								</button>
 							</div>
 							<div>
@@ -229,7 +229,7 @@ const ViewRestaurant = () => {
 							</div>
 							
 							
-							<div className='flex flex-row items-center border-t border-gray-200'>
+							{/* <div className='flex flex-row items-center border-t border-gray-200'>
 								<div className='bg-gray-100 font-semibold py-4 px-6 w-1/3 text-right'>
 									Category
 								</div>
@@ -245,7 +245,7 @@ const ViewRestaurant = () => {
 								)}
 								
 								</div>
-							</div>
+							</div> */}
 							<div className='flex flex-row items-center border-t border-gray-200'>
 								<div className='bg-gray-100 font-semibold py-4 px-6 w-1/3 text-right'>
 									Covering Hotspots

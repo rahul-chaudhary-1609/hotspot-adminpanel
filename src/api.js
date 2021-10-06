@@ -1,13 +1,13 @@
 import axios from 'axios';
 import qs from 'qs';
 
-//  export const baseURL = `http://3.228.159.69/admin/`;
+ export const baseURL = `http://3.228.159.69/admin/`;
 
-//  export const baseURLWeb = `http://3.228.159.69/website/`;
+ export const baseURLWeb = `http://3.228.159.69/website/`;
 
-export const baseURL = `https://api.togohotspot.com/admin/`;
+// export const baseURL = `https://api.togohotspot.com/admin/`;
 
-export const baseURLWeb = `https://api.togohotspot.com/website/`;
+// export const baseURLWeb = `https://api.togohotspot.com/website/`;
 
 // export const baseURL = `http://localhost:7000/admin/`;
 
@@ -2679,6 +2679,102 @@ export const handleResturantPaymentDetails = (token, data) => {
 				},
 				method: 'POST',
 			}).then((res) => res.json());
+			if (response.status == 200) {
+				resolve(response);
+			} else {
+				reject(response.message);
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	});
+};
+
+export const listMenuCategories = (token, data) => {
+	return new Promise(async (resolve, reject) => {
+		try {
+			let url=new URL(`${baseURL}listRestaurantDishCategories`);
+			url.search= new URLSearchParams(data.query).toString();
+			const response = await fetch(url, {
+				headers: {
+					Authorization: token,
+					'Content-Type': 'application/json',
+				},
+				method: 'GET',
+			}).then((res) => res.json());
+
+			if (response.status == 200) {
+				resolve(response);
+			} else {
+				reject(response.message);
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	});
+};
+
+export const getMenuCategory = (token, data) => {
+	return new Promise(async (resolve, reject) => {
+		try {
+			let url=new URL(`${baseURL}getRestaurantDishCategory`);
+			Object.keys(data.params).forEach(key=>url.pathname=`${url.pathname}/${data.params[key]}`)
+			const response = await fetch(url, {
+				headers: {
+					Authorization: token,
+					'Content-Type': 'application/json',
+				},
+				method: 'GET',
+			}).then((res) => res.json());
+
+			if (response.status == 200) {
+				resolve(response);
+			} else {
+				reject(response.message);
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	});
+};
+
+export const deleteMenuCategory = (token, data) => {
+	return new Promise(async (resolve, reject) => {
+		try {
+			let url=new URL(`${baseURL}deleteRestaurantDishCategory`);
+			const response = await fetch(url, {
+				body: JSON.stringify(data.body),
+				headers: {
+					Authorization: token,
+					'Content-Type': 'application/json',
+				},
+				method: 'DELETE',
+			}).then((res) => res.json());
+
+			if (response.status == 200) {
+				resolve(response);
+			} else {
+				reject(response.message);
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	});
+};
+
+export const toggleMenuCategoryStatus = (token, data) => {
+	return new Promise(async (resolve, reject) => {
+		try {
+			let url=new URL(`${baseURL}toggleRestaurantDishCategoryStatus`);
+			const response = await fetch(url, {
+				body: JSON.stringify(data.body),
+				headers: {
+					Authorization: token,
+					'Content-Type': 'application/json',
+				},
+				method: 'PUT',
+			}).then((res) => res.json());
+
 			if (response.status == 200) {
 				resolve(response);
 			} else {
