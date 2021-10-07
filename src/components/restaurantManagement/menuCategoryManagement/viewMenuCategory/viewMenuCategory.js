@@ -25,7 +25,7 @@ const ViewMenuCategory = () => {
 	const [deleteModal, setDeleteModal] = useState(false);
 
 	useEffect(() => {
-		if(params.id && parseInt(params.id))
+		if(params.menuCategoryId && parseInt(params.menuCategoryId))
 		{
 			getMenuCategoryDetails();
 		}else{
@@ -37,15 +37,13 @@ const ViewMenuCategory = () => {
 		try {
             let data={
 				params:{
-					category_id:params.id,
+					category_id:params.menuCategoryId,
 				}
 			}
-            console.log("location",location)
 			const res = await getMenuCategory(
 				token,
 				data
 			);
-            console.log("res",res)
 
 			setMenuCategoryDetails(res.category);
 		} catch (error) {
@@ -58,7 +56,7 @@ const ViewMenuCategory = () => {
 				const status = menuCategoryDetails.status == 1 ? 0 : 1;
                 let data={
                     body:{
-                        category_id:params.id,
+                        category_id:params.menuCategoryId,
                     }
                 }
 				const res = await toggleMenuCategoryStatus(token, data);
@@ -74,7 +72,7 @@ const ViewMenuCategory = () => {
 		try {
             let data={
                 body:{
-                    category_id:params.id,
+                    category_id:params.menuCategoryId,
                 }
             }
 			const res = await deleteMenuCategory(token, data);
@@ -106,7 +104,7 @@ const ViewMenuCategory = () => {
 								</button>
 								<button
 									style={{ height: '3rem' }}
-									onClick={() => history.push(`/restaurant/${params.id}/menuCategory`)}
+									onClick={() => history.push(`/restaurant/${params.restaurantId}/menuCategory`)}
 									className='shadow bg-500 mt-10 ml-3 hover:bg-white-400 focus:shadow-outline focus:outline-none text-black font-bold py-1 px-4 rounded'
 									type='button'>
 									Menu Management
@@ -134,7 +132,7 @@ const ViewMenuCategory = () => {
 
 								<button
 									style={{ height: '3rem' }}
-									onClick={() => history.push(`/restro/${params.id}`)}
+									onClick={() => history.push(`/restaurant/${params.restaurantId}/editMenuCategory/${params.menuCategoryId}`)}
 									className='shadow bg-blue-500 ml-3 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded'
 									type='button'>
 									Edit

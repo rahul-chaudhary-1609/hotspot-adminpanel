@@ -95,7 +95,7 @@ function MenuCategoryManagement({ ...props }) {
 						onClick={(e) => e.stopPropagation()}>
 						<FontAwesomeIcon
 							style={{ cursor: 'pointer', marginTop: '6px' }}
-							onClick={() => history.push(`/restaurant/${params.id}/menuCategory/${item.id}`)}
+							onClick={() => history.push(`/restaurant/${params.restaurantId}/menuCategory/${item.id}`)}
 							className='text-red-600 trash w-5 h-5'
 							color='red'
 							icon={faEye}
@@ -120,7 +120,7 @@ function MenuCategoryManagement({ ...props }) {
 			let currentPage = searchText.length > 0 ? 1 : activePage;
 			let data={
 				query:{
-					restaurant_id:params.id,
+					restaurant_id:params.restaurantId,
 					is_pagination:1,
 					page:currentPage,
 					page_size:pageSize,
@@ -181,14 +181,14 @@ function MenuCategoryManagement({ ...props }) {
 					    <div style={{display:"flex", justifyContent:"flex-end",width:"25%"  }}>
 						<button
 							style={{ height: '3rem',marginRight:"1rem" }}
-							onClick={() => history.push('/restro')}
+							onClick={() => history.push(`/restaurant/${params.restaurantId}/addMenuCategory`)}
 							className='shadow bg-blue-500 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded'
 							type='button'>
 							Add New
 						</button>
 						<button
 							style={{ height: '3rem' }}
-							onClick={() => history.goBack()}
+							onClick={() => history.push(`/restaurant/${params.restaurantId}`)}
 							className='shadow bg-blue-500 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded'
 							type='button'>
 							Back
