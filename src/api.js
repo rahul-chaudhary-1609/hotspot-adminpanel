@@ -215,26 +215,26 @@ export const getMenuLists = (token, id, seachString, pageNumber, pageSize) => {
 		}
 	});
 };
-export const deleteDish = (token, id) => {
-	return new Promise(async (resolve, reject) => {
-		try {
-			const response = await fetch(`${baseURL}deleteDish/${id}`, {
-				headers: {
-					Accept: 'application/json',
-					Authorization: token,
-				},
-				method: 'DELETE',
-			}).then((res) => res.json());
-			if (response.status == 200) {
-				resolve(response);
-			} else {
-				reject(response.message);
-			}
-		} catch (error) {
-			console.log(error);
-		}
-	});
-};
+// export const deleteDish = (token, id) => {
+// 	return new Promise(async (resolve, reject) => {
+// 		try {
+// 			const response = await fetch(`${baseURL}deleteDish/${id}`, {
+// 				headers: {
+// 					Accept: 'application/json',
+// 					Authorization: token,
+// 				},
+// 				method: 'DELETE',
+// 			}).then((res) => res.json());
+// 			if (response.status == 200) {
+// 				resolve(response);
+// 			} else {
+// 				reject(response.message);
+// 			}
+// 		} catch (error) {
+// 			console.log(error);
+// 		}
+// 	});
+// };
 // export const uploadDishImage = (token, data) => {
 // 	let form = new FormData();
 // 	form.append('image', data);
@@ -257,53 +257,53 @@ export const deleteDish = (token, id) => {
 // 		}
 // 	});
 // };
-export const editDish = (token, id, data) => {
-	// delete data['images'];
-	// delete ['react-select-5-input'];
-	// delete data['react-select-3-input'];
-	return new Promise(async (resolve, reject) => {
-		try {
-			const response = await fetch(`${baseURL}editDish/${id}`, {
-				body: JSON.stringify(data),
-				headers: {
-					Authorization: token,
-					'Content-Type': 'application/json',
-				},
-				method: 'PUT',
-			}).then((res) => res.json());
-			if (response.status == 200) {
-				resolve(response);
-			} else {
-				reject(response.message);
-			}
-		} catch (error) {
-			console.log(error);
-		}
-	});
-};
-export const addDish = (token, data) => {
-	delete data['images'];
-	delete data['react-select-3-input'];
-	return new Promise(async (resolve, reject) => {
-		try {
-			const response = await fetch(`${baseURL}addDish`, {
-				body: JSON.stringify(data),
-				headers: {
-					Authorization: token,
-					'Content-Type': 'application/json',
-				},
-				method: 'POST',
-			}).then((res) => res.json());
-			if (response.status == 200) {
-				resolve(response);
-			} else {
-				reject(response.message);
-			}
-		} catch (error) {
-			console.log(error);
-		}
-	});
-};
+// export const editDish = (token, id, data) => {
+// 	// delete data['images'];
+// 	// delete ['react-select-5-input'];
+// 	// delete data['react-select-3-input'];
+// 	return new Promise(async (resolve, reject) => {
+// 		try {
+// 			const response = await fetch(`${baseURL}editDish/${id}`, {
+// 				body: JSON.stringify(data),
+// 				headers: {
+// 					Authorization: token,
+// 					'Content-Type': 'application/json',
+// 				},
+// 				method: 'PUT',
+// 			}).then((res) => res.json());
+// 			if (response.status == 200) {
+// 				resolve(response);
+// 			} else {
+// 				reject(response.message);
+// 			}
+// 		} catch (error) {
+// 			console.log(error);
+// 		}
+// 	});
+// };
+// export const addDish = (token, data) => {
+// 	delete data['images'];
+// 	delete data['react-select-3-input'];
+// 	return new Promise(async (resolve, reject) => {
+// 		try {
+// 			const response = await fetch(`${baseURL}addDish`, {
+// 				body: JSON.stringify(data),
+// 				headers: {
+// 					Authorization: token,
+// 					'Content-Type': 'application/json',
+// 				},
+// 				method: 'POST',
+// 			}).then((res) => res.json());
+// 			if (response.status == 200) {
+// 				resolve(response);
+// 			} else {
+// 				reject(response.message);
+// 			}
+// 		} catch (error) {
+// 			console.log(error);
+// 		}
+// 	});
+// };
 export const getDishById = (token, id) => {
 	return new Promise(async (resolve, reject) => {
 		try {
@@ -2814,6 +2814,174 @@ export const addMenuCategory = (token, data) => {
 	return new Promise(async (resolve, reject) => {
 		try {
 			let url=new URL(`${baseURL}addRestaurantDishCategory`);
+			const response = await fetch(url, {
+				body: JSON.stringify(data.body),
+				headers: {
+					Authorization: token,
+					'Content-Type': 'application/json',
+				},
+				method: 'POST',
+			}).then((res) => res.json());
+
+			if (response.status == 200) {
+				resolve(response);
+			} else {
+				reject(response.message);
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	});
+};
+
+export const listMenu = (token, data) => {
+	return new Promise(async (resolve, reject) => {
+		try {
+			let url=new URL(`${baseURL}listDishes`);
+			url.search= new URLSearchParams(data.query).toString();
+			const response = await fetch(url, {
+				headers: {
+					Authorization: token,
+					'Content-Type': 'application/json',
+				},
+				method: 'GET',
+			}).then((res) => res.json());
+
+			if (response.status == 200) {
+				resolve(response);
+			} else {
+				reject(response.message);
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	});
+};
+
+export const toggleDishAsQuickFilter = (token, data) => {
+	return new Promise(async (resolve, reject) => {
+		try {
+			let url=new URL(`${baseURL}toggleDishAsQuickFilter`);
+			const response = await fetch(url, {
+				body: JSON.stringify(data.body),
+				headers: {
+					Authorization: token,
+					'Content-Type': 'application/json',
+				},
+				method: 'PUT',
+			}).then((res) => res.json());
+
+			if (response.status == 200) {
+				resolve(response);
+			} else {
+				reject(response.message);
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	});
+};
+
+export const getDish = (token, data) => {
+	return new Promise(async (resolve, reject) => {
+		try {
+			let url=new URL(`${baseURL}getDish`);
+			Object.keys(data.params).forEach(key=>url.pathname=`${url.pathname}/${data.params[key]}`)
+			const response = await fetch(url, {
+				headers: {
+					Authorization: token,
+					'Content-Type': 'application/json',
+				},
+				method: 'GET',
+			}).then((res) => res.json());
+
+			if (response.status == 200) {
+				resolve(response);
+			} else {
+				reject(response.message);
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	});
+};
+
+export const deleteDish = (token, data) => {
+	return new Promise(async (resolve, reject) => {
+		try {
+			let url=new URL(`${baseURL}deleteDish`);
+			const response = await fetch(url, {
+				body: JSON.stringify(data.body),
+				headers: {
+					Authorization: token,
+					'Content-Type': 'application/json',
+				},
+				method: 'DELETE',
+			}).then((res) => res.json());
+
+			if (response.status == 200) {
+				resolve(response);
+			} else {
+				reject(response.message);
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	});
+};
+
+export const toggleDishStatus = (token, data) => {
+	return new Promise(async (resolve, reject) => {
+		try {
+			let url=new URL(`${baseURL}toggleDishStatus`);
+			const response = await fetch(url, {
+				body: JSON.stringify(data.body),
+				headers: {
+					Authorization: token,
+					'Content-Type': 'application/json',
+				},
+				method: 'PUT',
+			}).then((res) => res.json());
+
+			if (response.status == 200) {
+				resolve(response);
+			} else {
+				reject(response.message);
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	});
+};
+
+export const editDish = (token, data) => {
+	return new Promise(async (resolve, reject) => {
+		try {
+			let url=new URL(`${baseURL}editDish`);
+			const response = await fetch(url, {
+				body: JSON.stringify(data.body),
+				headers: {
+					Authorization: token,
+					'Content-Type': 'application/json',
+				},
+				method: 'PUT',
+			}).then((res) => res.json());
+
+			if (response.status == 200) {
+				resolve(response);
+			} else {
+				reject(response.message);
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	});
+};
+
+export const addDish = (token, data) => {
+	return new Promise(async (resolve, reject) => {
+		try {
+			let url=new URL(`${baseURL}addDish`);
 			const response = await fetch(url, {
 				body: JSON.stringify(data.body),
 				headers: {

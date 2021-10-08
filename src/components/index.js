@@ -20,10 +20,14 @@ import MenuCategoryManagement from './restaurantManagement/menuCategoryManagemen
 import ViewMenuCategory from './restaurantManagement/menuCategoryManagement/viewMenuCategory/viewMenuCategory';
 import AddEditMenuCategory from './restaurantManagement/menuCategoryManagement/addEditMenuCategory/addEditMenuCategory';
 
+import MenuManagement from './restaurantManagement/menuCategoryManagement/menuManagement/menuManagement';
+import ViewDish from './restaurantManagement/menuCategoryManagement/menuManagement/viewDish/viewDish';
+import AddEditDish from './restaurantManagement/menuCategoryManagement/menuManagement/addEditDish/addEditDish';
+
 import Menumanagement from './restaurantManagement/menuManagement/menuManagement';
 import AddDish from './restaurantManagement/menuManagement/addDish/addDish.js';
 import EditDish from './restaurantManagement/menuManagement/editDish/editDish.js';
-import ViewDish from './restaurantManagement/menuManagement/viewdish/viewDish.js';
+//import ViewDish from './restaurantManagement/menuManagement/viewdish/viewDish.js';
 
 import AddOnsmanagement from './restaurantManagement/menuManagement/AddOnsmanagement/AddOnsmanagement.js';
 import AddAddOns from './restaurantManagement/menuManagement/AddOnsmanagement/addform/addAddOns';
@@ -311,23 +315,23 @@ const Admin = () => {
 						/>
 						<ProtectedRoutes
 							exact
-							path={ `/restaurant/:id/menu`}
-							component={Menumanagement}
+							path={`/restaurant/:restaurantId/menuCategory/:menuCategoryId/menu`}
+							component={MenuManagement}
 						/>
 						<ProtectedRoutes
 							exact
-							path={`/restaurant/:id/menu/dish`}
-							component={AddDish}
-						/>
-						<ProtectedRoutes
-							exact
-							path={`/restaurant/:id/menu/dish/:id`}
-							component={EditDish}
-						/>
-						<ProtectedRoutes
-							exact
-							path={`/restaurant/:id/menu/:id`}
+							path={`/restaurant/:restaurantId/menuCategory/:menuCategoryId/menu/:dishId`}
 							component={ViewDish}
+						/>
+						<ProtectedRoutes
+							exact
+							path={`/restaurant/:restaurantId/menuCategory/:menuCategoryId/addDish`}
+							component={AddEditDish}
+						/>
+						<ProtectedRoutes
+							exact
+							path={`/restaurant/:restaurantId/menuCategory/:menuCategoryId/editDish/:dishId`}
+							component={AddEditDish}
 						/>
 						<ProtectedRoutes
 							exact

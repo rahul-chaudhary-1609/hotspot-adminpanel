@@ -70,7 +70,7 @@ const AddEditMenuCategory = () => {
 				setSuccess(res.message)
 				setShowLoader(false);
 				setTimeout(()=>{
-					history.push(`/restaurant/${params.restaurantId}/menuCategory`)
+					history.push(`/restaurant/${params.restaurantId}/menuCategory/${params.menuCategoryId}`)
 				},1000)
 			} catch (error) {
 				setShowLoader(false);

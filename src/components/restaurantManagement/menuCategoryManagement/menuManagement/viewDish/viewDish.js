@@ -7,19 +7,21 @@
 
 
 import React, { useEffect, useState } from 'react';
-import { getMenuCategory ,toggleMenuCategoryStatus, deleteMenuCategory} from '../../../../api';
+import ToggleOffIcon from '@material-ui/icons/ToggleOff';
+import ToggleOnIcon from '@material-ui/icons/ToggleOn';
+import { getDish ,toggleDishStatus, deleteDish} from '../../../../../api';
 import {useSelector } from 'react-redux';
 import { useHistory, useParams,useLocation } from 'react-router-dom';
-import StatusManagement from '../../../statusManagement/statusManagement';
-import DeleteModal from '../../../deleteModal/deleteModal';
-import Loader from '../../../../globalComponent/layout/loader';
+import StatusManagement from '../../../../statusManagement/statusManagement';
+import DeleteModal from '../../../../deleteModal/deleteModal';
+import Loader from '../../../../../globalComponent/layout/loader';
 
-const ViewMenuCategory = () => {
+const ViewDish = () => {
 	const history = useHistory();
 	const params = useParams();
     const location = useLocation();
 
-	const [menuCategoryDetails, setMenuCategoryDetails] = useState(null);
+	const [dishDetails, setDishDetails] = useState(null);
 	const token = useSelector((state) => state.auth.isSignedIn);
 	const [modalIsOpen, setIsOpen] = useState(false);
 	const [deleteModal, setDeleteModal] = useState(false);
@@ -33,19 +35,19 @@ const ViewMenuCategory = () => {
 		}
 	}, []);
 
-	async function fetchData(){
+	async function fetchData() {
 		try {
             let data={
 				params:{
-					category_id:params.menuCategoryId,
+					dishId:params.dishId,
 				}
 			}
-			const res = await getMenuCategory(
+			const res = await getDish(
 				token,
 				data
 			);
 
-			setMenuCategoryDetails(res.category);
+			setDishDetails(res.dish);
 		} catch (error) {
 			console.log(error);
 		}
@@ -53,15 +55,15 @@ const ViewMenuCategory = () => {
 
 	const handleStatusChange = async() => {
 		try {
-				const status = menuCategoryDetails.status == 1 ? 0 : 1;
+				const status = dishDetails.status == 1 ? 0 : 1;
                 let data={
                     body:{
-                        category_id:params.menuCategoryId,
+                        dishId:params.dishId,
                     }
                 }
-				const res = await toggleMenuCategoryStatus(token, data);
+				const res = await toggleDishStatus(token, data);
 				if (res.status == 200) {
-					history.push(`/restaurant/${params.restaurantId}/menuCategory`);
+					history.push(`/restaurant/${params.restaurantId}/menuCategory/${params.menuCategoryId}/menu`);
 				}
 			} catch (error) {
 				console.log(error);
@@ -72,12 +74,12 @@ const ViewMenuCategory = () => {
 		try {
             let data={
                 body:{
-                    category_id:params.menuCategoryId,
+                    dishId:params.dishId,
                 }
             }
-			const res = await deleteMenuCategory(token, data);
+			const res = await deleteDish(token, data);
 			if (res.status == 200) {
-				history.push(`/restaurant/${params.restaurantId}/menuCategory`);
+				history.push(`/restaurant/${params.restaurantId}/menuCategory/${params.menuCategoryId}/menu`);
 				setDeleteModal(false);
 			}
 		} catch (error) {
@@ -87,8 +89,8 @@ const ViewMenuCategory = () => {
 	return (
 		<div className='main-content md:pb-5 flex-1 p-8 px-2' style={{ overflowY: 'auto', height: '100vh' }}>
 				<div id='recipients' className='p-4 md:p-8 mt-6 lg:mt-0 rounded shadow bg-white'>
-					<h1 className='text-xl'>Menu Category Management</h1>
-				{!menuCategoryDetails ?
+					<h1 className='text-xl'>Menu Management</h1>
+				{!dishDetails ?
 				<Loader />
 				:(
 					<>
@@ -99,7 +101,7 @@ const ViewMenuCategory = () => {
 									className='shadow mt-10 bg-blue-500 ml-3 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-1 px-4 rounded'
 									type='button'
 									disabled>
-									Menu Category Details
+									Dish Details
 								</button>
 								<button
 									style={{ height: '3rem' }}
@@ -112,7 +114,7 @@ const ViewMenuCategory = () => {
 							<div>
 								<button
 									style={{ height: '3rem' }}
-									onClick={() => history.push(`/restaurant/${params.restaurantId}/menuCategory`)}
+									onClick={() => history.push(`/restaurant/${params.restaurantId}/menuCategory/${params.menuCategoryId}/menu`)}
 									className='shadow bg-blue-500 ml-3 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded'
 									type='button'>
 									Back
@@ -126,12 +128,12 @@ const ViewMenuCategory = () => {
 									type='button'>
 									Active/Deactive
 								</button>
-								<StatusManagement {...{ setIsOpen, modalIsOpen, details: menuCategoryDetails,handleStatusChange, name:'Menu Category' }} />
+								<StatusManagement {...{ setIsOpen, modalIsOpen, details: dishDetails,handleStatusChange, name:'Dish' }} />
 							
 
 								<button
 									style={{ height: '3rem' }}
-									onClick={() => history.push(`/restaurant/${params.restaurantId}/editMenuCategory/${params.menuCategoryId}`)}
+									onClick={() => history.push(`/restaurant/${params.restaurantId}/menuCategory/${params.menuCategoryId}/editDish/${params.dishId}`)}
 									className='shadow bg-blue-500 ml-3 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded'
 									type='button'>
 									Edit
@@ -162,7 +164,52 @@ const ViewMenuCategory = () => {
 								<div className='bg-gray-100 font-semibold py-4 px-6 w-1/3 text-right'>
 									Name
 								</div>
-								<div className='px-8'>{menuCategoryDetails.name}</div>
+								<div className='px-8'>{dishDetails.name}</div>
+							</div>
+
+							<div className='flex flex-row items-center border-t border-gray-200'>
+								<div className='bg-gray-100 font-semibold py-4 px-6 w-1/3 text-right'>
+									Actual Price ($)
+								</div>
+								<div className='px-8'>{dishDetails.price}</div>
+							</div>
+
+							<div className='flex flex-row items-center border-t border-gray-200'>
+								<div className='bg-gray-100 font-semibold py-4 px-6 w-1/3 text-right'>
+									Markup Price ($)
+								</div>
+								<div className='px-8'>{dishDetails.markup_price?dishDetails.markup_price:0.00}</div>
+							</div>
+
+							<div className='flex flex-row items-center border-t border-gray-200'>
+								<div className='bg-gray-100 font-semibold py-4 px-6 w-1/3 text-right'>
+									Total Price ($)
+								</div>
+								<div className='px-8'>{dishDetails.markup_price?parseFloat(dishDetails.price)+parseFloat(dishDetails.markup_price):dishDetails.price}</div>
+							</div>
+
+							<div className='flex flex-row items-center border-t border-gray-200'>
+								<div className='bg-gray-100 font-semibold py-4 px-6 w-1/3 text-right'>
+									Quick Filter
+								</div>
+								<div className='px-8'>
+									{dishDetails.is_quick_filter == 1 ? (
+										<ToggleOnIcon
+											style={{ color: 'green', fontSize: '35' }}
+										/>
+										) : (
+											<ToggleOffIcon
+												style={{ color: 'red', fontSize: '35' }}
+											/>
+									)}
+								</div>
+							</div>
+
+							<div className='flex flex-row items-center border-t border-gray-200'>
+								<div className='bg-gray-100 font-semibold py-4 px-6 w-1/3 text-right'>
+									Description
+								</div>
+								<div style={{overflowWrap:"break-word",width: '65%'}} className='px-8'>{dishDetails.description}</div>
 							</div>
 
 						</div>
@@ -173,4 +220,4 @@ const ViewMenuCategory = () => {
 	);
 }
 
-export default ViewMenuCategory;
+export default ViewDish;
