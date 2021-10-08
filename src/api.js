@@ -1,17 +1,17 @@
 import axios from 'axios';
 import qs from 'qs';
 
- export const baseURL = `http://3.228.159.69/admin/`;
+//  export const baseURL = `http://3.228.159.69/admin/`;
 
- export const baseURLWeb = `http://3.228.159.69/website/`;
+//  export const baseURLWeb = `http://3.228.159.69/website/`;
 
 // export const baseURL = `https://api.togohotspot.com/admin/`;
 
 // export const baseURLWeb = `https://api.togohotspot.com/website/`;
 
-// export const baseURL = `http://localhost:7000/admin/`;
+export const baseURL = `http://localhost:5000/admin/`;
 
-// export const baseURLWeb = `http://localhost:7000/website/`;
+export const baseURLWeb = `http://localhost:5000/website/`;
 
 // export const api2 = axios.create({
 //     baseURL: `http://3.236.82.67:9001`
@@ -3126,6 +3126,150 @@ export const addAddonSection = (token, data) => {
 	return new Promise(async (resolve, reject) => {
 		try {
 			let url=new URL(`${baseURL}addDishAddOnSection`);
+			const response = await fetch(url, {
+				body: JSON.stringify(data.body),
+				headers: {
+					Authorization: token,
+					'Content-Type': 'application/json',
+				},
+				method: 'POST',
+			}).then((res) => res.json());
+
+			if (response.status == 200) {
+				resolve(response);
+			} else {
+				reject(response.message);
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	});
+};
+
+export const listAddon = (token, data) => {
+	return new Promise(async (resolve, reject) => {
+		try {
+			let url=new URL(`${baseURL}listDishAddon`);
+			url.search= new URLSearchParams(data.query).toString();
+			const response = await fetch(url, {
+				headers: {
+					Authorization: token,
+					'Content-Type': 'application/json',
+				},
+				method: 'GET',
+			}).then((res) => res.json());
+
+			if (response.status == 200) {
+				resolve(response);
+			} else {
+				reject(response.message);
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	});
+};
+
+export const getAddon = (token, data) => {
+	return new Promise(async (resolve, reject) => {
+		try {
+			let url=new URL(`${baseURL}getDishAddon`);
+			Object.keys(data.params).forEach(key=>url.pathname=`${url.pathname}/${data.params[key]}`)
+			const response = await fetch(url, {
+				headers: {
+					Authorization: token,
+					'Content-Type': 'application/json',
+				},
+				method: 'GET',
+			}).then((res) => res.json());
+
+			if (response.status == 200) {
+				resolve(response);
+			} else {
+				reject(response.message);
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	});
+};
+
+export const deleteAddon = (token, data) => {
+	return new Promise(async (resolve, reject) => {
+		try {
+			let url=new URL(`${baseURL}deleteDishAddon`);
+			const response = await fetch(url, {
+				body: JSON.stringify(data.body),
+				headers: {
+					Authorization: token,
+					'Content-Type': 'application/json',
+				},
+				method: 'DELETE',
+			}).then((res) => res.json());
+
+			if (response.status == 200) {
+				resolve(response);
+			} else {
+				reject(response.message);
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	});
+};
+
+export const toggleAddonStatus = (token, data) => {
+	return new Promise(async (resolve, reject) => {
+		try {
+			let url=new URL(`${baseURL}toggleDishAddonStatus`);
+			const response = await fetch(url, {
+				body: JSON.stringify(data.body),
+				headers: {
+					Authorization: token,
+					'Content-Type': 'application/json',
+				},
+				method: 'PUT',
+			}).then((res) => res.json());
+
+			if (response.status == 200) {
+				resolve(response);
+			} else {
+				reject(response.message);
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	});
+};
+
+export const editAddon = (token, data) => {
+	return new Promise(async (resolve, reject) => {
+		try {
+			let url=new URL(`${baseURL}editDishAddon`);
+			const response = await fetch(url, {
+				body: JSON.stringify(data.body),
+				headers: {
+					Authorization: token,
+					'Content-Type': 'application/json',
+				},
+				method: 'PUT',
+			}).then((res) => res.json());
+
+			if (response.status == 200) {
+				resolve(response);
+			} else {
+				reject(response.message);
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	});
+};
+
+export const addAddon = (token, data) => {
+	return new Promise(async (resolve, reject) => {
+		try {
+			let url=new URL(`${baseURL}addDishAddon`);
 			const response = await fetch(url, {
 				body: JSON.stringify(data.body),
 				headers: {

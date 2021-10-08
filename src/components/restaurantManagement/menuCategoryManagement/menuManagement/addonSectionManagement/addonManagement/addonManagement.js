@@ -8,20 +8,18 @@
 
 import React, { useState, useEffect } from 'react';
 import ReactTable from 'react-table';
-import ToggleOffIcon from '@material-ui/icons/ToggleOff';
-import ToggleOnIcon from '@material-ui/icons/ToggleOn';
 import 'react-toastify/dist/ReactToastify.css';
 import Pagination from 'react-js-pagination';
 import 'react-table/react-table.css';
 import 'react-confirm-alert/src/react-confirm-alert.css';
-import SearchBox from '../../../../globalComponent/layout/search';
+import SearchBox from '../../../../../../globalComponent/layout/search';
 import { useHistory,useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye } from '@fortawesome/free-solid-svg-icons';
-import { listMenu, toggleDishAsQuickFilter } from '../../../../api';
+import { listAddon } from '../../../../../../api';
 import { useDispatch, useSelector } from 'react-redux';
 
-function MenuManagement() {
+function AddonManagement() {
 	const dispatch = useDispatch();
 	const history = useHistory();
 	let params=useParams();
@@ -97,28 +95,6 @@ function MenuManagement() {
 		},
 		{
 			id: 6,
-			Header: 'Quick Filter',
-			className: 'text-center view-details',
-			accessor: (item) => {
-				return (
-					<div style={{ padding: '6px', cursor: 'pointer' }}>
-						{item.is_quick_filter == 1 ? (
-							<ToggleOnIcon
-								onClick={() => handleQuickFilterStatus(item.id)}
-								style={{ color: 'green', fontSize: '35' }}
-							/>
-						) : (
-								<ToggleOffIcon
-									onClick={() => handleQuickFilterStatus(item.id)}
-									style={{ color: 'red', fontSize: '35' }}
-								/>
-						)}
-					</div>
-				);
-			},
-		},
-		{
-			id: 7,
 			Header: 'Status',
 			width: 100,
 			className: 'text-center view-details',
@@ -149,7 +125,7 @@ function MenuManagement() {
 						onClick={(e) => e.stopPropagation()}>
 						<FontAwesomeIcon
 							style={{ cursor: 'pointer', marginTop: '6px' }}
-							onClick={() => history.push(`/restaurant/${params.restaurantId}/menuCategory/${params.menuCategoryId}/menu/${item.id}`)}
+							onClick={() => history.push(`/restaurant/${params.restaurantId}/menuCategory/${params.menuCategoryId}/menu/${params.dishId}/addonSection/${params.sectionId}/addon/${item.id}`)}
 							className='text-red-600 trash w-5 h-5'
 							color='red'
 							icon={faEye}
@@ -174,7 +150,7 @@ function MenuManagement() {
 			let currentPage = searchText.length > 0 ? 1 : activePage;
 			let data={
 				query:{
-					restaurant_dish_category_id:params.menuCategoryId,
+					dish_add_on_section_id:params.sectionId,
 					page:currentPage,
 					page_size:pageSize,
 				}
@@ -182,7 +158,7 @@ function MenuManagement() {
 			if(searchText && searchText.trim()!=""){
 				data.query.search_key=searchText;
 			}
-			const res = await listMenu(
+			const res = await listAddon(
 				token,
 				data
 			);
@@ -191,8 +167,8 @@ function MenuManagement() {
 				let newStartId = pageSize * (activePage - 1);
 				setStartId(newStartId);
 				setError(null);
-				setTableData(res.dishes.rows);
-				setTotalItems(res.dishes.count);
+				setTableData(res.dishAddons.rows);
+				setTotalItems(res.dishAddons.count);
 				if (searchText.length) {
 					setCurrentPage(1);
 				}
@@ -208,27 +184,6 @@ function MenuManagement() {
 		}
 	};
 
-	const handleQuickFilterStatus=async(dishId)=>{
-		try {
-			setLoading(true);
-			let data={
-				body:{
-					dishId,
-				}
-			}
-			await toggleDishAsQuickFilter(
-				token,
-				data
-			);
-			setLoading(false);
-		} catch (error) {
-			setError(error);
-			setLoading(false)
-		}
-
-		fetchData();
-	}
-
 
 	const handlePageChange = (pageNumber) => {
 		setCurrentPage(pageNumber);
@@ -238,7 +193,7 @@ function MenuManagement() {
 		<>
 			<div className='main-content md:pb-5 flex-1 p-8 px-2' style={{ overflowY: 'auto', height: '100vh' }}>
 				<div id='recipients' className='p-4 md:p-8 mt-6 lg:mt-0 rounded shadow bg-white'>
-					<h1 className='text-xl'>Menu Management</h1>
+					<h1 className='text-xl'>Addon Management</h1>
 					<div className='flex flex-wrap -mx-3 mb-6 mt-5' style={{justifyContent:"space-between" }}>
 						<div className='w-full md:w-1/2 px-3 mb-6 md:mb-0 search-text' style={{width:"50%" }}>
 							<SearchBox
@@ -257,14 +212,14 @@ function MenuManagement() {
 					    <div style={{display:"flex", justifyContent:"flex-end",width:"25%"  }}>
 						<button
 							style={{ height: '3rem',marginRight:"1rem" }}
-							onClick={() => history.push(`/restaurant/${params.restaurantId}/menuCategory/${params.menuCategoryId}/addDish`)}
+							onClick={() => history.push(`/restaurant/${params.restaurantId}/menuCategory/${params.menuCategoryId}/menu/${params.dishId}/addonSection/${params.sectionId}/addAddon`)}
 							className='shadow bg-blue-500 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded'
 							type='button'>
 							Add New
 						</button>
 						<button
 							style={{ height: '3rem' }}
-							onClick={() => history.push(`/restaurant/${params.restaurantId}/menuCategory/${params.menuCategoryId}`)}
+							onClick={() => history.push(`/restaurant/${params.restaurantId}/menuCategory/${params.menuCategoryId}/menu/${params.dishId}/addonSection/${params.sectionId}`)}
 							className='shadow bg-blue-500 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded'
 							type='button'>
 							Back
@@ -311,4 +266,4 @@ function MenuManagement() {
 	);
 }
 
-export default MenuManagement;
+export default AddonManagement;

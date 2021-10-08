@@ -105,7 +105,7 @@ const ViewAddonSection = () => {
 								</button>
 								<button
 									style={{ height: '3rem' }}
-									onClick={() => history.push(`/restaurant/${params.restaurantId}/menuCategory/${params.menuCategoryId}/menu/${params.dishId}/addonSection`)}
+									onClick={() => history.push(`/restaurant/${params.restaurantId}/menuCategory/${params.menuCategoryId}/menu/${params.dishId}/addonSection/${params.sectionId}/addon`)}
 									className='shadow bg-500 mt-10 ml-3 hover:bg-white-400 focus:shadow-outline focus:outline-none text-black font-bold py-1 px-4 rounded'
 									type='button'>
 									Addon Management

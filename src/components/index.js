@@ -28,9 +28,9 @@ import AddonSectionManagement from './restaurantManagement/menuCategoryManagemen
 import ViewAddonSection from './restaurantManagement/menuCategoryManagement/menuManagement/addonSectionManagement/viewAddonSection/viewAddonSection';
 import AddEditAddonSection from './restaurantManagement/menuCategoryManagement/menuManagement/addonSectionManagement/addEditAddonSection/addEditAddonSection';
 
-// import AddOnsmanagement from './restaurantManagement/menuManagement/AddOnsmanagement/AddOnsmanagement.js';
-// import AddAddOns from './restaurantManagement/menuManagement/AddOnsmanagement/addform/addAddOns';
-// import EditAddOns from './restaurantManagement/menuManagement/AddOnsmanagement/editForm/editAddOns';
+import AddonManagement from './restaurantManagement/menuCategoryManagement/menuManagement/addonSectionManagement/addonManagement/addonManagement';
+import ViewAddon from './restaurantManagement/menuCategoryManagement/menuManagement/addonSectionManagement/addonManagement/viewAddon/viewAddon';
+import AddEditAddon from './restaurantManagement/menuCategoryManagement/menuManagement/addonSectionManagement/addonManagement/addEditAddon/addEditAddon';
 
 import CustomerManagement from './customerManagement/customerManagement.js';
 import ViewCustomerDetails from './customerManagement/viewCustomerDetails/viewCustomerDetails.js';
@@ -351,6 +351,26 @@ const Admin = () => {
 							exact
 							path={`/restaurant/:restaurantId/menuCategory/:menuCategoryId/menu/:dishId/editAddonSection/:sectionId`}
 							component={AddEditAddonSection}
+						/>
+						<ProtectedRoutes
+							exact
+							path={`/restaurant/:restaurantId/menuCategory/:menuCategoryId/menu/:dishId/addonSection/:sectionId/addon`}
+							component={AddonManagement}
+						/>
+						<ProtectedRoutes
+							exact
+							path={`/restaurant/:restaurantId/menuCategory/:menuCategoryId/menu/:dishId/addonSection/:sectionId/addon/:addonId`}
+							component={ViewAddon}
+						/>
+						<ProtectedRoutes
+							exact
+							path={`/restaurant/:restaurantId/menuCategory/:menuCategoryId/menu/:dishId/addonSection/:sectionId/addAddon`}
+							component={AddEditAddon}
+						/>
+						<ProtectedRoutes
+							exact
+							path={`/restaurant/:restaurantId/menuCategory/:menuCategoryId/menu/:dishId/addonSection/:sectionId/editAddon/:addonId`}
+							component={AddEditAddon}
 						/>
 						<ProtectedRoutes
 							exact

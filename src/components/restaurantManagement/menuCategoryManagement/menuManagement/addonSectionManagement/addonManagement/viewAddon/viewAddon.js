@@ -7,21 +7,19 @@
 
 
 import React, { useEffect, useState } from 'react';
-import ToggleOffIcon from '@material-ui/icons/ToggleOff';
-import ToggleOnIcon from '@material-ui/icons/ToggleOn';
-import { getDish ,toggleDishStatus, deleteDish} from '../../../../../api';
+import { getAddon ,toggleAddonStatus, deleteAddon, deleteDishAddon} from '../../../../../../../api';
 import {useSelector } from 'react-redux';
 import { useHistory, useParams,useLocation } from 'react-router-dom';
-import StatusManagement from '../../../../statusManagement/statusManagement';
-import DeleteModal from '../../../../deleteModal/deleteModal';
-import Loader from '../../../../../globalComponent/layout/loader';
+import StatusManagement from '../../../../../../statusManagement/statusManagement';
+import DeleteModal from '../../../../../../deleteModal/deleteModal';
+import Loader from '../../../../../../../globalComponent/layout/loader';
 
-const ViewDish = () => {
-	const history = useHistory();
+const ViewAddon = () => {
+    const history = useHistory();
 	const params = useParams();
     const location = useLocation();
 
-	const [dishDetails, setDishDetails] = useState(null);
+	const [addonDetails, setAddonDetails] = useState(null);
 	const token = useSelector((state) => state.auth.isSignedIn);
 	const [modalIsOpen, setIsOpen] = useState(false);
 	const [deleteModal, setDeleteModal] = useState(false);
@@ -39,15 +37,15 @@ const ViewDish = () => {
 		try {
             let data={
 				params:{
-					dishId:params.dishId,
+					dish_addon_id:params.addonId,
 				}
 			}
-			const res = await getDish(
+			const res = await getAddon(
 				token,
 				data
 			);
 
-			setDishDetails(res.dish);
+			setAddonDetails(res.dishAddon);
 		} catch (error) {
 			console.log(error);
 		}
@@ -55,15 +53,15 @@ const ViewDish = () => {
 
 	const handleStatusChange = async() => {
 		try {
-				const status = dishDetails.status == 1 ? 0 : 1;
+				const status = addonDetails.status == 1 ? 0 : 1;
                 let data={
                     body:{
-                        dishId:params.dishId,
+                        dish_addon_id:params.addonId,
                     }
                 }
-				const res = await toggleDishStatus(token, data);
+				const res = await toggleAddonStatus(token, data);
 				if (res.status == 200) {
-					history.push(`/restaurant/${params.restaurantId}/menuCategory/${params.menuCategoryId}/menu`);
+					history.push(`/restaurant/${params.restaurantId}/menuCategory/${params.menuCategoryId}/menu/${params.dishId}/addonSection/${params.sectionId}/addon`);
 				}
 			} catch (error) {
 				console.log(error);
@@ -74,12 +72,12 @@ const ViewDish = () => {
 		try {
             let data={
                 body:{
-                    dishId:params.dishId,
+                    dish_addon_id:params.addonId,
                 }
             }
-			const res = await deleteDish(token, data);
+			const res = await deleteAddon(token, data);
 			if (res.status == 200) {
-				history.push(`/restaurant/${params.restaurantId}/menuCategory/${params.menuCategoryId}/menu`);
+				history.push(`/restaurant/${params.restaurantId}/menuCategory/${params.menuCategoryId}/menu/${params.dishId}/addonSection/${params.sectionId}/addon`);
 				setDeleteModal(false);
 			}
 		} catch (error) {
@@ -89,8 +87,8 @@ const ViewDish = () => {
 	return (
 		<div className='main-content md:pb-5 flex-1 p-8 px-2' style={{ overflowY: 'auto', height: '100vh' }}>
 				<div id='recipients' className='p-4 md:p-8 mt-6 lg:mt-0 rounded shadow bg-white'>
-					<h1 className='text-xl'>Menu Management</h1>
-				{!dishDetails ?
+					<h1 className='text-xl'>Addon Management</h1>
+				{!addonDetails ?
 				<Loader />
 				:(
 					<>
@@ -101,20 +99,20 @@ const ViewDish = () => {
 									className='shadow mt-10 bg-blue-500 ml-3 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-1 px-4 rounded'
 									type='button'
 									disabled>
-									Dish Details
+									Addon Details
 								</button>
-								<button
+								{/* <button
 									style={{ height: '3rem' }}
 									onClick={() => history.push(`/restaurant/${params.restaurantId}/menuCategory/${params.menuCategoryId}/menu/${params.dishId}/addonSection`)}
 									className='shadow bg-500 mt-10 ml-3 hover:bg-white-400 focus:shadow-outline focus:outline-none text-black font-bold py-1 px-4 rounded'
 									type='button'>
 									Addon Section Management
-								</button>
+								</button> */}
 							</div>
 							<div>
 								<button
 									style={{ height: '3rem' }}
-									onClick={() => history.push(`/restaurant/${params.restaurantId}/menuCategory/${params.menuCategoryId}/menu`)}
+									onClick={() => history.push(`/restaurant/${params.restaurantId}/menuCategory/${params.menuCategoryId}/menu/${params.dishId}/addonSection/${params.sectionId}/addon`)}
 									className='shadow bg-blue-500 ml-3 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded'
 									type='button'>
 									Back
@@ -128,12 +126,12 @@ const ViewDish = () => {
 									type='button'>
 									Active/Deactive
 								</button>
-								<StatusManagement {...{ setIsOpen, modalIsOpen, details: dishDetails,handleStatusChange, name:'Dish' }} />
+								<StatusManagement {...{ setIsOpen, modalIsOpen, details: addonDetails,handleStatusChange, name:'Addon' }} />
 							
 
 								<button
 									style={{ height: '3rem' }}
-									onClick={() => history.push(`/restaurant/${params.restaurantId}/menuCategory/${params.menuCategoryId}/editDish/${params.dishId}`)}
+									onClick={() => history.push(`/restaurant/${params.restaurantId}/menuCategory/${params.menuCategoryId}/menu/${params.dishId}/addonSection/${params.sectionId}/editAddon/${params.addonId}`)}
 									className='shadow bg-blue-500 ml-3 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded'
 									type='button'>
 									Edit
@@ -153,7 +151,7 @@ const ViewDish = () => {
 								setDeleteModal,
 								deleteModal,
 								handleDelete,
-								name:'Dish'
+								name:'Addon'
 								
 							}}/>
 						
@@ -164,52 +162,28 @@ const ViewDish = () => {
 								<div className='bg-gray-100 font-semibold py-4 px-6 w-1/3 text-right'>
 									Name
 								</div>
-								<div className='px-8'>{dishDetails.name}</div>
+								<div className='px-8'>{addonDetails.name}</div>
 							</div>
 
 							<div className='flex flex-row items-center border-t border-gray-200'>
 								<div className='bg-gray-100 font-semibold py-4 px-6 w-1/3 text-right'>
 									Actual Price ($)
 								</div>
-								<div className='px-8'>{dishDetails.price}</div>
+								<div className='px-8'>{addonDetails.price}</div>
 							</div>
 
 							<div className='flex flex-row items-center border-t border-gray-200'>
 								<div className='bg-gray-100 font-semibold py-4 px-6 w-1/3 text-right'>
 									Markup Price ($)
 								</div>
-								<div className='px-8'>{dishDetails.markup_price?dishDetails.markup_price:0.00}</div>
+								<div className='px-8'>{addonDetails.markup_price?addonDetails.markup_price:0.00}</div>
 							</div>
 
 							<div className='flex flex-row items-center border-t border-gray-200'>
 								<div className='bg-gray-100 font-semibold py-4 px-6 w-1/3 text-right'>
 									Final Price ($)
 								</div>
-								<div className='px-8'>{dishDetails.markup_price?parseFloat((parseFloat(dishDetails.price)+parseFloat(dishDetails.markup_price)).toFixed(2)):dishDetails.price}</div>
-							</div>
-
-							<div className='flex flex-row items-center border-t border-gray-200'>
-								<div className='bg-gray-100 font-semibold py-4 px-6 w-1/3 text-right'>
-									Quick Filter
-								</div>
-								<div className='px-8'>
-									{dishDetails.is_quick_filter == 1 ? (
-										<ToggleOnIcon
-											style={{ color: 'green', fontSize: '35' }}
-										/>
-										) : (
-											<ToggleOffIcon
-												style={{ color: 'red', fontSize: '35' }}
-											/>
-									)}
-								</div>
-							</div>
-
-							<div className='flex flex-row items-center border-t border-gray-200'>
-								<div className='bg-gray-100 font-semibold py-4 px-6 w-1/3 text-right'>
-									Description
-								</div>
-								<div style={{overflowWrap:"break-word",width: '65%'}} className='px-8'>{dishDetails.description}</div>
+								<div className='px-8'>{addonDetails.markup_price?parseFloat((parseFloat(addonDetails.price)+parseFloat(addonDetails.markup_price)).toFixed(2)):addonDetails.price}</div>
 							</div>
 
 						</div>
@@ -220,4 +194,4 @@ const ViewDish = () => {
 	);
 }
 
-export default ViewDish;
+export default ViewAddon;
