@@ -8,7 +8,7 @@ import GooglePlacesAutocomplete from "react-google-places-autocomplete";
 import Select from "react-select";
 import {
   getDriverLists,
-  getRestaurantLists,
+  listRestaurant,
   deleteHotspot,
 } from "../../../api";
 import { useSelector } from "react-redux";
@@ -130,7 +130,14 @@ const EditForm = (props) => {
   };
 
   const restaurantLists = () => {
-    getRestaurantLists(token, "", "", "")
+    let data={
+      query:{
+        is_pagination:1,
+        page:1,
+        page_size:10,
+      }
+    }
+    listRestaurant(token, data)
       .then((restaurants) => {
         let updatedList = restaurants.restaurantList.rows;
         updatedList = updatedList.reduce((acc, curr) => {

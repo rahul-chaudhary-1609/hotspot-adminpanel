@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Modal from 'react-modal';
 import { useSelector } from 'react-redux';
-import { getFee, getRestaurantById, addFee, editFee, editRestaurantFee } from '../../../api';
+import { getFee, getRestaurant, addFee, editFee, editRestaurantFee } from '../../../api';
 
 const ChangeFeeSetting = (props) => {
 	const customsStyles = {
@@ -53,9 +53,14 @@ const ChangeFeeSetting = (props) => {
 	}, [props.id, props.isRestaurant, props.isOpen]);
 
 	const getRestaurantDetails = () => {
-		let id = props.id
+		
+		let data={
+			params:{
+				restaurantID:props.id
+			}
+		}
 
-		getRestaurantById(token, id)
+		getRestaurant(token, data)
 			.then((resp) => {
 				props.setFeeDetails(resp.restaurant);
 			})

@@ -12,9 +12,8 @@ import ResetPassword from './onBoarding/resetPassword.js';
 import Dashboard from './dashboard/dashboard';
 
 import RestaurantManagement from './restaurantManagement/restaurantManagement';
-import EditRestaurant from './restaurantManagement/editRestaurant/editRestaurant';
-import AddRestaurent from './restaurantManagement/addRestaurant/addRestaurant';
 import ViewRestaurant from './restaurantManagement/viewRestaurant/viewRestaurant.js';
+import AddEditRestaurant from './restaurantManagement/addEditRestaurant/addEditRestaurant';
 
 import MenuCategoryManagement from './restaurantManagement/menuCategoryManagement/menuCategoryManagement';
 import ViewMenuCategory from './restaurantManagement/menuCategoryManagement/viewMenuCategory/viewMenuCategory';
@@ -279,18 +278,18 @@ const Admin = () => {
 						/>
 						<ProtectedRoutes
 							exact
-							path={`/restaurant/:id`}
+							path={`/restaurant/:restaurantId`}
 							component={ViewRestaurant}
 						/>
 						<ProtectedRoutes
 							exact
-							path={`/restro/:id`}
-							component={EditRestaurant}
+							path={`/editRestaurant/:restaurantId`}
+							component={AddEditRestaurant}
 						/>
 						<ProtectedRoutes
 							exact
-							path={`/restro`}
-							component={AddRestaurent}
+							path={`/addRestaurant`}
+							component={AddEditRestaurant}
 						/>
 						<ProtectedRoutes
 							exact

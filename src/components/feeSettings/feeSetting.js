@@ -7,7 +7,7 @@
 
 import React, { useEffect, useState } from 'react';
 import CommonTable from './commonTable';
-import { getFeeList, getRestaurantLists, getTipAmount } from '../../api';
+import { getFeeList, listRestaurant, getTipAmount } from '../../api';
 import { useSelector } from 'react-redux';
 import { addFee, editFee, editRestaurantFee, deleteDriverFee } from '../../api';
 import ChangeFeeSetting from './changeFeeSetting/changeFeeSetting';
@@ -76,11 +76,15 @@ const FeeSettings = () => {
 			});
 	};
 	const restaurantFeeSetting = () => {
-		let searchText = '', currentPage = '', pageSize = '';
-		getRestaurantLists(token,
-			searchText,
-			currentPage,
-			pageSize)
+		let data={
+			query:{
+				is_pagination:1,
+				page:1,
+				page_size:10,
+			}
+		}
+		listRestaurant(token,
+			data)
 			.then((resp) => {
 				setRestaurantFee(resp.restaurantList.rows);
 			})

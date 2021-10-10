@@ -16,16 +16,17 @@ import SearchBox from '../../globalComponent/layout/search';
 import { useHistory } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye } from '@fortawesome/free-solid-svg-icons';
-import { getRestaurantLists } from '../../api';
+import { listRestaurant } from '../../api';
 import { useDispatch, useSelector } from 'react-redux';
 import {formatDate} from '../../utils/redableDateTime'
+import Description from '@material-ui/icons/Description';
 
 function RestaurantManagement({ ...props }) {
 	const dispatch = useDispatch();
 	const history = useHistory();
 	const token = useSelector((state) => state.auth.isSignedIn);
 	
-	const [restaurantData, setRestaurantData] = useState([]);
+	const [tableData, setTableData] = useState([]);
 	const [activePage, setCurrentPage] = useState(1);
 	
 	const[loading,setLoading] = useState(false);
@@ -35,7 +36,7 @@ function RestaurantManagement({ ...props }) {
 
 	const [startId, setStartId] = useState(0);
 
-	let endId = startId < 0 ? 0 : startId + restaurantData.length;
+	let endId = startId < 0 ? 0 : startId + tableData.length;
 	let currentId = startId;
 	const [error, setError] = useState();
 	const columns = [
@@ -140,7 +141,7 @@ function RestaurantManagement({ ...props }) {
 					<div onClick={(e) => {e.stopPropagation(); window.open(item.agreement_doc_url,'_blank')}}
 						className="text-green-600"
 						style={{ padding: '6px', cursor: 'pointer' }}>
-						{item.agreement_doc_url && 'View'}
+						{item.agreement_doc_url && <Description style={{ color: '#667eea',fontSize:"2rem" }} />}
 					</div>
 				);
 			},
@@ -185,17 +186,25 @@ function RestaurantManagement({ ...props }) {
 		try {
 			setLoading(true);
 			let currentPage = searchText.length > 0 ? 1 : activePage;
-			const res = await getRestaurantLists(
+			let data={
+				query:{
+					is_pagination:1,
+					page:currentPage,
+					page_size:pageSize,
+				}
+			}
+			if(searchText && searchText.trim()!=""){
+				data.query.searchKey=searchText;
+			}
+			const res = await listRestaurant(
 				token,
-				searchText,
-				currentPage,
-				pageSize
+				data
 			);
 			if (res.success) {
 				let newStartId = pageSize * (activePage - 1);
 				setStartId(newStartId);
 				setError(null);
-				setRestaurantData(res.restaurantList.rows);
+				setTableData(res.restaurantList.rows);
 				setTotalItems(res.restaurantList.count);
 				if (searchText.length) {
 					setCurrentPage(1);
@@ -207,7 +216,7 @@ function RestaurantManagement({ ...props }) {
 			let newStartId = startId - 1;
 			setStartId(newStartId);
 			setTotalItems(0);
-			setRestaurantData([]);
+			setTableData([]);
 			setLoading(false)
 		}
 	};
@@ -233,11 +242,10 @@ function RestaurantManagement({ ...props }) {
 								}
 								searchText={searchText}
 							/>
-						</div>
-
+						</div>	
 						<button
 							style={{ height: '3rem' }}
-							onClick={() => history.push('/restro')}
+							onClick={() => history.push('/addRestaurant')}
 							className='shadow bg-blue-500 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded'
 							type='button'>
 							Add New
@@ -259,7 +267,7 @@ function RestaurantManagement({ ...props }) {
 						minRows={0}
 						NoDataComponent={() => null}
 						defaultPageSize={pageSize}
-						data={restaurantData}
+						data={tableData}
 						className='-highlight'
 						columns={columns}
 						style={{

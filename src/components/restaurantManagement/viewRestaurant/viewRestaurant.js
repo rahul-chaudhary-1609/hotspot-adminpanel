@@ -7,31 +7,27 @@
 
 
 import React, { useEffect, useState } from 'react';
-import { getRestaurantById, getRestaurantCategoryList ,changeRestaurantStatus, deleteRestaurant} from '../../../api';
+import { getRestaurant,toggleRestaurantStatus, deleteRestaurant} from '../../../api';
 import {useSelector } from 'react-redux';
-import { useHistory, useLocation, useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import moment from 'moment';
 import StatusManagement from '../../statusManagement/statusManagement';
 import DeleteModal from '../../deleteModal/deleteModal';
 import Loader from '../../../globalComponent/layout/loader';
+import Description from '@material-ui/icons/Description';
 
 const ViewRestaurant = () => {
 	const history = useHistory();
-	const { id } = useParams();
-	const { pathname } = useLocation();
-	let path = pathname.split('/')[1];
+	let params=useParams();
 
 	const [restaurantDetails, setRestaurantDetails] = useState(null);
 	const [coveringHotspots, setCoveringHotspots] = useState(null);
 	const token = useSelector((state) => state.auth.isSignedIn);
 	const [modalIsOpen, setIsOpen] = useState(false);
 	const [deleteModal, setDeleteModal] = useState(false);
-	const [restaurantCategoryList, setRestaurantCategoryList] = useState(null);
-
-	const [category, setCategory] = useState([]);
 
 	useEffect(() => {
-		if(id && parseInt(id))
+		if(params.restaurantId)
 		{
 			getRestaurantDetails();
 		}else{
@@ -41,12 +37,15 @@ const ViewRestaurant = () => {
 
 	const getRestaurantDetails = async () => {
 		try {
-			const { restaurant, coveringHotspots } = await getRestaurantById(
+			let data={
+				params:{
+					restaurantId:params.restaurantId
+				}
+			}
+			const { restaurant, coveringHotspots } = await getRestaurant(
 				token,
-				id
+				data,
 			);
-			
-			//let { restaurantCategoryList } = await getRestaurantCategoryList(token);
 
 			let phone = restaurant.owner_phone;
 
@@ -55,22 +54,7 @@ const ViewRestaurant = () => {
 				6
 			)}-${phone.slice(6)}`;
 
-			//let categoryLists = restaurantCategoryList.rows;
-			
-			
-			// let category = restaurant.restaurant_category_ids.map((restaurantId) => {
-			// 	let rs = categoryLists.filter((h) => {
-			// 		if (h.id === restaurantId) {
-			// 			return true;
-			// 		}
-			// 	})[0];
-			// 	return rs;
-			// });
-          
-			//setRestaurantCategoryList(categoryLists);
-
 			setRestaurantDetails(restaurant);
-			//setCategory(category);
 
 			setCoveringHotspots(coveringHotspots);
 		} catch (error) {
@@ -80,8 +64,12 @@ const ViewRestaurant = () => {
 
 	const handleStatusChange = async() => {
 		try {
-				const status = restaurantDetails.status == 1 ? 0 : 1;
-				const res = await changeRestaurantStatus(token, id, status);
+				let data={
+					body:{
+						restaurantId:params.restaurantId
+					}
+				}
+				const res = await toggleRestaurantStatus(token, data);
 				if (res.status == 200) {
 					history.push('/restaurant');
 				}
@@ -92,7 +80,12 @@ const ViewRestaurant = () => {
 
 	const handleDelete = async() =>{
 		try {
-			const res = await deleteRestaurant(token, id);
+			let data={
+				body:{
+					restaurantId:params.restaurantId
+				}
+			}
+			const res = await deleteRestaurant(token, data);
 			if (res.status == 200) {
 				history.push('/restaurant');
 				setDeleteModal(false);
@@ -121,7 +114,7 @@ const ViewRestaurant = () => {
 								</button>
 								<button
 									style={{ height: '3rem' }}
-									onClick={() => history.push(`/restaurant/${id}/menuCategory`)}
+									onClick={() => history.push(`/restaurant/${params.restaurantId}/menuCategory`)}
 									className='shadow bg-500 mt-10 ml-3 hover:bg-white-400 focus:shadow-outline focus:outline-none text-black font-bold py-1 px-4 rounded'
 									type='button'>
 									Menu Category Management
@@ -146,10 +139,9 @@ const ViewRestaurant = () => {
 								</button>
 								<StatusManagement {...{ setIsOpen, modalIsOpen, details: restaurantDetails,handleStatusChange, name:'Restaurant' }} />
 							
-
 								<button
 									style={{ height: '3rem' }}
-									onClick={() => history.push(`/restro/${id}`)}
+									onClick={() => history.push(`/editRestaurant/${params.restaurantId}`)}
 									className='shadow bg-blue-500 ml-3 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded'
 									type='button'>
 									Edit
@@ -228,24 +220,7 @@ const ViewRestaurant = () => {
 								<div className='px-8'>{restaurantDetails.owner_phone}</div>
 							</div>
 							
-							
-							{/* <div className='flex flex-row items-center border-t border-gray-200'>
-								<div className='bg-gray-100 font-semibold py-4 px-6 w-1/3 text-right'>
-									Category
-								</div>
-								<div className='px-8' style={{width: '65%'}}>
-								{category.map((category, idx) => {
-											let res ="";
-											if(idx > 0 ){
-												res += "  ,  ";
-											}
-											return res + category.name;
-											
-										}
-								)}
-								
-								</div>
-							</div> */}
+						
 							<div className='flex flex-row items-center border-t border-gray-200'>
 								<div className='bg-gray-100 font-semibold py-4 px-6 w-1/3 text-right'>
 									Covering Hotspots
@@ -333,6 +308,25 @@ const ViewRestaurant = () => {
 									<p >{restaurantDetails.stripe_secret_key}</p>
 								</div>
 							</div>
+							{
+								restaurantDetails.agreement_doc_url?
+								(
+									<div className='flex flex-row items-center border-t border-gray-200'>
+										<div className='bg-gray-100 font-semibold py-4 px-6 w-1/3 text-right'>
+										Agreement Document
+										</div>
+										<div style={{overflowWrap:"break-word",width: '65%'}} className='px-8'>
+											<button
+												onClick={(e) => {e.stopPropagation(); window.open(restaurantDetails.agreement_doc_url,'_blank')}}
+												style={{cursor:"pointer"}}
+											>
+												<Description style={{ color: '#667eea',fontSize:"3rem" }} />
+											</button>
+										</div>
+									</div>
+								):
+								null
+							}
 						</div>
 					</>
 				)}

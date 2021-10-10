@@ -17,332 +17,6 @@ import qs from 'qs';
 //     baseURL: `http://3.236.82.67:9001`
 // })
 
-export const getRestaurantLists = (
-	token,
-	seachString,
-	pageNumber,
-	pageSize
-) => {
-	return new Promise(async (resolve, reject) => {
-		try {
-			const response = await fetch(
-				`${baseURL}listRestaurant?searchKey=${seachString}&page=${pageNumber}&page_size=${pageSize}`,
-				{
-					headers: {
-						Accept: 'application/json',
-						Authorization: token,
-					},
-				}
-			).then((res) => res.json());
-			if (response.success) {
-				resolve(response);
-			} else {
-				reject(response.message);
-			}
-		} catch (error) {
-			console.log(error);
-		}
-	});
-};
-
-export const getRestaurantById = (token, id) => {
-	return new Promise(async (resolve, reject) => {
-		try {
-			const response = await fetch(`${baseURL}getRestaurant/${id}`, {
-				headers: {
-					Accept: 'application/json',
-					Authorization: token,
-				},
-			}).then((res) => res.json());
-			if (response.success) {
-				resolve(response);
-			} else {
-				reject(response.message);
-			}
-		} catch (error) {
-			console.log(error);
-		}
-	});
-};
-export const getRestaurantCategoryList = (token) => {
-	return new Promise(async (resolve, reject) => {
-		try {
-			const response = await fetch(`${baseURL}restaurantCategoryList`, {
-				headers: {
-					Accept: 'application/json',
-					Authorization: token,
-				},
-			}).then((res) => res.json());
-			if (response.success) {
-				resolve(response);
-			} else {
-				reject(response.message);
-			}
-		} catch (error) {
-			console.log(error);
-		}
-	});
-};
-export const changeRestaurantStatus = (token, id, data) => {
-	let newData = { status: data };
-	return new Promise(async (resolve, reject) => {
-		try {
-			const response = await fetch(`${baseURL}changeRestaurantStatus/${id}`, {
-				body: qs.stringify(newData),
-				headers: {
-					Accept: 'application/json',
-					'Content-Type': 'application/x-www-form-urlencoded',
-					Authorization: token,
-				},
-				method: 'PUT',
-			}).then((res) => res.json());
-			if (response.status == 200) {
-				resolve(response);
-			} else {
-				reject(response.message);
-			}
-		} catch (error) {
-			console.log(error);
-		}
-	});
-};
-
-export const deleteRestaurant = (token, id) => {
-	return new Promise(async (resolve, reject) => {
-		try {
-			const response = await fetch(`${baseURL}deleteRestaurant/${id}`, {
-				headers: {
-					Accept: 'application/json',
-					Authorization: token,
-				},
-				method: 'DELETE',
-			}).then((res) => res.json());
-			if (response.status == 200) {
-				resolve(response);
-			} else {
-				reject(response.message);
-			}
-		} catch (error) {
-			console.log(error);
-		}
-	});
-};
-export const editRestaurant = (token, id, data) => {
-	return new Promise(async (resolve, reject) => {
-		try {
-			const response = await fetch(`${baseURL}editRestaurant/${id}`, {
-				body: JSON.stringify(data),
-				headers: {
-					Authorization: token,
-					'Content-Type': 'application/json',
-				},
-				method: 'PUT',
-			}).then((res) => res.json());
-			if (response.success) {
-				resolve(response);
-			} else {
-				reject(response.message);
-			}
-		} catch (error) {
-			console.log(error);
-		}
-	});
-};
-export const addRestaurant = (token, data) => {
-	return new Promise(async (resolve, reject) => {
-		try {
-			const response = await fetch(`${baseURL}addRestaurant`, {
-				body: JSON.stringify(data),
-				headers: {
-					Authorization: token,
-					'Content-Type': 'application/json',
-				},
-				method: 'POST',
-			}).then((res) => res.json());
-			if (response.success) {
-				resolve(response);
-			} else {
-				reject(response.message);
-			}
-		} catch (error) {
-			console.log(error);
-		}
-	});
-};
-// export const uploadRestaurantImage = (token, data) => {
-// 	delete data['images'];
-// 	let form = new FormData();
-// 	form.append('image', data);
-// 	return new Promise(async (resolve, reject) => {
-// 		try {
-// 			const response = await fetch(`${baseURL}/uploadRestaurantImage`, {
-// 				body: form,
-// 				headers: {
-// 					Authorization: token,
-// 				},
-// 				method: 'PUT',
-// 			}).then((res) => res.json());
-// 			if (response.status == 200) {
-// 				resolve(response);
-// 			} else {
-// 				reject(response.message);
-// 			}
-// 		} catch (error) {
-// 			console.log(error);
-// 		}
-// 	});
-// };
-
-export const getMenuLists = (token, id, seachString, pageNumber, pageSize) => {
-	return new Promise(async (resolve, reject) => {
-		try {
-			const response = await fetch(
-				`${baseURL}listDishes/${id}?searchKey=${seachString}&page=${pageNumber}&page_size=${pageSize}`,
-				{
-					headers: {
-						Accept: 'application/json',
-						Authorization: token,
-					},
-				}
-			).then((res) => res.json());
-			if (response.status == 200) {
-				resolve(response);
-			} else {
-				reject(response.message);
-			}
-		} catch (error) {
-			console.log(error);
-		}
-	});
-};
-// export const deleteDish = (token, id) => {
-// 	return new Promise(async (resolve, reject) => {
-// 		try {
-// 			const response = await fetch(`${baseURL}deleteDish/${id}`, {
-// 				headers: {
-// 					Accept: 'application/json',
-// 					Authorization: token,
-// 				},
-// 				method: 'DELETE',
-// 			}).then((res) => res.json());
-// 			if (response.status == 200) {
-// 				resolve(response);
-// 			} else {
-// 				reject(response.message);
-// 			}
-// 		} catch (error) {
-// 			console.log(error);
-// 		}
-// 	});
-// };
-// export const uploadDishImage = (token, data) => {
-// 	let form = new FormData();
-// 	form.append('image', data);
-// 	return new Promise(async (resolve, reject) => {
-// 		try {
-// 			const response = await fetch(`${baseURL}/uploadDishImage`, {
-// 				body: form,
-// 				headers: {
-// 					Authorization: token,
-// 				},
-// 				method: 'PUT',
-// 			}).then((res) => res.json());
-// 			if (response.status == 200) {
-// 				resolve(response);
-// 			} else {
-// 				reject(response.message);
-// 			}
-// 		} catch (error) {
-// 			console.log(error);
-// 		}
-// 	});
-// };
-// export const editDish = (token, id, data) => {
-// 	// delete data['images'];
-// 	// delete ['react-select-5-input'];
-// 	// delete data['react-select-3-input'];
-// 	return new Promise(async (resolve, reject) => {
-// 		try {
-// 			const response = await fetch(`${baseURL}editDish/${id}`, {
-// 				body: JSON.stringify(data),
-// 				headers: {
-// 					Authorization: token,
-// 					'Content-Type': 'application/json',
-// 				},
-// 				method: 'PUT',
-// 			}).then((res) => res.json());
-// 			if (response.status == 200) {
-// 				resolve(response);
-// 			} else {
-// 				reject(response.message);
-// 			}
-// 		} catch (error) {
-// 			console.log(error);
-// 		}
-// 	});
-// };
-// export const addDish = (token, data) => {
-// 	delete data['images'];
-// 	delete data['react-select-3-input'];
-// 	return new Promise(async (resolve, reject) => {
-// 		try {
-// 			const response = await fetch(`${baseURL}addDish`, {
-// 				body: JSON.stringify(data),
-// 				headers: {
-// 					Authorization: token,
-// 					'Content-Type': 'application/json',
-// 				},
-// 				method: 'POST',
-// 			}).then((res) => res.json());
-// 			if (response.status == 200) {
-// 				resolve(response);
-// 			} else {
-// 				reject(response.message);
-// 			}
-// 		} catch (error) {
-// 			console.log(error);
-// 		}
-// 	});
-// };
-export const getDishById = (token, id) => {
-	return new Promise(async (resolve, reject) => {
-		try {
-			const response = await fetch(`${baseURL}getDish/${id}`, {
-				headers: {
-					Accept: 'application/json',
-					Authorization: token,
-				},
-			}).then((res) => res.json());
-			if (response.status == 200) {
-				resolve(response);
-			} else {
-				reject(response.message);
-			}
-		} catch (error) {
-			console.log(error);
-		}
-	});
-};
-
-export const getCategoryList = (token) => {
-	return new Promise(async (resolve, reject) => {
-		try {
-			const response = await fetch(`${baseURL}dishCategoryLIst`, {
-				headers: {
-					Accept: 'application/json',
-					Authorization: token,
-				},
-			}).then((res) => res.json());
-			if (response.status == 200) {
-				resolve(response);
-			} else {
-				reject(response.message);
-			}
-		} catch (error) {
-			console.log(error);
-		}
-	});
-};
 
 export const login = (data) => {
 	return new Promise(async (resolve, reject) => {
@@ -2679,6 +2353,173 @@ export const handleResturantPaymentDetails = (token, data) => {
 				},
 				method: 'POST',
 			}).then((res) => res.json());
+			if (response.status == 200) {
+				resolve(response);
+			} else {
+				reject(response.message);
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	});
+};
+
+export const listRestaurant = (token, data) => {
+	return new Promise(async (resolve, reject) => {
+		try {
+			let url=new URL(`${baseURL}listRestaurant`);
+			url.search= new URLSearchParams(data.query).toString();
+			const response = await fetch(url, {
+				headers: {
+					Authorization: token,
+					'Content-Type': 'application/json',
+				},
+				method: 'GET',
+			}).then((res) => res.json());
+
+			if (response.status == 200) {
+				resolve(response);
+			} else {
+				reject(response.message);
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	});
+};
+
+export const getRestaurant = (token, data) => {
+	return new Promise(async (resolve, reject) => {
+		try {
+			let url=new URL(`${baseURL}getRestaurant`);
+			Object.keys(data.params).forEach(key=>url.pathname=`${url.pathname}/${data.params[key]}`)
+			const response = await fetch(url, {
+				headers: {
+					Authorization: token,
+					'Content-Type': 'application/json',
+				},
+				method: 'GET',
+			}).then((res) => res.json());
+
+			if (response.status == 200) {
+				resolve(response);
+			} else {
+				reject(response.message);
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	});
+};
+
+export const deleteRestaurant = (token, data) => {
+	return new Promise(async (resolve, reject) => {
+		try {
+			let url=new URL(`${baseURL}deleteRestaurant`);
+			const response = await fetch(url, {
+				body: JSON.stringify(data.body),
+				headers: {
+					Authorization: token,
+					'Content-Type': 'application/json',
+				},
+				method: 'DELETE',
+			}).then((res) => res.json());
+
+			if (response.status == 200) {
+				resolve(response);
+			} else {
+				reject(response.message);
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	});
+};
+
+export const toggleRestaurantStatus = (token, data) => {
+	return new Promise(async (resolve, reject) => {
+		try {
+			let url=new URL(`${baseURL}toggleRestaurantStatus`);
+			const response = await fetch(url, {
+				body: JSON.stringify(data.body),
+				headers: {
+					Authorization: token,
+					'Content-Type': 'application/json',
+				},
+				method: 'PUT',
+			}).then((res) => res.json());
+
+			if (response.status == 200) {
+				resolve(response);
+			} else {
+				reject(response.message);
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	});
+};
+
+export const editRestaurant = (token, data) => {
+	return new Promise(async (resolve, reject) => {
+		try {
+			let url=new URL(`${baseURL}editRestaurant`);
+			const response = await fetch(url, {
+				body: JSON.stringify(data.body),
+				headers: {
+					Authorization: token,
+					'Content-Type': 'application/json',
+				},
+				method: 'PUT',
+			}).then((res) => res.json());
+
+			if (response.status == 200) {
+				resolve(response);
+			} else {
+				reject(response.message);
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	});
+};
+
+export const addRestaurant = (token, data) => {
+	return new Promise(async (resolve, reject) => {
+		try {
+			let url=new URL(`${baseURL}addRestaurant`);
+			const response = await fetch(url, {
+				body: JSON.stringify(data.body),
+				headers: {
+					Authorization: token,
+					'Content-Type': 'application/json',
+				},
+				method: 'POST',
+			}).then((res) => res.json());
+
+			if (response.status == 200) {
+				resolve(response);
+			} else {
+				reject(response.message);
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	});
+};
+
+export const uploadFile = (token, data) => {
+	return new Promise(async (resolve, reject) => {
+		try {
+			let url=new URL(`${baseURL}uploadFile`);
+			const response = await fetch(url, {
+				body: data.form,
+				headers: {
+					Authorization: token,
+				},
+				method: 'PUT',
+			}).then((res) => res.json());
+
 			if (response.status == 200) {
 				resolve(response);
 			} else {
