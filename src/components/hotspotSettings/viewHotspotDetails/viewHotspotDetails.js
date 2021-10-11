@@ -7,7 +7,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router';
-import { getHotspotDetails, deleteHotspot } from '../../../api';
+import { getHotspot, deleteHotspot } from '../../../api';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
 import DeleteModal from '../../deleteModal/deleteModal';
@@ -15,29 +15,41 @@ import DeleteModal from '../../deleteModal/deleteModal';
 const ViewHotspotDetails = () => {
 	const history = useHistory();
 
-	const [scheduleDetails, setScheduleDetails] = useState(null);
+	const [hotspotDetails, setHotspotDetails] = useState(null);
 	const token = useSelector((state) => state.auth.isSignedIn);
-	const { id } = useParams();
+	const params = useParams();
 
 	const [deleteModal, setDeleteModal] = useState(false);
 	const [error, setError] = useState(null);
 	const[restaurants, setRestaurants] = useState(null);
 
 	useEffect(() => {
-		getHotspotDetails(token, id)
-			.then((hotspot) => {
-				let updatedData = '';
-				updatedData += hotspot.hotspotDetails.restaurants.map(rest =>rest.restaurant_name)
-				setRestaurants(updatedData)
-				setScheduleDetails(hotspot.hotspotDetails);
-			})
-			.catch((error) => {
-				console.log(error);
-			});
+		if(params.id){
+			let data={
+				params:{
+					hotspotLocationId:params.id
+				}
+			}
+			getHotspot(token, data)
+				.then((hotspot) => {
+					let updatedData = hotspot.hotspotDetails.restaurants.map(rest =>rest.restaurant.restaurant_name)
+					updatedData.join(", ")
+					setRestaurants(updatedData.join(", "))
+					setHotspotDetails(hotspot.hotspotDetails);
+				})
+				.catch((error) => {
+					console.log(error);
+				});
+		}
 	}, []);
 
 	const handleDelete = () => {
-		deleteHotspot(token, id)
+		let data={
+			body:{
+				hotspotLocationId:params.id
+			}
+		}
+		deleteHotspot(token, data)
 			.then((res) => {
 				history.push('/hotspot');
 				setDeleteModal(false);
@@ -56,7 +68,7 @@ const ViewHotspotDetails = () => {
 				<h3 className='text-2xl text-gray-400 font-bold mb-6'>
 					Hotspot Settings Details
 				</h3>
-				{scheduleDetails && (
+				{hotspotDetails && (
 					<>
 						<div
 							style={{
@@ -75,7 +87,7 @@ const ViewHotspotDetails = () => {
 
 							<button
 								style={{ height: '3rem' }}
-								onClick={() => history.push(`/hotspot/${id}`)}
+								onClick={() => history.push(`/editHotspot/${params.id}`)}
 								className='shadow bg-blue-500 ml-3 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded'
 								type='button'>
 								Edit
@@ -121,7 +133,7 @@ const ViewHotspotDetails = () => {
 										className=' font-semibold py-4 px-6 w-1/3 text-right'>
 										Hotspot Name
 									</div>
-									<div className='px-8 '>{scheduleDetails.name}</div>
+									<div className='px-8 '>{hotspotDetails.name}</div>
 								</div>
 								<div className='flex flex-row  items-center border-t border-gray-200 '>
 									<div
@@ -130,7 +142,7 @@ const ViewHotspotDetails = () => {
 										Address
 									</div>
 									<div className='px-8' style={{ width: '65%' }}>
-										{scheduleDetails.location_detail}
+										{hotspotDetails.location_detail}
 									</div>
 								</div>
 								<div className='flex flex-row border-t border-gray-200'>
@@ -140,8 +152,8 @@ const ViewHotspotDetails = () => {
 										Drop off
 									</div>
 									<div className='px-8'>
-										{scheduleDetails.dropoffs &&
-											scheduleDetails.dropoffs.map((dropoff) => {
+										{hotspotDetails.dropoffs &&
+											hotspotDetails.dropoffs.map((dropoff) => {
 												return (
 													<>
 														<div style={{ marginTop: '5px' }}> {dropoff}</div>
@@ -157,7 +169,7 @@ const ViewHotspotDetails = () => {
 										Delivery Shifts
 									</div>
 									<div className='px-8'>
-										{scheduleDetails.delivery_shifts.map((shifts) => {
+										{hotspotDetails.delivery_shifts.map((shifts) => {
 											return (
 												<div style={{ marginTop: '5px' }}>
 													{moment(shifts, 'hh:mm:ss').format('hh:mm a')}
@@ -170,16 +182,12 @@ const ViewHotspotDetails = () => {
 									<div
 										className='bg-gray-100 font-semibold py-4 px-6  w-1/3 text-right '
 										style={{ backgroundColor: 'lightgray' }}>
-										Restaurant
+										Restaurants
 									</div>
 									<div className='px-8 ' style={{ width: '65%' }}>
-										{scheduleDetails.restaurants.map((restaurant, idx) => {
-											let res = '';
-											if (idx > 0) {
-												res += '  ,  ';
-											}
-										
-											return restaurant && res + restaurant.restaurant_name;
+										{hotspotDetails.restaurants.map((restaurant, index) => {
+												
+											return (<div style={{ marginTop: '5px' }}>{++index}. {restaurant.restaurant.restaurant_name} (<strong>Pickup Time:</strong> {restaurant.pickup_time} minutes)</div>)
 										})}
 									</div>
 								</div>
@@ -190,7 +198,7 @@ const ViewHotspotDetails = () => {
 										Driver
 									</div>
 									<div className='px-8' style={{ width: '65%' }}>
-										{scheduleDetails.drivers.map((driver, idx) => {
+										{hotspotDetails.drivers.map((driver, idx) => {
 											let res = '';
 											if (idx > 0) {
 												res += '  ,  ';

@@ -1,13 +1,13 @@
 import axios from 'axios';
 import qs from 'qs';
 
- export const baseURL = `http://3.228.159.69/admin/`;
+//  export const baseURL = `http://3.228.159.69/admin/`;
 
- export const baseURLWeb = `http://3.228.159.69/website/`;
+//  export const baseURLWeb = `http://3.228.159.69/website/`;
 
-// export const baseURL = `https://api.togohotspot.com/admin/`;
+export const baseURL = `https://api.togohotspot.com/admin/`;
 
-// export const baseURLWeb = `https://api.togohotspot.com/website/`;
+export const baseURLWeb = `https://api.togohotspot.com/website/`;
 
 // export const baseURL = `http://localhost:5000/admin/`;
 
@@ -563,18 +563,19 @@ export const getRevenueStats = (token) => {
 	});
 };
 
-export const getDriverLists = (token, seachString, pageNumber, pageSize) => {
+export const listDriver = (token, data) => {
 	return new Promise(async (resolve, reject) => {
 		try {
-			const response = await fetch(
-				`${baseURL}listDrivers?searchKey=${seachString}&page=${pageNumber}&page_size=${pageSize}`,
-				{
-					headers: {
-						Accept: 'application/json',
-						Authorization: token,
-					},
-				}
-			).then((res) => res.json());
+			let url=new URL(`${baseURL}listDriver`);
+			url.search= new URLSearchParams(data.query).toString();
+			const response = await fetch(url, {
+				headers: {
+					Authorization: token,
+					'Content-Type': 'application/json',
+				},
+				method: 'GET',
+			}).then((res) => res.json());
+
 			if (response.status == 200) {
 				resolve(response);
 			} else {
@@ -1092,70 +1093,70 @@ export const getHotspotDetails = (token, id) => {
 	});
 };
 
-export const addHotspot = (token, data) => {
-	return new Promise(async (resolve, reject) => {
-		try {
-			const response = await fetch(`${baseURL}addHotspot`, {
-				body: JSON.stringify(data),
-				headers: {
-					Authorization: token,
-					'Content-Type': 'application/json',
-				},
-				method: 'POST',
-			}).then((res) => res.json());
-			if (response.status == 200) {
-				resolve(response);
-			} else {
-				reject(response.message);
-			}
-		} catch (error) {
-			console.log(error);
-		}
-	});
-};
+// export const addHotspot = (token, data) => {
+// 	return new Promise(async (resolve, reject) => {
+// 		try {
+// 			const response = await fetch(`${baseURL}addHotspot`, {
+// 				body: JSON.stringify(data),
+// 				headers: {
+// 					Authorization: token,
+// 					'Content-Type': 'application/json',
+// 				},
+// 				method: 'POST',
+// 			}).then((res) => res.json());
+// 			if (response.status == 200) {
+// 				resolve(response);
+// 			} else {
+// 				reject(response.message);
+// 			}
+// 		} catch (error) {
+// 			console.log(error);
+// 		}
+// 	});
+// };
 
-export const editHotspot = (token, id, data) => {
-	return new Promise(async (resolve, reject) => {
-		try {
-			const response = await fetch(`${baseURL}editHotspot/${id}`, {
-				body: JSON.stringify(data),
-				headers: {
-					Authorization: token,
-					'Content-Type': 'application/json',
-				},
-				method: 'PUT',
-			}).then((res) => res.json());
-			if (response.status == 200) {
-				resolve(response);
-			} else {
-				reject(response.message);
-			}
-		} catch (error) {
-			console.log(error);
-		}
-	});
-};
+// export const editHotspot = (token, id, data) => {
+// 	return new Promise(async (resolve, reject) => {
+// 		try {
+// 			const response = await fetch(`${baseURL}editHotspot/${id}`, {
+// 				body: JSON.stringify(data),
+// 				headers: {
+// 					Authorization: token,
+// 					'Content-Type': 'application/json',
+// 				},
+// 				method: 'PUT',
+// 			}).then((res) => res.json());
+// 			if (response.status == 200) {
+// 				resolve(response);
+// 			} else {
+// 				reject(response.message);
+// 			}
+// 		} catch (error) {
+// 			console.log(error);
+// 		}
+// 	});
+// };
 
-export const deleteHotspot = (token, id) => {
-	return new Promise(async (resolve, reject) => {
-		try {
-			const response = await fetch(`${baseURL}deleteHotspot/${id}`, {
-				headers: {
-					Accept: 'application/json',
-					Authorization: token,
-				},
-				method: 'DELETE',
-			}).then((res) => res.json());
-			if (response.status == 200) {
-				resolve(response);
-			} else {
-				reject(response.message);
-			}
-		} catch (error) {
-			console.log(error);
-		}
-	});
-};
+// export const deleteHotspot = (token, id) => {
+// 	return new Promise(async (resolve, reject) => {
+// 		try {
+// 			const response = await fetch(`${baseURL}deleteHotspot/${id}`, {
+// 				headers: {
+// 					Accept: 'application/json',
+// 					Authorization: token,
+// 				},
+// 				method: 'DELETE',
+// 			}).then((res) => res.json());
+// 			if (response.status == 200) {
+// 				resolve(response);
+// 			} else {
+// 				reject(response.message);
+// 			}
+// 		} catch (error) {
+// 			console.log(error);
+// 		}
+// 	});
+// };
 
 export const uploadImage = (token, data) => {
 	let form = new FormData();
@@ -3130,3 +3131,124 @@ export const addAddon = (token, data) => {
 		}
 	});
 };
+
+export const listHotspot = (token, data) => {
+	return new Promise(async (resolve, reject) => {
+		try {
+			let url=new URL(`${baseURL}listHotspot`);
+			url.search= new URLSearchParams(data.query).toString();
+			const response = await fetch(url, {
+				headers: {
+					Authorization: token,
+					'Content-Type': 'application/json',
+				},
+				method: 'GET',
+			}).then((res) => res.json());
+
+			if (response.status == 200) {
+				resolve(response);
+			} else {
+				reject(response.message);
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	});
+};
+
+export const getHotspot = (token, data) => {
+	return new Promise(async (resolve, reject) => {
+		try {
+			let url=new URL(`${baseURL}getHotspot`);
+			Object.keys(data.params).forEach(key=>url.pathname=`${url.pathname}/${data.params[key]}`)
+			const response = await fetch(url, {
+				headers: {
+					Authorization: token,
+					'Content-Type': 'application/json',
+				},
+				method: 'GET',
+			}).then((res) => res.json());
+
+			if (response.status == 200) {
+				resolve(response);
+			} else {
+				reject(response.message);
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	});
+};
+
+export const deleteHotspot = (token, data) => {
+	return new Promise(async (resolve, reject) => {
+		try {
+			let url=new URL(`${baseURL}deleteHotspot`);
+			const response = await fetch(url, {
+				body: JSON.stringify(data.body),
+				headers: {
+					Authorization: token,
+					'Content-Type': 'application/json',
+				},
+				method: 'DELETE',
+			}).then((res) => res.json());
+
+			if (response.status == 200) {
+				resolve(response);
+			} else {
+				reject(response.message);
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	});
+};
+
+export const editHotspot = (token, data) => {
+	return new Promise(async (resolve, reject) => {
+		try {
+			let url=new URL(`${baseURL}editHotspot`);
+			const response = await fetch(url, {
+				body: JSON.stringify(data.body),
+				headers: {
+					Authorization: token,
+					'Content-Type': 'application/json',
+				},
+				method: 'PUT',
+			}).then((res) => res.json());
+
+			if (response.status == 200) {
+				resolve(response);
+			} else {
+				reject(response.message);
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	});
+};
+
+export const addHotspot = (token, data) => {
+	return new Promise(async (resolve, reject) => {
+		try {
+			let url=new URL(`${baseURL}addHotspot`);
+			const response = await fetch(url, {
+				body: JSON.stringify(data.body),
+				headers: {
+					Authorization: token,
+					'Content-Type': 'application/json',
+				},
+				method: 'POST',
+			}).then((res) => res.json());
+
+			if (response.status == 200) {
+				resolve(response);
+			} else {
+				reject(response.message);
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	});
+};
+

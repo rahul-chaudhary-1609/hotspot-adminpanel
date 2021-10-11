@@ -17,7 +17,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { getDriverLists, getDriverById, changeDriverStatus } from '../../api';
+import { listDriver, getDriverById, changeDriverStatus } from '../../api';
 import ToggleOffIcon from '@material-ui/icons/ToggleOff';
 import ToggleOnIcon from '@material-ui/icons/ToggleOn';
 import StatusManagement from '../statusManagement/statusManagement';
@@ -230,11 +230,19 @@ const DriverManagement = () => {
 		try {
 			setLoading(true);
 			let currentPage = searchText.length > 0 ? 1 : activePage;
-			const res = await getDriverLists(
+			let data={
+				query:{
+					is_pagination:1,
+					page:currentPage,
+					page_size:pageSize,
+				}
+			}
+			if(searchText && searchText.trim()!=""){
+				data.query.searchKey=searchText;
+			}
+			const res = await listDriver(
 				token,
-				searchText,
-				currentPage,
-				pageSize
+				data
 			);
 			if (res.status == 200) {
 				setLoading(false);

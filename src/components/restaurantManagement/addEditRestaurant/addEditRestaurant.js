@@ -84,6 +84,7 @@ const AddEditRestaurant = () => {
 
 	const handleInputChange = (e) => {
 		console.log("restaurant",restaurant)
+		setError(null);
 		let updatedDetails = { ...restaurant };
 		updatedDetails[e.target.id] = e.target.value;
 		setRestaurant(updatedDetails);
@@ -150,9 +151,12 @@ const AddEditRestaurant = () => {
 
 	const normalizeInput = (value) => {
 		if (!value) return '';
-		const currentValue = value.replace(/[^\d]/g, '');
+		let currentValue = value.replace(/[^\d]/g, '');
 
-		const cvLength = currentValue.length;
+		let cvLength = currentValue.length;
+		if(cvLength>10){
+			currentValue=currentValue.slice(0,10);
+		}
 		if (cvLength < 4) return currentValue;
 		if (cvLength < 7)
 			return `(${currentValue.slice(0, 3)}) ${currentValue.slice(3)}`;
@@ -164,6 +168,7 @@ const AddEditRestaurant = () => {
 	};
 
 	const handleImageChange=async(e)=>{
+		setError(null);
 		setShowImageLoader(true)
 		if(e.target.files[0].type.search("image/")!==-1){
 			if(!(e.target.files[0].size>5242880)){
@@ -198,7 +203,7 @@ const AddEditRestaurant = () => {
 	}
 
 	const handleDocumentChange=async(e)=>{
-		console.log(e.target.files[0])
+		setError(null);
 		setShowImageLoader(true)
 		if(!(e.target.files[0].size>5242880)){
 			try {
@@ -229,6 +234,7 @@ const AddEditRestaurant = () => {
 	
 
 	let handleGoogleSearchChange=async(value)=>{
+		setError(null);
 		restaurant.address=value;
 		setRestaurant({...restaurant});
 	}
@@ -243,8 +249,64 @@ const AddEditRestaurant = () => {
 		setRestaurant({...restaurant});
 	}
 
+	let validateData=()=>{
+		let result=true;
+
+		Object.keys(restaurant).forEach((key)=>{
+			if(!['location','cut_off_time','deliveries_per_shift','order_type'].includes(key)){
+				restaurant[key]=restaurant[key] && restaurant[key].trim();
+				if(!restaurant[key] || restaurant[key]==""){
+					restaurant[key]=null;
+				}
+			}
+		})
+
+		setRestaurant({...restaurant});
+
+
+		if(!restaurant.restaurant_name || restaurant.restaurant_name.trim()==""){
+			setError("Restaurant name is required")
+			result=false;
+		}else if(!restaurant.address || restaurant.address.trim()==""){
+			setError("Address is required")
+			result=false;
+		}else if(!restaurant.cut_off_time){
+			setError("Cut Off Time is required")
+			result=false;
+		}else if(!restaurant.deliveries_per_shift){
+			setError("Deliveries per shift is required")
+			result=false;
+		}else if(!restaurant.owner_name || restaurant.owner_name.trim()==""){
+			setError("Owner name is required")
+			result=false;
+		}else if(!restaurant.owner_email || restaurant.owner_email.trim()==""){
+			setError("Owner email is required")
+			result=false;
+		}else if(!restaurant.owner_phone || restaurant.owner_phone.trim()==""){
+			setError("Owner phone is required")
+			result=false;
+		}else if(!restaurant.order_type){
+			setError("Order type is required")
+			result=false;
+		}else if(
+			!restaurant.working_hours_from || !moment(restaurant.working_hours_from,"HH:mm:ss").isValid() ||
+			!restaurant.working_hours_to || !moment(restaurant.working_hours_to,"HH:mm:ss").isValid()
+			){
+			setError("Working hours 'start' and 'to' values are required")
+			result=false;
+		}else if(!restaurant.location || restaurant.location?.length!==2){
+			setError("Something went wrong")
+			result=false;
+		}
+
+		return result;
+	}
+
 	const handleSubmit=async(e)=>{
 		e.preventDefault();
+
+		if(!validateData()) return;		
+
 		if(params.restaurantId){
 			setShowLoader(true);
 			setError(null);
@@ -296,7 +358,7 @@ const AddEditRestaurant = () => {
 				className='main-content pb-16 md:pb-5 flex-1 pt-20 px-2'
 				style={{ overflowY: 'scroll', height: '100vh' }}>
 				<div className='p-4 md:p-8 mt-6 lg:mt-0 rounded shadow bg-white w-3/4 mx-auto'>
-					<h3 className='text-lg font-bold mb-4'>{history.location.pathname.search("editMenuCategory")==-1?"Add Menu Category":"Edit Menu Category"}</h3>
+					<h3 className='text-lg font-bold mb-4'>{history.location.pathname.search("editRestaurant")==-1?"Add Restaurant":"Edit Restaurant"}</h3>
 
 					<button
 						style={{ height: '3rem' }}
@@ -394,7 +456,6 @@ const AddEditRestaurant = () => {
 											className='appearance-none block w-1/2 bg-gray-100 border border-gray-200 rounded-half py-3 px-6 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-200'
 											id='role'
 											type='text'
-											required
 											onChange={handleInputChange}
 											value={restaurant.role}
 										/>
@@ -426,7 +487,8 @@ const AddEditRestaurant = () => {
 											type='text'
 											required
 											onChange={(e)=>{
-												restaurant.owner_phone=e.target.value.replace(/[^\d]/g, '')
+												setError(null);
+												restaurant.owner_phone=e.target.value.replace(/[^\d]/g, '').slice(0,10)
 												setRestaurant({...restaurant})
 											}}
 											value={restaurant.owner_phone && normalizeInput(restaurant.owner_phone)}
@@ -566,7 +628,8 @@ const AddEditRestaurant = () => {
 										<input
 											className='appearance-none block w-1/2 bg-gray-100 border border-gray-200 rounded-half py-3 px-6 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-200'
 											id='deliveries_per_shift'
-											type='text'
+											type='number'
+											min="1"
 											required
 											onChange={handleInputChange}
 											value={restaurant.deliveries_per_shift}
@@ -583,7 +646,8 @@ const AddEditRestaurant = () => {
 											<input
 												className='appearance-none block w-1/4 bg-gray-100 border border-gray-200 rounded-half py-3 px-6 leading-tight focus:outline-none focus:bg-white focus:border-gray-200'
 												id='cut_off_time'
-												type='text'
+												type='number'
+												min="1"
 												required
 												onChange={handleInputChange}
 												value={restaurant.cut_off_time}
@@ -607,9 +671,10 @@ const AddEditRestaurant = () => {
 												placeholder="Select order type"
 												value={orderTypeOptions.find(type=>type.value==restaurant.order_type)}
 												onChange={(selectedOrderType)=>{
+													setError(null);
 													setRestaurant({
 														...restaurant,
-														order_type:selectedOrderType.value
+														order_type:parseInt(selectedOrderType.value)
 													})
 												}}
 												inputId="order_type"
@@ -637,7 +702,8 @@ const AddEditRestaurant = () => {
 														restaurant.working_hours_from &&
 														moment(restaurant.working_hours_from, 'HH:mm:ss')
 													}
-													onChange={(val) => {			
+													onChange={(val) => {
+														setError(null);			
 														if (val == null) {
 															restaurant.working_hours_from = '';
 														} else {
@@ -665,7 +731,8 @@ const AddEditRestaurant = () => {
 														restaurant.working_hours_to &&
 														moment(restaurant.working_hours_to, 'HH:mm:ss')
 													}
-													onChange={(val) => {			
+													onChange={(val) => {	
+														setError(null);		
 														if (val == null) {
 															restaurant.working_hours_to = '';
 														} else {

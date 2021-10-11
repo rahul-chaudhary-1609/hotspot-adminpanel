@@ -12,14 +12,14 @@ import "react-table/react-table.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
 import { useSelector } from "react-redux";
-import { getListHotspots } from "../../api";
+import { listHotspot } from "../../api";
 import { useHistory } from "react-router";
 
 const HotspotSettings = () => {
   const history = useHistory();
   const token = useSelector((state) => state.auth.isSignedIn);
 
-  const [hotspotList, setHotspotList] = useState([]);
+  const [tableData, setTableData] = useState([]);
   const [activePage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
   const [loading, setLoading] = useState(false);
@@ -27,7 +27,7 @@ const HotspotSettings = () => {
   const [totalItems, setTotalItems] = useState(null);
 
   const [startId, setStartId] = useState(0);
-  let endId = startId < 0 ? 0 : startId + hotspotList.length;
+  let endId = startId < 0 ? 0 : startId + tableData.length;
   let currentId = startId;
 
   const columns = [
@@ -105,8 +105,16 @@ const HotspotSettings = () => {
 
   const hotspotLists = () => {
     setLoading(true);
+    let currentPage = activePage;
+    let data={
+      query:{
+        is_pagination:1,
+        page:currentPage,
+        page_size:pageSize,
+      }
+    }
 
-    getListHotspots(token, activePage, pageSize)
+    listHotspot(token,data)
       .then((hotspots) => {
         let newStartId = pageSize * (activePage - 1);
         setStartId(newStartId);
@@ -114,7 +122,7 @@ const HotspotSettings = () => {
         setError(null);
 
         setTotalItems(hotspots.hotspotList.count);
-        setHotspotList(hotspots.hotspotList.rows);
+        setTableData(hotspots.hotspotList.rows);
       })
       .catch((error) => {
         setLoading(false);
@@ -122,7 +130,7 @@ const HotspotSettings = () => {
         let newStartId = startId - 1;
         setStartId(newStartId);
         setTotalItems(0);
-        setHotspotList([]);
+        setTableData([]);
       });
   };
   const handlePageChange = (pageNumber) => {
@@ -136,7 +144,7 @@ const HotspotSettings = () => {
             <div className='flex flex-wrap -mx-3 mb-6 mt-5' style={{justifyContent: 'space-between' }}>
                 <div style={{position: "relative",left: "89%"}}>
                 <button
-                  onClick={() => history.push("/hotspot")}
+                  onClick={() => history.push("/addHotspot")}
                   className="shadow bg-blue-500 hover:bg-blue-400  focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
                   type="button"
                 >
@@ -161,7 +169,7 @@ const HotspotSettings = () => {
             minRows={0}
             NoDataComponent={() => null}
             defaultPageSize={10}
-            data={hotspotList}
+            data={tableData}
             className="-highlight"
             loading={loading}
             columns={columns}

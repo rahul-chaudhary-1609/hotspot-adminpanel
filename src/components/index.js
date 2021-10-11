@@ -41,8 +41,7 @@ import FeeSettings from './feeSettings/feeSetting.js';
 
 import HotspotSettings from './hotspotSettings/hotspotSettings.js';
 import ViewHotspotDetails from './hotspotSettings/viewHotspotDetails/viewHotspotDetails';
-import EditHotspot from './hotspotSettings/editHotspot/editHotspot';
-import AddHotspot from './hotspotSettings/addHotspot/addHotspot.js';
+import AddEditHotspot from './hotspotSettings/addEditHotspot/addEditHotspot';
 
 import DriverPayment from './driverPaymentManagement/driverPayment.js';
 import DriverPaymentDetails from './driverPaymentManagement/viewDriverPaymentDetails/driverPaymentDetails.js';
@@ -167,13 +166,13 @@ const Admin = () => {
 						/>
 						<ProtectedRoutes
 							exact
-							path={'/hotspot/:id'}
-							component={EditHotspot}
+							path={'/editHotspot/:id'}
+							component={AddEditHotspot}
 						/>
 						<ProtectedRoutes
 							exact
-							path={'/hotspot'}
-							component={AddHotspot}
+							path={'/addHotspot'}
+							component={AddEditHotspot}
 						/>
 						<ProtectedRoutes
 							exact
