@@ -22,6 +22,7 @@ import {getMenuCategory, listMenu, toggleDishAsQuickFilter,toggleDishStatus, del
 import { useDispatch, useSelector } from 'react-redux';
 import StatusManagement from '../../../statusManagement/statusManagement';
 import DeleteModal from '../../../deleteModal/deleteModal';
+import ReactTooltip from 'react-tooltip';
 
 
 function MenuManagement() {
@@ -155,46 +156,64 @@ function MenuManagement() {
 						}}
 						className='text-center'
 						onClick={(e) => e.stopPropagation()}>
-						<FontAwesomeIcon
-							style={{ cursor: 'pointer', marginTop: '6px',fontSize:"15" }}
-							onClick={() => history.push(`/restaurant/${params.restaurantId}/menuCategory/${params.menuCategoryId}/menu/${item.id}`)}
-							className='text-red-600 trash w-5 h-5'
-							color='red'
-							icon={faEye}
-						/>
-
-						<FontAwesomeIcon
-							style={{ cursor: 'pointer', marginTop: '6px',fontSize:"15" }}
-							onClick={() => history.push(`/restaurant/${params.restaurantId}/menuCategory/${params.menuCategoryId}/menu/${item.id}/addonSection`)}
-							className='text-red-600 trash w-5 h-5'
-							color='red'
-							icon={faBars}
-						/>
-						{item.status == 1 ? (
-							<ToggleOnIcon
-								onClick={() => handleStatusModal(item)}
-								style={{ color: 'green', fontSize: '35' }}
+						<p data-tip='' data-for='view-dish-tool-tip'>
+							<FontAwesomeIcon
+								style={{ cursor: 'pointer', marginTop: '6px',fontSize:"15" }}
+								onClick={() => history.push(`/restaurant/${params.restaurantId}/menuCategory/${params.menuCategoryId}/menu/${item.id}`)}
+								className='text-red-600 trash w-5 h-5'
+								color='red'
+								icon={faEye}
 							/>
+							<ReactTooltip id="view-dish-tool-tip">View Dish Details</ReactTooltip>
+						</p>
+
+						<p data-tip='' data-for='section-tool-tip'>
+							<FontAwesomeIcon
+								style={{ cursor: 'pointer', marginTop: '6px',fontSize:"15" }}
+								onClick={() => history.push(`/restaurant/${params.restaurantId}/menuCategory/${params.menuCategoryId}/menu/${item.id}/addonSection`)}
+								className='text-red-600 trash w-5 h-5'
+								color='red'
+								icon={faBars}
+							/>
+							<ReactTooltip id="section-tool-tip">View Addon Sections</ReactTooltip>
+						</p>
+						
+						{item.status == 1 ? (
+							<p data-tip='' data-for='toggle-dish-status-tool-tip'>
+								<ToggleOnIcon
+									onClick={() => handleStatusModal(item)}
+									style={{ color: 'green', fontSize: '35' }}
+								/>
+							</p>
 						) : (
+							<p data-tip='' data-for='toggle-dish-status-tool-tip'>
 								<ToggleOffIcon
 									onClick={() => handleStatusModal(item)}
 									style={{ color: 'red', fontSize: '35' }}
 								/>
+							</p>
 						)}
-						<FontAwesomeIcon
-							style={{ cursor: 'pointer', marginTop: '6px', fontSize:"15" }}
-							onClick={() => history.push(`/restaurant/${params.restaurantId}/menuCategory/${params.menuCategoryId}/editDish/${item.id}`)}
-							className='text-red-600 trash w-5 h-5'
-							color='red'
-							icon={faEdit}
-						/>
-						<FontAwesomeIcon
-							style={{ cursor: 'pointer', marginTop: '6px', fontSize:"15" }}
-							onClick={() => handleDeleteModal(item)}
-							className='text-red-600 trash w-5 h-5'
-							color='red'
-							icon={faTrash}
-						/>
+						<ReactTooltip id="toggle-dish-status-tool-tip">Toggle Dish Status</ReactTooltip>
+						<p data-tip='' data-for='edit-dish-tool-tip'>
+							<FontAwesomeIcon
+								style={{ cursor: 'pointer', marginTop: '6px', fontSize:"15" }}
+								onClick={() => history.push(`/restaurant/${params.restaurantId}/menuCategory/${params.menuCategoryId}/editDish/${item.id}`)}
+								className='text-red-600 trash w-5 h-5'
+								color='red'
+								icon={faEdit}
+							/>
+							<ReactTooltip id="edit-dish-tool-tip">Edit Dish</ReactTooltip>
+						</p>
+						<p data-tip='' data-for='delete-dish-tool-tip'>
+							<FontAwesomeIcon
+								style={{ cursor: 'pointer', marginTop: '6px', fontSize:"15" }}
+								onClick={() => handleDeleteModal(item)}
+								className='text-red-600 trash w-5 h-5'
+								color='red'
+								icon={faTrash}
+							/>
+							<ReactTooltip id="delete-dish-tool-tip">Delete Dish</ReactTooltip>
+						</p>
 					</div>
 				);
 			},

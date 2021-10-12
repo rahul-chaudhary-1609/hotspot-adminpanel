@@ -25,6 +25,7 @@ import { faEye,faTrash,faEdit } from '@fortawesome/free-solid-svg-icons';
 import DeleteModal from '../deleteModal/deleteModal';
 import ToggleOffIcon from '@material-ui/icons/ToggleOff';
 import ToggleOnIcon from '@material-ui/icons/ToggleOn';
+import ReactTooltip from 'react-tooltip';
 
 function RestaurantManagement({ ...props }) {
 	const dispatch = useDispatch();
@@ -169,43 +170,61 @@ function RestaurantManagement({ ...props }) {
 						}}
 						className='text-center'
 						onClick={(e) => e.stopPropagation()}>
-						<FontAwesomeIcon
-							style={{ cursor: 'pointer', marginTop: '6px',fontSize:"15" }}
-							onClick={() => history.push(`/restaurant/${item.id}`)}
-							className='text-red-600 trash w-5 h-5'
-							color='red'
-							icon={faEye}
-						/>
-						<Category 
-							style={{color:"red",cursor: 'pointer',marginTop: '6px',fontSize:"20"}}
-							onClick={() => history.push(`/restaurant/${item.id}/menuCategory`)}
-						/>
+						<p data-tip='' data-for='restaurant-view-tool-tip'>
+							<FontAwesomeIcon
+								style={{ cursor: 'pointer', marginTop: '6px',fontSize:"15" }}
+								onClick={() => history.push(`/restaurant/${item.id}`)}
+								className='text-red-600 trash w-5 h-5'
+								color='red'
+								icon={faEye}								
+							/>
+							<ReactTooltip id="restaurant-view-tool-tip">View Restaurant Details</ReactTooltip>
+						</p>
+						
+						<p data-tip='' data-for='restaurant-menu-category-view-tool-tip'>
+							<Category 
+								style={{color:"red",cursor: 'pointer',marginTop: '6px',fontSize:"20"}}
+								onClick={() => history.push(`/restaurant/${item.id}/menuCategory`)}
+							/>
+							<ReactTooltip id="restaurant-menu-category-view-tool-tip">View Restaurant Menu Category</ReactTooltip>
+						</p>
 
 						{item.status == 1 ? (
-							<ToggleOnIcon
-								onClick={() => handleStatusModal(item)}
-								style={{ color: 'green', fontSize: '35' }}
-							/>
+							<p data-tip='' data-for='restaurant-status-tool-tip'>
+								<ToggleOnIcon
+									onClick={() => handleStatusModal(item)}
+									style={{ color: 'green', fontSize: '35',cursor:"pointer" }}
+								/>
+							</p>
 						) : (
+							<p data-tip='' data-for='restaurant-status-tool-tip'>
 								<ToggleOffIcon
 									onClick={() => handleStatusModal(item)}
-									style={{ color: 'red', fontSize: '35' }}
+									style={{ color: 'red', fontSize: '35',cursor:"pointer" }}
 								/>
+								<ReactTooltip id="restaurant-status-tool-tip">Toggle Restaurant Status</ReactTooltip>
+							</p>
 						)}
-						<FontAwesomeIcon
-							style={{ cursor: 'pointer', marginTop: '6px', fontSize:"15" }}
-							onClick={() => history.push(`/editRestaurant/${item.id}`)}
-							className='text-red-600 trash w-5 h-5'
-							color='red'
-							icon={faEdit}
-						/>
-						<FontAwesomeIcon
-							style={{ cursor: 'pointer', marginTop: '6px', fontSize:"15" }}
-							onClick={() => handleDeleteModal(item)}
-							className='text-red-600 trash w-5 h-5'
-							color='red'
-							icon={faTrash}
-						/>
+						<p data-tip='' data-for='edit-restaurant-tool-tip'>
+							<FontAwesomeIcon
+								style={{ cursor: 'pointer', marginTop: '6px', fontSize:"15" }}
+								onClick={() => history.push(`/editRestaurant/${item.id}`)}
+								className='text-red-600 trash w-5 h-5'
+								color='red'
+								icon={faEdit}
+							/>
+							<ReactTooltip id="edit-restaurant-tool-tip">Edit Restaurant</ReactTooltip>
+						</p>
+						<p data-tip='' data-for='delete-restaurant-tool-tip'>
+							<FontAwesomeIcon
+								style={{ cursor: 'pointer', marginTop: '6px', fontSize:"15" }}
+								onClick={() => handleDeleteModal(item)}
+								className='text-red-600 trash w-5 h-5'
+								color='red'
+								icon={faTrash}
+							/>
+							<ReactTooltip id="delete-restaurant-tool-tip">Delete Restaurant</ReactTooltip>
+						</p>
 						
 					</div>
 				);

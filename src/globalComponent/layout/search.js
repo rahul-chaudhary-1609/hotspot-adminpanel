@@ -27,7 +27,7 @@ class SearchBox extends React.Component {
 						onChange={(e) => this.props.setSearchText(e.target.value)}
 						placeholder={this.state.placeholder}
 					/>
-					<span class="tooltiptext">{this.state.placeholder}</span>
+					{/* <span class="tooltiptext">{this.state.placeholder}</span> */}
 				</div>
 			</Fragment>
 		);

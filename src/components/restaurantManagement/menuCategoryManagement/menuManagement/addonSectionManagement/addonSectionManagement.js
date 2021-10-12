@@ -22,6 +22,7 @@ import {getDish, listAddonSection,toggleAddonSectionStatus, deleteAddonSection }
 import { useDispatch, useSelector } from 'react-redux';
 import StatusManagement from '../../../../statusManagement/statusManagement';
 import DeleteModal from '../../../../deleteModal/deleteModal';
+import ReactTooltip from 'react-tooltip';
 
 function AddonSectionManagement() {
 	const dispatch = useDispatch();
@@ -131,39 +132,53 @@ function AddonSectionManagement() {
 						}}
 						className='text-center'
 						onClick={(e) => e.stopPropagation()}>
-
-						<FontAwesomeIcon
-							style={{ cursor: 'pointer', marginTop: '6px',fontSize:"20" }}
-							onClick={() => history.push(`/restaurant/${params.restaurantId}/menuCategory/${params.menuCategoryId}/menu/${params.dishId}/addonSection/${item.id}/addon`)}
-							className='text-red-600 trash w-5 h-5'
-							color='red'
-							icon={faPuzzlePiece}
-						/>
-						{item.status == 1 ? (
-							<ToggleOnIcon
-								onClick={() => handleStatusModal(item)}
-								style={{ color: 'green', fontSize: '35' }}
+						<p data-tip='' data-for='view-addons-tool-tip'>
+							<FontAwesomeIcon
+								style={{ cursor: 'pointer', marginTop: '6px',fontSize:"20" }}
+								onClick={() => history.push(`/restaurant/${params.restaurantId}/menuCategory/${params.menuCategoryId}/menu/${params.dishId}/addonSection/${item.id}/addon`)}
+								className='text-red-600 trash w-5 h-5'
+								color='red'
+								icon={faPuzzlePiece}
 							/>
+							<ReactTooltip id="view-addons-tool-tip">View Addons</ReactTooltip>
+						</p>
+						{item.status == 1 ? (
+							<p data-tip='' data-for='toggle-section-status-tool-tip'>
+								<ToggleOnIcon
+									onClick={() => handleStatusModal(item)}
+									style={{ color: 'green', fontSize: '35' }}
+								/>								
+							</p>
 						) : (
+							<p data-tip='' data-for='toggle-section-status-tool-tip'>
 								<ToggleOffIcon
 									onClick={() => handleStatusModal(item)}
 									style={{ color: 'red', fontSize: '35' }}
 								/>
+							</p>
 						)}
-						<FontAwesomeIcon
-							style={{ cursor: 'pointer', marginTop: '6px',fontSize:"20" }}
-							onClick={() => history.push(`/restaurant/${params.restaurantId}/menuCategory/${params.menuCategoryId}/menu/${params.dishId}/editAddonSection/${item.id}`)}
-							className='text-red-600 trash w-5 h-5'
-							color='red'
-							icon={faEdit}
-						/>
-						<FontAwesomeIcon
-							style={{ cursor: 'pointer', marginTop: '6px',fontSize:"20" }}
-							onClick={() => handleDeleteModal(item)}
-							className='text-red-600 trash w-5 h-5'
-							color='red'
-							icon={faTrash}
-						/>
+						<ReactTooltip id="toggle-section-status-tool-tip">Toggle Section Status</ReactTooltip>
+						
+						<p data-tip='' data-for='edit-section-tool-tip'>
+							<FontAwesomeIcon
+								style={{ cursor: 'pointer', marginTop: '6px',fontSize:"20" }}
+								onClick={() => history.push(`/restaurant/${params.restaurantId}/menuCategory/${params.menuCategoryId}/menu/${params.dishId}/editAddonSection/${item.id}`)}
+								className='text-red-600 trash w-5 h-5'
+								color='red'
+								icon={faEdit}
+							/>
+							<ReactTooltip id="edit-section-tool-tip">Edit Section</ReactTooltip>
+						</p>
+						<p data-tip='' data-for='delete-section-tool-tip'>
+							<FontAwesomeIcon
+								style={{ cursor: 'pointer', marginTop: '6px',fontSize:"20" }}
+								onClick={() => handleDeleteModal(item)}
+								className='text-red-600 trash w-5 h-5'
+								color='red'
+								icon={faTrash}
+							/>
+							<ReactTooltip id="delete-section-tool-tip">Delete Section</ReactTooltip>
+						</p>
 						
 					</div>
 				);

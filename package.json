@@ -61,6 +61,7 @@
     "react-spinners": "^0.10.6",
     "react-table": "^6.10.0",
     "react-toastify": "^6.0.8",
+    "react-tooltip": "^4.2.21",
     "react-vis": "^1.11.7",
     "reactjs-popup": "^2.0.4",
     "reactstrap": "^8.8.1",
