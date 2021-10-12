@@ -322,7 +322,7 @@ const AddEditRestaurant = () => {
 				setSuccess(res.message)
 				setShowLoader(false);
 				setTimeout(()=>{
-					history.push(`/restaurant/${params.restaurantId}`)
+					history.push(`/restaurant`)
 				},1000)
 			} catch (error) {
 				setShowLoader(false);
@@ -342,7 +342,7 @@ const AddEditRestaurant = () => {
 				setSuccess(res.message)
 				setShowLoader(false);
 				setTimeout(()=>{
-					history.push(`/restaurant`)
+					history.push(`/restaurant/${res.restaurant_id}/addMenuCategory`)
 				},1000)
 			} catch (error) {
 				setShowLoader(false);
@@ -640,7 +640,7 @@ const AddEditRestaurant = () => {
 										<label
 											className='block w-1/2 tracking-wide text-gray-300 py-3 px-6 mb-3'
 											for='cut_off_time'>
-											Cur Off Time
+											Cut Off Time
 										</label>
 										<div className='block w-1/2 flex d-inline-flex mb-3' >
 											<input

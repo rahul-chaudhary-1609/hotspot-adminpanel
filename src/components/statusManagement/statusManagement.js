@@ -45,7 +45,7 @@ const StatusManagement = (props) => {
 						No
 					</button>
 					<button
-						onClick={props.handleStatusChange}
+						onClick={()=>{props.itemId?props.handleStatusChange(props.itemId):props.handleStatusChange()}}
             style={{
 							width: '100%',
 							marginLeft:'10px',

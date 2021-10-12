@@ -13,6 +13,7 @@ const DeleteModal = (props) => {
 			marginLeft:'135px'
 		},
 	};
+	console.log(props)
 
 	const closeModal = () => {
 		props.setDeleteModal(false);
@@ -43,7 +44,7 @@ const DeleteModal = (props) => {
 						No
 					</button>
 					<button
-						onClick={props.handleDelete}
+						onClick={()=>props.itemId?props.handleDelete(props.itemId):props.handleDelete()}
 						style={{
 							width: '100%',
 							marginLeft: '10px',

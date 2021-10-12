@@ -62,6 +62,7 @@ const AddEditMenuCategory = () => {
 				let data={
 					body:{
 						category_id:params.menuCategoryId,
+						restaurant_id:params.restaurantId,
 						name:menuCategory.name,
 					}						
 				}
@@ -70,7 +71,7 @@ const AddEditMenuCategory = () => {
 				setSuccess(res.message)
 				setShowLoader(false);
 				setTimeout(()=>{
-					history.push(`/restaurant/${params.restaurantId}/menuCategory/${params.menuCategoryId}`)
+					history.push(`/restaurant/${params.restaurantId}/menuCategory`)
 				},1000)
 			} catch (error) {
 				setShowLoader(false);
@@ -91,7 +92,7 @@ const AddEditMenuCategory = () => {
 				setSuccess(res.message)
 				setShowLoader(false);
 				setTimeout(()=>{
-					history.push(`/restaurant/${params.restaurantId}/menuCategory`)
+					history.push(`/restaurant/${params.restaurantId}/menuCategory/${res.category.id}/addDish`)
 				},1000)
 			} catch (error) {
 				setShowLoader(false);
@@ -111,7 +112,7 @@ const AddEditMenuCategory = () => {
 
 					<button
 						style={{ height: '3rem' }}
-						onClick={() => history.goBack()}
+						onClick={() => history.push(`/restaurant/${params.restaurantId}/menuCategory`)}
 						className='shadow bg-blue-500 ml-3 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded'
 						type='button'>
 						Back

@@ -73,6 +73,7 @@ const AddEditAddonSection = () => {
 
 		let data={
 			body:{
+				restaurant_dish_id:parseInt(params.dishId),
 				name:addonSection.name,
 				is_required:addonSection.is_required?1:0,
                 is_multiple_choice:addonSection.is_multiple_choice?1:0,
@@ -90,7 +91,7 @@ const AddEditAddonSection = () => {
 				setSuccess(res.message)
 				setShowLoader(false);
 				setTimeout(()=>{
-					history.push(`/restaurant/${params.restaurantId}/menuCategory/${params.menuCategoryId}/menu/${params.dishId}/addonSection/${params.sectionId}`)
+					history.push(`/restaurant/${params.restaurantId}/menuCategory/${params.menuCategoryId}/menu/${params.dishId}/addonSection`)
 				},1000)
 			} catch (error) {
 				setShowLoader(false);
@@ -101,13 +102,13 @@ const AddEditAddonSection = () => {
 			setError(null);
 			try {
 
-				data.body.restaurant_dish_id=parseInt(params.dishId);
+				//data.body.restaurant_dish_id=parseInt(params.dishId);
 
 				let res=await addAddonSection(token,data);
 				setSuccess(res.message)
 				setShowLoader(false);
 				setTimeout(()=>{
-					history.push(`/restaurant/${params.restaurantId}/menuCategory/${params.menuCategoryId}/menu/${params.dishId}/addonSection`)
+					history.push(`/restaurant/${params.restaurantId}/menuCategory/${params.menuCategoryId}/menu/${params.dishId}/addonSection/${res.section.id}/addAddon`)
 				},1000)
 			} catch (error) {
 				setShowLoader(false);
@@ -127,7 +128,7 @@ const AddEditAddonSection = () => {
 
 					<button
 						style={{ height: '3rem' }}
-						onClick={() => history.goBack()}
+						onClick={() => history.push(`/restaurant/${params.restaurantId}/menuCategory/${params.menuCategoryId}/menu/${params.dishId}/addonSection`)}
 						className='shadow bg-blue-500 ml-3 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded'
 						type='button'>
 						Back

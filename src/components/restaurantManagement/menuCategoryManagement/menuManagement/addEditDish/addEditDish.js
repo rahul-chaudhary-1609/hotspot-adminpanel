@@ -95,6 +95,7 @@ const AddEditDish = () => {
 
 		let data={
 			body:{
+				restaurant_dish_category_id:parseInt(params.menuCategoryId),
 				name:dish.name,
 				price:parseFloat(dish.price),
 				is_quick_filter:dish.is_quick_filter?1:0,
@@ -117,7 +118,7 @@ const AddEditDish = () => {
 				setSuccess(res.message)
 				setShowLoader(false);
 				setTimeout(()=>{
-					history.push(`/restaurant/${params.restaurantId}/menuCategory/${params.menuCategoryId}/menu/${params.dishId}`)
+					history.push(`/restaurant/${params.restaurantId}/menuCategory/${params.menuCategoryId}/menu`)
 				},1000)
 			} catch (error) {
 				setShowLoader(false);
@@ -128,13 +129,13 @@ const AddEditDish = () => {
 			setError(null);
 			try {
 
-				data.body.restaurant_dish_category_id=parseInt(params.menuCategoryId);
+				//data.body.restaurant_dish_category_id=parseInt(params.menuCategoryId);
 
 				let res=await addDish(token,data);
 				setSuccess(res.message)
 				setShowLoader(false);
 				setTimeout(()=>{
-					history.push(`/restaurant/${params.restaurantId}/menuCategory/${params.menuCategoryId}/menu`)
+					history.push(`/restaurant/${params.restaurantId}/menuCategory/${params.menuCategoryId}/menu/${res.dish.id}/addAddonSection`)
 				},1000)
 			} catch (error) {
 				setShowLoader(false);
@@ -154,7 +155,7 @@ const AddEditDish = () => {
 
 					<button
 						style={{ height: '3rem' }}
-						onClick={() => history.goBack()}
+						onClick={() => history.push(`/restaurant/${params.restaurantId}/menuCategory/${params.menuCategoryId}/menu`)}
 						className='shadow bg-blue-500 ml-3 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded'
 						type='button'>
 						Back

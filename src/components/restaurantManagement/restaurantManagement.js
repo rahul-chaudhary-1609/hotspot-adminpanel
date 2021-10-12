@@ -15,11 +15,16 @@ import 'react-confirm-alert/src/react-confirm-alert.css';
 import SearchBox from '../../globalComponent/layout/search';
 import { useHistory } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEye } from '@fortawesome/free-solid-svg-icons';
-import { listRestaurant } from '../../api';
+import { listRestaurant,toggleRestaurantStatus, deleteRestaurant } from '../../api';
 import { useDispatch, useSelector } from 'react-redux';
 import {formatDate} from '../../utils/redableDateTime'
 import Description from '@material-ui/icons/Description';
+import Category from '@material-ui/icons/Category';
+import StatusManagement from '../statusManagement/statusManagement';
+import { faEye,faTrash,faEdit } from '@fortawesome/free-solid-svg-icons';
+import DeleteModal from '../deleteModal/deleteModal';
+import ToggleOffIcon from '@material-ui/icons/ToggleOff';
+import ToggleOnIcon from '@material-ui/icons/ToggleOn';
 
 function RestaurantManagement({ ...props }) {
 	const dispatch = useDispatch();
@@ -35,6 +40,10 @@ function RestaurantManagement({ ...props }) {
 	const [totalItems, setTotalItems] = useState(null);
 
 	const [startId, setStartId] = useState(0);
+
+	let [item,setItem]=useState(null);
+	const [statusModal, setStatusModal] = useState(false);
+	const [deleteModal, setDeleteModal] = useState(false);
 
 	let endId = startId < 0 ? 0 : startId + tableData.length;
 	let currentId = startId;
@@ -89,22 +98,22 @@ function RestaurantManagement({ ...props }) {
 				);
 			},
 		},
-		{
-			id: 5,
-			Header: 'Phone Number',
-			className: 'text-center view-details',
-			accessor: (item) => {
-				return (
-					<div style={{ padding: '6px', cursor: 'pointer' }}>
-						 {`(${item.owner_phone.slice(0,3)}) ${item.owner_phone.slice(3,6)}-${item.owner_phone.slice(6)}`}
+		// {
+		// 	id: 5,
+		// 	Header: 'Phone Number',
+		// 	className: 'text-center view-details',
+		// 	accessor: (item) => {
+		// 		return (
+		// 			<div style={{ padding: '6px', cursor: 'pointer' }}>
+		// 				 {`(${item.owner_phone.slice(0,3)}) ${item.owner_phone.slice(3,6)}-${item.owner_phone.slice(6)}`}
 
-					</div>
-				);
-			},
-		},
+		// 			</div>
+		// 		);
+		// 	},
+		// },
 		//createdAt
 		{
-			id: 6,
+			id: 5,
 			width: 100,
 			Header: 'Added on',
 			className: 'text-center view-details',
@@ -117,7 +126,7 @@ function RestaurantManagement({ ...props }) {
 			},
 		},
 		{
-			id: 7,
+			id: 6,
 			Header: 'Status',
 			width: 100,
 			className: 'text-center view-details',
@@ -132,7 +141,7 @@ function RestaurantManagement({ ...props }) {
 			},
 		},
 		{
-			id: 8,
+			id: 7,
 			Header: 'Agrement Doc',
 			width: 100,
 			className: 'text-center view-details',
@@ -147,11 +156,10 @@ function RestaurantManagement({ ...props }) {
 			},
 		},
 		{
-			id: 9,
+			id: 8,
 			Header: 'Action',
 			className: 'text-center view-details',
 			accessor: (item) => {
-				//menumanagement
 				return (
 					<div
 						style={{
@@ -162,11 +170,41 @@ function RestaurantManagement({ ...props }) {
 						className='text-center'
 						onClick={(e) => e.stopPropagation()}>
 						<FontAwesomeIcon
-							style={{ cursor: 'pointer', marginTop: '6px' }}
+							style={{ cursor: 'pointer', marginTop: '6px',fontSize:"15" }}
 							onClick={() => history.push(`/restaurant/${item.id}`)}
 							className='text-red-600 trash w-5 h-5'
 							color='red'
 							icon={faEye}
+						/>
+						<Category 
+							style={{color:"red",cursor: 'pointer',marginTop: '6px',fontSize:"20"}}
+							onClick={() => history.push(`/restaurant/${item.id}/menuCategory`)}
+						/>
+
+						{item.status == 1 ? (
+							<ToggleOnIcon
+								onClick={() => handleStatusModal(item)}
+								style={{ color: 'green', fontSize: '35' }}
+							/>
+						) : (
+								<ToggleOffIcon
+									onClick={() => handleStatusModal(item)}
+									style={{ color: 'red', fontSize: '35' }}
+								/>
+						)}
+						<FontAwesomeIcon
+							style={{ cursor: 'pointer', marginTop: '6px', fontSize:"15" }}
+							onClick={() => history.push(`/editRestaurant/${item.id}`)}
+							className='text-red-600 trash w-5 h-5'
+							color='red'
+							icon={faEdit}
+						/>
+						<FontAwesomeIcon
+							style={{ cursor: 'pointer', marginTop: '6px', fontSize:"15" }}
+							onClick={() => handleDeleteModal(item)}
+							className='text-red-600 trash w-5 h-5'
+							color='red'
+							icon={faTrash}
 						/>
 						
 					</div>
@@ -224,6 +262,53 @@ function RestaurantManagement({ ...props }) {
 	const handlePageChange = (pageNumber) => {
 		setCurrentPage(pageNumber);
 	};
+
+	const handleStatusModal=(item)=>{
+		setItem(item)
+		setStatusModal(!statusModal)
+	}
+
+	const handleDeleteModal=(item)=>{
+		setItem(item)
+		console.log(item)
+		setDeleteModal(!deleteModal)
+	}
+
+	const handleStatusChange = async(id) => {
+		try {
+                let data={
+                    body:{
+                        restaurantId:id,
+                    }
+                }
+				console.log("data",data)
+				const res = await toggleRestaurantStatus(token, data);
+				if (res.status == 200) {
+					setStatusModal(false)
+					getRestaurantList();
+				}
+			} catch (error) {
+				console.log(error);
+			}
+	};
+
+	const handleDelete = async(id) =>{
+		try {
+            let data={
+                body:{
+                    restaurantId:id,
+                }
+            }
+			console.log("data",data,id)
+			const res = await deleteRestaurant(token, data);
+			if (res.status == 200) {
+				setDeleteModal(false);
+				getRestaurantList();
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	}
 
 	return (
 		<>
@@ -285,6 +370,24 @@ function RestaurantManagement({ ...props }) {
 							onChange={handlePageChange}
 						/>
 					</div>
+					{statusModal && <StatusManagement 
+						{...{ 
+							setIsOpen:setStatusModal, 
+							modalIsOpen:statusModal, 
+							details: item,
+							itemId:item.id,
+							handleStatusChange, 
+							name:'Restaurant' 
+						}} 
+					/>}
+					{deleteModal && <DeleteModal {...{
+								setDeleteModal,
+								deleteModal,
+								itemId:item.id,
+								handleDelete,
+								name:'Restaurant'
+								
+					}}/>}
 				</div>
 			</div>
 		</>

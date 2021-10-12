@@ -15,15 +15,22 @@ import 'react-confirm-alert/src/react-confirm-alert.css';
 import SearchBox from '../../../../../../globalComponent/layout/search';
 import { useHistory,useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEye } from '@fortawesome/free-solid-svg-icons';
-import { listAddon } from '../../../../../../api';
+import { faEye,faTrash,faEdit } from '@fortawesome/free-solid-svg-icons';
+import {getAddonSection, listAddon,toggleAddonStatus, deleteAddon, } from '../../../../../../api';
 import { useDispatch, useSelector } from 'react-redux';
+import StatusManagement from '../../../../../statusManagement/statusManagement';
+import DeleteModal from '../../../../../deleteModal/deleteModal';
+import ToggleOffIcon from '@material-ui/icons/ToggleOff';
+import ToggleOnIcon from '@material-ui/icons/ToggleOn';
+
 
 function AddonManagement() {
 	const dispatch = useDispatch();
 	const history = useHistory();
 	let params=useParams();
 	const token = useSelector((state) => state.auth.isSignedIn);
+
+	let [titleName, setTitleName]=useState(null);
 	
 	const [tableData, setTableData] = useState([]);
 	const [activePage, setCurrentPage] = useState(1);
@@ -34,6 +41,11 @@ function AddonManagement() {
 	const [totalItems, setTotalItems] = useState(null);
 
 	const [startId, setStartId] = useState(0);
+
+	let [item,setItem]=useState(null);
+	const [statusModal, setStatusModal] = useState(false);
+	const [deleteModal, setDeleteModal] = useState(false);
+
 
 	let endId = startId < 0 ? 0 : startId + tableData.length;
 	let currentId = startId;
@@ -124,11 +136,36 @@ function AddonManagement() {
 						className='text-center'
 						onClick={(e) => e.stopPropagation()}>
 						<FontAwesomeIcon
-							style={{ cursor: 'pointer', marginTop: '6px' }}
+							style={{ cursor: 'pointer', marginTop: '6px',fontSize:"15" }}
 							onClick={() => history.push(`/restaurant/${params.restaurantId}/menuCategory/${params.menuCategoryId}/menu/${params.dishId}/addonSection/${params.sectionId}/addon/${item.id}`)}
 							className='text-red-600 trash w-5 h-5'
 							color='red'
 							icon={faEye}
+						/>
+						{item.status == 1 ? (
+							<ToggleOnIcon
+								onClick={() => handleStatusModal(item)}
+								style={{ color: 'green', fontSize: '35' }}
+							/>
+						) : (
+								<ToggleOffIcon
+									onClick={() => handleStatusModal(item)}
+									style={{ color: 'red', fontSize: '35' }}
+								/>
+						)}
+						<FontAwesomeIcon
+							style={{ cursor: 'pointer', marginTop: '6px', fontSize:"15" }}
+							onClick={() => history.push(`/restaurant/${params.restaurantId}/menuCategory/${params.menuCategoryId}/menu/${params.dishId}/addonSection/${params.sectionId}/editAddon/${item.id}`)}
+							className='text-red-600 trash w-5 h-5'
+							color='red'
+							icon={faEdit}
+						/>
+						<FontAwesomeIcon
+							style={{ cursor: 'pointer', marginTop: '6px', fontSize:"15" }}
+							onClick={() => handleDeleteModal(item)}
+							className='text-red-600 trash w-5 h-5'
+							color='red'
+							icon={faTrash}
 						/>
 						
 					</div>
@@ -147,6 +184,8 @@ function AddonManagement() {
 	async function fetchData(){
 		try {
 			setLoading(true);
+			let sectionRes=await getAddonSection(token,{params:{dish_add_on_section_id:params.sectionId,}})
+			setTitleName(sectionRes.section.name)
 			let currentPage = searchText.length > 0 ? 1 : activePage;
 			let data={
 				query:{
@@ -189,11 +228,58 @@ function AddonManagement() {
 		setCurrentPage(pageNumber);
 	};
 
+	const handleStatusModal=(item)=>{
+		setItem(item)
+		setStatusModal(!statusModal)
+	}
+
+	const handleDeleteModal=(item)=>{
+		setItem(item)
+		console.log(item)
+		setDeleteModal(!deleteModal)
+	}
+
+	const handleStatusChange = async(id) => {
+		try {
+                let data={
+                    body:{
+                        dish_addon_id:id,
+                    }
+                }
+				console.log("data",data)
+				const res = await toggleAddonStatus(token, data);
+				if (res.status == 200) {
+					setStatusModal(false)
+					fetchData();
+				}
+			} catch (error) {
+				console.log(error);
+			}
+	};
+
+	const handleDelete = async(id) =>{
+		try {
+            let data={
+                body:{
+                    dish_addon_id:id,
+                }
+            }
+			console.log("data",data,id)
+			const res = await deleteAddon(token, data);
+			if (res.status == 200) {
+				setDeleteModal(false);
+				fetchData();
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	}
+
 	return (
 		<>
 			<div className='main-content md:pb-5 flex-1 p-8 px-2' style={{ overflowY: 'auto', height: '100vh' }}>
 				<div id='recipients' className='p-4 md:p-8 mt-6 lg:mt-0 rounded shadow bg-white'>
-					<h1 className='text-xl'>Addon Management</h1>
+					<h1 className='text-xl'>{titleName}: Addon Management</h1>
 					<div className='flex flex-wrap -mx-3 mb-6 mt-5' style={{justifyContent:"space-between" }}>
 						<div className='w-full md:w-1/2 px-3 mb-6 md:mb-0 search-text' style={{width:"50%" }}>
 							<SearchBox
@@ -219,7 +305,7 @@ function AddonManagement() {
 						</button>
 						<button
 							style={{ height: '3rem' }}
-							onClick={() => history.push(`/restaurant/${params.restaurantId}/menuCategory/${params.menuCategoryId}/menu/${params.dishId}/addonSection/${params.sectionId}`)}
+							onClick={() => history.push(`/restaurant/${params.restaurantId}/menuCategory/${params.menuCategoryId}/menu/${params.dishId}/addonSection`)}
 							className='shadow bg-blue-500 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded'
 							type='button'>
 							Back
@@ -260,6 +346,24 @@ function AddonManagement() {
 							onChange={handlePageChange}
 						/>
 					</div>
+					{statusModal && <StatusManagement 
+						{...{ 
+							setIsOpen:setStatusModal, 
+							modalIsOpen:statusModal, 
+							details: item,
+							itemId:item.id,
+							handleStatusChange, 
+							name:'Addon' 
+						}} 
+					/>}
+					{deleteModal && <DeleteModal {...{
+								setDeleteModal,
+								deleteModal,
+								itemId:item.id,
+								handleDelete,
+								name:'Addon'
+								
+					}}/>}
 				</div>
 			</div>
 		</>
