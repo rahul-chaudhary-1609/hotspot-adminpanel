@@ -188,6 +188,17 @@ function AddonSectionManagement() {
 
 	const val = useSelector((state) => state.auth.searchText);
 	let searchText = val ? val : '';
+
+	useEffect(()=>{
+
+		return ()=>{
+			dispatch({
+				type: 'SEARCH_TEXT',
+				payload: "",
+			})
+		}
+		
+	},[])
 	
 	useEffect(() => {
         fetchData();
