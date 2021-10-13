@@ -202,9 +202,9 @@ function RestaurantManagement({ ...props }) {
 									onClick={() => handleStatusModal(item)}
 									style={{ color: 'red', fontSize: '35',cursor:"pointer" }}
 								/>
-								<ReactTooltip id="restaurant-status-tool-tip">Toggle Restaurant Status</ReactTooltip>
 							</p>
 						)}
+						<ReactTooltip id="restaurant-status-tool-tip">Toggle Restaurant Status</ReactTooltip>
 						<p data-tip='' data-for='edit-restaurant-tool-tip'>
 							<FontAwesomeIcon
 								style={{ cursor: 'pointer', marginTop: '6px', fontSize:"15" }}
