@@ -891,7 +891,7 @@ const AddEditRestaurant = () => {
 														</div>
 														
 													</div>
-													<div>
+													<div style={{display:"flex", justifyContent:"center",width:"100%", alignItems:"center"}}>
 															<a href={restaurant.agreement_documents[0].url} target="_blank">{restaurant.agreement_documents[0].name}</a>
 													</div>
 												</div>
