@@ -148,10 +148,10 @@ function RestaurantManagement({ ...props }) {
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (
-					<div onClick={(e) => {e.stopPropagation(); window.open(item.agreement_doc_url,'_blank')}}
+					<div onClick={(e) => {e.stopPropagation(); window.open(item.agreement_documents && item.agreement_documents[0].url,'_blank')}}
 						className="text-green-600"
 						style={{ padding: '6px', cursor: 'pointer' }}>
-						{item.agreement_doc_url && <Description style={{ color: '#667eea',fontSize:"2rem" }} />}
+						{item.agreement_documents && item.agreement_documents[0].url && <Description style={{ color: '#667eea',fontSize:"2rem" }} />}
 					</div>
 				);
 			},

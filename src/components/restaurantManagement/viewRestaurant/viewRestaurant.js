@@ -309,19 +309,24 @@ const ViewRestaurant = () => {
 								</div>
 							</div>
 							{
-								restaurantDetails.agreement_doc_url?
+								restaurantDetails.agreement_documents?
 								(
 									<div className='flex flex-row items-center border-t border-gray-200'>
 										<div className='bg-gray-100 font-semibold py-4 px-6 w-1/3 text-right'>
 										Agreement Document
 										</div>
-										<div style={{overflowWrap:"break-word",width: '65%'}} className='px-8'>
-											<button
-												onClick={(e) => {e.stopPropagation(); window.open(restaurantDetails.agreement_doc_url,'_blank')}}
-												style={{cursor:"pointer"}}
-											>
-												<Description style={{ color: '#667eea',fontSize:"3rem" }} />
-											</button>
+										<div  style={{display:"flex",justifyContent:"start",alignItems:"center"}}>
+											<div className='px-8'>
+												<button
+													onClick={(e) => {e.stopPropagation(); window.open(restaurantDetails.agreement_documents[0].url,'_blank')}}
+													style={{cursor:"pointer"}}
+												>
+													<Description style={{ color: '#667eea',fontSize:"3rem" }} />
+												</button>
+											</div>
+											<div style={{overflowWrap:"break-word",width: '90%'}}>
+													<a href={restaurantDetails.agreement_documents[0].url} target="_blank">{restaurantDetails.agreement_documents[0].name}</a>
+											</div>	
 										</div>
 									</div>
 								):

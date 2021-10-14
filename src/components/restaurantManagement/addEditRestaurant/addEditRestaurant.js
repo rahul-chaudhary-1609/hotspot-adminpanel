@@ -24,7 +24,8 @@ const AddEditRestaurant = () => {
 
 	const [restaurant,setRestaurant] = useState({
 		address: null,
-		agreement_doc_url: null,
+		// agreement_doc_url: null,
+		agreement_documents: null,
 		cut_off_time: null,
 		deliveries_per_shift: null,
 		location: null,
@@ -105,7 +106,8 @@ const AddEditRestaurant = () => {
 					let res=await getRestaurant(token,data);
 					let {
 						address,
-						agreement_doc_url,
+						// agreement_doc_url,
+						agreement_documents,
 						cut_off_time,
 						deliveries_per_shift,
 						location,
@@ -123,7 +125,8 @@ const AddEditRestaurant = () => {
 					}=res.restaurant;
 					setRestaurant({
 						address,
-						agreement_doc_url,
+						// agreement_doc_url,
+						agreement_documents,
 						cut_off_time,
 						deliveries_per_shift,
 						location,
@@ -207,18 +210,25 @@ const AddEditRestaurant = () => {
 		setShowImageLoader(true)
 		if(!(e.target.files[0].size>5242880)){
 			try {
+				
 				let formData=new FormData();
 				formData.append("file",e.target.files[0])
 				formData.append("mimeType",e.target.files[0].type)
 				formData.append("folderName","agreement_doc")
+				let fileName=e.target.files[0].name;
 
 				let data={
 					form:formData
 				}
 				let res=await uploadFile(token,data);
+				
 				setRestaurant({
 					...restaurant,
-					agreement_doc_url:res.image_url
+					// agreement_doc_url:res.image_url,
+					agreement_documents:[{
+						name:fileName,
+						url:res.image_url,
+					}],
 				});
 				setShowImageLoader(false);
 			} catch (error) {
@@ -254,10 +264,16 @@ const AddEditRestaurant = () => {
 
 		Object.keys(restaurant).forEach((key)=>{
 			if(!['location','cut_off_time','deliveries_per_shift','order_type'].includes(key)){
-				restaurant[key]=restaurant[key] && restaurant[key].trim();
-				if(!restaurant[key] || restaurant[key]==""){
-					restaurant[key]=null;
-				}
+				if(key=="agreement_documents"){
+					if(!restaurant[key] || restaurant[key].length<=0){
+						restaurant[key]=null;
+					}
+				}else{
+					restaurant[key]=restaurant[key] && restaurant[key].trim();
+					if(!restaurant[key] || restaurant[key]==""){
+						restaurant[key]=null;
+					}
+				}				
 			}
 		})
 
@@ -781,7 +797,7 @@ const AddEditRestaurant = () => {
 										/>
 									</div>
 
-									<div className='w-full flex px-3 mb-6 md:mb-0 d-inline-flex'>
+									{/* <div className='w-full flex px-3 mb-6 md:mb-0 d-inline-flex'>
 										<label
 											className='block w-1/2 tracking-wide text-gray-300 py-3 px-6 mb-3'
 											>
@@ -812,6 +828,71 @@ const AddEditRestaurant = () => {
 															type='file'
 															onChange={handleDocumentChange}
 														/>
+													</div>
+												</div>
+											):
+											(
+												<div style={{textAlign:"center",display:"flex", justifyContent:"space-between",width:"50%", alignItems:"center"}}>	
+													
+													<div  style={{display:"flex", justifyContent:"flex-end", width:"100%"}}>
+														<label
+															style={{backgroundColor:"#667eea",color:"#fff",fontWeight:"600",textAlign:"center",borderRadius:"5px",width:"100%",height:"75%",cursor:"pointer"}}
+															className="h-50 py-3 px-3"
+															for='upload_doc'>
+															{ showImageLoader?(<CircularProgress size={20} sx={{color:"#fff"}} />): "Upload Doc"}
+														</label>
+														<input
+															style={{display:"none"}}
+															id='upload_doc'
+															type='file'
+															onChange={handleDocumentChange}
+														/>
+													</div>
+												</div>
+											)
+										}
+										
+									</div> */}
+
+									<div className='w-full flex px-3 mb-6 md:mb-0 d-inline-flex'>
+										<label
+											className='block w-1/2 tracking-wide text-gray-300 py-3 px-6 mb-3'
+											>
+											Agreement Document
+										</label>
+										{
+											restaurant.agreement_documents?
+											(
+												<div style={{textAlign:"center",display:"flex", justifyContent:"space-between",width:"50%", alignItems:"center",flexDirection:"column"}}>	
+													<div style={{textAlign:"center",display:"flex", justifyContent:"space-between",width:"100%", alignItems:"center",}}>	
+														<div  style={{textAlign:"center",display:"flex", justifyContent:"center", width:"50%"}}>										
+															
+															<button
+																onClick={(e) => {e.stopPropagation(); window.open(restaurant.agreement_documents[0].url,'_blank')}}
+																style={{cursor:"pointer"}}
+															>
+															<Description style={{ color: '#667eea',fontSize:"3rem" }} />
+															</button>
+															
+														</div>
+														<div  style={{display:"flex", justifyContent:"flex-end", width:"50%"}}>
+															<label
+																style={{backgroundColor:"#667eea",color:"#fff",fontWeight:"600",textAlign:"center",borderRadius:"5px",width:"100%",height:"75%",cursor:"pointer"}}
+																className="h-50 py-3 px-3"
+																for='upload_doc'>
+																{ showImageLoader?<CircularProgress />: "Upload Doc"}
+															</label>
+															<input
+																style={{display:"none"}}
+																id='upload_doc'
+																type='file'
+																onChange={handleDocumentChange}
+															/>
+														</div>
+														
+													</div>
+													<div>
+															<a href={restaurant.agreement_documents[0].url} target="_blank">{restaurant.agreement_documents[0].name}</a>
 													</div>
 												</div>
 											):
