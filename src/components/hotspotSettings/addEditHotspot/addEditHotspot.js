@@ -403,7 +403,7 @@ const AddEditHotspot = () => {
 											Address
 										</label>
 
-										<div className='block w-1/2 mb-3'>
+										<div className='block w-1/2 mb-5'>
 											<PlacesAutocomplete
 												value={hotspot.location_detail}
 												onChange={handleGoogleSearchChange}
@@ -449,6 +449,82 @@ const AddEditHotspot = () => {
 
 									</div>
 
+									<div className='w-full flex px-3 mb-8 md:mb-0 d-inline-flex'>
+										<label
+											className='block w-1/2 tracking-wide text-gray-300 py-3 px-6 mb-3'
+											for='dropoffs'>
+											Restaurants
+										</label>
+                                        <div style={{width:"50%",display:"flex",justifyContent:"space-between",flexDirection:"column",alignItems:"start",marginBottom:"1rem",}}>
+                                            {
+                                                hotspot.restaurant_ids && hotspot.restaurant_ids.map((rest,index)=>{
+                                                    return (
+                                                        <div style={{width:"100%",display:"flex",justifyContent:"space-between",alignItems:"center"}}>
+                                                            <div style={{width:"75%",display:"flex",justifyContent:"space-between",flexDirection:"column",alignItems:"start",}}>
+																<div style={{width:"100%"}}>
+																<Select
+																	styles={customStyles}
+																	options={restaurantList}
+																	placeholder="Select restaurant"
+																	value={restaurantList.find(restaurant=>restaurant.id===rest.restaurant_id)}
+																	onChange={(selectedRestaurant)=>{
+																		setError(null);
+																		hotspot.restaurant_ids[index].restaurant_id=selectedRestaurant.id;
+																		setHotspot({...hotspot})
+																	}}
+																	inputId={`restaurant${index}`}
+																	required
+																/>
+																</div>
+																<div style={{width:"100%"}}>
+																<input
+																	className='appearance-none block bg-gray-100 border border-gray-200 rounded-half py-3 px-6 leading-tight focus:outline-none focus:bg-white focus:border-gray-200'
+																	style={{width:"100%"}}
+																	id={`dropoff${index}`}
+																	type='number'
+																	min="1"
+																	required
+																	placeholder="Pickup time in minutes"
+																	onChange={(e)=>{
+																		setError(null);
+																		hotspot.restaurant_ids[index].pickup_time=parseInt(e.target.value);
+																		setHotspot({...hotspot})
+																	}}
+																	value={hotspot.restaurant_ids[index].pickup_time}
+																/>
+																</div>
+																<div style={{width:"100%",fontSize:"0.9rem", textAlign:"end"}}>in minutes</div>
+
+                                                            </div>
+                                                            <div style={{width:"25%",marginBottom:"1rem",marginLeft:"1rem"}}>
+                                                                <ClearIcon
+                                                                    onClick={()=>{
+                                                                        hotspot.restaurant_ids.splice(index,1);
+                                                                        setHotspot({...hotspot})
+                                                                    }}
+                                                                />
+                                                            </div>
+                                                            
+                                                        </div>
+                                                    )
+                                                })
+                                            }
+                                            <div style={{width:"25%",marginBottom:"1rem",}}>
+                                                <AddIcon
+                                                    onClick={()=>{
+                                                        if(!hotspot.restaurant_ids) hotspot.restaurant_ids=[];
+                                                        hotspot.restaurant_ids.push({
+															restaurant_id:null,
+															pickup_time:null,
+														});
+														setHotspot({...hotspot})
+                                                    }}
+                                                />
+                                            </div>
+                                        </div>
+										
+									</div>
+
                                     <div className='w-full flex px-3 mb-6 md:mb-0 d-inline-flex'>
 										<label
 											className='block w-1/2 tracking-wide text-gray-300 py-3 px-6 mb-3'
@@ -462,7 +538,7 @@ const AddEditHotspot = () => {
                                                         <div style={{width:"100%",display:"flex",justifyContent:"space-between",alignItems:"center"}}>
                                                             <div style={{width:"75%"}}>
                                                                 <input
-                                                                    className='appearance-none block bg-gray-100 border border-gray-200 rounded-half py-3 px-6 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-200'
+                                                                    className='appearance-none block bg-gray-100 border border-gray-200 rounded-half py-3 px-6 leading-tight focus:outline-none focus:bg-white focus:border-gray-200'
                                                                     style={{width:"100%"}}
                                                                     id={`dropoff${index}`}
                                                                     type='text'
@@ -559,81 +635,6 @@ const AddEditHotspot = () => {
                                                     }}
                                                 />
                                             </div> */}
-                                        </div>
-										
-									</div>
-
-									<div className='w-full flex px-3 mb-6 md:mb-0 d-inline-flex'>
-										<label
-											className='block w-1/2 tracking-wide text-gray-300 py-3 px-6 mb-3'
-											for='dropoffs'>
-											Restaurants
-										</label>
-                                        <div style={{width:"50%",display:"flex",justifyContent:"space-between",flexDirection:"column",alignItems:"start",marginBottom:"1rem",}}>
-                                            {
-                                                hotspot.restaurant_ids && hotspot.restaurant_ids.map((rest,index)=>{
-                                                    return (
-                                                        <div style={{width:"100%",display:"flex",justifyContent:"space-between",alignItems:"center"}}>
-                                                            <div style={{width:"75%",display:"flex",justifyContent:"space-between",flexDirection:"column",alignItems:"start",marginBottom:"1rem",}}>
-																<div style={{width:"100%"}}>
-																<Select
-																	styles={customStyles}
-																	options={restaurantList}
-																	placeholder="Select restaurant"
-																	value={restaurantList.find(restaurant=>restaurant.id===rest.restaurant_id)}
-																	onChange={(selectedRestaurant)=>{
-																		setError(null);
-																		hotspot.restaurant_ids[index].restaurant_id=selectedRestaurant.id;
-																		setHotspot({...hotspot})
-																	}}
-																	inputId={`restaurant${index}`}
-																	required
-																/>
-																</div>
-																<div style={{width:"100%"}}>
-																<input
-																	className='appearance-none block bg-gray-100 border border-gray-200 rounded-half py-3 px-6 leading-tight focus:outline-none focus:bg-white focus:border-gray-200'
-																	style={{width:"100%"}}
-																	id={`dropoff${index}`}
-																	type='number'
-																	min="1"
-																	required
-																	placeholder="Pickup time in minutes"
-																	onChange={(e)=>{
-																		setError(null);
-																		hotspot.restaurant_ids[index].pickup_time=parseInt(e.target.value);
-																		setHotspot({...hotspot})
-																	}}
-																	value={hotspot.restaurant_ids[index].pickup_time}
-																/>
-																</div>
-
-                                                            </div>
-                                                            <div style={{width:"25%",marginBottom:"1rem",marginLeft:"1rem"}}>
-                                                                <ClearIcon
-                                                                    onClick={()=>{
-                                                                        hotspot.restaurant_ids.splice(index,1);
-                                                                        setHotspot({...hotspot})
-                                                                    }}
-                                                                />
-                                                            </div>
-                                                            
-                                                        </div>
-                                                    )
-                                                })
-                                            }
-                                            <div style={{width:"25%"}}>
-                                                <AddIcon
-                                                    onClick={()=>{
-                                                        if(!hotspot.restaurant_ids) hotspot.restaurant_ids=[];
-                                                        hotspot.restaurant_ids.push({
-															restaurant_id:null,
-															pickup_time:null,
-														});
-														setHotspot({...hotspot})
-                                                    }}
-                                                />
-                                            </div>
                                         </div>
 										
 									</div>

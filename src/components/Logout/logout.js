@@ -39,6 +39,10 @@ const Logout = () => {
 				history.push('/login');
 			})
 			.catch((error) => {
+				dispatch({
+					type: 'SIGN_OUT',
+					payload: null,
+				});
 				console.log(error);
 			});
 	};

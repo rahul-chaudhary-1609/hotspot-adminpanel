@@ -1376,7 +1376,7 @@ export const logout = (token) => {
 				reject(response.message);
 			}
 		} catch (error) {
-			console.log(error);
+			reject(error);
 		}
 	});
 };
