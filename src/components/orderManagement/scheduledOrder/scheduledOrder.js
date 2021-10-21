@@ -152,8 +152,8 @@ const ScheduledOrder = () => {
 	// const [searchText, setSearchText] = useState('');
 	const [error, setError] = useState(null);
 
-	const [pageSize, setPageSize] = useState(1);
-	const [activePage, setCurrentPage] = useState(10);
+	const [pageSize, setPageSize] = useState(10);
+	const [activePage, setCurrentPage] = useState(1);
 	const [totalItems, setTotalItems] = useState(null);
 	const statusFilter = useSelector((state) => state.auth.status);
 	const [scheduledOrders, setScheduleorders] = useState([]);
@@ -173,8 +173,23 @@ const ScheduledOrder = () => {
 		let status = statusFilter ? statusFilter.value : null;
 		let currentPage = searchText.length > 0 ? 1 : activePage;
 
-		getScheduledOrders(token, searchText, currentPage, pageSize, status)
+		let data={
+			query:{
+				currentPage,
+				pageSize,
+				status
+			}
+		}
+
+		console.log("startId",startId,endId,scheduledOrders.length)
+
+		if(searchText && searchText.trim()!=""){
+			data.query.searchKey=searchText;
+		}
+
+		getScheduledOrders(token, data)
 			.then((order) => {
+				console.log("order",order)
 				let newStartId = pageSize * (activePage - 1);
 				setStartId(newStartId);
 				setError(null);
@@ -285,6 +300,7 @@ const ScheduledOrder = () => {
 					style={{
 						marginLeft: '20px',
 					}}>
+						{console.log("startId",startId,endId,scheduledOrders.length)}
 					{totalItems > 0 ? `(showing ${startId + 1} - ${endId} of ${totalItems})` : 'showing 0 result'}
 				</p>
 				<div style={{ textAlign: 'right' }}>
