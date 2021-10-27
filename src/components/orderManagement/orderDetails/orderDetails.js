@@ -10,7 +10,7 @@ import { useSelector } from "react-redux";
 import moment from "moment";
 import Loader from "../../../globalComponent/layout/loader";
 
-import {formatDateWithTime, formatDateWithTimeZ} from '../../../utils/redableDateTime'
+import {formatDateWithTime} from '../../../utils/redableDateTime'
 
 const OrderDetails = () => {
   const history = useHistory();
@@ -121,7 +121,7 @@ const OrderDetails = () => {
                 Received on
               </div>
               <div className="px-8 text-xl text-gray-300">
-                {formatDateWithTimeZ(orderDetails.createdAt)}
+                {formatDateWithTime(orderDetails.createdAt)}
               </div>
             </div>
           </div>
@@ -136,7 +136,7 @@ const OrderDetails = () => {
               </div>
               <div className="px-8 text-xl text-gray-300">
                 {" "}
-                {formatDateWithTimeZ(orderDetails.deliveryDateTime)}
+                {formatDateWithTime(orderDetails.deliveryDateTime)}
               </div>
             </div>
           </div>
