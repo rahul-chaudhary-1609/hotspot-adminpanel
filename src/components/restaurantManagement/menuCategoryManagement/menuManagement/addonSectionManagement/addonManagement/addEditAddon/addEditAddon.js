@@ -51,7 +51,7 @@ const AddEditAddon = () => {
 					setAddon({
 						name:res.dishAddon.name,
 						price:parseFloat(res.dishAddon.price),
-						markup_price:res.dishAddon.markup_price && parseFloat(res.dish.markup_price),
+						markup_price:res.dishAddon.markup_price && parseFloat(res.dishAddon.markup_price),
 					})
 					setShowLoader(false);
 				} catch (error) {
@@ -68,7 +68,7 @@ const AddEditAddon = () => {
 		if(!addon.price || isNaN(parseFloat(addon.price))){
 			setError("Actual price should be numeric")
 			result=false
-		}else if(addon.markup_price && isNaN(parseFloat(addon.price))){
+		}else if(addon.markup_price && isNaN(parseFloat(addon.markup_price))){
 			setError("Markup price should be numeric")
 			result=false
 		}
@@ -81,7 +81,7 @@ const AddEditAddon = () => {
 	const handleSubmit=async(e)=>{
 		e.preventDefault();
 
-        if(!validateData) return;
+        if(!validateData()) return;
 
 		let data={
 			body:{

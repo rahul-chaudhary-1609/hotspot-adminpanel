@@ -91,7 +91,7 @@ const AddEditDish = () => {
 	const handleSubmit=async(e)=>{
 		e.preventDefault();
 
-        if(!validateData) return;
+        if(!validateData()) return;
 
 		let data={
 			body:{
