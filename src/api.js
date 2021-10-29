@@ -1,13 +1,13 @@
 import axios from 'axios';
 import qs from 'qs';
 
-//  export const baseURL = `http://3.228.159.69/admin/`;
+ export const baseURL = `http://3.228.159.69/admin/`;
 
-//  export const baseURLWeb = `http://3.228.159.69/website/`;
+ export const baseURLWeb = `http://3.228.159.69/website/`;
 
-export const baseURL = `https://api.togohotspot.com/admin/`;
+// export const baseURL = `https://api.togohotspot.com/admin/`;
 
-export const baseURLWeb = `https://api.togohotspot.com/website/`;
+// export const baseURLWeb = `https://api.togohotspot.com/website/`;
 
 // export const baseURL = `http://localhost:5000/admin/`;
 
@@ -864,48 +864,24 @@ export const getActiveOrders = (
 	});
 };
 
-// export const getScheduledOrders = (
-// 	token,
-// 	seachString,
-// 	pageNumber,
-// 	pageSize,
-// 	status_filter
-// ) => {
-// 	return new Promise(async (resolve, reject) => {
-// 		try {
-// 			const response = await fetch(
-// 				`${baseURL}getScheduledOrders?searchKey=${seachString}&status_filter=${status_filter}&page=${pageNumber}&page_size=${pageSize}`,
-// 				{
-// 					headers: {
-// 						Accept: 'application/json',
-// 						Authorization: token,
-// 					},
-// 				}
-// 			).then((res) => res.json());
-// 			if (response.status == 200) {
-// 				resolve(response);
-// 			} else {
-// 				reject(response.message);
-// 			}
-// 		} catch (error) {
-// 			console.log(error);
-// 		}
-// 	});
-// };
-
-export const getScheduledOrders = (token, data) => {
+export const getScheduledOrders = (
+	token,
+	seachString,
+	pageNumber,
+	pageSize,
+	status_filter
+) => {
 	return new Promise(async (resolve, reject) => {
 		try {
-			let url=new URL(`${baseURL}getScheduledOrders`);
-			url.search= new URLSearchParams(data.query).toString();
-			const response = await fetch(url, {
-				headers: {
-					Authorization: token,
-					'Content-Type': 'application/json',
-				},
-				method: 'GET',
-			}).then((res) => res.json());
-
+			const response = await fetch(
+				`${baseURL}getScheduledOrders?searchKey=${seachString}&status_filter=${status_filter}&page=${pageNumber}&page_size=${pageSize}`,
+				{
+					headers: {
+						Accept: 'application/json',
+						Authorization: token,
+					},
+				}
+			).then((res) => res.json());
 			if (response.status == 200) {
 				resolve(response);
 			} else {
