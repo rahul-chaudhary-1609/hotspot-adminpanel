@@ -245,10 +245,14 @@ const ScheduledOrder = () => {
 									label: 'Pending',
 									value: 1,
 								},
+								{
+									label: 'Preparing food',//'Driver Allocated',
+									value: 2,
+								},
 
 								{
-									label: 'Driver Allocated',
-									value: 2,
+									label: "Sprinting",//'Driver Allocated',
+									value: 3,
 								},
 							
 								{

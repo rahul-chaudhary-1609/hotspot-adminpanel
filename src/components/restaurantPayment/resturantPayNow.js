@@ -125,6 +125,7 @@ export default function ResturantPayNow(props) {
 					if (result.paymentIntent.status === 'succeeded') {
 						// The payment is complete!
 							const sendData ={
+								payment_type:1,
 								payment_id: res.paymentResponse.paymentId,
 								payment_intent:result.paymentIntent,
 							}

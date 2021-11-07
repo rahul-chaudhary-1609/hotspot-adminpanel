@@ -323,22 +323,22 @@ const OrderDetails = () => {
               <>
                 <button
                   className={
-                    orderDetails.status === "Food is being prepared"
+                    orderDetails.status === "Preparing food"
                       ? "shadow bg-red-500 ml-3 hover:bg-red-400 border border-secondary focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
                       : "shadow bg-white-500 ml-3 hover:grey-red-400 border border-secondary focus:shadow-outline focus:outline-none text-black font-bold py-2 px-4 rounded"
                   }
                 >
-                  Food preparing
+                  Preparing food
                 </button>
                 <button
                   className={
-                    orderDetails.status === "Food is on the way"
+                    orderDetails.status === "Sprinting"
                       ? "shadow bg-red-500 ml-3 hover:bg-red-400 border border-secondary focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
                       : "shadow bg-white-500 ml-3 hover:grey-red-400 border border-secondary focus:shadow-outline focus:outline-none text-black font-bold py-2 px-4 rounded"
                   }
                 >
                   {" "}
-                  Food on the way
+                  Sprinting
                 </button>
               </>
             )}

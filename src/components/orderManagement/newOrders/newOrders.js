@@ -234,10 +234,13 @@ const NewOrders = () => {
 									label: 'Pending',
 									value: 1,
 								},
-
 								{
-									label: 'Driver Allocated',
+									label: 'Preparing food',//'Driver Allocated',
 									value: 2,
+								},
+								{
+									label: 'Sprinting',//'Driver Allocated',
+									value: 3,
 								},
 								{
 									label: 'All',
