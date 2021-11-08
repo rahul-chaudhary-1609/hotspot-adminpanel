@@ -241,15 +241,31 @@ const HotspotEarning = () => {
 
 	const hotspotEarningList = async () => {
 		setLoading(true);
+		let data={
+			query:{
+				start_date:startDate.trim()!=""?moment(startDate,"MM/DD/YYYY").format("YYYY-MM-DD"):startDate,
+				end_date:endDate.trim()!=""?moment(endDate,"MM/DD/YYYY").format("YYYY-MM-DD"):endDate,
+				filter_key:filterby,
+				current_date:moment(new Date()).format("YYYY-MM-DD"),
+				page:activePage,
+				page_size:pageSize
+			}
+		}
+		if(searchText && searchText.trim()!=""){
+			data.query.search_key=searchText;
+		}
 		try {
 			let res = await getOrderDeliveiesList(
 				token,
-				searchText,
-				startDate,
-				endDate,
-				filterby,
-				activePage,
-				pageSize
+				// searchText,
+				// startDate,
+				// endDate,
+				// filterby,
+				// moment(new Date()).format("YYYY-MM-DD"),
+				// activePage,
+				// pageSize,
+				data
+
 			);
 
 			if (res.success) {

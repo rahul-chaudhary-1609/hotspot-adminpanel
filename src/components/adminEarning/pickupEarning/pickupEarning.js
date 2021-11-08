@@ -16,6 +16,7 @@ import { getPickupOrdersList } from '../../../api'
 import { Link } from 'react-router-dom';
 import { formatDate } from '../../../utils/redableDateTime';
 import { clearData } from '../../../actions';
+import moment from 'moment';
 
 const PickupEarning = (props) => {
 	const token = useSelector((state) => state.auth.isSignedIn);
@@ -163,16 +164,30 @@ const PickupEarning = (props) => {
 	}, []);
 
 	const pickupList = async () => {
-		setLoading(true);
 		try {
+			setLoading(true);
+			let data={
+				query:{
+					start_date:startDate.trim()!=""?moment(startDate,"MM/DD/YYYY").format("YYYY-MM-DD"):startDate,
+				    end_date:endDate.trim()!=""?moment(endDate,"MM/DD/YYYY").format("YYYY-MM-DD"):endDate,
+					filter_key:filterby,
+					current_date:moment(new Date()).format("YYYY-MM-DD"),
+					page:activePage,
+					page_size:pageSize
+				}
+			}
+			if(searchText && searchText.trim()!=""){
+				data.query.search_key=searchText;
+			}
 			let res = await getPickupOrdersList(
 				token,
-				searchText,
-				startDate,
-				endDate,
-				filterby,
-				activePage,
-				pageSize
+				// searchText,
+				// startDate,
+				// endDate,
+				// filterby,
+				// activePage,
+				// pageSize,
+				data,
 			);
 			if (res.success) {
 				setTotalItems(res.orders.count);

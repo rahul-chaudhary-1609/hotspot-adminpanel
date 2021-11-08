@@ -14,6 +14,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router';
 import {formatDate, formatTime } from '../../utils/redableDateTime';
 import { clearData } from '../../actions';
+import moment from 'moment';
 
 
 const RestaurantPayment = () => {
@@ -237,16 +238,30 @@ const RestaurantPayment = () => {
 	  }, []);
 
 	const restaurantEarningList = async () => {
-		setLoading(true);
 		try {
+			setLoading(true);
+			let data={
+				query:{
+					start_date:startDate.trim()!=""?moment(startDate,"MM/DD/YYYY").format("YYYY-MM-DD"):startDate,
+				    end_date:endDate.trim()!=""?moment(endDate,"MM/DD/YYYY").format("YYYY-MM-DD"):endDate,
+					filter_key:filterby,
+					current_date:moment(new Date()).format("YYYY-MM-DD"),
+					page:activePage,
+					page_size:pageSize
+				}
+			}
+			if(searchText && searchText.trim()!=""){
+				data.query.search_key=searchText;
+			}
 			let res = await getRestaurantEarningList(
 				token,
-				searchText,
-				startDate,
-				endDate,
-				filterby,
-				activePage,
-				pageSize
+				// searchText,
+				// startDate,
+				// endDate,
+				// filterby,
+				// activePage,
+				// pageSize
+				data,
 			);
 
 			if (res.success) {

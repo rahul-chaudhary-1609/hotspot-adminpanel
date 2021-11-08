@@ -212,13 +212,21 @@ const HotspotEarningDetails = (props) => {
 	useEffect(() => {
 		let { order_delivery_id, startDate, endDate } = props.selectedEarning;
 		setLoading(true);
+		let data={
+			query:{
+				order_delivery_id,
+				page:activePage,
+				page_size:pageSize
+			}
+		}
 		getOrderDeliveryDetailById(
 			token,
-			order_delivery_id,
-			startDate,
-			endDate,
-			activePage,
-			pageSize
+			// order_delivery_id,
+			// startDate,
+			// endDate,
+			// activePage,
+			// pageSize
+			data
 		)
 			.then((res) => {
 				setEarningList(res.rows);
