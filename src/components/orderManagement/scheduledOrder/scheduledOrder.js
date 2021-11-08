@@ -175,13 +175,12 @@ const ScheduledOrder = () => {
 
 		let data={
 			query:{
-				currentPage,
-				pageSize,
-				status
+				current_date:moment(new Date()).format("YYYY-MM-DD"),
+				status_filter:status,
+				page:currentPage,
+				page_size:pageSize,
 			}
 		}
-
-		console.log("startId",startId,endId,scheduledOrders.length)
 
 		if(searchText && searchText.trim()!=""){
 			data.query.searchKey=searchText;

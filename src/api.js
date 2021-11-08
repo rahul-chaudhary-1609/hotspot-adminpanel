@@ -633,24 +633,20 @@ export const getHotspotsLists = (token) => {
 
 // order managemnet apis
 
-export const getActiveOrders = (
-	token,
-	seachString,
-	pageNumber,
-	pageSize,
-	status_filter
-) => {
+
+export const getActiveOrders = (token, data) => {
 	return new Promise(async (resolve, reject) => {
 		try {
-			const response = await fetch(
-				`${baseURL}getActiveOrders?searchKey=${seachString}&status_filter=${status_filter}&page=${pageNumber}&page_size=${pageSize}`,
-				{
-					headers: {
-						Accept: 'application/json',
-						Authorization: token,
-					},
-				}
-			).then((res) => res.json());
+			let url=new URL(`${baseURL}getActiveOrders`);
+			url.search= new URLSearchParams(data.query).toString();
+			const response = await fetch(url, {
+				headers: {
+					Authorization: token,
+					'Content-Type': 'application/json',
+				},
+				method: 'GET',
+			}).then((res) => res.json());
+
 			if (response.status == 200) {
 				resolve(response);
 			} else {
@@ -662,34 +658,6 @@ export const getActiveOrders = (
 	});
 };
 
-// export const getScheduledOrders = (
-// 	token,
-// 	seachString,
-// 	pageNumber,
-// 	pageSize,
-// 	status_filter
-// ) => {
-// 	return new Promise(async (resolve, reject) => {
-// 		try {
-// 			const response = await fetch(
-// 				`${baseURL}getScheduledOrders?searchKey=${seachString}&status_filter=${status_filter}&page=${pageNumber}&page_size=${pageSize}`,
-// 				{
-// 					headers: {
-// 						Accept: 'application/json',
-// 						Authorization: token,
-// 					},
-// 				}
-// 			).then((res) => res.json());
-// 			if (response.status == 200) {
-// 				resolve(response);
-// 			} else {
-// 				reject(response.message);
-// 			}
-// 		} catch (error) {
-// 			console.log(error);
-// 		}
-// 	});
-// };
 
 export const getScheduledOrders = (token, data) => {
 	return new Promise(async (resolve, reject) => {
@@ -715,43 +683,19 @@ export const getScheduledOrders = (token, data) => {
 	});
 };
 
-export const getCompletedOrders = (
-	token,
-	seachString,
-	pageNumber,
-	pageSize
-) => {
+export const getCompletedOrders = (token, data) => {
 	return new Promise(async (resolve, reject) => {
 		try {
-			const response = await fetch(
-				`${baseURL}getCompletedOrders?searchKey=${seachString}&page=${pageNumber}&page_size=${pageSize}`,
-				{
-					headers: {
-						Accept: 'application/json',
-						Authorization: token,
-					},
-				}
-			).then((res) => res.json());
-			if (response.status == 200) {
-				resolve(response);
-			} else {
-				reject(response.message);
-			}
-		} catch (error) {
-			console.log(error);
-		}
-	});
-};
-
-export const getOrderDetailsById = (token, id) => {
-	return new Promise(async (resolve, reject) => {
-		try {
-			const response = await fetch(`${baseURL}getOrderDetails/${id}`, {
+			let url=new URL(`${baseURL}getCompletedOrders`);
+			url.search= new URLSearchParams(data.query).toString();
+			const response = await fetch(url, {
 				headers: {
-					Accept: 'application/json',
 					Authorization: token,
+					'Content-Type': 'application/json',
 				},
+				method: 'GET',
 			}).then((res) => res.json());
+
 			if (response.status == 200) {
 				resolve(response);
 			} else {
@@ -763,18 +707,44 @@ export const getOrderDetailsById = (token, id) => {
 	});
 };
 
-export const assignDriver = (token, orderId, driverId) => {
-	let data = { driverId: driverId };
+
+export const getOrderDetailsById = (token, data) => {
 	return new Promise(async (resolve, reject) => {
 		try {
-			const response = await fetch(`${baseURL}assignDriver/${orderId}`, {
-				body: JSON.stringify(data),
+			let url=new URL(`${baseURL}getOrderDetails`);
+			Object.keys(data.params).forEach(key=>url.pathname=`${url.pathname}/${data.params[key]}`)
+			const response = await fetch(url, {
+				headers: {
+					Authorization: token,
+					'Content-Type': 'application/json',
+				},
+				method: 'GET',
+			}).then((res) => res.json());
+
+			if (response.status == 200) {
+				resolve(response);
+			} else {
+				reject(response.message);
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	});
+};
+
+export const assignDriver = (token, data) => {
+	return new Promise(async (resolve, reject) => {
+		try {
+			let url=new URL(`${baseURL}assignDriver`);
+			const response = await fetch(url, {
+				body: JSON.stringify(data.body),
 				headers: {
 					Authorization: token,
 					'Content-Type': 'application/json',
 				},
 				method: 'PUT',
 			}).then((res) => res.json());
+
 			if (response.status == 200) {
 				resolve(response);
 			} else {
@@ -1596,39 +1566,7 @@ export const deleteBanner = (token, id) => {
 
 //admin earning apis
 
-// export const getOrderDeliveiesList = (
-// 	token,
-// 	searchKey,
-// 	startDate,
-// 	endDate,
-// 	filterKey,
-// 	pageNo,
-// 	pageSize,
-// 	currentDate,
-// ) => {
-// 	return new Promise(async (resolve, reject) => {
-// 		try {
-// 			let url = `${baseURL}getOrderDeliveries?search_key=${searchKey}&start_date=${startDate}&end_date=${endDate}&filter_key=${filterKey}&page=${pageNo}&page_size=${pageSize}`;
 
-// 			const response = await fetch(
-// 				url,
-// 				{
-// 					headers: {
-// 						Accept: 'application/json',
-// 						Authorization: token,
-// 					},
-// 				}
-// 			).then((res) => res.json());
-// 			if (response.status == 200) {
-// 				resolve(response);
-// 			} else {
-// 				reject(response.message);
-// 			}
-// 		} catch (error) {
-// 			console.log(error);
-// 		}
-// 	});
-// };
 
 export const getOrderDeliveiesList = (token, data) => {
 	return new Promise(async (resolve, reject) => {
@@ -1654,25 +1592,6 @@ export const getOrderDeliveiesList = (token, data) => {
 	});
 };
 
-// export const getOrderDeliveryDetailById = (token, order_delivery_id) => {
-// 	return new Promise(async (resolve, reject) => {
-// 		try {
-// 			const response = await fetch(`${baseURL}getOrderDeliveryDetails?order_delivery_id=${order_delivery_id}`, {
-// 				headers: {
-// 					Accept: 'application/json',
-// 					Authorization: token,
-// 				},
-// 			}).then((res) => res.json());
-// 			if (response.success) {
-// 				resolve(response);
-// 			} else {
-// 				reject(response.message);
-// 			}
-// 		} catch (error) {
-// 			console.log(error);
-// 		}
-// 	});
-// };
 
 export const getOrderDeliveryDetailById = (token, data) => {
 	return new Promise(async (resolve, reject) => {
@@ -1698,36 +1617,7 @@ export const getOrderDeliveryDetailById = (token, data) => {
 	});
 };
 
-// export const getPickupOrdersList = (
-// 	token,
-// 	searchKey,
-// 	startDate,
-// 	endDate,
-// 	filterKey,
-// 	pageNo,
-// 	pageSize
-// ) => {
-// 	return new Promise(async (resolve, reject) => {
-// 		try {
-// 			const response = await fetch(
-// 				`${baseURL}getPickupOrders?search_key=${searchKey}&start_date=${startDate}&end_date=${endDate}&filter_key=${filterKey}&page=${pageNo}&page_size=${pageSize}`,
-// 				{
-// 					headers: {
-// 						Accept: 'application/json',
-// 						Authorization: token,
-// 					},
-// 				}
-// 			).then((res) => res.json());
-// 			if (response.status == 200) {
-// 				resolve(response);
-// 			} else {
-// 				reject(response.message);
-// 			}
-// 		} catch (error) {
-// 			console.log(error);
-// 		}
-// 	});
-// };
+
 
 export const getPickupOrdersList = (token, data) => {
 	return new Promise(async (resolve, reject) => {
@@ -1754,36 +1644,7 @@ export const getPickupOrdersList = (token, data) => {
 };
 
 //restaurant payout apis
-// export const getRestaurantEarningList = (
-// 	token,
-// 	searchKey,
-// 	startDate,
-// 	endDate,
-// 	filterKey,
-// 	pageNo,
-// 	pageSize
-// ) => {
-// 	return new Promise(async (resolve, reject) => {
-// 		try {
-// 			const response = await fetch(
-// 				`${baseURL}getRestaurantEarnings?search_key=${searchKey}&&start_date=${startDate}&&end_date=${endDate}&&filter_key=${filterKey}&&page=${pageNo}&&page_size=${pageSize}`,
-// 				{
-// 					headers: {
-// 						Accept: 'application/json',
-// 						Authorization: token,
-// 					},
-// 				}
-// 			).then((res) => res.json());
-// 			if (response.status == 200) {
-// 				resolve(response);
-// 			} else {
-// 				reject(response.message);
-// 			}
-// 		} catch (error) {
-// 			console.log(error);
-// 		}
-// 	});
-// };
+
 
 export const getRestaurantEarningList = (token, data) => {
 	return new Promise(async (resolve, reject) => {
@@ -1839,36 +1700,6 @@ export const getRestaurantEarningListById = (
 
 
 // driver payment apis
-// export const getDriverEarningList = (
-// 	token,
-// 	searchKey,
-// 	startDate,
-// 	endDate,
-// 	filterKey,
-// 	pageNo,
-// 	pageSize
-// ) => {
-// 	return new Promise(async (resolve, reject) => {
-// 		try {
-// 			const response = await fetch(
-// 				`${baseURL}getDriverEarnings?search_key=${searchKey}&&start_date=${startDate}&&end_date=${endDate}&&filter_key=${filterKey}&&page=${pageNo}&&page_size=${pageSize}`,
-// 				{
-// 					headers: {
-// 						Accept: 'application/json',
-// 						Authorization: token,
-// 					},
-// 				}
-// 			).then((res) => res.json());
-// 			if (response.status == 200) {
-// 				resolve(response);
-// 			} else {
-// 				reject(response.message);
-// 			}
-// 		} catch (error) {
-// 			console.log(error);
-// 		}
-// 	});
-// };
 
 export const getDriverEarningList = (token, data) => {
 	return new Promise(async (resolve, reject) => {

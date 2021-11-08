@@ -176,7 +176,20 @@ const NewOrders = () => {
 		let status = statusFilter ? statusFilter.value : null;
 		let currentPage = searchText.length > 0 ? 1 : activePage;
 
-		getActiveOrders(token, searchText, currentPage, pageSize, status)
+		let data={
+			query:{
+				current_date:moment(new Date()).format("YYYY-MM-DD"),
+				status_filter:status,
+				page:currentPage,
+				page_size:pageSize,
+			}
+		}
+
+		if(searchText && searchText.trim()!=""){
+			data.query.searchKey=searchText;
+		}
+
+		getActiveOrders(token, data)
 			.then((order) => {
 				let newStartId = pageSize * (activePage - 1);
 				setStartId(newStartId);

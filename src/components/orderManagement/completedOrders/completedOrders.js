@@ -178,7 +178,17 @@ const CompletedOrder = () => {
 
 	const getcompletedOrders = () => {
 		setLoading(true);
-		getCompletedOrders(token, searchText, activePage, pageSize)
+		let data={
+			query:{
+				page:activePage,
+				page_size:pageSize,
+			}
+		}
+
+		if(searchText && searchText.trim()!=""){
+			data.query.searchKey=searchText;
+		}
+		getCompletedOrders(token, data)
 			.then((order) => {
 				let newStartId = pageSize * (activePage - 1);
 				setStartId(newStartId);

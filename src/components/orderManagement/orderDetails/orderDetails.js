@@ -63,7 +63,12 @@ const OrderDetails = () => {
   };
 
   const getOrderDetails = () => {
-    getOrderDetailsById(token, id)
+    let data={
+      params:{
+        orderId:id,
+      }
+    }
+    getOrderDetailsById(token, data)
       .then((order) => {
         let updatedDetails = { ...order.orderDetails };
 
@@ -79,7 +84,13 @@ const OrderDetails = () => {
 
   const handleAssignDriver = () => {
     let driverId = selectedDriver.id;
-    assignDriver(token, id, driverId)
+    let data={
+      body:{
+        orderId:id,
+        driverId
+      }
+    }
+    assignDriver(token, data)
       .then((resp) => {
         history.push(`/${path}`);
       })
