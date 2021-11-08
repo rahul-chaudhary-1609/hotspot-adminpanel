@@ -1,21 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import GlobalCard from '../../globalComponent/layout/card';
 import {
-	getTotalCustomers,
-	getTotalDrivers,
-	getTotalOrders,
-	getTotalDriversViaHotspot,
-	getTotalCustomersViaHotspot,
-	getProcessingOrdersViaHotspot,
-	getCompletedOrdersViaHotspot,
-	getOrdersViaHotspot,
-	getTotalCompletedOrders,
-	getTotalProcessingOrders,
-	getTotalHotspots,
-	getTotalEarning,
-	getEarningsViaHotspot,
+	getSiteStatistics,
+	getOrderStatistics
 } from '../../api';
 import { useSelector } from 'react-redux';
+import moment from 'moment';
 
 
 
@@ -32,150 +22,38 @@ const StaticsComponent = (props) => {
 	const [totalProcessingOrders, setTotalProcessingOrders] = useState(null);
 	
 	useEffect(() => {
-		if (hotspotId) {
-			totalCustomersViaHotspot();
-			totalDriversViaHotspot();
-			totalOrdersViaHotspot();
-			totalProcessingOrdersViaHotspot();
-			totalCompletedOrdersViaHotspot();
-			totalEarningsViaHotspot();
-			setTotalHotspots(1);
-		} else {
-			TotalCustomers();
-			TotalDrivers();
-			TotalOrders();
-			TotalProcessingOrders();
-			TotalCompletedOrders();
-			TotalHotspots();
-			TotalEarnings();
+		try {
+			let data={
+				query:{
+					current_date:moment(new Date()).format("YYYY-MM-DD"),
+				}
+			}
+			if(hotspotId){
+				data.query.hotspot_id=hotspotId;
+			}
+
+			getSiteStatistics(token,data)
+			.then((res)=>{
+				if (res.status == 200) {
+					setTotalCustomers(res.customerCount);
+					setTotalDrivers(res.driverCount);
+					setTotalHotspots(hotspotId?1:res.hotspotCount);
+					setTotalEarnings(res.totalRevenue);
+				}
+			})
+			getOrderStatistics(token,data)
+			.then((res)=>{
+				if (res.status == 200) {
+					props.setTotalOrders(res.orderCount);
+					setTotalProcessingOrders(res.proccessingOrderCount);
+					props.setTotalCompletedOrders(res.completedOrderCount);
+				}
+			})
+			
+		} catch (error) {
+			console.log(error);
 		}
 	}, [hotspotId]);
-
-	const TotalCustomers = async () => {
-		try {
-			const res = await getTotalCustomers(token);
-			if (res.status == 200) {
-				setTotalCustomers(res.numberOfCustomer);
-			}
-		} catch (error) {
-			console.log(error);
-		}
-	};
-	const TotalDrivers = async () => {
-		try {
-			const res = await getTotalDrivers(token);
-			if (res.status == 200) {
-				setTotalDrivers(res.numberOfDrivers);
-			}
-		} catch (error) {
-			console.log(error);
-		}
-	};
-	const TotalOrders = async () => {
-		try {
-			const res = await getTotalOrders(token);
-			if (res.status == 200) {
-				props.setTotalOrders(res.numberOfOrders);
-			}
-		} catch (error) {
-			console.log(error);
-		}
-	};
-	const TotalProcessingOrders = async () => {
-		try {
-			const res = await getTotalProcessingOrders(token);
-			if (res.status == 200) {
-				setTotalProcessingOrders(res.numberOfProcessingOrders);
-			}
-		} catch (error) {
-			console.log(error);
-		}
-	};
-	const TotalCompletedOrders = async () => {
-		try {
-			const res = await getTotalCompletedOrders(token);
-			if (res.status == 200) {
-				props.setTotalCompletedOrders(res.numberOfCompletedOrders);
-			}
-		} catch (error) {
-			console.log(error);
-		}
-	};
-	const TotalHotspots = async () => {
-		try {
-			const res = await getTotalHotspots(token);
-			if (res.status == 200) {
-				setTotalHotspots(res.numberOfHotspots);
-			}
-		} catch (error) {
-			console.log(error);
-		}
-	};
-	const TotalEarnings = async () => {
-		try {
-			const res = await getTotalEarning(token);
-			if (res.status == 200) {
-				setTotalEarnings(res.totalRevenue);
-			}
-		} catch (error) {
-			console.log(error);
-		}
-	};
-
-	const totalCustomersViaHotspot = () => {
-		getTotalCustomersViaHotspot(token, hotspotId)
-			.then((customers) => {
-				setTotalCustomers(customers.numberOfCustomer);
-			})
-			.catch((error) => {
-				console.log(error);
-			});
-	};
-	const totalDriversViaHotspot = () => {
-		getTotalDriversViaHotspot(token, hotspotId)
-			.then((drivers) => {
-				setTotalDrivers(drivers.numberOfDriver);
-			})
-			.catch((error) => {
-				console.log(error);
-			});
-	};
-	const totalOrdersViaHotspot = () => {
-		getOrdersViaHotspot(token, hotspotId)
-			.then((order) => {
-				props.setTotalOrders(order.numberOfOrders);
-			})
-			.catch((error) => {
-				console.log(error);
-			});
-	};
-	const totalProcessingOrdersViaHotspot = () => {
-		getProcessingOrdersViaHotspot(token, hotspotId)
-			.then((order) => {
-				setTotalProcessingOrders(order.numberOfProcessingOrders);
-			})
-			.catch((error) => {
-				console.log(error);
-			});
-	};
-	const totalCompletedOrdersViaHotspot = () => {
-		getCompletedOrdersViaHotspot(token, hotspotId)
-			.then((order) => {
-				props.setTotalCompletedOrders(order.numberOfCompletedOrders);
-			})
-			.catch((error) => {
-				console.log(error);
-			});
-	};
-	const totalEarningsViaHotspot = () => {
-		getEarningsViaHotspot(token, hotspotId)
-			.then((order) => {
-				setTotalEarnings(order.totalRevenue);
-			})
-			.catch((error) => {
-				console.log(error);
-			});
-	};
 
 	return (
 		<div className='flex mt-5'>

@@ -13,6 +13,10 @@ import qs from 'qs';
 
 // export const baseURLWeb = `http://localhost:5000/website/`;
 
+// export const baseURL = `http://192.168.28.5:5000/admin/`;
+
+// export const baseURLWeb = `http://192.168.28.5:5000/website/`;
+
 // export const api2 = axios.create({
 //     baseURL: `http://3.236.82.67:9001`
 // })
@@ -241,34 +245,19 @@ export const editCustomer = (token, id, data) => {
 	});
 };
 
-export const getTotalCustomers = (token) => {
+export const getSiteStatistics = (token, data) => {
 	return new Promise(async (resolve, reject) => {
 		try {
-			const response = await fetch(`${baseURL}getTotalCustomers`, {
+			let url=new URL(`${baseURL}getSiteStatistics`);
+			url.search= new URLSearchParams(data.query).toString();
+			const response = await fetch(url, {
 				headers: {
-					Accept: 'application/json',
 					Authorization: token,
+					'Content-Type': 'application/json',
 				},
+				method: 'GET',
 			}).then((res) => res.json());
-			if (response.status == 200) {
-				resolve(response);
-			} else {
-				reject(response.message);
-			}
-		} catch (error) {
-			console.log(error);
-		}
-	});
-};
-export const getTotalCustomersViaHotspot = (token, id) => {
-	return new Promise(async (resolve, reject) => {
-		try {
-			const response = await fetch(`${baseURL}getCustomersViaHotspot/${id}`, {
-				headers: {
-					Accept: 'application/json',
-					Authorization: token,
-				},
-			}).then((res) => res.json());
+
 			if (response.status == 200) {
 				resolve(response);
 			} else {
@@ -280,15 +269,19 @@ export const getTotalCustomersViaHotspot = (token, id) => {
 	});
 };
 
-export const getTotalDrivers = (token) => {
+export const getOrderStatistics = (token, data) => {
 	return new Promise(async (resolve, reject) => {
 		try {
-			const response = await fetch(`${baseURL}getTotalDrivers`, {
+			let url=new URL(`${baseURL}getOrderStatistics`);
+			url.search= new URLSearchParams(data.query).toString();
+			const response = await fetch(url, {
 				headers: {
-					Accept: 'application/json',
 					Authorization: token,
+					'Content-Type': 'application/json',
 				},
+				method: 'GET',
 			}).then((res) => res.json());
+
 			if (response.status == 200) {
 				resolve(response);
 			} else {
@@ -299,15 +292,44 @@ export const getTotalDrivers = (token) => {
 		}
 	});
 };
-export const getTotalDriversViaHotspot = (token, id) => {
+
+export const getOrderStats = (token, data) => {
 	return new Promise(async (resolve, reject) => {
 		try {
-			const response = await fetch(`${baseURL}getDriversViaHotspot/${id}`, {
+			let url=new URL(`${baseURL}getOrderStats`);
+			url.search= new URLSearchParams(data.query).toString();
+			const response = await fetch(url, {
 				headers: {
-					Accept: 'application/json',
 					Authorization: token,
+					'Content-Type': 'application/json',
 				},
+				method: 'GET',
 			}).then((res) => res.json());
+
+			if (response.status == 200) {
+				resolve(response);
+			} else {
+				reject(response.message);
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	});
+};
+
+export const getRevenueStats = (token, data) => {
+	return new Promise(async (resolve, reject) => {
+		try {
+			let url=new URL(`${baseURL}getRevenueStats`);
+			url.search= new URLSearchParams(data.query).toString();
+			const response = await fetch(url, {
+				headers: {
+					Authorization: token,
+					'Content-Type': 'application/json',
+				},
+				method: 'GET',
+			}).then((res) => res.json());
+
 			if (response.status == 200) {
 				resolve(response);
 			} else {
@@ -323,230 +345,6 @@ export const getDriverListByHotspot = (token, id) => {
 	return new Promise(async (resolve, reject) => {
 		try {
 			const response = await fetch(`${baseURL}getDriverListByHotspot?hotspot_location_id=${id}`, {
-				headers: {
-					Accept: 'application/json',
-					Authorization: token,
-				},
-			}).then((res) => res.json());
-			if (response.status == 200) {
-				resolve(response);
-			} else {
-				reject(response.message);
-			}
-		} catch (error) {
-			console.log(error);
-		}
-	});
-};
-
-export const getTotalOrders = (token) => {
-	return new Promise(async (resolve, reject) => {
-		try {
-			const response = await fetch(`${baseURL}getTotalOrders`, {
-				headers: {
-					Accept: 'application/json',
-					Authorization: token,
-				},
-			}).then((res) => res.json());
-			if (response.status == 200) {
-				resolve(response);
-			} else {
-				reject(response.message);
-			}
-		} catch (error) {
-			console.log(error);
-		}
-	});
-};
-export const getOrdersViaHotspot = (token, id) => {
-	return new Promise(async (resolve, reject) => {
-		try {
-			const response = await fetch(`${baseURL}getOrdersViaHotspot/${id}`, {
-				headers: {
-					Accept: 'application/json',
-					Authorization: token,
-				},
-			}).then((res) => res.json());
-			if (response.status == 200) {
-				resolve(response);
-			} else {
-				reject(response.message);
-			}
-		} catch (error) {
-			console.log(error);
-		}
-	});
-};
-
-export const getTotalProcessingOrders = (token) => {
-	return new Promise(async (resolve, reject) => {
-		try {
-			const response = await fetch(`${baseURL}getProcessingOrders`, {
-				headers: {
-					Accept: 'application/json',
-					Authorization: token,
-				},
-			}).then((res) => res.json());
-			if (response.status == 200) {
-				resolve(response);
-			} else {
-				reject(response.message);
-			}
-		} catch (error) {
-			console.log(error);
-		}
-	});
-};
-export const getProcessingOrdersViaHotspot = (token, id) => {
-	return new Promise(async (resolve, reject) => {
-		try {
-			const response = await fetch(
-				`${baseURL}getProcessingOrdersViaHotspot/${id}`,
-				{
-					headers: {
-						Accept: 'application/json',
-						Authorization: token,
-					},
-				}
-			).then((res) => res.json());
-			if (response.status == 200) {
-				resolve(response);
-			} else {
-				reject(response.message);
-			}
-		} catch (error) {
-			console.log(error);
-		}
-	});
-};
-
-export const getTotalCompletedOrders = (token) => {
-	return new Promise(async (resolve, reject) => {
-		try {
-			const response = await fetch(`${baseURL}getCompletedOrder`, {
-				headers: {
-					Accept: 'application/json',
-					Authorization: token,
-				},
-			}).then((res) => res.json());
-			if (response.status == 200) {
-				resolve(response);
-			} else {
-				reject(response.message);
-			}
-		} catch (error) {
-			console.log(error);
-		}
-	});
-};
-export const getCompletedOrdersViaHotspot = (token, id) => {
-	return new Promise(async (resolve, reject) => {
-		try {
-			const response = await fetch(
-				`${baseURL}getCompletedOrdersViaHotspot/${id}`,
-				{
-					headers: {
-						Accept: 'application/json',
-						Authorization: token,
-					},
-				}
-			).then((res) => res.json());
-			if (response.status == 200) {
-				resolve(response);
-			} else {
-				reject(response.message);
-			}
-		} catch (error) {
-			console.log(error);
-		}
-	});
-};
-
-export const getTotalHotspots = (token) => {
-	return new Promise(async (resolve, reject) => {
-		try {
-			const response = await fetch(`${baseURL}getHotspotCount`, {
-				headers: {
-					Accept: 'application/json',
-					Authorization: token,
-				},
-			}).then((res) => res.json());
-			if (response.status == 200) {
-				resolve(response);
-			} else {
-				reject(response.message);
-			}
-		} catch (error) {
-			console.log(error);
-		}
-	});
-};
-
-export const getTotalEarning = (token) => {
-	return new Promise(async (resolve, reject) => {
-		try {
-			const response = await fetch(`${baseURL}getTotalRevenue`, {
-				headers: {
-					Accept: 'application/json',
-					Authorization: token,
-				},
-			}).then((res) => res.json());
-			if (response.status == 200) {
-				resolve(response);
-			} else {
-				reject(response.message);
-			}
-		} catch (error) {
-			console.log(error);
-		}
-	});
-};
-export const getEarningsViaHotspot = (token, id) => {
-	return new Promise(async (resolve, reject) => {
-		try {
-			const response = await fetch(
-				`${baseURL}getTOtalRevenueViaHotspot/${id}`,
-				{
-					headers: {
-						Accept: 'application/json',
-						Authorization: token,
-					},
-				}
-			).then((res) => res.json());
-			if (response.status == 200) {
-				resolve(response);
-			} else {
-				reject(response.message);
-			}
-		} catch (error) {
-			console.log(error);
-		}
-	});
-};
-
-export const getOrderStatus = (token) => {
-	return new Promise(async (resolve, reject) => {
-		try {
-			const response = await fetch(`${baseURL}getOrderStats`, {
-				headers: {
-					Accept: 'application/json',
-					Authorization: token,
-				},
-			}).then((res) => res.json());
-			if (response.status == 200) {
-				resolve(response);
-			} else {
-				reject(response.message);
-			}
-		} catch (error) {
-			console.log(error);
-		}
-	});
-};
-export const getRevenueStats = (token) => {
-	return new Promise(async (resolve, reject) => {
-		try {
-			const response = await fetch(`${baseURL}getRevenueStats`, {
 				headers: {
 					Accept: 'application/json',
 					Authorization: token,

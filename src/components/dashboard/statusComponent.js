@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import Piechart from '../../globalComponent/layout/piechart.js';
-import { getOrderStatus, getRevenueStats } from '../../api';
+import { getOrderStats, getRevenueStats } from '../../api';
+import moment from 'moment';
 
 const StatusComponent = (props) => {
 	const token = useSelector((state) => state.auth.isSignedIn);
@@ -16,7 +17,12 @@ const StatusComponent = (props) => {
 
 	const orderStatus = async () => {
 		try {
-			const res = await getOrderStatus(token);
+			let data={
+				query:{
+					current_date:moment(new Date()).format("YYYY-MM-DD")
+				}
+			}
+			const res = await getOrderStats(token,data);
 			if (res.status == 200) {
 				setOrderStatusDetails(res);
 			}
@@ -26,7 +32,12 @@ const StatusComponent = (props) => {
 	};
 	const revenueStatus = async () => {
 		try {
-			const res = await getRevenueStats(token);
+			let data={
+				query:{
+					current_date:moment(new Date()).format("YYYY-MM-DD")
+				}
+			}
+			const res = await getRevenueStats(token,data);
 			if (res.status == 200) {
 				setRevenueStatusDetails(res);
 			}
