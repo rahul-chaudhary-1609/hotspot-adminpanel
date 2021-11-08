@@ -308,6 +308,14 @@ const ViewRestaurant = () => {
 									<p >{restaurantDetails.stripe_secret_key}</p>
 								</div>
 							</div>
+							<div className='flex flex-row items-center border-t border-gray-200'>
+								<div className='bg-gray-100 font-semibold py-4 px-6 w-1/3 text-right'>
+								Online Payment
+								</div>
+								<div className='px-8'>
+									{restaurantDetails.online_payment==1?"On":"Off"}
+								</div>
+							</div>
 							{
 								restaurantDetails.agreement_documents?
 								(

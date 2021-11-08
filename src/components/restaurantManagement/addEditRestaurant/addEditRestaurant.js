@@ -15,6 +15,8 @@ import PlacesAutocomplete, {
 import Description from '@material-ui/icons/Description';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Loader from '../../../globalComponent/layout/loader';
+import ToggleOffIcon from '@material-ui/icons/ToggleOff';
+import ToggleOnIcon from '@material-ui/icons/ToggleOn';
 
 const AddEditRestaurant = () => {
 	const history = useHistory();
@@ -26,6 +28,7 @@ const AddEditRestaurant = () => {
 		address: null,
 		// agreement_doc_url: null,
 		agreement_documents: null,
+		online_payment:null,
 		cut_off_time: null,
 		deliveries_per_shift: null,
 		location: null,
@@ -41,6 +44,8 @@ const AddEditRestaurant = () => {
 		working_hours_from: null,
 		working_hours_to: null,
 	});
+
+	let[onlinePaymentToggle,setOnlinePaymentToggle]=useState(true);
 
 	let [error,setError]=useState(null);
 	let [success,setSuccess]=useState(null);
@@ -108,6 +113,7 @@ const AddEditRestaurant = () => {
 						address,
 						// agreement_doc_url,
 						agreement_documents,
+						online_payment,
 						cut_off_time,
 						deliveries_per_shift,
 						location,
@@ -127,6 +133,7 @@ const AddEditRestaurant = () => {
 						address,
 						// agreement_doc_url,
 						agreement_documents,
+						online_payment,
 						cut_off_time,
 						deliveries_per_shift,
 						location,
@@ -142,6 +149,7 @@ const AddEditRestaurant = () => {
 						working_hours_from,
 						working_hours_to,
 					})
+					setOnlinePaymentToggle(online_payment==1?true:false);
 					setShowLoader(false);
 				} catch (error) {
 					setShowLoader(false);
@@ -259,11 +267,20 @@ const AddEditRestaurant = () => {
 		setRestaurant({...restaurant});
 	}
 
+	let handleOnlinePaymentMode=async()=>{
+		setRestaurant({
+			...restaurant,
+			online_payment:!onlinePaymentToggle?1:0,
+		})
+		setOnlinePaymentToggle(!onlinePaymentToggle);		
+		
+	}
+
 	let validateData=()=>{
 		let result=true;
 
 		Object.keys(restaurant).forEach((key)=>{
-			if(!['location','cut_off_time','deliveries_per_shift','order_type'].includes(key)){
+			if(!['location','cut_off_time','deliveries_per_shift','order_type','online_payment'].includes(key)){
 				if(key=="agreement_documents"){
 					if(!restaurant[key] || restaurant[key].length<=0){
 						restaurant[key]=null;
@@ -321,7 +338,7 @@ const AddEditRestaurant = () => {
 	const handleSubmit=async(e)=>{
 		e.preventDefault();
 
-		if(!validateData()) return;		
+		if(!validateData()) return;	
 
 		if(params.restaurantId){
 			setShowLoader(true);
@@ -795,6 +812,26 @@ const AddEditRestaurant = () => {
 											onChange={handleInputChange}
 											value={restaurant.stripe_secret_key}
 										/>
+									</div>
+									<div className='w-full flex px-3 mb-6 md:mb-0 d-inline-flex'>
+										<label
+											className='block w-1/2 tracking-wide text-gray-300 py-3 px-6 mb-3'
+											for='online_payment'>
+											Online Payment
+										</label>
+										<div style={{ padding: '6px', cursor: 'pointer' }}>
+											{onlinePaymentToggle ? (
+												<ToggleOnIcon
+													onClick={() => handleOnlinePaymentMode()}
+													style={{ color: 'green', fontSize: '35' }}
+												/>
+											) : (
+													<ToggleOffIcon
+														onClick={() => handleOnlinePaymentMode()}
+														style={{ color: 'red', fontSize: '35' }}
+													/>
+											)}
+										</div>
 									</div>
 
 									{/* <div className='w-full flex px-3 mb-6 md:mb-0 d-inline-flex'>
