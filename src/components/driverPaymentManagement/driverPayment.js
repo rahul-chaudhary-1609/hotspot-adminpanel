@@ -157,6 +157,19 @@ const DriverPayment = () => {
 		},
 		{
 			id: 7,
+			Header: 'Payment Mode',
+			width: 100,
+			className: 'text-center view-details',
+			accessor: (item) => {
+				return (
+					<div style={{ padding: '6px', cursor: 'pointer', color:item.type==0?"red":item.type==1?"green":"#eec600" }}>
+						{item.type==0?"Pending":item.type==1?"Online":"Offline"}
+					</div>
+				);
+			},
+		},
+		{
+			id: 8,
 			Header: 'Action',
 			className: 'text-center view-details',
 			accessor: (item) => {

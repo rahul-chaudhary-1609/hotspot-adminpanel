@@ -198,9 +198,9 @@ export default function ResturantPayNow(props) {
 					</div>
 					
                     
-					<br />
+					
 							<form
-							autoComplete='off'
+								autoComplete='off'
 								id='myForm'
 								onSubmit={handleSubmit(onSubmit)}
 								className='w-full mt-50 max-w-full text-base text-gray-200'
@@ -259,7 +259,9 @@ export default function ResturantPayNow(props) {
 									
 								</div>
 
-								<div className=' d-flex flex-column -mx-3 '>
+							
+
+								<div style={{display:paidOfflineToggle?"none":""}} className=' d-flex flex-column -mx-3 '>
 									<div className='w-full flex px-3 mb-6 md:mb-0'>
 										<label
 											className='block w-1/2 tracking-wide py-3 px-6 mb-3 text-gray-300'
@@ -274,10 +276,9 @@ export default function ResturantPayNow(props) {
 											onChange={(e) => handleCardValue(e)}
 										/>
 									</div>
-								</div>
-                                <div className=' d-flex flex-column -mx-3 '>
+								
 
-                                    <div className='w-full flex px-3 mb-6 md:mb-0'>
+									<div className='w-full flex px-3 mb-6 md:mb-0'>
 										<label
 											className='block w-1/2 tracking-wide py-3 px-6 mb-3 text-gray-300'>
 											CVV
@@ -287,7 +288,7 @@ export default function ResturantPayNow(props) {
 											id='cvv'
 											type='password'
 											autoComplete='off'
-                                            {...register("cvv")}
+											{...register("cvv")}
 											disabled={paidOfflineToggle}
 										/>
 									</div>
@@ -298,45 +299,37 @@ export default function ResturantPayNow(props) {
 											Expiry
 										</label>
 										<div style={{ display: 'inline-flex' }}>
-										<DatePicker 
-										picker='month'
-										format='MM'
-										onChange={(date, dateString) => handleCardMonth(date, dateString)}
-										//{...register("cardMonth")}
-										className='appearance-none block w-1/2 bg-gray-100 border border-gray-200 rounded-half py-3 px-6 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-200'
-										id='cardMonth'
-										disabled={paidOfflineToggle}
-										/>
-										<DatePicker 
-										picker='year'
-										format='YYYY'
-										id='cardYear'
-										onChange={(date, dateString) => handleCardYear(date, dateString)}
-										//{...register("cardMonth")}
-										className='appearance-none block w-1/2 bg-gray-100 border border-gray-200 rounded-half py-3 px-6 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-200'
-										disabled={paidOfflineToggle}
-										/>
+											<DatePicker 
+												picker='month'
+												format='MM'
+												onChange={(date, dateString) => handleCardMonth(date, dateString)}
+												//{...register("cardMonth")}
+												className='appearance-none block w-1/2 bg-gray-100 border border-gray-200 rounded-half py-3 px-6 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-200'
+												id='cardMonth'
+												disabled={paidOfflineToggle}
+											/>
+											<DatePicker 
+												picker='year'
+												format='YYYY'
+												id='cardYear'
+												onChange={(date, dateString) => handleCardYear(date, dateString)}
+												//{...register("cardMonth")}
+												className='appearance-none block w-1/2 bg-gray-100 border border-gray-200 rounded-half py-3 px-6 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-200'
+												disabled={paidOfflineToggle}
+											/>
 										</div>
-
 									</div>
-                                    <div style={{margin: 10}} className='w-full flex px-3 mb-6 md:mb-0 d-inline-flex'>
-										<label
-											className='block w-1/2 tracking-wide text-gray-300 py-3 px-6 mb-3'>
-										</label>
-										<div style={{ display: 'inline-flex', marginTop:"15px" }}>
-                                            <button
-                                                style={{ height: '3rem' }}
-                                                className='shadow bg-blue-500 ml-3 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded'
-                                                type='submit'>
-                                                Submit
-                                            </button>
-										</div>
-
-									</div>
-									
+								</div>
+								<div style={{ display: 'flex', justifyContent:"center", marginTop:"15px" }}>
+									<button
+										style={{ height: '3rem' }}
+										className='shadow bg-blue-500 ml-3 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded'
+										type='submit'>
+										Submit
+									</button>
 								</div>
 								
-						</form>
+							</form>
 				</div>
 			</div>
 		</>
