@@ -9,7 +9,7 @@ import React, { useState, useEffect } from 'react';
 import ReactTable from 'react-table';
 import Pagination from 'react-js-pagination';
 import SearchComponent from '../searchComponent/index';
-import { getRestaurantEarningList } from '../../api';
+import { getRestaurantEarningList,generateRestaurantEarnings,generateRestaurantOrderEmail } from '../../api';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router';
 import {formatDate, formatTime } from '../../utils/redableDateTime';
@@ -122,48 +122,48 @@ const RestaurantPayment = () => {
 				);
 			},
 		},
+		// {
+		// 	id: 4,
+		// 	Header: 'Created Date',
+		// 	className: 'text-center view-details',
+		// 	accessor: (item) => {
+		// 		return (
+		// 			<div style={{ padding: '6px', cursor: 'pointer' }}>
+		// 				{formatDate(item.createdAt)}
+		// 			</div>
+		// 		);
+		// 	},
+		// },
+
 		{
 			id: 4,
-			Header: 'Created Date',
+			Header: 'Delivery date time',
+			width: 100,
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (
 					<div style={{ padding: '6px', cursor: 'pointer' }}>
-						{formatDate(item.createdAt)}
+						{formatDate(item.delivery_datetime)}<br/>{formatTime(item.delivery_datetime)}
 					</div>
 				);
 			},
 		},
 
+		// {
+		// 	id: 6,
+		// 	Header: 'Delivery time',
+		// 	width: 100,
+		// 	className: 'text-center view-details',
+		// 	accessor: (item) => {
+		// 		return (
+		// 			<div style={{ padding: '6px', cursor: 'pointer' }}>
+		// 				{formatTime(item.delivery_datetime)}
+		// 			</div>
+		// 		);
+		// 	},
+		// },
 		{
 			id: 5,
-			Header: 'Delivery date',
-			width: 100,
-			className: 'text-center view-details',
-			accessor: (item) => {
-				return (
-					<div style={{ padding: '6px', cursor: 'pointer' }}>
-						{formatDate(item.delivery_datetime)}
-					</div>
-				);
-			},
-		},
-
-		{
-			id: 6,
-			Header: 'Delivery time',
-			width: 100,
-			className: 'text-center view-details',
-			accessor: (item) => {
-				return (
-					<div style={{ padding: '6px', cursor: 'pointer' }}>
-						{formatTime(item.delivery_datetime)}
-					</div>
-				);
-			},
-		},
-		{
-			id: 7,
 			Header: 'Number Of Orders',
 			width: 100,
 			className: 'text-center view-details',
@@ -176,7 +176,7 @@ const RestaurantPayment = () => {
 			},
 		},
 		{
-			id: 8,
+			id: 6,
 			Header: 'Total Order amount',
 			width: 100,
 			className: 'text-center view-details',
@@ -189,7 +189,7 @@ const RestaurantPayment = () => {
 			},
 		},
 		{
-			id: 9,
+			id: 7,
 			Header: 'Restaurant Fee',
 			width: 100,
 			className: 'text-center view-details',
@@ -202,20 +202,53 @@ const RestaurantPayment = () => {
 			},
 		},
 		{
-			id: 10,
-			Header: 'Payment Mode',
+			id: 8,
+			Header: 'Mode',
 			width: 100,
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (
 					<div style={{ padding: '6px', cursor: 'pointer', color:item.type==0?"red":item.type==1?"green":"#eec600" }}>
-						{item.type==0?"Pending":item.type==1?"Online":"Offline"}
+						{item.type==0?"-":item.type==1?"Online":"Offline"}
 					</div>
 				);
 			},
 		},
 		{
-			id: 11,
+			id: 9,
+			Header: 'Order Email',
+			width: 100,
+			className: 'text-center view-details',
+			accessor: (item) => {
+				return (
+					<div 
+					style={{
+						display: 'flex',
+						flexDirection: 'row',
+						justifyContent: 'space-between',
+						alignItems:"center"
+					}}>
+
+					
+						<div>
+							<button
+								style={{ height: '3rem', width:"5rem" }}
+								onClick={() => handleSendOrderEmail(item)}
+								className='shadow bg-white-500 hover:bg-white-400 focus:shadow-outline focus:outline-none text-black font-bold py-2 px-4 rounded'
+								type='button'
+								disabled={item.email_count > 1?true:false}>
+								{item.email_count < 1 ? 'Send' :item.email_count < 2? 'Resend':"Done"}
+							</button>
+						</div>
+						<div style={{marginLeft:"5px"}}>
+						{item.email_count}
+						</div>
+					</div>
+				);
+			},
+		},
+		{
+			id: 10,
 			Header: 'Action',
 			className: 'text-center view-details',
 			accessor: (item) => {
@@ -241,7 +274,23 @@ const RestaurantPayment = () => {
 		},
 	];
 
+	useEffect(()=>{
+		let data={
+			body:{
+				datetime:moment(new Date()).format("YYYY-MM-DD HH:mm:ss"),
+			}
+		}
+
+		generateRestaurantEarnings(token,data)
+		.then((res)=>{
+			console.log("Restaurant Payment Generated:",res)
+			restaurantEarningList();
+		})
+
+	},[])
+
 	useEffect(() => {
+
 		restaurantEarningList();
 	}, [activePage]);
 
@@ -299,6 +348,24 @@ const RestaurantPayment = () => {
 	const handleSearch = () => {
 		restaurantEarningList();
 	};
+
+	const handleSendOrderEmail=(item)=>{
+		setLoading(true);
+		let data={
+			body:{
+				payment_id:item.payment_id,
+			}
+		}
+		generateRestaurantOrderEmail(token,data)
+		.then((res)=>{
+			setLoading(false);
+			restaurantEarningList();
+		})
+		.catch((error)=>{
+			setError(error);
+			setLoading(false);
+		})
+	}
 
 
 	return (

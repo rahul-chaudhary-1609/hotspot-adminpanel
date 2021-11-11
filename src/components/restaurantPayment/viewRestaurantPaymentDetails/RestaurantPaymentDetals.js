@@ -84,33 +84,33 @@ const RestaurantPaymentDetails = (props) => {
 				);
 			},
 		},
+		// {
+		// 	id: 4,
+		// 	Header: 'Date',
+		// 	className: 'text-center view-details',
+		// 	accessor: (item) => {
+		// 		return (
+		// 			<div style={{ padding: '6px', cursor: 'pointer' }}>
+		// 				{item.delivery_datetime && formatDate(item.delivery_datetime)}
+		// 			</div>
+		// 		);
+		// 	},
+		// },
+		// {
+		// 	id: 5,
+		// 	Header: 'Delivery Time',
+		// 	width: 100,
+		// 	className: 'text-center view-details',
+		// 	accessor: (item) => {
+		// 		return (
+		// 			<div style={{ padding: '6px', cursor: 'pointer' }}>
+		// 				{moment(item.delivery_datetime).format('h:mm A')}
+		// 			</div>
+		// 		);
+		// 	},
+		// },
 		{
 			id: 4,
-			Header: 'Date',
-			className: 'text-center view-details',
-			accessor: (item) => {
-				return (
-					<div style={{ padding: '6px', cursor: 'pointer' }}>
-						{item.delivery_datetime && formatDate(item.delivery_datetime)}
-					</div>
-				);
-			},
-		},
-		{
-			id: 5,
-			Header: 'Delivery Time',
-			width: 100,
-			className: 'text-center view-details',
-			accessor: (item) => {
-				return (
-					<div style={{ padding: '6px', cursor: 'pointer' }}>
-						{moment(item.delivery_datetime).format('h:mm A')}
-					</div>
-				);
-			},
-		},
-		{
-			id: 6,
 			Header: 'Hotspot',
 			width: 100,
 			className: 'text-center view-details',
@@ -123,7 +123,7 @@ const RestaurantPaymentDetails = (props) => {
 			},
 		},
 		{
-			id: 7,
+			id: 5,
 			Header: 'Drop off location',
 			width: 100,
 			className: 'text-center view-details',
@@ -136,7 +136,7 @@ const RestaurantPaymentDetails = (props) => {
 			},
 		},
 		{
-			id: 8,
+			id: 6,
 			Header: 'Customer Name',
 			width: 100,
 			className: 'text-center view-details',
@@ -149,13 +149,37 @@ const RestaurantPaymentDetails = (props) => {
 			},
 		},
 		{
-			id: 9,
-			Header: 'Order amount',
+			id: 7,
+			Header: 'Amount',
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (
 					<div style={{ padding: '6px', cursor: 'pointer' }}>
 						${item.amount}
+					</div>
+				);
+			},
+		},
+		{
+			id: 8,
+			Header: 'Actual amount',
+			className: 'text-center view-details',
+			accessor: (item) => {
+				return (
+					<div style={{ padding: '6px', cursor: 'pointer' }}>
+						${parseFloat(item.order_details.amount_details.totalActualPrice)}
+					</div>
+				);
+			},
+		},
+		{
+			id: 9,
+			Header: 'Markup amount',
+			className: 'text-center view-details',
+			accessor: (item) => {
+				return (
+					<div style={{ padding: '6px', cursor: 'pointer' }}>
+						${parseFloat(item.amount)-parseFloat(item.order_details.amount_details.totalActualPrice)}
 					</div>
 				);
 			},

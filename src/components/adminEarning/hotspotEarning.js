@@ -115,31 +115,31 @@ const HotspotEarning = () => {
 		},
 		{
 			id: 4,
-			Header: 'Delivery date',
+			Header: 'Delivery datetime',
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (
 					<div style={{ padding: '6px', cursor: 'pointer' }}>
-						{formatDate(item.delivery_datetime)}
+						{formatDate(item.delivery_datetime)} <br/> {formatTime(item.delivery_datetime)}
 					</div>
 				);
 			},
 		},
+		// {
+		// 	id: 5,
+		// 	Header: 'Delivery time',
+		// 	width: 80,
+		// 	className: 'text-center view-details',
+		// 	accessor: (item) => {
+		// 		return (
+		// 			<div style={{ padding: '6px', cursor: 'pointer' }}>
+		// 				{formatTime(item.delivery_datetime)}
+		// 			</div>
+		// 		);
+		// 	},
+		// },
 		{
 			id: 5,
-			Header: 'Delivery time',
-			width: 80,
-			className: 'text-center view-details',
-			accessor: (item) => {
-				return (
-					<div style={{ padding: '6px', cursor: 'pointer' }}>
-						{formatTime(item.delivery_datetime)}
-					</div>
-				);
-			},
-		},
-		{
-			id: 6,
 			Header: 'Number of orders ',
 			width: 80,
 			className: 'text-center view-details',
@@ -152,8 +152,8 @@ const HotspotEarning = () => {
 			},
 		},
 		{
-			id: 7,
-			Header: '(F)Total delivery amt.',
+			id: 6,
+			Header: '(F) Delivery amt.',
 			width: 80,
 			className: 'text-center view-details',
 			accessor: (item) => {
@@ -165,8 +165,8 @@ const HotspotEarning = () => {
 			},
 		},
 		{
-			id: 8,
-			Header: '(G)Total order amt.',
+			id: 7,
+			Header: 'Order amt.',
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (
@@ -176,9 +176,33 @@ const HotspotEarning = () => {
 				);
 			},
 		},
-
+		{
+			id: 8,
+			Header: '(G)Actual amt.',
+			className: 'text-center view-details',
+			accessor: (item) => {
+				return (
+					<div style={{ padding: '6px', cursor: 'pointer' }}>
+						${item.delivery_details.actual_amount}
+					</div>
+				);
+			},
+		},
 		{
 			id: 9,
+			Header: 'Markup amt.',
+			className: 'text-center view-details',
+			accessor: (item) => {
+				return (
+					<div style={{ padding: '6px', cursor: 'pointer' }}>
+						${item.delivery_details.markup_amount}
+					</div>
+				);
+			},
+		},
+
+		{
+			id: 10,
 			Header: '(H)(H= Restaurant % G)Restaurant fee',
 			className: 'text-center view-details',
 			accessor: (item) => {
@@ -192,8 +216,8 @@ const HotspotEarning = () => {
 		},
 
 		{
-			id: 10,
-			Header: '(I)Total tip amt.',
+			id: 11,
+			Header: '(I)Tip amt.',
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (
@@ -204,8 +228,8 @@ const HotspotEarning = () => {
 			},
 		},
 		{
-			id: 11,
-			Header: '(J) (J=Range based on F)Driver fee',
+			id: 12,
+			Header: '(J) (J=Range based on F) Driver fee',
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (
@@ -216,8 +240,8 @@ const HotspotEarning = () => {
 			},
 		},
 		{
-			id: 12,
-			Header: '(K) (K =F-H-J)Hotspot earning',
+			id: 13,
+			Header: '(K) (K =F-H-J) Hotspot earning',
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (

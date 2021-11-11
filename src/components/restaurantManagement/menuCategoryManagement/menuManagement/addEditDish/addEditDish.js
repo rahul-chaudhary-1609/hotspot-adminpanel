@@ -103,8 +103,10 @@ const AddEditDish = () => {
 			}						
 		}
 
-		if(dish.markup_price){
+		if(dish.markup_price!=null && dish.markup_price!=undefined && dish.markup_price.trim()!=''){
 			data.body.markup_price=parseFloat(dish.markup_price);
+		}else{
+			data.body.markup_price=0
 		}
 
 		if(params.dishId){

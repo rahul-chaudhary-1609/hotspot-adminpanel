@@ -11,6 +11,7 @@ import { loadStripe } from '@stripe/stripe-js';
 import Loader from '../../utils/Loader.js'
 import ToggleOffIcon from '@material-ui/icons/ToggleOff';
 import ToggleOnIcon from '@material-ui/icons/ToggleOn';
+import ConfirmationModal from '../confirmationModal/confirmationModal';
 
 
 export default function DriverPayNow(props) {
@@ -48,6 +49,8 @@ export default function DriverPayNow(props) {
 	const [cardNo, setCardNo] = useState();
 	const [showLoader, setShowLoader] = useState(false);
 	const [paidOfflineToggle,setPaidOfflineToggle]=useState(false);
+	const [confirmationModal, setConfirmationModal] = useState(false);
+	const [payData,setPayData]=useState(null);
 
 
 
@@ -110,12 +113,13 @@ export default function DriverPayNow(props) {
 				getDriverPaymentDetails(sendData);
 			}
 		}else{
-			setShowLoader(true);
 			const sendData ={
 				payment_type:2,
 				payment_id: props.location.state.payment_id,
 			}
-			getPayhandler(sendData)
+			setPayData(sendData);
+			setConfirmationModal(!confirmationModal);
+			// getPayhandler(sendData)
 		}
 	}
 	
@@ -155,16 +159,20 @@ export default function DriverPayNow(props) {
 
 	  const getPayhandler = async (data) => {
 		try {
+			setShowLoader(true);
 			const res = await handleDriverPaymentDetails(token,data);
 			if (res.status == 200) {
-				toast.success("Payment Success.");		
+				toast.success("Payment Success.");	
+					setConfirmationModal(false);	
 					history.push('/driverPayment')
 					setShowLoader(false);
 			}
 		} catch (error) {
-			console.log(error);
-			toast.error(error);
+			setConfirmationModal(false);
 			setShowLoader(false);
+			console.log(error);			
+			toast.error(error);
+			
 		}
 	};
 
@@ -326,6 +334,12 @@ export default function DriverPayNow(props) {
 								</div>
 								
 						</form>
+						{confirmationModal && <ConfirmationModal
+								confirmationModal={confirmationModal}
+								setConfirmationModal={setConfirmationModal}
+								data={payData}
+								handleConfirmation={getPayhandler}
+							/>}
 				</div>
 			</div>
 		</>

@@ -8,7 +8,7 @@ const CommonComponent = () => {
 	return (
 		<>
 			<div style={{ display: 'flex' }}>
-				<button
+				{/* <button
 					style={{ height: '3rem', width: '100%' }}
 					className={
 						pathname === '/hotspotEarning'
@@ -29,7 +29,7 @@ const CommonComponent = () => {
 					}
 					type='button'>
 					Pickup
-					</button>
+					</button> */}
 			</div>
 		</>
 	);

@@ -80,46 +80,46 @@ const HotspotEarningDetails = (props) => {
 				);
 			},
 		},
+		// {
+		// 	id: 4,
+		// 	Header: 'Date',
+		// 	className: 'text-center view-details',
+		// 	accessor: (item) => {
+		// 		return (
+		// 			<div style={{ padding: '6px', cursor: 'pointer' }}>
+		// 				{item.delivery_datetime && formatDate(item.delivery_datetime)}
+		// 			</div>
+		// 		);
+		// 	},
+		// },
+		// {
+		// 	id: 5,
+		// 	Header: 'Delivery Time',
+		// 	width: 100,
+		// 	className: 'text-center view-details',
+		// 	accessor: (item) => {
+		// 		return (
+		// 			<div style={{ padding: '6px', cursor: 'pointer' }}>
+		// 				{formatTime(item.delivery_datetime)}
+		// 			</div>
+		// 		);
+		// 	},
+		// },
+		// {
+		// 	id: 6,
+		// 	Header: 'Hotspot',
+		// 	width: 100,
+		// 	className: 'text-center view-details',
+		// 	accessor: (item) => {
+		// 		return (
+		// 			<div style={{ padding: '6px', cursor: 'pointer' }}>
+		// 				{item.HotspotLocation && item.HotspotLocation.name}
+		// 			</div>
+		// 		);
+		// 	},
+		// },
 		{
 			id: 4,
-			Header: 'Date',
-			className: 'text-center view-details',
-			accessor: (item) => {
-				return (
-					<div style={{ padding: '6px', cursor: 'pointer' }}>
-						{item.delivery_datetime && formatDate(item.delivery_datetime)}
-					</div>
-				);
-			},
-		},
-		{
-			id: 5,
-			Header: 'Delivery Time',
-			width: 100,
-			className: 'text-center view-details',
-			accessor: (item) => {
-				return (
-					<div style={{ padding: '6px', cursor: 'pointer' }}>
-						{formatTime(item.delivery_datetime)}
-					</div>
-				);
-			},
-		},
-		{
-			id: 6,
-			Header: 'Hotspot',
-			width: 100,
-			className: 'text-center view-details',
-			accessor: (item) => {
-				return (
-					<div style={{ padding: '6px', cursor: 'pointer' }}>
-						{item.HotspotLocation && item.HotspotLocation.name}
-					</div>
-				);
-			},
-		},
-		{
-			id: 7,
 			Header: 'Restaurant',
 			width: 100,
 			className: 'text-center view-details',
@@ -132,7 +132,7 @@ const HotspotEarningDetails = (props) => {
 			},
 		},
 		{
-			id: 8,
+			id: 5,
 			Header: 'Drop off location',
 			width: 100,
 			className: 'text-center view-details',
@@ -145,7 +145,7 @@ const HotspotEarningDetails = (props) => {
 			},
 		},
 		{
-			id: 9,
+			id: 6,
 			Header: 'Customer Name',
 			width: 100,
 			className: 'text-center view-details',
@@ -158,45 +158,69 @@ const HotspotEarningDetails = (props) => {
 			},
 		},
 		{
-			id: 10,
+			id: 7,
 			Header: 'Total amount',
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (
 					<div style={{ padding: '6px', cursor: 'pointer' }}>
-						${item.amount}
+						${parseFloat(item.amount)+parseFloat(item.tip_amount)}
 					</div>
 				);
 			},
 		},
 		{
-			id: 11,
+			id: 8,
 			Header: 'Tip',
 			width: 50,
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (
 					<div style={{ padding: '6px', cursor: 'pointer' }}>
-						{item.tip_amount}
+						${item.tip_amount}
 					</div>
 				);
 			},
 		},
 
+		// {
+		// 	id: 12,
+		// 	Header: 'Order amount',
+		// 	className: 'text-center view-details',
+		// 	accessor: (item) => {
+		// 		return (
+		// 			<div style={{ padding: '6px', cursor: 'pointer' }}>
+		// 				${parseFloat(item.amount)}
+		// 			</div>
+		// 		);
+		// 	},
+		// },
 		{
-			id: 12,
-			Header: 'Order amount',
+			id: 9,
+			Header: 'Actual amount',
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (
 					<div style={{ padding: '6px', cursor: 'pointer' }}>
-						${parseFloat(item.amount)- parseFloat(item.tip_amount)}
+						${parseFloat(item.order_details.amount_details.totalActualPrice)}
 					</div>
 				);
 			},
 		},
 		{
-			id: 13,
+			id: 10,
+			Header: 'Markup amount',
+			className: 'text-center view-details',
+			accessor: (item) => {
+				return (
+					<div style={{ padding: '6px', cursor: 'pointer' }}>
+						${parseFloat(item.amount)-parseFloat(item.order_details.amount_details.totalActualPrice)}
+					</div>
+				);
+			},
+		},
+		{
+			id: 11,
 			Header: 'Restaurant Fee (% Fee)',
 			className: 'text-center view-details',
 			accessor: (item) => {

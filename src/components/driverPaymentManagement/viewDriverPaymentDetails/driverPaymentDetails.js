@@ -7,6 +7,7 @@ import { getDriverEarningListById, getDriverById, getOrgersByDriverId } from '..
 import { useSelector } from 'react-redux';
 import moment from 'moment';
 import { Link } from 'react-router-dom';
+import { formatDate,formatTime } from "../../../utils/redableDateTime"
 
 const DriverPaymentDetails = (props) => {
 	const history = useHistory();
@@ -84,31 +85,32 @@ const DriverPaymentDetails = (props) => {
 		},
 		{
 			id: 4,
-			Header: 'Date',
+			Header: 'Delivery datetime',
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (
 					<div style={{ padding: '6px', cursor: 'pointer' }}>
-						{item.delivery_datetime && item.delivery_datetime.split('T')[0]}
+						{/* {item.delivery_datetime && item.delivery_datetime.split('T')[0]} */}
+						{formatDate(item.delivery_datetime)} <br/> {formatTime(item.delivery_datetime)}
 					</div>
 				);
 			},
 		},
+		// {
+		// 	id: 5,
+		// 	Header: 'Delivery Time',
+		// 	width: 100,
+		// 	className: 'text-center view-details',
+		// 	accessor: (item) => {
+		// 		return (
+		// 			<div style={{ padding: '6px', cursor: 'pointer' }}>
+		// 				{moment(item.delivery_datetime).format('h:mm A')}
+		// 			</div>
+		// 		);
+		// 	},
+		// },
 		{
 			id: 5,
-			Header: 'Delivery Time',
-			width: 100,
-			className: 'text-center view-details',
-			accessor: (item) => {
-				return (
-					<div style={{ padding: '6px', cursor: 'pointer' }}>
-						{moment(item.delivery_datetime).format('h:mm A')}
-					</div>
-				);
-			},
-		},
-		{
-			id: 6,
 			Header: 'Hotspot',
 			width: 100,
 			className: 'text-center view-details',
@@ -121,7 +123,7 @@ const DriverPaymentDetails = (props) => {
 			},
 		},
 		{
-			id: 7,
+			id: 6,
 			Header: 'Drop off location',
 			width: 100,
 			className: 'text-center view-details',
@@ -134,7 +136,7 @@ const DriverPaymentDetails = (props) => {
 			},
 		},
 		{
-			id: 8,
+			id: 7,
 			Header: 'Customer Name',
 			width: 100,
 			className: 'text-center view-details',
@@ -147,19 +149,55 @@ const DriverPaymentDetails = (props) => {
 			},
 		},
 		{
-			id: 9,
-			Header: 'Order amount',
+			id: 8,
+			Header: 'Total order amount',
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (
 					<div style={{ padding: '6px', cursor: 'pointer' }}>
-						${item.amount}
+						${parseFloat(item.amount)+parseFloat(item.tip_amount)}
+					</div>
+				);
+			},
+		},
+		{
+			id: 9,
+			Header: 'Tip',
+			className: 'text-center view-details',
+			accessor: (item) => {
+				return (
+					<div style={{ padding: '6px', cursor: 'pointer' }}>
+						${item.tip_amount}
 					</div>
 				);
 			},
 		},
 		{
 			id: 10,
+			Header: 'Actual amount',
+			className: 'text-center view-details',
+			accessor: (item) => {
+				return (
+					<div style={{ padding: '6px', cursor: 'pointer' }}>
+						${parseFloat(item.order_details.amount_details.totalActualPrice)}
+					</div>
+				);
+			},
+		},
+		{
+			id: 11,
+			Header: 'Markup amount',
+			className: 'text-center view-details',
+			accessor: (item) => {
+				return (
+					<div style={{ padding: '6px', cursor: 'pointer' }}>
+						${parseFloat(item.amount)-parseFloat(item.order_details.amount_details.totalActualPrice)}
+					</div>
+				);
+			},
+		},
+		{
+			id: 12,
 			Header: 'Driver',
 			width: 150,
 			className: 'text-center view-details',
