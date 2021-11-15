@@ -326,7 +326,7 @@ const HotspotEarning = () => {
 					<div className='mt-5'>
 						<SearchComponent
 							{...{
-								placeholder: 'Search by delivery id,hotspot',
+								placeholder: 'Delivery id, Hotspot',
 								handleSearch,
 								clearSearchAndFilter,
 								// id:"hotspotEarning"

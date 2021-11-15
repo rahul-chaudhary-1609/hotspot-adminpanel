@@ -375,7 +375,7 @@ const RestaurantPayment = () => {
 					<h1 className='text-xl'>Restaurant Payment Management</h1>
 				<SearchComponent
 					{...{
-						placeholder: 'Search by restaurant name, payment id',
+						placeholder: 'Payment id, Restaurant name',
 						handleSearch,
 						clearSearchAndFilter,
 					}}

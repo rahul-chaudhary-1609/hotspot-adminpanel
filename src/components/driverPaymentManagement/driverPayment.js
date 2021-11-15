@@ -260,7 +260,7 @@ const DriverPayment = () => {
 					<h1 className='text-xl'>Driver Payment Management</h1>
 					
 					<SearchComponent
-						{...{ placeholder: 'Search by driver name', handleSearch,clearSearchAndFilter, }}
+						{...{ placeholder: 'Payment id, Driver name', handleSearch,clearSearchAndFilter, }}
 					/>
 					<div
 						className='stripe hover'
