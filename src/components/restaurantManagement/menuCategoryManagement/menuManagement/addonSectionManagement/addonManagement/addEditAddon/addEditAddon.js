@@ -95,7 +95,7 @@ const AddEditAddon = () => {
 		// 	data.body.markup_price=parseFloat(addon.markup_price);
 		// }
 
-		if(addon.markup_price!=null && addon.markup_price!=undefined && addon.markup_price.trim()!=''){
+		if(addon.markup_price!=null && addon.markup_price!=undefined && addon.markup_price!=''){
 			data.body.markup_price=parseFloat(addon.markup_price);
 		}else{
 			data.body.markup_price=0
