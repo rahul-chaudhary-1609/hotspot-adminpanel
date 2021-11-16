@@ -75,7 +75,7 @@ const AddEditDish = () => {
 
     const validateData=()=>{
 		let result=true;
-		if(!dish.price || isNaN(parseFloat(dish.price))){
+		if(dish.price==null || dish.price==undefined || isNaN(parseFloat(dish.price))){
 			setError("Actual price should be numeric")
 			result=false
 		}else if(dish.markup_price && isNaN(parseFloat(dish.price))){

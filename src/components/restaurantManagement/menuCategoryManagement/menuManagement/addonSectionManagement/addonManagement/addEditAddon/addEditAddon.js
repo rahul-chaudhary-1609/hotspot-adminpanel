@@ -65,7 +65,7 @@ const AddEditAddon = () => {
 
     const validateData=()=>{
 		let result=true;
-		if(!addon.price || isNaN(parseFloat(addon.price))){
+		if(addon.price==null || addon.price==undefined || isNaN(parseFloat(addon.price))){
 			setError("Actual price should be numeric")
 			result=false
 		}else if(addon.markup_price && isNaN(parseFloat(addon.markup_price))){
