@@ -223,7 +223,7 @@ const OrderDetails = () => {
                       style={{ backgroundColor: "lightgrey", fontSize:"13px" }}
                       className=""
                     >
-                      {addOn.name + "($ " + addOn.price + ")"}
+                      {addOn.name + "($" + addOn.price + ")"}
                     </div>
 
               })}
@@ -239,7 +239,7 @@ const OrderDetails = () => {
                       {addOnName}
                     
                     </div>
-                    <div className="px-8">$ {item.itemPrice}
+                    <div className="px-8">${item.itemPrice}
                     </div>
                   </div>
                 </div>
@@ -253,7 +253,7 @@ const OrderDetails = () => {
                     >
                       Tip
                     </div>
-                    <div className="px-8">$ {orderDetails.tipAmount}</div>
+                    <div className="px-8">${orderDetails.tipAmount}</div>
                   </div>
                 </div>
           </div>
@@ -261,7 +261,7 @@ const OrderDetails = () => {
             <div className=" font-bold py-2 px-6 w-1/2 text-right">
               Order Total
             </div>
-            <div className="px-8">$ {orderDetails.amount}</div>
+            <div className="px-8">${orderDetails.amount}</div>
           </div>
           {orderDetails.status === "Pickup" ||
           orderDetails.status === "Completed" ? null : [2,3,4].includes(orderDetails.order_status)? (

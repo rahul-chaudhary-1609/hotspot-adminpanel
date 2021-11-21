@@ -6,6 +6,10 @@ import {gettipAmountById, editTipAmount} from '../../../api.js'
 export default function TipModal(props) {
 
 	const [err, setErr] = useState();
+	const [success, setSuccess] = useState({
+		flag:false,
+		message:"",
+	});
     console.log(props);
     const customsStyles = {
 		content: {
@@ -63,9 +67,10 @@ export default function TipModal(props) {
 	};
 
     const handleChange = (e) => {
-		if(e.target.value === "0")
+		setErr("")
+		if(parseInt(e.target.value.trim()) <= 1)
 		{
-			setErr("Price should be greater than zero.");
+			setErr("Tip should be greater than or equal to 2.");
 		}else{
         	setTipAmount(e.target.value)
     	}
@@ -78,7 +83,10 @@ export default function TipModal(props) {
         };
         editTipAmount(token, data)
 					.then((resp) => {
-						setErr("Tip Amount updated successfully");
+						setSuccess({
+							flag:true,
+							message:"Tip Amount updated successfully",
+						});
 						setTimeout(()=>{
 							props.setTipModal(false);
 						},1500)
@@ -97,7 +105,11 @@ export default function TipModal(props) {
 					onRequestClose={closeModal}
 					style={customsStyles}>
 					<h1 style={{ fontSize: '30px', textAlign: 'center' }}>Edit Tip Amount</h1>
-					<h1 style={{ fontSize: '12px',color:'red' ,textAlign: 'center' }}>{err}</h1>
+					{
+						success.flag?
+						<h1 style={{ fontSize: '12px',color:'green' ,textAlign: 'center' }}>{success.message}</h1>:
+						<h1 style={{ fontSize: '12px',color:'red' ,textAlign: 'center' }}>{err}</h1>
+					}
 					<div className='flex flex-row items-center mt-5  '>
 						<div className='   w-1/3 text-left '>Fee Type</div>
 						<b style={{ marginBottom: "0px", paddingLeft: "100px" }}>Tip</b>
@@ -106,6 +118,7 @@ export default function TipModal(props) {
 						<div className='w-1/2 text-left '>Amount</div>
 						<input
 							type='number'
+							min='2'
 							className='appearance-none block w-1/3 bg-gray-100 border border-100 rounded-half py-2 px-8 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-200'
 							style={{ marginLeft: "-96px" }}
 							value={tipAmount}

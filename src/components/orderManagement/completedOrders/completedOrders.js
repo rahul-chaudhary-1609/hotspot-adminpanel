@@ -109,7 +109,7 @@ const CompletedOrder = () => {
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (
-					<div style={{ padding: '6px', cursor: 'pointer' }}> $ {item.amount}</div>
+					<div style={{ padding: '6px', cursor: 'pointer' }}> ${item.amount}</div>
 				);
 			},
 		},
