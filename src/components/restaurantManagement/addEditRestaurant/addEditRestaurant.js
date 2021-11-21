@@ -29,6 +29,7 @@ const AddEditRestaurant = () => {
 		// agreement_doc_url: null,
 		agreement_documents: null,
 		online_payment:null,
+		dish_preference:null,
 		cut_off_time: null,
 		deliveries_per_shift: null,
 		location: null,
@@ -46,6 +47,7 @@ const AddEditRestaurant = () => {
 	});
 
 	let[onlinePaymentToggle,setOnlinePaymentToggle]=useState(true);
+	let[dishPreferenceToggle,setDishPreferenceToggle]=useState(true);
 
 	let [error,setError]=useState(null);
 	let [success,setSuccess]=useState(null);
@@ -114,6 +116,7 @@ const AddEditRestaurant = () => {
 						// agreement_doc_url,
 						agreement_documents,
 						online_payment,
+						dish_preference,
 						cut_off_time,
 						deliveries_per_shift,
 						location,
@@ -134,6 +137,7 @@ const AddEditRestaurant = () => {
 						// agreement_doc_url,
 						agreement_documents,
 						online_payment,
+						dish_preference,
 						cut_off_time,
 						deliveries_per_shift,
 						location,
@@ -150,6 +154,7 @@ const AddEditRestaurant = () => {
 						working_hours_to,
 					})
 					setOnlinePaymentToggle(online_payment==1?true:false);
+					setDishPreferenceToggle(dish_preference==1?true:false);
 					setShowLoader(false);
 				} catch (error) {
 					setShowLoader(false);
@@ -276,11 +281,20 @@ const AddEditRestaurant = () => {
 		
 	}
 
+	let handleDishPreferenceMode=async()=>{
+		setRestaurant({
+			...restaurant,
+			dish_preference:!dishPreferenceToggle?1:0,
+		})
+		setDishPreferenceToggle(!dishPreferenceToggle);		
+		
+	}
+
 	let validateData=()=>{
 		let result=true;
 
 		Object.keys(restaurant).forEach((key)=>{
-			if(!['location','cut_off_time','deliveries_per_shift','order_type','online_payment'].includes(key)){
+			if(!['location','cut_off_time','deliveries_per_shift','order_type','online_payment','dish_preference'].includes(key)){
 				if(key=="agreement_documents"){
 					if(!restaurant[key] || restaurant[key].length<=0){
 						restaurant[key]=null;
@@ -828,6 +842,27 @@ const AddEditRestaurant = () => {
 											) : (
 													<ToggleOffIcon
 														onClick={() => handleOnlinePaymentMode()}
+														style={{ color: 'red', fontSize: '35' }}
+													/>
+											)}
+										</div>
+									</div>
+
+									<div className='w-full flex px-3 mb-6 md:mb-0 d-inline-flex'>
+										<label
+											className='block w-1/2 tracking-wide text-gray-300 py-3 px-6 mb-3'
+											for='dish_preference'>
+											Dish Preference
+										</label>
+										<div style={{ padding: '6px', cursor: 'pointer' }}>
+											{dishPreferenceToggle ? (
+												<ToggleOnIcon
+													onClick={() => handleDishPreferenceMode()}
+													style={{ color: 'green', fontSize: '35' }}
+												/>
+											) : (
+													<ToggleOffIcon
+														onClick={() => handleDishPreferenceMode()}
 														style={{ color: 'red', fontSize: '35' }}
 													/>
 											)}
