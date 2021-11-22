@@ -104,6 +104,18 @@ const CompletedOrder = () => {
 		},
 		{
 			id: 7,
+			Header: 'Dropoff',
+			className: 'text-center view-details',
+			accessor: (item) => {
+				return (
+					<div style={{ padding: '6px', cursor: 'pointer' }}>
+						{item.dropoff && item.dropoff.dropoff_detail}
+					</div>
+				);
+			},
+		},
+		{
+			id: 8,
 			width: 100,
 			Header: 'Order Value',
 			className: 'text-center view-details',
@@ -114,7 +126,7 @@ const CompletedOrder = () => {
 			},
 		},
 		{
-			id: 8,
+			id: 9,
 			Header: 'Restaurant',
 			width: 100,
 			className: 'text-center view-details',
@@ -127,7 +139,7 @@ const CompletedOrder = () => {
 			},
 		},
 		{
-			id: 9,
+			id: 10,
 			Header: 'Status',
 			width: 100,
 			className: 'text-center view-details',
@@ -142,7 +154,7 @@ const CompletedOrder = () => {
 			},
 		},
 		{
-			id: 10,
+			id: 11,
 			Header: 'Delivered by',
 			width: 100,
 			className: 'text-center view-details',
