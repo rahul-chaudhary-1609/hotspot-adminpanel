@@ -5,11 +5,15 @@ import {gettipAmountById, editTipAmount} from '../../../api.js'
 
 export default function TipModal(props) {
 
-	const [err, setErr] = useState();
+	const [err, setErr] = useState({
+		flag:false,
+		message:"",
+	});
 	const [success, setSuccess] = useState({
 		flag:false,
 		message:"",
 	});
+
     console.log(props);
     const customsStyles = {
 		content: {
@@ -66,17 +70,34 @@ export default function TipModal(props) {
 		props.setTipModal(false);
 	};
 
-    const handleChange = (e) => {
-		setErr("")
-		if(parseInt(e.target.value.trim()) <= 1)
+    const validateData = (e) => {
+		let result=false
+		console.log("Type of tipamount", typeof tipAmount)
+		if(tipAmount && parseInt(tipAmount) >= 2)
 		{
-			setErr("Tip should be greater than or equal to 2.");
-		}else{
-        	setTipAmount(e.target.value)
-    	}
+			result=true;
+		}else if(tipAmount && parseInt(tipAmount) <= 1){
+        	setErr({
+				flag:true,
+				message:"Tip should be greater than or equal to 2.",
+			});
+			result=false;
+    	}else{
+			setErr({
+				flag:true,
+				message:"Please enter a valid tip value.",
+			});
+			result=false;
+		}
+
+		return result;
 	}
 
-    const handleFee = () => {
+    const handleFee = (e) => {
+		e.preventDefault();
+		if (!validateData()){
+			return;
+		}
         let data = {
             tip_id: props.editTip.id,
             tip_amount: parseFloat(tipAmount)
@@ -87,14 +108,15 @@ export default function TipModal(props) {
 							flag:true,
 							message:"Tip Amount updated successfully",
 						});
-						setTimeout(()=>{
+						setTimeout(()=>{							
+							setSuccess({...success,flag:false})
 							props.setTipModal(false);
 						},1500)
                         props.tipAmountFetch()
 					})
 					.catch((error) => {
 						console.log(error);
-						setErr('');
+						setErr({...err,flag:false,});
 					});
     }
 
@@ -107,8 +129,8 @@ export default function TipModal(props) {
 					<h1 style={{ fontSize: '30px', textAlign: 'center' }}>Edit Tip Amount</h1>
 					{
 						success.flag?
-						<h1 style={{ fontSize: '12px',color:'green' ,textAlign: 'center' }}>{success.message}</h1>:
-						<h1 style={{ fontSize: '12px',color:'red' ,textAlign: 'center' }}>{err}</h1>
+						<h1 style={{ fontSize: '14px',color:'green' ,textAlign: 'center' }}>{success.message}</h1>:
+						err.flag?<h1 style={{ fontSize: '14px',color:'red' ,textAlign: 'center' }}>{err.message}</h1>:null
 					}
 					<div className='flex flex-row items-center mt-5  '>
 						<div className='   w-1/3 text-left '>Fee Type</div>
@@ -123,7 +145,11 @@ export default function TipModal(props) {
 							style={{ marginLeft: "-96px" }}
 							value={tipAmount}
 							id='fee'
-							onChange={(e) => handleChange(e)}
+							onChange={(e) => {
+								setSuccess({...success,flag:false})
+								setErr({...err,flag:false})
+								setTipAmount(e.target.value)
+							}}
 						/>
 					</div>
 					<div>{error && (
