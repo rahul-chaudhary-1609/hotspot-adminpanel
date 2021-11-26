@@ -27,23 +27,8 @@ export default function TipModal(props) {
 		},
 	};
 
-	const customStyles = {
-		control: (provided, state) => ({
-			...provided,
-			width: '98%',
-			backgroundColor: '#fafafa',
-			borderColor: 'grey',
-		}),
-		container: (provided, state) => ({
-			...provided,
-			width: '60%',
-			fontSize: '12px',
-			marginLeft: '15px',
-		}),
-	};
     const token = useSelector((state) => state.auth.isSignedIn);
     const [tipAmount, setTipAmount] = useState(null) 
-	const [error, setError] = useState(null);
 
     
     const getData = async () => {
@@ -152,17 +137,6 @@ export default function TipModal(props) {
 							}}
 						/>
 					</div>
-					<div>{error && (
-						<p
-							style={{
-								color: 'red',
-								fontSize: '20px',
-								textAlign: 'center',
-								width: '100%',
-							}}>
-							{error}
-						</p>
-					)}</div>
 					<div style={{ display: 'flex', marginTop: '40px' }}>
 						<button
 							onClick={closeModal}

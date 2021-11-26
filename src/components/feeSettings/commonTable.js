@@ -202,7 +202,8 @@ const CommonTable = (props) => {
 					);
 				},
 			},
-		] : [
+		] 
+		: props.type == 'tip' ? [
 			{
 				Header: '#',
 				width: 30,
@@ -263,6 +264,125 @@ const CommonTable = (props) => {
 					);
 				},
 			},
+		] :[
+			{
+				Header: '#',
+				width: 30,
+				id: 1,
+				className: 'text-center view-details',
+				accessor: (item) => {
+					currentId++;
+					return (
+						<>
+							<div className='flex items-center' style={{ cursor: 'pointer' }}>
+								<div className='text-sm'>
+									<p className='text-gray-300 leading-none'>{currentId}</p>
+								</div>
+							</div>
+						</>
+					);
+				},
+			},
+			{
+				id: 2,
+				Header: 'Name',
+				className: 'text-center view-details',
+				accessor: (item) => {
+					return (
+						<div style={{ padding: '6px', cursor: 'pointer' }}>
+							{item.name}
+						</div>
+					);
+				},		
+				
+			},
+			{
+				id: 3,
+				Header: 'Variable Percentage(%)',
+				className: 'text-center view-details',
+				accessor: (item) => {
+					return (
+						<div style={{ padding: '6px', cursor: 'pointer' }}>
+							{item.variable_percentage}%
+						</div>
+					);
+				},		
+				
+			},
+			{
+				id: 4,
+				Header: 'Fixed Amount(¢)',
+				className: 'text-center view-details',
+				accessor: (item) => {
+					return (
+						<div style={{ padding: '6px', cursor: 'pointer' }}>
+							¢{item.fixed_amount}
+						</div>
+					);
+				},		
+				
+			},
+			{
+				id: 5,
+				Header: 'Type',
+				className: 'text-center view-details',
+				accessor: (item) => {
+					return (
+						<div style={{ padding: '6px', cursor: 'pointer' }}>
+							{item.type==1?"Stripe (Proccesing Fee)":item.type==1?"Sales (tax)":"Other"}
+						</div>
+					);
+				},		
+				
+			},
+			{
+				id: 6,
+				Header: 'Description',
+				className: 'text-center view-details',
+				accessor: (item) => {
+					return (
+						<div style={{ padding: '6px', cursor: 'pointer', overflowWrap:"break-word", width:"50%" }}>
+							{item.description}
+						</div>
+					);
+				},		
+				
+			},
+			{
+				id: 7,
+				Header: 'Action',
+				className: 'text-center view-details',
+				accessor: (item) => {
+					return (
+						<div
+							style={{
+								display: 'flex',
+								flexDirection: 'row',
+								justifyContent: 'space-around',
+								cursor:"pointer"
+							}}
+							className='text-center'
+							onClick={(e) => e.stopPropagation()}>
+							<FontAwesomeIcon
+								style={{ cursor: 'pointer' }}
+								onClick={() => {
+									props.setTaxModal(true);
+									props.setEditTax({
+										id:item.id,
+										name:item.name,
+										variable_percentage:item.variable_percentage,
+										fixed_amount:item.fixed_amount,
+										description:item.description,
+									})
+								}}
+								className='text-red-600 trash w-5 h-5'
+								color='red'
+								icon={faPencilAlt}
+							/>
+						</div>
+					);
+				},
+			},
 		]
 
 	return (
@@ -281,6 +401,7 @@ const CommonTable = (props) => {
 					data={props.feeSetting}
 					className='-highlight'
 					columns={columns}
+					style={{overflow:'wrap','white-space': 'unset'}}
 				/>
 			</div>
 		</div>
