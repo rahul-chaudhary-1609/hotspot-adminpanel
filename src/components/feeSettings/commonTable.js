@@ -326,10 +326,11 @@ const CommonTable = (props) => {
 				id: 5,
 				Header: 'Type',
 				className: 'text-center view-details',
+				style:{'white-space': 'normal',},
 				accessor: (item) => {
 					return (
 						<div style={{ padding: '6px', cursor: 'pointer' }}>
-							{item.type==1?"Stripe (Proccesing Fee)":item.type==1?"Sales (tax)":"Other"}
+							{item.type==1?"Stripe (Proccesing Fee)":item.type==2?"Sales (Tax)":"Other"}
 						</div>
 					);
 				},		
@@ -342,8 +343,8 @@ const CommonTable = (props) => {
 				style:{'white-space': 'normal',},
 				accessor: (item) => {
 					return (
-						<div style={{ padding: '6px', cursor: 'pointer',textAlign:"justify"}}>
-							{item.description}
+						<div style={{ padding: '6px', cursor: 'pointer',textAlign:"left"}}>
+							{item.description.split(" ").length>5?`${item.description.split(" ").slice(0,4).join(" ")}...`:`${item.description.split(" ").slice(0,4).join(" ")}`}
 						</div>
 					);
 				},		
