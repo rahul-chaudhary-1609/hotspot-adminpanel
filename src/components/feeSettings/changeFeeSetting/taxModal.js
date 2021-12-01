@@ -16,7 +16,7 @@ export default function TaxModal(props) {
     const customsStyles = {
 		content: {
 			width: '40%',
-			top: '50%',
+			top: '55%',
 			left: '50%',
 			right: 'auto',
 			bottom: 'auto',
@@ -49,9 +49,9 @@ export default function TaxModal(props) {
     const validateData = () => {
 		let result=true
 
-		if(tax.fixed_amount && parseInt(tax.fixed_amount) >= 0){
+		if(tax.fixed_amount!==undefined && tax.fixed_amount!==null && parseInt(tax.fixed_amount) >= 0){
 			//pass
-		}else if(tax.fixed_amount && parseInt(tax.fixed_amount) < 0){
+		}else if(tax.fixed_amount!==undefined && tax.fixed_amount!==null && parseInt(tax.fixed_amount) < 0){
         	setErr({
 				flag:true,
 				message:"Tax fixed amount should be greater than or equal to 0.",
@@ -67,9 +67,9 @@ export default function TaxModal(props) {
 
 		console.log("Type of tipamount", tax)
 
-		if(tax.variable_percentage && parseFloat(tax.variable_percentage) >= 0){
+		if(tax.variable_percentage!==undefined && tax.variable_percentage!==null && parseFloat(tax.variable_percentage) >= 0){
 			//pass		
-		}else if(tax.variable_percentage && parseFloat(tax.variable_percentage) < 0){
+		}else if(tax.variable_percentage!==undefined && tax.variable_percentage!==null && parseFloat(tax.variable_percentage) < 0){
         	setErr({
 				flag:true,
 				message:"Tax variable percentage should be greater than or equal to 0.",
@@ -112,7 +112,7 @@ export default function TaxModal(props) {
 					.then((resp) => {
 						setSuccess({
 							flag:true,
-							message:"Tax Amount updated successfully",
+							message:"Tax updated successfully",
 						});
 						setTimeout(()=>{							
 							setSuccess({...success,flag:false})
@@ -132,7 +132,7 @@ export default function TaxModal(props) {
 					isOpen={props.taxModal}
 					onRequestClose={closeModal}
 					style={customsStyles}>
-					<h1 style={{ fontSize: '30px', textAlign: 'center' }}>Edit Tax Amount</h1>
+					<h1 style={{ fontSize: '30px', textAlign: 'center' }}>Edit Tax</h1>
 					{
 						success.flag?
 						<h1 style={{ fontSize: '14px',color:'green' ,textAlign: 'center' }}>{success.message}</h1>:
@@ -208,7 +208,7 @@ export default function TaxModal(props) {
 							}}
 						/>
 					</div>
-					<div style={{ display: 'flex', marginTop: '40px' }}>
+					<div style={{ display: 'flex', marginTop: '30px' }}>
 						<button
 							onClick={closeModal}
 							style={{

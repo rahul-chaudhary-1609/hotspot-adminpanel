@@ -339,9 +339,10 @@ const CommonTable = (props) => {
 				id: 6,
 				Header: 'Description',
 				className: 'text-center view-details',
+				style:{'white-space': 'normal',},
 				accessor: (item) => {
 					return (
-						<div style={{ padding: '6px', cursor: 'pointer', overflowWrap:"break-word", width:"50%" }}>
+						<div style={{ padding: '6px', cursor: 'pointer',textAlign:"justify"}}>
 							{item.description}
 						</div>
 					);
