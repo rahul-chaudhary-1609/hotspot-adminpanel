@@ -187,7 +187,19 @@ const ViewHotspotDetails = () => {
 									<div className='px-8 ' style={{ width: '65%' }}>
 										{hotspotDetails.restaurants.map((restaurant, index) => {
 												
-											return (<div style={{ marginTop: '5px' }}>{++index}. {restaurant.restaurant.restaurant_name} (<strong>Pickup Time:</strong> {restaurant.pickup_time} minutes)</div>)
+											return (
+												<div style={{ marginTop: '5px' }}>
+													{++index}. {restaurant.restaurant.restaurant_name} 
+													(<strong>Pickup Time:</strong> {restaurant.pickup_time} minutes) 
+													(<strong>Shifts:</strong> {restaurant.available_for_shifts.map(ele=>{
+														if(ele==hotspotDetails.delivery_shifts.length){
+															return (<span>{moment(hotspotDetails.delivery_shifts[ele-1], 'hh:mm:ss').format('hh:mm a')}</span>)
+														}else{
+															return (<span>{moment(hotspotDetails.delivery_shifts[ele-1], 'hh:mm:ss').format('hh:mm a')}, </span>)
+														}
+													})})
+												</div>
+											) 
 										})}
 									</div>
 								</div>

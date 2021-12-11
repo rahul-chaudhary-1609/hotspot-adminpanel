@@ -34,6 +34,24 @@ const AddEditHotspot = () => {
         restaurant_ids: [],
         driver_ids:[],
 	});
+
+	let restAvailableForShiftIndexList=[
+		{
+			label:"Shift 1",
+			value:1,
+			name:"Shift 1",
+		},
+		{
+			label:"Shift 2",
+			value:2,
+			name:"Shift 2",
+		},
+		{
+			label:"Shift 3",
+			value:3,
+			name:"Shift 3",
+		}
+	];
     
 	let [error,setError]=useState(null);
 	let [success,setSuccess]=useState(null);
@@ -49,7 +67,8 @@ const AddEditHotspot = () => {
 			width: '100%',
 			backgroundColor: '#fafafa',
 			borderColor: 'grey',height:"100%",
-			minHeight:"50px",marginBottom:"12px",
+			minHeight:"50px",
+			// marginBottom:"12px",
 			// borderRadius: '9999px',
 		}),
 		container: (provided, state) => ({
@@ -144,6 +163,7 @@ const AddEditHotspot = () => {
 							return{
 								restaurant_id:restaurant.restaurant.id,
 								pickup_time:restaurant.pickup_time,
+								available_for_shifts:restaurant.available_for_shifts
 							}
 						}),
 						driver_ids:res.hotspotDetails.drivers.map(driver=>driver.id),
@@ -460,40 +480,58 @@ const AddEditHotspot = () => {
                                                 hotspot.restaurant_ids && hotspot.restaurant_ids.map((rest,index)=>{
                                                     return (
                                                         <div style={{width:"100%",display:"flex",justifyContent:"space-between",alignItems:"center"}}>
-                                                            <div style={{width:"75%",display:"flex",justifyContent:"space-between",flexDirection:"column",alignItems:"start",}}>
-																<div style={{width:"100%"}}>
-																<Select
-																	styles={customStyles}
-																	options={restaurantList}
-																	placeholder="Select restaurant"
-																	value={restaurantList.find(restaurant=>restaurant.id===rest.restaurant_id)}
-																	onChange={(selectedRestaurant)=>{
-																		setError(null);
-																		hotspot.restaurant_ids[index].restaurant_id=selectedRestaurant.id;
-																		setHotspot({...hotspot})
-																	}}
-																	inputId={`restaurant${index}`}
-																	required
-																/>
+                                                            <div style={{width:"75%", marginTop:"1rem",display:"flex",justifyContent:"space-between",flexDirection:"column",alignItems:"start",border:"2px solid rgba(0,0,0,0.2)",padding:"5px",borderRadius:"5px"}}>
+																<div style={{width:"100%", marginBottom:"1rem"}}>
+																	<Select
+																		styles={customStyles}
+																		options={restaurantList}
+																		placeholder="Select restaurant"
+																		value={restaurantList.find(restaurant=>restaurant.id===rest.restaurant_id)}
+																		onChange={(selectedRestaurant)=>{
+																			setError(null);
+																			hotspot.restaurant_ids[index].restaurant_id=selectedRestaurant.id;
+																			setHotspot({...hotspot})
+																		}}
+																		inputId={`restaurant${index}`}
+																		required
+																	/>
 																</div>
 																<div style={{width:"100%"}}>
-																<input
-																	className='appearance-none block bg-gray-100 border border-gray-200 rounded-half py-3 px-6 leading-tight focus:outline-none focus:bg-white focus:border-gray-200'
-																	style={{width:"100%"}}
-																	id={`dropoff${index}`}
-																	type='number'
-																	min="1"
-																	required
-																	placeholder="Pickup time in minutes"
-																	onChange={(e)=>{
-																		setError(null);
-																		hotspot.restaurant_ids[index].pickup_time=parseInt(e.target.value);
-																		setHotspot({...hotspot})
-																	}}
-																	value={hotspot.restaurant_ids[index].pickup_time}
-																/>
+																	<input
+																		className='appearance-none block bg-gray-100 border border-gray-200 rounded-half py-3 px-6 leading-tight focus:outline-none focus:bg-white focus:border-gray-200'
+																		style={{width:"100%"}}
+																		id={`dropoff${index}`}
+																		type='number'
+																		min="1"
+																		required
+																		placeholder="Pickup time in minutes"
+																		onChange={(e)=>{
+																			setError(null);
+																			hotspot.restaurant_ids[index].pickup_time=parseInt(e.target.value);
+																			setHotspot({...hotspot})
+																		}}
+																		value={hotspot.restaurant_ids[index].pickup_time}
+																	/>
 																</div>
 																<div style={{width:"100%",fontSize:"0.9rem", textAlign:"end"}}>in minutes</div>
+																<div style={{width:"100%"}}>
+																	<Select
+																		menuPlacement="top"									
+																		isMulti={true}
+																		styles={customStyles}
+																		options={restAvailableForShiftIndexList}
+																		placeholder="Select slots"
+																		value={restAvailableForShiftIndexList.filter(ele=>rest.available_for_shifts?.includes(ele.value))}
+																		onChange={(selectedIndexes)=>{
+																			setError(null);
+																			hotspot.restaurant_ids[index].available_for_shifts=selectedIndexes?selectedIndexes.map(ele=>ele.value).sort():[1,2,3];
+																			setHotspot({...hotspot})
+																			console.log(selectedIndexes);
+																		}}
+																		inputId="restAvailableForShiftIndexes"
+																		required
+																	/>
+																</div>
 
                                                             </div>
                                                             <div style={{width:"25%",marginBottom:"1rem",marginLeft:"1rem"}}>
@@ -516,6 +554,7 @@ const AddEditHotspot = () => {
                                                         hotspot.restaurant_ids.push({
 															restaurant_id:null,
 															pickup_time:null,
+															available_for_shifts:[1,2,3]
 														});
 														setHotspot({...hotspot})
                                                     }}
