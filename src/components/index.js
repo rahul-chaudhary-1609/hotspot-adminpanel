@@ -79,6 +79,13 @@ import OrderDetails from './orderManagement/orderDetails/orderDetails.js';
 import HotspotEarning from './adminEarning/hotspotEarning.js';
 import PickupEarning from './adminEarning/pickupEarning/pickupEarning.js';
 import FAQS from './staticContentManagement/viewStaticContent/faqQ';
+
+import PaymentManagement from './refundManagement/payment/payment';
+import PaymentDetails from './refundManagement/payment/paymentDetails/paymentDetails';
+import RefundManagement from './refundManagement/refund/refund';
+import RefundDetails from './refundManagement/refund/refundDetails/refundDetails';
+
+
 import { useHistory, useParams,useLocation } from 'react-router';
 
 const Admin = () => {
@@ -205,6 +212,7 @@ const Admin = () => {
 								`/activeOrder/:id`,
 								`/scheduledOrders/:id`,
 								`/completedOrders/:id`,
+								`/orderDetails/:id`,
 							]}
 							component={OrderDetails}
 						/>
@@ -405,6 +413,26 @@ const Admin = () => {
 							exact
 							path={`/pickupEarning`}
 							component={PickupEarning}
+						/>
+						<ProtectedRoutes
+							exact
+							path={`/payments`}
+							component={PaymentManagement}
+						/>
+						<ProtectedRoutes
+							exact
+							path={`/payments/:payment_id`}
+							component={PaymentDetails}
+						/>
+						<ProtectedRoutes
+							exact
+							path={`/refunds`}
+							component={RefundManagement}
+						/>
+						<ProtectedRoutes
+							exact
+							path={`/refunds/:refund_id`}
+							component={RefundDetails}
 						/>
 					</Switch>
 				</BrowserRouter>

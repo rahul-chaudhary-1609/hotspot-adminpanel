@@ -114,7 +114,7 @@ const OrderDetails = () => {
             </h3>
             <button
               style={{ height: "3rem", marginLeft: "45%" }}
-              onClick={() => history.push(`/${path}`)}
+              onClick={() => history.goBack()}
               className="shadow bg-blue-500 ml-3 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
               type="button"
             >

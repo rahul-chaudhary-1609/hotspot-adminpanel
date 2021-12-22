@@ -17,6 +17,7 @@ import SettingsIcon from '@material-ui/icons/Settings';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import LocalMallIcon from '@material-ui/icons/LocalMall';
 import DashboardIcon from '@material-ui/icons/Dashboard';
+import AttachMoneyTwoTone  from '@material-ui/icons/AttachMoneyTwoTone';
 
 export const SidebarData = [
     {
@@ -95,6 +96,12 @@ export const SidebarData = [
         label: 'Hotspot Settings',
         to: '/hotspots',
         icon: <SettingsIcon />,
+        cName: "nav-text md:px-4 md:py-3 md:flex-row "
+    },
+    {
+        label: 'Refund Management',
+        to: '/payments',
+        icon: <AttachMoneyTwoTone/>,
         cName: "nav-text md:px-4 md:py-3 md:flex-row "
     },
 
