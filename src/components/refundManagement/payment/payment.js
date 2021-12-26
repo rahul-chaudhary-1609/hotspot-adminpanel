@@ -141,7 +141,7 @@ const PaymentManagement = () => {
 			accessor: (item) => {
 				return (
 					<div style={{ padding: '6px', cursor: 'pointer' }}>
-						{item.refund_type==0?"Not Refunded":item.refund_status==1?"Partial":"Complete"}
+						{item.refund_type==0?"Not Refunded":item.refund_type==1?"Partial":"Complete"}
 					</div>
 				);
 			},
