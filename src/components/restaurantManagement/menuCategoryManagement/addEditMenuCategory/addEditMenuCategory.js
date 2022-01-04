@@ -6,6 +6,8 @@ import { useSelector } from 'react-redux';
 
 //import './restaurantForm.css';
 import Loader from '../../../../globalComponent/layout/loader';
+import ToggleOffIcon from '@material-ui/icons/ToggleOff';
+import ToggleOnIcon from '@material-ui/icons/ToggleOn';
 
 const AddEditMenuCategory = () => {
 	const history = useHistory();
@@ -15,7 +17,10 @@ const AddEditMenuCategory = () => {
 
 	const [menuCategory,setMenuCategory] = useState({
 		name:null,
+		is_beverages:0,
 	});
+
+	let[beveragesToggle,setBeveragesToggle]=useState(false);
 
 	let [error,setError]=useState(null);
 	let [success,setSuccess]=useState(null);
@@ -24,10 +29,20 @@ const AddEditMenuCategory = () => {
 
 
 	const handleInputChange = (e) => {
+		console.log(menuCategory)
 		let updatedDetails = { ...menuCategory };
 		updatedDetails[e.target.id] = e.target.value;
 		setMenuCategory(updatedDetails);
 	};
+
+	let handleBeveragesMode=async()=>{
+		setMenuCategory({
+			...menuCategory,
+			is_beverages:!beveragesToggle?1:0,
+		})
+		setBeveragesToggle(!beveragesToggle);		
+		
+	}
 
 	useEffect(()=>{
 		async function fetchData(){
@@ -43,6 +58,7 @@ const AddEditMenuCategory = () => {
 
 					let res=await getMenuCategory(token,data);
 					setMenuCategory(res.category)
+					setBeveragesToggle(res.category.is_beverages==1?true:false)
 					setShowLoader(false);
 				} catch (error) {
 					setShowLoader(false);
@@ -64,6 +80,7 @@ const AddEditMenuCategory = () => {
 						category_id:params.menuCategoryId,
 						restaurant_id:params.restaurantId,
 						name:menuCategory.name,
+						is_beverages:menuCategory.is_beverages,
 					}						
 				}
 
@@ -85,6 +102,7 @@ const AddEditMenuCategory = () => {
 					body:{
 						restaurant_id:params.restaurantId,
 						name:menuCategory.name,
+						is_beverages:menuCategory.is_beverages,
 					}						
 				}
 
@@ -180,6 +198,26 @@ const AddEditMenuCategory = () => {
 											onChange={handleInputChange}
 											value={menuCategory.name}
 										/>
+									</div>
+									<div className='w-full flex px-3 mb-6 md:mb-0 d-inline-flex'>
+										<label
+											className='block w-1/2 tracking-wide text-gray-300 py-3 px-6 mb-3'
+											for='dish_preference'>
+											Is Bverages
+										</label>
+										<div style={{ padding: '6px', cursor: 'pointer' }}>
+											{beveragesToggle ? (
+												<ToggleOnIcon
+													onClick={() => handleBeveragesMode()}
+													style={{ color: 'green', fontSize: '35' }}
+												/>
+											) : (
+													<ToggleOffIcon
+														onClick={() => handleBeveragesMode()}
+														style={{ color: 'red', fontSize: '35' }}
+													/>
+											)}
+										</div>
 									</div>
 								</div>
 							</form>

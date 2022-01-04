@@ -95,7 +95,7 @@ const StaticsComponent = (props) => {
 						
 					/>
 					<GlobalCard
-						count={totalEarnings}
+						count={Number(totalEarnings).toFixed(2)}
 						message='Total Earnings'
 						cardColor='#A2BC13'
 						card ="earning"

@@ -74,7 +74,19 @@ function MenuCategoryManagement({ ...props }) {
 			accessor: 'name',
 		},
 		{
-			id: 7,
+			id: 3,
+			Header: 'Is Beverages',
+			className: 'text-center view-details',
+			accessor: (item) => {
+				return (
+					<div>
+						{item.is_beverages == 1 ? 'Yes' : 'No'}
+					</div>
+				);
+			},
+		},
+		{
+			id: 4,
 			Header: 'Status',
 			className: 'text-center view-details',
 			accessor: (item) => {
@@ -89,7 +101,7 @@ function MenuCategoryManagement({ ...props }) {
 		},
 		
 		{
-			id: 9,
+			id: 5,
 			Header: 'Action',
 			className: 'text-center view-details',
 			accessor: (item) => {
