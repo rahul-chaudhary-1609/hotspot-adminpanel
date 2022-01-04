@@ -36,7 +36,7 @@ const PaymentDetails = () => {
 
   const [paymentDetails, setPaymentDetails] = useState(null);
   let [refundModal,setRefundModal]=useState(false);
-  let [refundProcessingFee,setRefundProcessingFee]=useState(0.00);
+  // let [refundProcessingFee,setRefundProcessingFee]=useState(0.00);
   let [refundSalesFee,setRefundSalesFee]=useState(0.00);
   let [refundSubtotal,setRefundSubtotal]=useState(0.00);
   let [refundAmount,setRefundAmount]=useState(0.00);
@@ -62,18 +62,18 @@ const PaymentDetails = () => {
     
     if(refundSubtotal)
     {
-      let stripeFeeAmount=0.00;
-      if(paymentDetails?.order_details.amount_details.processing_fee_variable_percentage && paymentDetails.order_details.amount_details.processing_fee_fixed_amount){
-        stripeFeeAmount=parseFloat((((refundSubtotal*paymentDetails.order_details.amount_details.processing_fee_variable_percentage)/100)+(paymentDetails.order_details.amount_details.processing_fee_fixed_amount/100)).toFixed(2));
-      }else if(paymentDetails?.order_details.amount_details.processing_fee_variable_percentage){
-          stripeFeeAmount=parseFloat(((refundSubtotal*paymentDetails.order_details.amount_details.processing_fee_variable_percentage)/100).toFixed(2));
-      }else if(paymentDetails?.order_details.amount_details.processing_fee_fixed_amount){
-          stripeFeeAmount=parseFloat((paymentDetails.order_details.amount_details.processing_fee_fixed_amount/100).toFixed(2));
-      }else{
-          stripeFeeAmount=0.00;
-      }
+      // let stripeFeeAmount=0.00;
+      // if(paymentDetails?.order_details.amount_details.processing_fee_variable_percentage && paymentDetails.order_details.amount_details.processing_fee_fixed_amount){
+      //   stripeFeeAmount=parseFloat((((refundSubtotal*paymentDetails.order_details.amount_details.processing_fee_variable_percentage)/100)+(paymentDetails.order_details.amount_details.processing_fee_fixed_amount/100)).toFixed(2));
+      // }else if(paymentDetails?.order_details.amount_details.processing_fee_variable_percentage){
+      //     stripeFeeAmount=parseFloat(((refundSubtotal*paymentDetails.order_details.amount_details.processing_fee_variable_percentage)/100).toFixed(2));
+      // }else if(paymentDetails?.order_details.amount_details.processing_fee_fixed_amount){
+      //     stripeFeeAmount=parseFloat((paymentDetails.order_details.amount_details.processing_fee_fixed_amount/100).toFixed(2));
+      // }else{
+      //     stripeFeeAmount=0.00;
+      // }
       
-      setRefundProcessingFee(stripeFeeAmount);
+      // setRefundProcessingFee(stripeFeeAmount);
       
       let salesTaxAmount=0.00;
 
@@ -88,10 +88,10 @@ const PaymentDetails = () => {
       }
 
       setRefundSalesFee(salesTaxAmount);
-      setRefundAmount(parseFloat((refundSubtotal+stripeFeeAmount+salesTaxAmount).toFixed(2)))
-
+      // setRefundAmount(parseFloat((refundSubtotal+stripeFeeAmount+salesTaxAmount).toFixed(2)))
+      setRefundAmount(parseFloat((refundSubtotal+salesTaxAmount).toFixed(2)))
     }else{
-      setRefundProcessingFee(0.00);
+      // setRefundProcessingFee(0.00);
       setRefundSalesFee(0.00);
       setRefundAmount(0.00)
     }
@@ -181,13 +181,16 @@ const PaymentDetails = () => {
   }
 
   let handleIntiateRefund=()=>{
-    setRefundAmount(parseFloat((refundSubtotal+refundProcessingFee+refundSalesFee).toFixed(2)))
-    if(parseFloat(paymentDetails.order_details.amount_details.grandTotal)-parseFloat(paymentDetails.Order.tip_amount)<=refundAmount){
+    // setRefundAmount(parseFloat((refundSubtotal+refundProcessingFee+refundSalesFee).toFixed(2)))
+    setRefundAmount(parseFloat((refundSubtotal+refundSalesFee).toFixed(2)))
+    if(parseFloat(paymentDetails.order_details.amount_details.totalCost)-parseFloat(paymentDetails.Order.tip_amount)-parseFloat(paymentDetails.order_details.amount_details.processing_fee)<=refundAmount){
+      console.log("complete",refundAmount,parseFloat(paymentDetails.order_details.amount_details.totalCost),parseFloat(paymentDetails.order_details.amount_details.processing_fee))
       setRefundObj({
         ...refundObj,
         refund_type:2,
       })
     }else{
+      console.log("partial",refundAmount,parseFloat(paymentDetails.order_details.amount_details.totalCost),parseFloat(paymentDetails.order_details.amount_details.processing_fee))
       setRefundObj({
         ...refundObj,
         refund_type:1,
@@ -478,7 +481,8 @@ const PaymentDetails = () => {
                               </td>
                               <td style={{textAlign: "right"}}>
                                   <div>
-                                  {refundProcessingFee?(<span style={{color:"red",marginLeft:"10px"}}>(- ${(parseFloat(refundProcessingFee)).toFixed(2)})</span>):""}  ${paymentDetails.order_details.amount_details.processing_fee.toFixed(2)}
+                                  {/* {refundProcessingFee?(<span style={{color:"red",marginLeft:"10px"}}>(- ${(parseFloat(refundProcessingFee)).toFixed(2)})</span>):""}  */}
+                                   ${paymentDetails.order_details.amount_details.processing_fee.toFixed(2)}
                                   </div>
                               </td>
                           </tr>
@@ -559,7 +563,8 @@ const PaymentDetails = () => {
                         <button 
                           style={{backgroundColor:"green"}}
                           className='shadow bg-red-500 ml-3 hover:bg-red-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded'
-                          onClick={handleIntiateRefund}>
+                          onClick={handleIntiateRefund}
+                          disabled={refundSubtotal?false:true}>
                           Intiate Refund
                         </button>
                       </div>

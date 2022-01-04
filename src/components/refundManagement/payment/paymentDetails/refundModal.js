@@ -127,6 +127,7 @@ const RefundModal = (props) => {
                 style={{marginRight:"5px",height:"15px",width:"15px",border:"2px solid black", borderRadius:"5px"}}
                 checked={props.refundObj.type==2?true:false}
                 onChange={()=>{
+                  console.log("props.refundObj",props.refundObj)
                   props.setRefundObj({
                     ...props.refundObj,
                     type:2,
