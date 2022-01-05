@@ -183,15 +183,16 @@ const PaymentDetails = () => {
   let handleIntiateRefund=()=>{
     // setRefundAmount(parseFloat((refundSubtotal+refundProcessingFee+refundSalesFee).toFixed(2)))
     setRefundAmount(parseFloat((refundSubtotal+refundSalesFee).toFixed(2)))
-    if(parseFloat(paymentDetails.order_details.amount_details.totalCost)-parseFloat(paymentDetails.Order.tip_amount)-parseFloat(paymentDetails.order_details.amount_details.processing_fee)<=refundAmount){
-      console.log("complete",refundAmount,parseFloat(paymentDetails.order_details.amount_details.totalCost),parseFloat(paymentDetails.order_details.amount_details.processing_fee))
+    let orderCost=parseFloat((parseFloat(paymentDetails.order_details.amount_details.totalCost)-parseFloat(paymentDetails.Order.tip_amount)-parseFloat(paymentDetails.order_details.amount_details.processing_fee)).toFixed(2))
+    if(orderCost<=refundAmount){
+      console.log("complete",refundAmount,orderCost)
       setRefundObj({
         ...refundObj,
         type:1,
         refund_type:2,
       })
     }else{
-      console.log("partial",refundAmount,parseFloat(paymentDetails.order_details.amount_details.totalCost),parseFloat(paymentDetails.order_details.amount_details.processing_fee))
+      console.log("partial",refundAmount,orderCost)
       setRefundObj({
         ...refundObj,
         type:1,
@@ -564,7 +565,7 @@ const PaymentDetails = () => {
                   {paymentDetails.refund_type==0?<div className="px-8" style={{display:"flex", marginTop: "10px", justifyContent:"center"}}>
                       <div>
                         <button 
-                          style={{backgroundColor:"green"}}
+                          style={{backgroundColor:refundSubtotal?"rgb(50,120,50)":"rgba(50,120,50,0.5)"}}
                           className='shadow bg-red-500 ml-3 hover:bg-red-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded'
                           onClick={handleIntiateRefund}
                           disabled={refundSubtotal?false:true}>

@@ -250,6 +250,18 @@ const HotspotEarning = () => {
 					</div>
 				);
 			},
+		},
+		{
+			id: 14,
+			Header: 'Total Refund Amount',
+			className: 'text-center view-details',
+			accessor: (item) => {
+				return (
+					<div style={{ padding: '6px', cursor: 'pointer' }}>
+						${item.refund_amount}
+					</div>
+				);
+			},
 		}
 	];
 
