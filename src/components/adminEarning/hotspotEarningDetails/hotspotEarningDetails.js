@@ -239,7 +239,7 @@ const HotspotEarningDetails = (props) => {
 			accessor: (item) => {
 				return (
 					<div style={{ padding: '6px', cursor: 'pointer' }}>
-						${item.order_details.amount_details.refundTotal}
+						{item.order_details.amount_details.refundTotal?`$${item.order_details.amount_details.refundTotal}`:`$0`}
 					</div>
 				);
 			},
