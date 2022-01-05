@@ -348,7 +348,7 @@ const PaymentDetails = () => {
                         >
                           Amount($)
                         </div>
-                        <div className="px-8 text-lg">${paymentDetails.order_details.amount_details.grandTotal}</div>
+                        <div className="px-8 text-lg">${paymentDetails.order_details.amount_details.totalCost}</div>
                       </div>
                     </div>       
 
@@ -540,6 +540,22 @@ const PaymentDetails = () => {
                               <td style={{textAlign: "right", borderTop:"2px solid #e6e8e6"}}>
                                 <div>
                                     <strong>${paymentDetails.order_details.amount_details.grandTotal.toFixed(2)}</strong>
+                                  </div>
+                              </td>
+                          </tr>
+                      </table>                        
+                  </div>
+                  <div className="px-8" style={{marginTop: "10px"}}>
+                      <table style={{width: "100%"}}>
+                          <tr style={{textAlign: "left", verticalAlign: "top"}}>
+                              <td style={{textAlign: "left", borderTop:"2px solid #e6e8e6"}}>
+                                  <div>
+                                      <strong>Total Cost </strong> 
+                                  </div>
+                              </td>
+                              <td style={{textAlign: "right", borderTop:"2px solid #e6e8e6"}}>
+                                <div>
+                                    <strong>${paymentDetails.order_details.amount_details.totalCost.toFixed(2)}</strong>
                                   </div>
                               </td>
                           </tr>

@@ -253,12 +253,24 @@ const HotspotEarning = () => {
 		},
 		{
 			id: 14,
-			Header: 'Total Refund Amount',
+			Header: '(L) Total Refund Amount',
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (
 					<div style={{ padding: '6px', cursor: 'pointer' }}>
 						${item.refund_amount}
+					</div>
+				);
+			},
+		},
+		{
+			id: 15,
+			Header: '(L) (K-L) Final Hotspot Earning',
+			className: 'text-center view-details',
+			accessor: (item) => {
+				return (
+					<div style={{ padding: '6px', cursor: 'pointer' }}>
+						${(parseFloat(item.hotspot_fee)-parseFloat(item.refund_amount)).toFixed(2)}
 					</div>
 				);
 			},

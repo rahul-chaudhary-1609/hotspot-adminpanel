@@ -411,6 +411,22 @@ const OrderDetails = () => {
                           </tr>
                       </table>                        
                   </div>
+                  <div className="px-8" style={{marginTop: "10px"}}>
+                      <table style={{width: "100%"}}>
+                          <tr style={{textAlign: "left", verticalAlign: "top"}}>
+                              <td style={{textAlign: "left", borderTop:"2px solid #e6e8e6"}}>
+                                  <div>
+                                      <strong>Total Cost </strong> 
+                                  </div>
+                              </td>
+                              <td style={{textAlign: "right", borderTop:"2px solid #e6e8e6"}}>
+                                <div>
+                                    <strong>${orderDetails.order_details.amount_details.totalCost.toFixed(2)}</strong>
+                                  </div>
+                              </td>
+                          </tr>
+                      </table>                        
+                  </div>
                   {orderDetails.order_details.amount_details.refundTotal?
                     <div className="px-8" style={{marginTop: "5px"}}>
                       <table style={{width: "100%"}}>

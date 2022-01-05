@@ -231,6 +231,19 @@ const HotspotEarningDetails = (props) => {
 				);
 			},
 		},
+		{
+			id: 12,
+			Header: 'Refund Amount',
+			width: 50,
+			className: 'text-center view-details',
+			accessor: (item) => {
+				return (
+					<div style={{ padding: '6px', cursor: 'pointer' }}>
+						${item.order_details.amount_details.refundTotal}
+					</div>
+				);
+			},
+		},
 	];
 
 	useEffect(() => {

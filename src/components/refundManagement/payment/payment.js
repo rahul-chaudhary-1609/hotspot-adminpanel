@@ -129,7 +129,7 @@ const PaymentManagement = () => {
 			accessor: (item) => {
 				return (
 					<div style={{ padding: '6px', cursor: 'pointer' }}>
-						${item.order_details.amount_details.grandTotal}
+						${item.order_details.amount_details.totalCost}
 					</div>
 				);
 			},

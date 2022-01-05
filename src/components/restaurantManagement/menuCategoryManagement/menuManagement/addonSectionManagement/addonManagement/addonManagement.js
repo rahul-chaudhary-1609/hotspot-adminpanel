@@ -101,7 +101,7 @@ function AddonManagement() {
 			accessor: (item) => {
 				return (
 					<div style={{ padding: '6px', cursor: 'pointer' }}>
-						{item.markup_price?parseFloat((parseFloat(item.price)+parseFloat(item.markup_price)).toFixed(2)):item.price}
+						{item.markup_price?parseFloat((parseFloat(item.price)+parseFloat(item.markup_price)).toFixed(2)):parseFloat(item.price).toFixed(2)}
 					</div>
 				);
 			},
