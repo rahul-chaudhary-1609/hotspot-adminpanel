@@ -141,7 +141,7 @@ const RefundManagement = () => {
 			accessor: (item) => {
 				return (
 					<div style={{ padding: '6px', cursor: 'pointer' }}>
-						{item.type==1?"Company Credit":"Card Refund"}
+						{item.type==1?"Hotspot Credit":"Card Refund"}
 					</div>
 				);
 			},

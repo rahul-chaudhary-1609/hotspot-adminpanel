@@ -187,12 +187,14 @@ const PaymentDetails = () => {
       console.log("complete",refundAmount,parseFloat(paymentDetails.order_details.amount_details.totalCost),parseFloat(paymentDetails.order_details.amount_details.processing_fee))
       setRefundObj({
         ...refundObj,
+        type:1,
         refund_type:2,
       })
     }else{
       console.log("partial",refundAmount,parseFloat(paymentDetails.order_details.amount_details.totalCost),parseFloat(paymentDetails.order_details.amount_details.processing_fee))
       setRefundObj({
         ...refundObj,
+        type:1,
         refund_type:1,
       })
     }
@@ -208,6 +210,7 @@ const PaymentDetails = () => {
               ...paymentDetails.order_details,
               amount_details:{
                 ...paymentDetails.order_details.amount_details,
+                refundSalesFee:refundSalesFee,
                 refundSubtotal:refundSubtotal,
                 refundTotal:refundAmount,
               }
@@ -476,7 +479,7 @@ const PaymentDetails = () => {
                           <tr style={{textAlign: "right"}}>
                               <td style={{textAlign: "left"}}>
                                   <div>
-                                      Processing Fee ({paymentDetails.order_details.amount_details.processing_fee_variable_percentage}% + ¢{paymentDetails.order_details.amount_details.processing_fee_fixed_amount})
+                                      Processing Fee ({paymentDetails.order_details.amount_details.processing_fee_variable_percentage}%{paymentDetails.order_details.amount_details.processing_fee_fixed_amount?` + ¢${paymentDetails.order_details.amount_details.processing_fee_fixed_amount}`:``})
                                   </div>
                               </td>
                               <td style={{textAlign: "right"}}>
@@ -489,7 +492,7 @@ const PaymentDetails = () => {
                           <tr style={{textAlign: "left", verticalAlign: "top"}}>
                               <td style={{textAlign: "left"}}>
                                   <div>
-                                      Taxes ({paymentDetails.order_details.amount_details.taxes_variable_percentage}% + ¢{paymentDetails.order_details.amount_details.taxes_fixed_amount})
+                                      Taxes ({paymentDetails.order_details.amount_details.taxes_variable_percentage}%{paymentDetails.order_details.amount_details.taxes_fixed_amount?` + ¢${paymentDetails.order_details.amount_details.taxes_fixed_amount}`:``})
                                   </div>
                               </td>
                               <td style={{textAlign: "right"}}>

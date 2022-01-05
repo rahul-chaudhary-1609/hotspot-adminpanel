@@ -119,9 +119,9 @@ const RefundModal = (props) => {
                 })
               }}
             /> 
-            Company Credit
+            Hotspot Credit
           </div>
-          <div style={{marginLeft:"1rem"}}>
+        {!props.refundObj?.order_details?.amount_details?.credits_applied?<div style={{marginLeft:"1rem"}}>
             <input 
               type="checkbox"
                 style={{marginRight:"5px",height:"15px",width:"15px",border:"2px solid black", borderRadius:"5px"}}
@@ -135,7 +135,7 @@ const RefundModal = (props) => {
                 }}
             />  
             Card Refund
-          </div>
+          </div>:""}
         </div>
 
         <div className="px-2 text-base" style={{marginTop: '10px', display:"flex",flexDirection:"column" }}>

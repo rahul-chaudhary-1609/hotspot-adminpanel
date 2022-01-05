@@ -163,7 +163,7 @@ const OrderDetails = () => {
               <div className="px-8 text-xl">{orderDetails.customer}</div>
             </div>
           </div>
-
+        {console.log(orderDetails)}
           {orderDetails.type == 1 && (
             <>
               <div
@@ -214,7 +214,224 @@ const OrderDetails = () => {
             </div>
           </div>
 
-          <div style={{ marginTop: "40px", width: "60%", marginLeft: "235px" }}>
+          <div style={{padding:"5px",border:"2px solid rgba(0,0,0,0.3)"}}>
+          
+          <div className="px-8 text-base" style={{marginTop: "10px"}}>
+                      <table style={{width: "100%"}}>
+
+                      {orderDetails.order_details.ordered_items.map((ordered_item,itemIndex)=> {
+                        return (
+                            <tr style={{verticalAlign: "top",}}>
+                                <td style={{textAlign: "left"}}>
+                                    <div>
+                                        {ordered_item.itemCount}x
+                                    </div>
+                                </td>
+                                <td>
+                                    <div>
+                                    {ordered_item.is_refunded?
+                                      <>
+                                        <input  
+                                          style={{marginRight:"5px",height:"15px",width:"15px",border:"2px solid black", borderRadius:"5px"}}
+                                          type="checkbox" 
+                                          checked={ordered_item.is_refunded}                                                            
+                                        />                                          
+                                              <input 
+                                                style={{marginRight:"5px",textAlign:"center",height:"20px",width:"40px",paddingLeft:"2px" ,border:"1px solid rgba(0,0,0,0.5)", borderRadius:"5px"}}
+                                                type="number" 
+                                                value={ordered_item.refund_count} 
+                                                min={1} 
+                                                max={ordered_item.itemCount}                 
+                                              />
+                                        </>:""
+                                          } 
+                                      {ordered_item.itemName} (${(parseFloat(ordered_item.price)*ordered_item.itemCount).toFixed(2)}) {ordered_item.is_refunded?(<span style={{color:"red",marginRight:"10px"}}>(- ${(parseFloat(ordered_item.refund_amount)).toFixed(2)})</span>):""}
+                                  
+                          {ordered_item.itemAddOn.map((addOn,addonIndex)=> {
+                              return <li style={{/*fontSize: "13px"*/}}>
+                              {addOn.is_refunded?
+                                <>
+                                  <input
+                                  style={{marginRight:"5px",height:"15px",width:"15px",border:"2px solid black", borderRadius:"5px"}}
+                                  type="checkbox" 
+                                  checked={addOn.is_refunded}                                    
+                                  />
+                                  
+                                    <input 
+                                      style={{marginRight:"5px",textAlign:"center",marginLeft:"5px",height:"20px",width:"40px",paddingLeft:"2px" ,border:"1px solid rgba(0,0,0,0.5)", borderRadius:"5px"}}
+                                      type="number" 
+                                      value={addOn.refund_count} 
+                                      min={1} 
+                                      max={ordered_item.itemCount}               
+                                  />
+                                </>:""} 
+                                {addOn.name} (${(parseFloat(addOn.price)*ordered_item.itemCount).toFixed(2)}) {addOn.is_refunded?(<span style={{color:"red",marginRight:"10px"}}>(- ${(parseFloat(addOn.refund_amount)).toFixed(2)})</span>):""}
+                              </li>
+                          })}
+
+                         { ordered_item.preference && ordered_item.preference.trim()!==""?(
+                              <div>
+                                  <i>Preference: </i>
+                                      <span style={{/*fontSize: "13px"*/}}>
+                                          {ordered_item.preference}
+                                      </span>
+                              </div>
+                         ):("")}
+
+                          </div>
+                              </td>
+                              <td style={{textAlign: "right"}}>
+                                  <div>
+                                      ${(parseFloat(ordered_item.itemPrice)).toFixed(2)}
+                                  </div>
+                              </td>
+                          </tr>
+                        )
+                          
+                      })}                          
+                      </table>
+                  </div>
+
+                  <div className="px-8" style={{marginTop: "10px"}}>
+                      <table style={{width: "100%"}}>
+                          <tr style={{textAlign: "left", verticalAlign: "top"}}>
+                              <td style={{textAlign: "left", borderTop:"2px solid #e6e8e6"}}>
+                                  <div>
+                                      Subtotal
+                                  </div>
+                              </td>
+                              <td style={{textAlign: "right", borderTop:"2px solid #e6e8e6"}}>
+                                  <div>
+                                  {orderDetails.order_details.amount_details.refundSubtotal?(<span style={{color:"red",marginLeft:"10px"}}>(- ${(parseFloat(orderDetails.order_details.amount_details.refundSubtotal)).toFixed(2)})</span>):""}  ${orderDetails.order_details.amount_details.subtotal.toFixed(2)}
+                                  </div>
+                              </td>
+                          </tr>
+                          <tr style={{textAlign: "left", verticalAlign: "top"}}>
+                              <td style={{textAlign: "left"}}>
+                                  <div>
+                                      Regulatory Response Fee
+                                  </div>
+                              </td>
+                              <td style={{textAlign: "right"}}>
+                                  <div>
+                                      ${orderDetails.order_details.amount_details.regulatory_response_fee.toFixed(2)}
+                                  </div>
+                              </td>
+                          </tr>
+                          <tr style={{textAlign: "left", verticalAlign: "top"}}>
+                              <td style={{textAlign: "left"}}>
+                                  <div>
+                                      Delivery Fee
+                                  </div>
+                              </td>
+                              <td style={{textAlign: "right"}}>
+                                  <div>
+                                      ${orderDetails.order_details.amount_details.delivery_fee.toFixed(2)}
+                                  </div>
+                              </td>
+                          </tr>
+                          <tr style={{textAlign: "left", verticalAlign: "top"}}>
+                              <td style={{textAlign: "left"}}>
+                                  <div>
+                                      Service Fee
+                                  </div>
+                              </td>
+                              <td style={{textAlign: "right"}}>
+                                  <div>
+                                      ${orderDetails.order_details.amount_details.service_fee.toFixed(2)}
+                                  </div>
+                              </td>
+                          </tr>
+                          <tr style={{textAlign: "right"}}>
+                              <td style={{textAlign: "left"}}>
+                                  <div>
+                                      Processing Fee ({orderDetails.order_details.amount_details.processing_fee_variable_percentage}%{orderDetails.order_details.amount_details.processing_fee_fixed_amount?` + ¢${orderDetails.order_details.amount_details.processing_fee_fixed_amount}`:``})
+                                  </div>
+                              </td>
+                              <td style={{textAlign: "right"}}>
+                                  <div>
+                                  {/* {refundProcessingFee?(<span style={{color:"red",marginLeft:"10px"}}>(- ${(parseFloat(refundProcessingFee)).toFixed(2)})</span>):""}  */}
+                                   ${orderDetails.order_details.amount_details.processing_fee.toFixed(2)}
+                                  </div>
+                              </td>
+                          </tr>
+                          <tr style={{textAlign: "left", verticalAlign: "top"}}>
+                              <td style={{textAlign: "left"}}>
+                                  <div>
+                                      Taxes ({orderDetails.order_details.amount_details.taxes_variable_percentage}%{orderDetails.order_details.amount_details.taxes_fixed_amount?` + ¢${orderDetails.order_details.amount_details.taxes_fixed_amount}`:``})
+                                  </div>
+                              </td>
+                              <td style={{textAlign: "right"}}>
+                                  <div>
+                                    {orderDetails.order_details.amount_details.refundSalesFee?(<span style={{color:"red",marginLeft:"10px"}}>(- ${(parseFloat(orderDetails.order_details.amount_details.refundSalesFee)).toFixed(2)})</span>):""}
+                                     ${orderDetails.order_details.amount_details.taxes.toFixed(2)}
+                                  </div>
+                              </td>
+                          </tr>
+                          { orderDetails.order_details.amount_details.credits_applied>0 && (<tr style={{textAlign: "left", verticalAlign: "top"}}>
+                              <td style={{textAlign: "left"}}>
+                                  <div>
+                                      Credits Applied
+                                  </div>
+                              </td>
+                              <td style={{textAlign: "right"}}>
+                                  <div>
+                                      -${orderDetails.order_details.amount_details.credits_applied.toFixed(2)}
+                                  </div>
+                              </td>
+                          </tr>)}
+                          <tr style={{textAlign: "left", verticalAlign: "top"}}>
+                              <td style={{textAlign: "left"}}>
+                                  <div>
+                                      Tip
+                                  </div>
+                              </td>
+                              <td style={{textAlign: "right"}}>
+                                  <div>
+                                      ${orderDetails.order_details.amount_details.tip || "0.00"}
+                                  </div>
+                              </td>
+                          </tr>
+                      </table>
+                  </div>
+
+                  <div className="px-8" style={{marginTop: "10px"}}>
+                      <table style={{width: "100%"}}>
+                          <tr style={{textAlign: "left", verticalAlign: "top"}}>
+                              <td style={{textAlign: "left", borderTop:"2px solid #e6e8e6"}}>
+                                  <div>
+                                      <strong>Total Charged </strong> 
+                                  </div>
+                              </td>
+                              <td style={{textAlign: "right", borderTop:"2px solid #e6e8e6"}}>
+                                <div>
+                                    <strong>${orderDetails.order_details.amount_details.grandTotal.toFixed(2)}</strong>
+                                  </div>
+                              </td>
+                          </tr>
+                      </table>                        
+                  </div>
+                  {orderDetails.order_details.amount_details.refundTotal?
+                    <div className="px-8" style={{marginTop: "5px"}}>
+                      <table style={{width: "100%"}}>
+                          <tr style={{textAlign: "left", verticalAlign: "top"}}>
+                              <td style={{textAlign: "left", color:"red" }}>
+                                  <div>
+                                      Total Refunded
+                                  </div>
+                              </td>
+                              <td style={{textAlign: "right", color:"red"}}>
+                                <div>
+                                    - ${orderDetails.order_details.amount_details.refundTotal}
+                                  </div>
+                              </td>
+                          </tr>
+                      </table>                        
+                  </div>:""} 
+
+                  </div>
+
+          {/* <div style={{ marginTop: "40px", width: "60%", marginLeft: "235px" }}>
             {orderDetails.orderItems.map((item) => {
               var addOnName = ""
               {item.itemAddOn.map((addOn) => {
@@ -262,7 +479,7 @@ const OrderDetails = () => {
               Order Total
             </div>
             <div className="px-8">${orderDetails.amount}</div>
-          </div>
+          </div> */}
           {orderDetails.status === "Pickup" ||
           orderDetails.status === "Completed" ? null : [2,3,4].includes(orderDetails.order_status)? (
             <div

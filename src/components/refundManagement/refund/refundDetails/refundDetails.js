@@ -209,7 +209,7 @@ const RefundDetails = () => {
                         >
                           Refund Type
                         </div>
-                        <div className="px-8 text-lg">{refundDetails.type==1?"Company Credit":"Card Refund"}</div>
+                        <div className="px-8 text-lg">{refundDetails.type==1?"Hotspot Credit":"Card Refund"}</div>
                       </div>
                     </div>  
                     <div className="form-layout text-base" style={{ marginTop: "-20px" }}>
