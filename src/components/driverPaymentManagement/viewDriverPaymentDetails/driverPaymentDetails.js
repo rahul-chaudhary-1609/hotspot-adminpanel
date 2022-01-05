@@ -179,7 +179,7 @@ const DriverPaymentDetails = (props) => {
 			accessor: (item) => {
 				return (
 					<div style={{ padding: '6px', cursor: 'pointer' }}>
-						${parseFloat(item.order_details.amount_details.totalActualPrice)}
+						${parseFloat(item.order_details.amount_details.totalActualPrice).toFixed(2)}
 					</div>
 				);
 			},
@@ -191,7 +191,7 @@ const DriverPaymentDetails = (props) => {
 			accessor: (item) => {
 				return (
 					<div style={{ padding: '6px', cursor: 'pointer' }}>
-						${parseFloat(item.amount)-parseFloat(item.order_details.amount_details.totalActualPrice)}
+						${(parseFloat(item.amount)-parseFloat(item.order_details.amount_details.totalActualPrice)).toFixed(2)}
 					</div>
 				);
 			},

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getListHotspots, getHotspotDetails } from '../../api.js';
+import { getListHotspots,getHotspot } from '../../api.js';
 import { useSelector } from 'react-redux';
 import GoogleMap from './googleMap.js';
 import StaticsComponent from './staticsComp.js';
@@ -61,7 +61,12 @@ function Dashboard({ history, ...props }) {
 			let hotspotId = selectedHotspot.value;
 			setMapShow(false);
 			if (hotspotId) {
-				getHotspotDetails(token, hotspotId)
+				let data={
+					params:{
+						hotspotLocationId:hotspotId
+					}
+				}
+				getHotspot(token, data)
 					.then((hotspot) => {
 						let { location, location_detail } = hotspot.hotspotDetails;
 						let markers = [];

@@ -324,7 +324,7 @@ const PaymentDetails = () => {
                           className="font-semibold py-4 px-6 text-left text-lg"
                           style={{ width: "21%" }}
                         >
-                          Reataurant
+                          Restaurant
                         </div>
                         <div className="px-8 text-lg">{paymentDetails.order_details.restaurant.restaurant_name}</div>
                       </div>
@@ -449,7 +449,7 @@ const PaymentDetails = () => {
                               </td>
                               <td style={{textAlign: "right"}}>
                                   <div>
-                                      ${paymentDetails.order_details.amount_details.regulatory_response_fee.toFixed(2)}
+                                      {paymentDetails.order_details.amount_details.regulatory_response_fee?`$${paymentDetails.order_details.amount_details.regulatory_response_fee.toFixed(2)}`:`Free`}
                                   </div>
                               </td>
                           </tr>
@@ -461,7 +461,7 @@ const PaymentDetails = () => {
                               </td>
                               <td style={{textAlign: "right"}}>
                                   <div>
-                                      ${paymentDetails.order_details.amount_details.delivery_fee.toFixed(2)}
+                                      {paymentDetails.order_details.amount_details.delivery_fee?`$${paymentDetails.order_details.amount_details.delivery_fee.toFixed(2)}`:`Free`}
                                   </div>
                               </td>
                           </tr>
@@ -473,7 +473,7 @@ const PaymentDetails = () => {
                               </td>
                               <td style={{textAlign: "right"}}>
                                   <div>
-                                      ${paymentDetails.order_details.amount_details.service_fee.toFixed(2)}
+                                      {paymentDetails.order_details.amount_details.service_fee?`$${paymentDetails.order_details.amount_details.service_fee.toFixed(2)}`:`Free`}
                                   </div>
                               </td>
                           </tr>
@@ -585,7 +585,7 @@ const PaymentDetails = () => {
                           className='shadow bg-red-500 ml-3 hover:bg-red-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded'
                           onClick={handleIntiateRefund}
                           disabled={refundSubtotal?false:true}>
-                          Intiate Refund
+                          Initiate Refund
                         </button>
                       </div>
                   </div>:""}

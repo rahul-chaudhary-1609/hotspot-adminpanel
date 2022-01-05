@@ -174,7 +174,7 @@ const RefundDetails = () => {
                           className="font-semibold py-4 px-6 text-left text-lg"
                           style={{ width: "21%" }}
                         >
-                          Reataurant
+                          Restaurant
                         </div>
                         <div className="px-8 text-lg">{refundDetails.refund_details.order_details.restaurant.restaurant_name}</div>
                       </div>

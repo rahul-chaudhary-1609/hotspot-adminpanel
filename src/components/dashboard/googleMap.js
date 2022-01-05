@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import GoogleMapReact from 'google-map-react';
 
 const GoogleMap = (props) => {
+	console.log("props",props)
 	let markers = props.markerLists;
 	const [map, setMap] = useState(null);
 	const [maps, setMaps] = useState(null);
@@ -35,10 +36,12 @@ const GoogleMap = (props) => {
 					key: 'AIzaSyCqeKge8JYCJdvyt77p0QEqIr0dMyA8BOM',
 				}}
 				defaultCenter={{
-					lat: markers[0][1],
-					lng: markers[0][2],
+					lat: markers[markers.length-1][1],
+					lng: markers[markers.length-1][2],
+					// lat:31.9686,
+					// lng:-99.9018,
 				}}
-				defaultZoom={0}
+				defaultZoom={4.5}
 			
 				onGoogleApiLoaded={({ map, maps }) => {
 					console.log(map);

@@ -314,7 +314,7 @@ const OrderDetails = () => {
                               </td>
                               <td style={{textAlign: "right"}}>
                                   <div>
-                                      ${orderDetails.order_details.amount_details.regulatory_response_fee.toFixed(2)}
+                                      {orderDetails.order_details.amount_details.regulatory_response_fee?`$${orderDetails.order_details.amount_details.regulatory_response_fee.toFixed(2)}`:`Free`}
                                   </div>
                               </td>
                           </tr>
@@ -326,7 +326,7 @@ const OrderDetails = () => {
                               </td>
                               <td style={{textAlign: "right"}}>
                                   <div>
-                                      ${orderDetails.order_details.amount_details.delivery_fee.toFixed(2)}
+                                      {orderDetails.order_details.amount_details.regulatory_response_fee?`$${orderDetails.order_details.amount_details.delivery_fee.toFixed(2)}`:`Free`}
                                   </div>
                               </td>
                           </tr>
@@ -338,7 +338,7 @@ const OrderDetails = () => {
                               </td>
                               <td style={{textAlign: "right"}}>
                                   <div>
-                                      ${orderDetails.order_details.amount_details.service_fee.toFixed(2)}
+                                      {orderDetails.order_details.amount_details.service_fee?`$${orderDetails.order_details.amount_details.service_fee.toFixed(2)}`:`Free`}
                                   </div>
                               </td>
                           </tr>
