@@ -283,7 +283,7 @@ const PaymentDetails = () => {
                         </h3>
                         <button
                             style={{ height: "3rem", marginLeft: "45%" }}
-                            onClick={() => history.push("/payments")}
+                            onClick={() => history.goBack()}
                             className="shadow bg-blue-500 ml-3 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
                             type="button"
                             >
@@ -353,7 +353,7 @@ const PaymentDetails = () => {
                     </div>       
 
                     <div className="px-8 text-base" style={{marginTop: "10px"}}>
-                      <table style={{width: "100%"}}>
+                      <table style={{width: "100%"}} cellpadding="10">
 
                       {paymentDetails.order_details.ordered_items.map((ordered_item,itemIndex)=> {
                         return (
@@ -384,7 +384,7 @@ const PaymentDetails = () => {
                                       {ordered_item.itemName} (${(parseFloat(ordered_item.price)*ordered_item.itemCount).toFixed(2)}) {ordered_item.is_refunded?(<span style={{color:"red",marginRight:"10px"}}>(- ${(parseFloat(ordered_item.refund_amount)).toFixed(2)})</span>):""}
                                   
                           {ordered_item.itemAddOn.map((addOn,addonIndex)=> {
-                              return <li style={{/*fontSize: "13px"*/}}>
+                              return <li style={{fontSize: "14px"}}>
                                 <input
                                 style={{marginRight:"5px",height:"15px",width:"15px",border:"2px solid black", borderRadius:"5px"}}
                                  type="checkbox" 
@@ -407,7 +407,7 @@ const PaymentDetails = () => {
                          { ordered_item.preference && ordered_item.preference.trim()!==""?(
                               <div>
                                   <i>Preference: </i>
-                                      <span style={{/*fontSize: "13px"*/}}>
+                                      <span style={{fontSize: "14px"}}>
                                           {ordered_item.preference}
                                       </span>
                               </div>

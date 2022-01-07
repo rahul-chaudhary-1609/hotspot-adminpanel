@@ -9,6 +9,7 @@ import {
 import { useSelector } from "react-redux";
 import moment from "moment";
 import Loader from "../../../globalComponent/layout/loader";
+import { Link } from 'react-router-dom';
 
 import {formatDateWithTime} from '../../../utils/redableDateTime'
 
@@ -213,11 +214,28 @@ const OrderDetails = () => {
               <div className="px-8 text-xl">{orderDetails.restaurant}</div>
             </div>
           </div>
+          <div className="form-layout text-base" style={{ marginTop: "-20px" }}>
+                      <div className="flex flex-row items-center ">
+                        <div
+                          className="font-semibold py-4 px-6 text-left text-lg"
+                          style={{ width: "21%" }}
+                        >
+                          Payment ID
+                        </div>
+                        <div className="px-8 text-lg">
+                            <Link
+                                to={`/payments/${orderDetails.order_payment_id}`}
+                                style={{color:'#39B7CD	'}}>
+                                {orderDetails.order_payment_id}
+                            </Link>
+                        </div>
+                      </div>
+                    </div>
 
           <div style={{padding:"5px",border:"2px solid rgba(0,0,0,0.3)"}}>
           
           <div className="px-8 text-base" style={{marginTop: "10px"}}>
-                      <table style={{width: "100%"}}>
+                      <table style={{width: "100%"}} cellpadding="5">
 
                       {orderDetails.order_details.ordered_items.map((ordered_item,itemIndex)=> {
                         return (
@@ -231,7 +249,7 @@ const OrderDetails = () => {
                                     <div>
                                     {ordered_item.is_refunded?
                                       <>
-                                        <input  
+                                        {/* <input  
                                           style={{marginRight:"5px",height:"15px",width:"15px",border:"2px solid black", borderRadius:"5px"}}
                                           type="checkbox" 
                                           checked={ordered_item.is_refunded}                                                            
@@ -242,16 +260,17 @@ const OrderDetails = () => {
                                                 value={ordered_item.refund_count} 
                                                 min={1} 
                                                 max={ordered_item.itemCount}                 
-                                              />
+                                              /> */}
                                         </>:""
                                           } 
-                                      {ordered_item.itemName} (${(parseFloat(ordered_item.price)*ordered_item.itemCount).toFixed(2)}) {ordered_item.is_refunded?(<span style={{color:"red",marginRight:"10px"}}>(- ${(parseFloat(ordered_item.refund_amount)).toFixed(2)})</span>):""}
-                                  
+                                      {ordered_item.itemName} (${(parseFloat(ordered_item.price)*ordered_item.itemCount).toFixed(2)}) 
+                                      {/* {ordered_item.is_refunded?(<span style={{color:"red",marginRight:"10px"}}>(- ${(parseFloat(ordered_item.refund_amount)).toFixed(2)})</span>):""} */}
+                                       {ordered_item.is_refunded?(<span style={{fontSize: "10px",color:"white",marginLeft:"5px", backgroundColor:"red", borderRadius:"10px", padding:"1px 5px 1px 5px"}}>refunded</span>):""}
                           {ordered_item.itemAddOn.map((addOn,addonIndex)=> {
-                              return <li style={{/*fontSize: "13px"*/}}>
+                              return <li style={{fontSize: "14px"}}>
                               {addOn.is_refunded?
                                 <>
-                                  <input
+                                  {/* <input
                                   style={{marginRight:"5px",height:"15px",width:"15px",border:"2px solid black", borderRadius:"5px"}}
                                   type="checkbox" 
                                   checked={addOn.is_refunded}                                    
@@ -263,16 +282,18 @@ const OrderDetails = () => {
                                       value={addOn.refund_count} 
                                       min={1} 
                                       max={ordered_item.itemCount}               
-                                  />
+                                  /> */}
                                 </>:""} 
-                                {addOn.name} (${(parseFloat(addOn.price)*ordered_item.itemCount).toFixed(2)}) {addOn.is_refunded?(<span style={{color:"red",marginRight:"10px"}}>(- ${(parseFloat(addOn.refund_amount)).toFixed(2)})</span>):""}
+                                {addOn.name} (${(parseFloat(addOn.price)*ordered_item.itemCount).toFixed(2)}) 
+                                {/* {addOn.is_refunded?(<span style={{color:"red",marginRight:"10px"}}>(- ${(parseFloat(addOn.refund_amount)).toFixed(2)})</span>):""} */}
+                                 {addOn.is_refunded?(<span style={{fontSize: "10px",color:"white",marginLeft:"5px", backgroundColor:"red", borderRadius:"10px", padding:"1px 5px 1px 5px"}}>refunded</span>):""}
                               </li>
                           })}
 
                          { ordered_item.preference && ordered_item.preference.trim()!==""?(
                               <div>
                                   <i>Preference: </i>
-                                      <span style={{/*fontSize: "13px"*/}}>
+                                      <span style={{fontSize: "13px"}}>
                                           {ordered_item.preference}
                                       </span>
                               </div>
@@ -302,7 +323,8 @@ const OrderDetails = () => {
                               </td>
                               <td style={{textAlign: "right", borderTop:"2px solid #e6e8e6"}}>
                                   <div>
-                                  {orderDetails.order_details.amount_details.refundSubtotal?(<span style={{color:"red",marginLeft:"10px"}}>(- ${(parseFloat(orderDetails.order_details.amount_details.refundSubtotal)).toFixed(2)})</span>):""}  ${orderDetails.order_details.amount_details.subtotal.toFixed(2)}
+                                  {/* {orderDetails.order_details.amount_details.refundSubtotal?(<span style={{color:"red",marginLeft:"10px"}}>(- ${(parseFloat(orderDetails.order_details.amount_details.refundSubtotal)).toFixed(2)})</span>):""}   */}
+                                  ${orderDetails.order_details.amount_details.subtotal.toFixed(2)}
                                   </div>
                               </td>
                           </tr>
@@ -363,7 +385,7 @@ const OrderDetails = () => {
                               </td>
                               <td style={{textAlign: "right"}}>
                                   <div>
-                                    {orderDetails.order_details.amount_details.refundSalesFee?(<span style={{color:"red",marginLeft:"10px"}}>(- ${(parseFloat(orderDetails.order_details.amount_details.refundSalesFee)).toFixed(2)})</span>):""}
+                                    {/* {orderDetails.order_details.amount_details.refundSalesFee?(<span style={{color:"red",marginLeft:"10px"}}>(- ${(parseFloat(orderDetails.order_details.amount_details.refundSalesFee)).toFixed(2)})</span>):""} */}
                                      ${orderDetails.order_details.amount_details.taxes.toFixed(2)}
                                   </div>
                               </td>
@@ -427,7 +449,7 @@ const OrderDetails = () => {
                           </tr>
                       </table>                        
                   </div>
-                  {orderDetails.order_details.amount_details.refundTotal?
+                  {/* {orderDetails.order_details.amount_details.refundTotal?
                     <div className="px-8" style={{marginTop: "5px"}}>
                       <table style={{width: "100%"}}>
                           <tr style={{textAlign: "left", verticalAlign: "top"}}>
@@ -443,7 +465,7 @@ const OrderDetails = () => {
                               </td>
                           </tr>
                       </table>                        
-                  </div>:""} 
+                  </div>:""}  */}
 
                   </div>
 

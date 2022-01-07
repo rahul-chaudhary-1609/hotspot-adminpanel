@@ -60,7 +60,7 @@ const CompletedOrder = () => {
 			accessor: (item) => {
 				return (
 					<div style={{ padding: '6px', cursor: 'pointer' }}>
-						{formatDate(item.delivery_datetime)}
+						{moment(item.delivery_datetime,"YYYY-MM-DD HH:mm:ss").format('M/D/YYYY')}
 					</div>
 				);
 			},
@@ -73,7 +73,7 @@ const CompletedOrder = () => {
 				//  console.log(item.id);
 				return (
 					<div style={{ padding: '6px', cursor: 'pointer' }}>
-						{formatTime(item.delivery_datetime)}
+						{moment(item.delivery_datetime,"YYYY-MM-DD HH:mm:ss").format('h:m a')}
 					</div>
 				);
 			},
