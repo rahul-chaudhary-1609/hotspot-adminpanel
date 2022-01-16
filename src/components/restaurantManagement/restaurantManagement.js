@@ -348,7 +348,7 @@ function RestaurantManagement({ ...props }) {
 					<div className='flex flex-wrap -mx-3 mb-6 mt-5' style={{justifyContent: 'space-between' }}>
 						<div className='w-full md:w-1/2 px-3 mb-6 md:mb-0 search-text'>
 							<SearchBox
-								placeholder='Search by name, email address, restaurant name'
+								placeholder='Search by restaurant name, owner name , email address'
 								setSearchText={(val) =>
 									dispatch({
 										type: 'SEARCH_TEXT',

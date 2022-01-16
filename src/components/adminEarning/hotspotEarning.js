@@ -195,7 +195,7 @@ const HotspotEarning = () => {
 			accessor: (item) => {
 				return (
 					<div style={{ padding: '6px', cursor: 'pointer' }}>
-						${item.delivery_details.markup_amount}
+						${item.delivery_details.markup_amount.toFixed(2)}
 					</div>
 				);
 			},

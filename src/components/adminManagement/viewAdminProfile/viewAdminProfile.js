@@ -5,12 +5,15 @@
  * However the source can be modified and updated for the working of the application Design & Development of Mobile Application for “Hotspot” for which it was licensed.
 */
 
-import React from 'react';
+import React,{useState} from 'react';
+import Loader from "../../../globalComponent/layout/loader";
 
 const ViewAdminProfile = ({ adminDetails }) => {
+	const [loader,setLoader]=useState(false);
+
 	return (
 		<>
-			{adminDetails && (
+			{adminDetails && !loader ? (
 				<>
 					<div className='flex flex-wrap -mx-3 justify-center '>
 						<div className='w-40 px-3 mb-6 flex justify-center flex-wrap'>
@@ -50,7 +53,7 @@ const ViewAdminProfile = ({ adminDetails }) => {
 						</div>
 					</div>
 				</>
-			)}
+			):<Loader/>}
 		</>
 	);
 };

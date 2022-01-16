@@ -51,7 +51,7 @@ const ViewHotspotDetails = () => {
 		}
 		deleteHotspot(token, data)
 			.then((res) => {
-				history.push('/hotspot');
+				history.push('/hotspots');
 				setDeleteModal(false);
 				setError(null);
 			})

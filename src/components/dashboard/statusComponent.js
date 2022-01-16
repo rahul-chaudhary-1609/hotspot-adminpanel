@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import Piechart from '../../globalComponent/layout/piechart.js';
+import Piechar from '../../globalComponent/layout/piechart.js';
 import { getOrderStats, getRevenueStats } from '../../api';
 import moment from 'moment';
 
@@ -59,59 +59,52 @@ const StatusComponent = (props) => {
 					Orders
 				</h2>
 				{orderStatusDetails && (
-					<div className='flex'>
-						<Piechart
-							contentStyle={{
-								marginTop: '-120px',
-								marginLeft: '45px',
-								fontSize: '15px',
-								fontWeight: 'bold',
-							}}
-							subContentStyle={{
-								marginTop: '3px',
-								marginLeft: '58px',
-								fontSize: '14px',
-								fontWeight: 'bold',
-							}}
-							content={'Completed'}
-							subContent={`${orderStatusDetails.completedOrderPercentage}% (${props.totalCompletedOrders})`}
-							data={[
-								{
-									title: 'Today',
-									value: orderStatusDetails.numberOfTodayOrders,
-									color: 'green',
-								},
-								{
-									title: 'This month',
-									value: orderStatusDetails.numberOfMonthlyOrders,
-									color: '#20BF9F',
-								},
-								{
-									title: 'This year',
-									value: orderStatusDetails.numberOfYearlyOrders,
-									color: '#E38217',
-								},
-							]}
-
-							// style={{ marginLeft: '10px', fontSize: '16px' }}
-						/>
-						<div style={{ marginTop: '50px', fontSize: '20px' }}>
-							<h1>Order Count : {orderStatusDetails.numberOfTotalOrders}</h1>
-							<h1>
-								{' '}
-								<span style={{ color: 'green', fontWeight:'bold'  }}>Today</span> :{' '}
-								{orderStatusDetails.numberOfTodayOrders}
-							</h1>
-							<h1>
-								{' '}
-								<span style={{ color: '#20BF9F', fontWeight:'bold'  }}> This Month </span> :{' '}
-								{orderStatusDetails.numberOfMonthlyOrders}
-							</h1>
-							<h1>
-								{' '}
-								<span style={{ color: '#E38217', fontWeight:'bold'  }}>This Year </span>:{' '}
-								{orderStatusDetails.numberOfYearlyOrders}
-							</h1>
+					<div style={{display:"flex",justifyContent:"space-evenly"}}>
+						<div>
+							<Piechar
+								content={`${orderStatusDetails.completedOrderPercentage}% (${props.totalCompletedOrders})`}
+								COLORS = {orderStatusDetails.numberOfYearlyOrders?['green', '#20BF9F', '#E38217']:['rgba(0,0,0,0.1)']}
+								data={[
+									{
+										name: 'Today',
+										value: orderStatusDetails.numberOfTodayOrders,
+									},
+									{
+										name: 'This month',
+										value: orderStatusDetails.numberOfMonthlyOrders,
+									},
+									{
+										name: 'This year',
+										value: orderStatusDetails.numberOfYearlyOrders,
+									},
+								]}
+							/>
+						</div>
+						<div style={{ marginTop:"30px",  fontSize: '20px',display:"flex", flexDirection:"column",alignContent:"space-evenly" }}>
+							<div>
+								<h1>Order Count : {orderStatusDetails.numberOfTotalOrders}</h1>
+							</div>
+							<div>
+								<h1>
+									{' '}
+									<span style={{ color: 'green', fontWeight:'bold'  }}>Today</span> :{' '}
+									{orderStatusDetails.numberOfTodayOrders}
+								</h1>
+							</div>
+							<div>
+								<h1>
+									{' '}
+									<span style={{ color: '#20BF9F', fontWeight:'bold'  }}> This Month </span> :{' '}
+									{orderStatusDetails.numberOfMonthlyOrders}
+								</h1>
+							</div>
+							<div>
+								<h1>
+									{' '}
+									<span style={{ color: '#E38217', fontWeight:'bold'  }}>This Year </span>:{' '}
+									{orderStatusDetails.numberOfYearlyOrders}
+								</h1>
+							</div>
 						</div>
 					</div>
 				)}
@@ -132,56 +125,60 @@ const StatusComponent = (props) => {
 					Earnings
 				</h2>
 				{revenueStatusDetails && (
-					<div style={{display: 'flex', marginTop: '10px'}}>
-						
-						<Piechart
-							content={'Total'}
-							subContent={`${revenueStatusDetails.totalRevenue}$`}
-							contentStyle={{
-								marginTop: '-120px',
-								marginLeft: '64px',
-								fontSize: '15px',
-								fontWeight: 'bold',
-							}}
-							subContentStyle={{
-								marginTop: '3px',
-								marginLeft: '60px',
-								fontSize: '14px',
-								fontWeight: 'bold',
-							}}
-							data={[
-								{
-									title: 'Today',
-									value: revenueStatusDetails.todayRevenue,
-									color: 'green',
-								},
-								{
-									title: 'This month',
-									value: revenueStatusDetails.monthlyRevenue,
-									color: '#20BF9F',
-								},
-								{
-									title: 'This year',
-									value: revenueStatusDetails.yearlyRevenue,
-									color: '#E38217',
-								},
-							]}
-							style={{ marginLeft: '10px', fontSize: '16px' }}
-						/>
-						<div style={{ marginTop: '50px', fontSize: '20px' }}>
-							<h1>
-								{' '}
-								<span style={{ color: 'green', fontWeight:'bold' }}>Today</span> :{' '}
-								{revenueStatusDetails.todayRevenue} $
-							</h1>
-							<h1>
-								<span style={{ color: '#20BF9F', fontWeight:'bold'  }}> This Month </span> :{' '}
-								{revenueStatusDetails.monthlyRevenue} $
-							</h1>
-							<h1>
-								<span style={{ color: '#E38217', fontWeight:'bold'  }}>This Year </span>:{' '}
-								{revenueStatusDetails.yearlyRevenue} $
-							</h1>
+					<div style={{display: 'flex', marginTop: '10px',justifyContent:"space-evenly"}}>
+						<div>						
+							<Piechar
+								content={`$${revenueStatusDetails.totalRevenue}`}
+								COLORS = {revenueStatusDetails.yearlyRevenue && revenueStatusDetails.yearlyRevenue>0?['green', '#20BF9F', '#E38217']:['rgba(0,0,0,0.1)']}
+								data={revenueStatusDetails.yearlyRevenue && revenueStatusDetails.yearlyRevenue>0?[
+									{
+										name: 'Today',
+										value: revenueStatusDetails.todayRevenue,
+									},
+									{
+										name: 'This month',
+										value: revenueStatusDetails.monthlyRevenue,
+									},
+									{
+										name: 'This year',
+										value: revenueStatusDetails.yearlyRevenue,
+									},
+								]:[
+									{
+										name: 'Today',
+										value: 1,
+									},
+									{
+										name: 'This month',
+										value: 1,
+									},
+									{
+										name: 'This year',
+										value: 1,
+									},
+								]}
+							/>
+						</div>
+						<div style={{ marginTop:"30px",fontSize: '20px',display:"flex", flexDirection:"column",alignContent:"space-evenly" }}>
+							<div>
+								<h1>
+									{' '}
+									<span style={{ color: 'green', fontWeight:'bold' }}>Today</span> :{' '}
+									{revenueStatusDetails.todayRevenue} $
+								</h1>
+							</div>
+							<div>
+								<h1>
+									<span style={{ color: '#20BF9F', fontWeight:'bold'  }}> This Month </span> :{' '}
+									{revenueStatusDetails.monthlyRevenue} $
+								</h1>
+							</div>
+							<div>
+								<h1>
+									<span style={{ color: '#E38217', fontWeight:'bold'  }}>This Year </span>:{' '}
+									{revenueStatusDetails.yearlyRevenue} $
+								</h1>
+							</div>
 						</div>
 					</div>
 				)}

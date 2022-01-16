@@ -689,20 +689,21 @@ const AddEditRestaurant = () => {
 											for='cut_off_time'>
 											Cut Off Time
 										</label>
-										<div className='block w-1/2 flex d-inline-flex mb-3' >
-											<input
-												className='appearance-none block w-1/4 bg-gray-100 border border-gray-200 rounded-half py-3 px-6 leading-tight focus:outline-none focus:bg-white focus:border-gray-200'
-												id='cut_off_time'
-												type='number'
-												min="1"
-												required
-												onChange={handleInputChange}
-												value={restaurant.cut_off_time}
-											/>
-											<label
-												className='block tracking-wide text-gray-300 py-3 px-6'>
+										<div style={{display:"flex", flexDirection:"column", alignContent:"start",width:"50%", marginBottom:"0.5rem"}} >
+											<div style={{width:"100%"}}>
+												<input
+													className='appearance-none w-full bg-gray-100 border border-gray-200 rounded-half py-3 px-6 leading-tight focus:outline-none focus:bg-white focus:border-gray-200'
+													id='cut_off_time'
+													type='number'
+													min="1"
+													required
+													onChange={handleInputChange}
+													value={restaurant.cut_off_time}
+												/>
+											</div>
+											<div style={{width:"100%",fontSize:"10px", textAlign:"end"}}>
 												minutes before shift ending
-											</label>
+											</div>
 										</div>
 									</div>
 									<div className='w-full flex px-3 mb-6 md:mb-0 d-inline-flex'>

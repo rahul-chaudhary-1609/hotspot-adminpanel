@@ -13,20 +13,25 @@ const AdminManagement = () => {
 	const history = useHistory();
 
 	return (
-		<>
+		<div
+      className="main-content pb-16 md:pb-5 flex-1 pt-20 px-2"
+      style={{ overflowY: "scroll", height: "100vh" }}
+    >
 			<div className='main-content pb-16 md:pb-5 flex-1 pt-20 px-2'>
 				<div className='p-4 md:p-8 mt-6 lg:mt-0 rounded shadow bg-white'>
-					<div style={{ marginLeft: '1rem', fontSize: '2rem' }}>
-						Admin Profile
-					</div>
-					<div id='recipients' style={{ marginTop:'-40px'}}>
-						<button
-							style={{ height: '3rem' ,marginLeft:'84%'}}
-							onClick={() => history.push('/changePassword')}
-							className='shadow bg-blue-500 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded'
-							type='button'>
-							Change Password
-						</button>
+					<div style={{display:"flex", justifyContent:"space-between"}}>
+						<div style={{ marginLeft: '1rem', fontSize: '2rem' }}>
+							Admin Profile
+						</div>
+						<div id='recipients' >
+							<button
+								style={{ height: '3rem' ,}}
+								onClick={() => history.push('/changePassword')}
+								className='shadow bg-blue-500 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded'
+								type='button'>
+								Change Password
+							</button>
+						</div>
 					</div>
                       
 					{adminDetails && (
@@ -62,7 +67,7 @@ const AdminManagement = () => {
 					)}
 				</div>
 			</div>
-		</>
+		</div>
 	);
 };
 

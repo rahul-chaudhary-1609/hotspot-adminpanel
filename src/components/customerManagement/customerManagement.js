@@ -285,7 +285,7 @@ const CustomerManagement = () => {
 					<div className='flex flex-wrap -mx-3 mb-6 mt-5'>
 						<div className='w-full md:w-1/2 px-3 mb-6 md:mb-0 search-text'>
 							<SearchBox
-								placeholder='Search by name, email address, city,state'
+								placeholder='Search by name, email, phone, address, city, state'
 								setSearchText={(val) =>
 									dispatch({
 										type: 'SEARCH_TEXT',

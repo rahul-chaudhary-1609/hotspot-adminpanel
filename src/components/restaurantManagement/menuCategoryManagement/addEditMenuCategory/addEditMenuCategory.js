@@ -203,7 +203,7 @@ const AddEditMenuCategory = () => {
 										<label
 											className='block w-1/2 tracking-wide text-gray-300 py-3 px-6 mb-3'
 											for='dish_preference'>
-											Is Bverages
+											Is Beverages
 										</label>
 										<div style={{ padding: '6px', cursor: 'pointer' }}>
 											{beveragesToggle ? (

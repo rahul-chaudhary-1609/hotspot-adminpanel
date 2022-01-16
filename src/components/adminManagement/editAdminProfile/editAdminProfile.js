@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { getAdminProfile, uploadImage, editAdminProfile } from '../../../api';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
+import Loader from "../../../globalComponent/layout/loader";
 
 const EditAdminProfile = () => {
 	const token = useSelector((state) => state.auth.isSignedIn);
@@ -19,34 +20,45 @@ const EditAdminProfile = () => {
 
 	const [error, setError] = useState(null);
 	const [successMsg, setSuccessMsg] = useState(null);
+	const [loader,setLoader]=useState(false);
 
 
 	const handleAdminDataUpdate = () => {
+		setLoader(true);
 		getAdminProfile(token)
 			.then((res) => {
+				setLoader(false)
 				dispatch({
 					type: 'ADMIN_DATA',
 					payload: res,
 				});
 			})
 			.catch((error) => {
+				setLoader(false)
 				console.log(error);
 			});
 	};
 	const handleProfileChange = async (e) => {
+		setLoader(true)
+		console.log("e.target.files[0]",e.target.files[0])
 		let payload = {
-			image: e.target.files[0],
+			file: e.target.files[0],
 			folderName: 'other',
+			mimeType:e.target.files[0].type,
 		};
 
 		try {
 			const res = await uploadImage(token, payload);
 			if (res.status == 200) {
+				setLoader(false);
 				let updatedData = { ...data };
 				updatedData['profile_picture_url'] = res.image_url;
 				setData(updatedData);
+			}else{
+				setLoader(false);
 			}
 		} catch (error) {
+			setLoader(false);
 			console.log(error);
 		}
 	};
@@ -60,16 +72,21 @@ const EditAdminProfile = () => {
 
 		if(data.phone.length == 14){
 			try {
+				setLoader(true);
 				const res = await editAdminProfile(token, data);
 				if (res.status == 200) {
+					setLoader(false);
 					setError(null);
 					setSuccessMsg("Profile update successfully");
 					setTimeout(() => {
 						handleAdminDataUpdate();
 						history.push('/profile');
 					}, 1200);
+				}else{
+					setLoader(false);
 				}
 			} catch (error) {
+				setLoader(false);
 				let updatedError = error.charAt(0).toUpperCase() + error.slice(1);
 				setError(updatedError);
 				setSuccessMsg(null);
@@ -105,20 +122,22 @@ const EditAdminProfile = () => {
 		<>
 			<div
 				className='w-full pb-16  mt-5 md:pb-5 flex-1 pt-20 px-2'
-				//  style={{ overflowY: 'scroll', height: '100vh' }}
+				 style={{ overflowY: 'scroll', height: '100vh' }}
 				>
-				   <div style={{ marginLeft: '1rem', fontSize: '2rem' }}>
-						Admin Profile
-					</div>
-					<div id='recipients' style={{ marginTop:'-50px'}}>
-						<button
-							style={{ height: '3rem' ,marginLeft:'80%'}}
-							onClick={() => history.push('/changePassword')}
-							className='shadow bg-blue-500 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded'
-							type='button'>
-							Change Password
-						</button>
-					</div>
+				   <div style={{display:"flex", justifyContent:"space-between"}}>
+						<div style={{ marginLeft: '1rem', fontSize: '2rem' }}>
+							Admin Profile
+						</div>
+						<div id='recipients'>
+							<button
+								style={{ height: '3rem' ,}}
+								onClick={() => history.push('/changePassword')}
+								className='shadow bg-blue-500 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded'
+								type='button'>
+								Change Password
+							</button>
+						</div>
+				   </div>
 					
 					<div
 						id='recipients'
@@ -165,7 +184,7 @@ const EditAdminProfile = () => {
 						</div>
 					)}
 					<br/>
-					{adminDetails && (
+					{adminDetails && !loader ? (
 						<form
 							id='myForm'
 							style={{ backgroundColor: 'lightgrey', padding: '20px', marginLeft:'25px', marginRight:'25px' }}
@@ -242,10 +261,11 @@ const EditAdminProfile = () => {
 										Email Address
 									</label>
 									<input
-										className='appearance-none not-allowed block w-1/2  bg-gray-100 border border-100 rounded-full py-3 px-6 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-200'
+										className='appearance-none block w-1/2  bg-gray-100 border border-100 rounded-full py-3 px-6 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-200'
 										id='email'
 										type='email'
-										disabled
+										// disabled
+										onChange={handleInput}
 										value={data.email}
 									/>
 								</div>
@@ -267,8 +287,7 @@ const EditAdminProfile = () => {
 												let res = normalizeInput(targetVal);
 													let updatedDetails = { ...data };
 													updatedDetails['phone'] = res;
-													setData(updatedDetails);
-												
+													setData(updatedDetails);								
 											
 											}}
 										/>
@@ -276,7 +295,7 @@ const EditAdminProfile = () => {
 								</div>
 							</div>
 						</form>
-					)}
+					):<Loader/>}
 				</div>
 			
 		</>
