@@ -104,6 +104,12 @@ export const SidebarData = [
         icon: <AttachMoneyTwoTone/>,
         cName: "nav-text md:px-4 md:py-3 md:flex-row "
     },
+    {
+        label: 'Refund History',
+        to: '/refundHistory',
+        icon: <AttachMoneyTwoTone/>,
+        cName: "nav-text md:px-4 md:py-3 md:flex-row "
+    },
 
     {
         label: 'Log Out',

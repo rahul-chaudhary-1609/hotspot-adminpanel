@@ -85,6 +85,9 @@ import PaymentDetails from './refundManagement/payment/paymentDetails/paymentDet
 import RefundManagement from './refundManagement/refund/refund';
 import RefundDetails from './refundManagement/refund/refundDetails/refundDetails';
 
+import RefundHistory from './refundHistory/refundHistory';
+import RefundHistoryDetails from './refundHistory/refundHistoryDetails/refundHistoryDetails';
+
 
 import { useHistory, useParams,useLocation } from 'react-router';
 
@@ -433,6 +436,16 @@ const Admin = () => {
 							exact
 							path={`/refunds/:refund_id`}
 							component={RefundDetails}
+						/>
+						<ProtectedRoutes
+							exact
+							path={`/refundHistory`}
+							component={RefundHistory}
+						/>
+						<ProtectedRoutes
+							exact
+							path={`/refundHistory/:customer_id`}
+							component={RefundHistoryDetails}
 						/>
 					</Switch>
 				</BrowserRouter>

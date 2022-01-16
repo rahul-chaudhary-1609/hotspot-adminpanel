@@ -3264,3 +3264,51 @@ export const getRefundDetails = (token, data) => {
 		}
 	});
 };
+
+export const listRefundHistory = (token, data) => {
+	return new Promise(async (resolve, reject) => {
+		try {
+			let url=new URL(`${baseURL}listRefundHistory`);
+			url.search= new URLSearchParams(data.query).toString();
+			const response = await fetch(url, {
+				headers: {
+					Authorization: token,
+					'Content-Type': 'application/json',
+				},
+				method: 'GET',
+			}).then((res) => res.json());
+
+			if (response.status == 200) {
+				resolve(response);
+			} else {
+				reject(response.message);
+			}   
+		} catch (error) {
+			console.log(error);
+		}
+	});
+};
+
+export const getRefundHistoryDetails = (token, data) => {
+	return new Promise(async (resolve, reject) => {
+		try {
+			let url=new URL(`${baseURL}getRefundHistoryDetails`);
+			Object.keys(data.params).forEach(key=>url.pathname=`${url.pathname}/${data.params[key]}`)
+			const response = await fetch(url, {
+				headers: {
+					Authorization: token,
+					'Content-Type': 'application/json',
+				},
+				method: 'GET',
+			}).then((res) => res.json());
+
+			if (response.status == 200) {
+				resolve(response);
+			} else {
+				reject(response.message);
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	});
+};

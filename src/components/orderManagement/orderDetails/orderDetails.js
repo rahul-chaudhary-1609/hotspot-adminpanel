@@ -265,7 +265,7 @@ const OrderDetails = () => {
                                           } 
                                       {ordered_item.itemName} (${(parseFloat(ordered_item.price)*ordered_item.itemCount).toFixed(2)}) 
                                       {/* {ordered_item.is_refunded?(<span style={{color:"red",marginRight:"10px"}}>(- ${(parseFloat(ordered_item.refund_amount)).toFixed(2)})</span>):""} */}
-                                       {ordered_item.is_refunded?(<span style={{fontSize: "10px",color:"white",marginLeft:"5px", backgroundColor:"red", borderRadius:"10px", padding:"1px 5px 1px 5px"}}>refunded</span>):""}
+                                       {ordered_item.is_refunded?(<span style={{fontSize: "10px",color:"white",marginLeft:"5px", backgroundColor:"red", borderRadius:"10px", padding:"1px 5px 1px 5px"}}>{ordered_item.refund_count}x refunded</span>):""}
                           {ordered_item.itemAddOn.map((addOn,addonIndex)=> {
                               return <li style={{fontSize: "14px"}}>
                               {addOn.is_refunded?
@@ -286,7 +286,7 @@ const OrderDetails = () => {
                                 </>:""} 
                                 {addOn.name} (${(parseFloat(addOn.price)*ordered_item.itemCount).toFixed(2)}) 
                                 {/* {addOn.is_refunded?(<span style={{color:"red",marginRight:"10px"}}>(- ${(parseFloat(addOn.refund_amount)).toFixed(2)})</span>):""} */}
-                                 {addOn.is_refunded?(<span style={{fontSize: "10px",color:"white",marginLeft:"5px", backgroundColor:"red", borderRadius:"10px", padding:"1px 5px 1px 5px"}}>refunded</span>):""}
+                                 {addOn.is_refunded?(<span style={{fontSize: "10px",color:"white",marginLeft:"5px", backgroundColor:"red", borderRadius:"10px", padding:"1px 5px 1px 5px"}}>{addOn.refund_count}x refunded</span>):""}
                               </li>
                           })}
 
