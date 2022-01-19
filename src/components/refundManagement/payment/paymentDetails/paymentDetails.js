@@ -217,7 +217,7 @@ const PaymentDetails = () => {
               }
             },
             refund_amount:refundAmount,
-            datetime:moment(new Date()).format("YYYY-MM-DD"),
+            datetime:moment(new Date()).format("YYYY-MM-DD HH:mm:ss"),
 					}						
 				}
 

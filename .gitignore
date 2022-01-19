@@ -23,7 +23,7 @@ dist/
 target/
 dist/
 build/
-
+*.zip
 # JetBrains IDE
 .idea/
 
