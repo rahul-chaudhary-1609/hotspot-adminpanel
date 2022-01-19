@@ -144,7 +144,7 @@ const RefundHistoryDetails = () => {
                                   Refunded On:
                                 </div>
                                 <div>
-                                   {moment(refund.refunded_on).format("MM/DD/YYYY h:mma")}
+                                   {moment(refund.refunded_on,"YYYY-MM-DD HH:mm:ss").format("MM/DD/YYYY h:mma")}
                                 </div>
                             </div>
                       </div>

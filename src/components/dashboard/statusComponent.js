@@ -62,7 +62,7 @@ const StatusComponent = (props) => {
 					<div style={{display:"flex",justifyContent:"space-evenly"}}>
 						<div>
 							<Piechar
-								content={`${orderStatusDetails.completedOrderPercentage}% (${props.totalCompletedOrders})`}
+								content={`${orderStatusDetails.completedOrderPercentage}% (${orderStatusDetails.completedOrders})`}
 								COLORS = {orderStatusDetails.numberOfYearlyOrders?['green', '#20BF9F', '#E38217']:['rgba(0,0,0,0.1)']}
 								data={[
 									{
@@ -128,7 +128,7 @@ const StatusComponent = (props) => {
 					<div style={{display: 'flex', marginTop: '10px',justifyContent:"space-evenly"}}>
 						<div>						
 							<Piechar
-								content={`$${revenueStatusDetails.totalRevenue}`}
+								content={`${revenueStatusDetails.totalRevenue>=0?`$${revenueStatusDetails.totalRevenue}`:`-$${Math.abs(revenueStatusDetails.totalRevenue)}`}`}
 								COLORS = {revenueStatusDetails.yearlyRevenue && revenueStatusDetails.yearlyRevenue>0?['green', '#20BF9F', '#E38217']:['rgba(0,0,0,0.1)']}
 								data={revenueStatusDetails.yearlyRevenue && revenueStatusDetails.yearlyRevenue>0?[
 									{
@@ -164,19 +164,19 @@ const StatusComponent = (props) => {
 								<h1>
 									{' '}
 									<span style={{ color: 'green', fontWeight:'bold' }}>Today</span> :{' '}
-									{revenueStatusDetails.todayRevenue} $
+									{`${revenueStatusDetails.todayRevenue>=0?`$${revenueStatusDetails.todayRevenue}`:`-$${Math.abs(revenueStatusDetails.todayRevenue)}`}`}
 								</h1>
 							</div>
 							<div>
 								<h1>
 									<span style={{ color: '#20BF9F', fontWeight:'bold'  }}> This Month </span> :{' '}
-									{revenueStatusDetails.monthlyRevenue} $
+									{`${revenueStatusDetails.monthlyRevenue>=0?`$${revenueStatusDetails.monthlyRevenue}`:`-$${Math.abs(revenueStatusDetails.monthlyRevenue)}`}`}
 								</h1>
 							</div>
 							<div>
 								<h1>
 									<span style={{ color: '#E38217', fontWeight:'bold'  }}>This Year </span>:{' '}
-									{revenueStatusDetails.yearlyRevenue} $
+									{`${revenueStatusDetails.yearlyRevenue>=0?`$${revenueStatusDetails.yearlyRevenue}`:`-$${Math.abs(revenueStatusDetails.yearlyRevenue)}`}`}
 								</h1>
 							</div>
 						</div>
