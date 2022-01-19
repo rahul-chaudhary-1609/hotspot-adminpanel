@@ -220,7 +220,7 @@ const RefundDetails = () => {
                         >
                           Refunded On
                         </div>
-                        <div className="px-8 text-lg">{moment(refundDetails.refund_on).format("MM/DD/YYYY  h:mma")}</div>
+                        <div className="px-8 text-lg">{moment(refundDetails.refunded_on).format("MM/DD/YYYY h:mma")}</div>
                       </div>
                     </div>  
                     <div className="form-layout text-base" style={{ marginTop: "-20px" }}>
