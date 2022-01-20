@@ -56,7 +56,7 @@ const RestaurantPaymentDetails = (props) => {
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (
-					<div style={{ padding: '6px', cursor: 'pointer', color: '#39B7CD' }}>
+					<div style={{ padding: '6px' }}>
 						{item.order_delivery_id}
 					</div>
 				);

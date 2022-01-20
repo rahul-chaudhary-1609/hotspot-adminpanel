@@ -55,7 +55,7 @@ const DriverPaymentDetails = (props) => {
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (
-					<div style={{ padding: '6px', cursor: 'pointer', color: '#39B7CD' }}>
+					<div style={{ padding: '6px' }}>
 						{item.order_delivery_id}
 					</div>
 				);
@@ -204,7 +204,7 @@ const DriverPaymentDetails = (props) => {
 			accessor: (item) => {
 				return (
 					<div style={{ padding: '6px', cursor: 'pointer' }}>
-						{item.order_details.driver.first_name} 	{item.order_details.driver.last_name}
+						{item.order_details.driver?.first_name} 	{item.order_details.driver?.last_name}
 					</div>
 				);
 			},

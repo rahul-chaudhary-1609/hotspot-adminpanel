@@ -49,8 +49,13 @@ const OrderDetails = () => {
 
   const getDriverList = async () => {
     try {
-      let hotspotId = orderDetails.hotspotLocation.id;
-      const res = await getDriverListByHotspot(token, hotspotId);
+      // let hotspotId = orderDetails.hotspotLocation.id;
+      let data={
+        query:{
+          hotspot_location_id : orderDetails.hotspotLocation.id,
+        }
+      }
+      const res = await getDriverListByHotspot(token, data);
       let drivers = res.rows.reduce((acc, curr) => {
         return acc.concat({
           id: curr.id,

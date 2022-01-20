@@ -9,12 +9,17 @@ import React, { useState, useEffect } from 'react';
 import ReactTable from 'react-table';
 import Pagination from 'react-js-pagination';
 import SearchComponent from '../searchComponent/index';
-import { getRestaurantEarningList,generateRestaurantEarnings,generateRestaurantOrderEmail } from '../../api';
+import { getRestaurantEarningList,
+	generateRestaurantEarnings,
+	generateRestaurantOrderEmail,
+	getDriverListByHotspot,
+	bulkAssignDriver } from '../../api';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router';
 import {formatDate, formatTime } from '../../utils/redableDateTime';
 import { clearData } from '../../actions';
 import moment from 'moment';
+import BulkAssignModal from './bulkAssignModal';
 
 
 const RestaurantPayment = () => {
@@ -46,6 +51,11 @@ const RestaurantPayment = () => {
 	const [pageSize, setPageSize] = useState(10);
 	const [totalItems, setTotalItems] = useState(null);
 	const [activePage, setCurrentPage] = useState(1);
+	const [bulkAssignModal,setBulkAssignModal]=useState(false);
+	const [bulkAssignModalData,setBulkAssignModalData]=useState(null);
+
+	const [driverList,setDriverList]=useState(null);
+	const [selectedDriver,setSelectedDriver]=useState(null);
 
 
 	const [selectedRestaurant, setSelectedRestaurant] = useState({
@@ -225,31 +235,70 @@ const RestaurantPayment = () => {
 					style={{
 						display: 'flex',
 						flexDirection: 'row',
-						justifyContent: 'space-between',
+						justifyContent: 'center',
 						alignItems:"center"
 					}}>
 
-					
+					{item.email_count < 2?
+						
 						<div>
 							<button
-								style={{ height: '3rem', width:"5rem" }}
+								style={{ height: '3rem', width:"5rem",color: '#39B7CD' }}
 								onClick={() => handleSendOrderEmail(item)}
 								className='shadow bg-white-500 hover:bg-white-400 focus:shadow-outline focus:outline-none text-black font-bold py-2 px-4 rounded'
 								type='button'
 								disabled={item.email_count > 1?true:false}>
-								{item.email_count < 1 ? 'Send' :item.email_count < 2? 'Resend':"Done"}
+								{item.email_count < 1 ? 'Send' :'Resend'}
 							</button>
+						</div>:
+						<div style={{padding: '6px',}}>
+							Sent
 						</div>
-						<div style={{marginLeft:"5px"}}>
-						{item.email_count}
-						</div>
+						
+					}
+						
 					</div>
 				);
 			},
 		},
 		{
 			id: 10,
-			Header: 'Action',
+			Header: 'Driver',
+			width: 100,
+			className: 'text-center view-details text-truncate',
+			accessor: (item) => {
+				return (
+					<div 
+					style={{
+						display: 'flex',
+						flexDirection: 'row',
+						justifyContent: "center",
+						alignItems:"center"
+					}}>
+
+						{
+							item.is_driver_assigned?
+							<div style={{ padding: '6px', cursor: 'pointer', }}>
+								{item.Driver?.first_name}<br/> {item.Driver?.last_name}
+							</div>:
+							<div>
+								<button
+									style={{ height: '3rem', width:"5rem",color: '#39B7CD' }}
+									onClick={() => handleBulkAssignModal(item)}
+									className='shadow bg-white-500 hover:bg-white-400 focus:shadow-outline focus:outline-none text-black font-bold py-2 px-4 rounded'
+									type='button'>
+									Assign
+								</button>
+							</div>
+							
+						}
+					</div>
+				);
+			},
+		},
+		{
+			id: 11,
+			Header: 'Payment',
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (
@@ -261,13 +310,15 @@ const RestaurantPayment = () => {
 						}}
 						className='text-center'
 						onClick={(e) => {item.status == 0 ? history.push({pathname:`/restaurantPayment/resturantPayNow`, state:item}) : e.stopPropagation()}}>
-						<button
-							style={{ height: '3rem' }}
-							// onClick={() => history.push('/addBanner')}
+						{item.status == 0?
+						<div><button
+							style={{ height: '3rem',color: '#39B7CD' }}
 							className='shadow bg-white-500 hover:bg-white-400 focus:shadow-outline focus:outline-none text-black font-bold py-2 px-4 rounded'
 							type='button'>
-							{item.status == 0 ? 'Pay Now' : 'Settled'}
-						</button>
+							Pay Now
+						</button></div>:
+						<div style={{padding: '6px',}}>Settled</div>
+						}
 					</div>
 				);
 			},
@@ -367,6 +418,58 @@ const RestaurantPayment = () => {
 		})
 	}
 
+	const handleBulkAssignModal=(item)=>{
+		setDriverList(null);
+		setSelectedDriver(null);
+		setBulkAssignModalData({...item});
+		setBulkAssignModal(true);
+		let data={
+			query:{
+				hotspot_location_id:item.payment_details.hotspot.id,
+			}
+		}
+		getDriverListByHotspot(token, data)
+		.then((res)=>{
+			let drivers = res.rows.reduce((acc, curr) => {
+				return acc.concat([{
+					id: curr.id,
+					name: `${curr.first_name}  ${curr.last_name}`,
+					label: `${curr.first_name}  ${curr.last_name}`,
+					value:curr.id,
+					first_name:curr.first_name,
+					last_name:curr.last_name,
+				}]);
+			}, []);
+			setDriverList(drivers);
+		})
+		.catch((error)=>{
+			setError(error);
+			setLoading(false);
+		})
+		
+	}
+
+	const handleBulkAssignDriver = (params) => {
+		console.log("params",params);
+		setLoading(true);
+		let data={
+		  body:{
+			restaurant_payment_id:params.restaurant_payment_id,
+			driverId:params.driver_id
+		  }
+		}
+		bulkAssignDriver(token, data)
+		  .then((resp) => {
+			setLoading(false);
+			setBulkAssignModal(false);
+			restaurantEarningList();
+		  })
+		  .catch((error) => {
+			setError(error);
+			setLoading(false);
+		  });
+	  };
+
 
 	return (
 		<>
@@ -415,6 +518,19 @@ const RestaurantPayment = () => {
 						/>
 					</div>
 				</div>
+				<BulkAssignModal
+					{
+						...{
+							bulkAssignModal,
+							setBulkAssignModal,
+							bulkAssignModalData,
+							driverList,
+							selectedDriver,
+							setSelectedDriver,
+							handleBulkAssignDriver
+						}
+					}
+				/>
 			</div>
 		</>
 	);

@@ -341,15 +341,20 @@ export const getRevenueStats = (token, data) => {
 	});
 };
 
-export const getDriverListByHotspot = (token, id) => {
+
+export const getDriverListByHotspot = (token, data) => {
 	return new Promise(async (resolve, reject) => {
 		try {
-			const response = await fetch(`${baseURL}getDriverListByHotspot?hotspot_location_id=${id}`, {
+			let url=new URL(`${baseURL}getDriverListByHotspot`);
+			url.search= new URLSearchParams(data.query).toString();
+			const response = await fetch(url, {
 				headers: {
-					Accept: 'application/json',
 					Authorization: token,
+					'Content-Type': 'application/json',
 				},
+				method: 'GET',
 			}).then((res) => res.json());
+
 			if (response.status == 200) {
 				resolve(response);
 			} else {
@@ -3300,6 +3305,30 @@ export const getRefundHistoryDetails = (token, data) => {
 					'Content-Type': 'application/json',
 				},
 				method: 'GET',
+			}).then((res) => res.json());
+
+			if (response.status == 200) {
+				resolve(response);
+			} else {
+				reject(response.message);
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	});
+};
+
+export const bulkAssignDriver = (token, data) => {
+	return new Promise(async (resolve, reject) => {
+		try {
+			let url=new URL(`${baseURL}bulkAssignDriver`);
+			const response = await fetch(url, {
+				body: JSON.stringify(data.body),
+				headers: {
+					Authorization: token,
+					'Content-Type': 'application/json',
+				},
+				method: 'PUT',
 			}).then((res) => res.json());
 
 			if (response.status == 200) {
