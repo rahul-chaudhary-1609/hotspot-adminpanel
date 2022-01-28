@@ -9,12 +9,12 @@ const override = css`
 `;
 
 
-const Loader = () =>{
+const Loader = (props) =>{
     let [loading, setLoading] = useState(true);
     let [color, setColor] = useState("#ffffff");
   
     return (
-      <div className="sweet-loading" style={{height: '800px'}}>
+      <div className="sweet-loading" style={{height:props.height?props.height:'800px'}}>
       <ClipLoader color={color} loading={loading} css={override} size={150} />
       </div>
     );

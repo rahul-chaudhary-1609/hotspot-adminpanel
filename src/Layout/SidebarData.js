@@ -110,6 +110,12 @@ export const SidebarData = [
         icon: <AttachMoneyTwoTone/>,
         cName: "nav-text md:px-4 md:py-3 md:flex-row "
     },
+    {
+        label: 'Dispute Management',
+        to: '/disputes',
+        icon: <AttachMoneyTwoTone/>,
+        cName: "nav-text md:px-4 md:py-3 md:flex-row "
+    },
 
     {
         label: 'Log Out',
