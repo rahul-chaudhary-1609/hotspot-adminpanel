@@ -6,7 +6,6 @@
 */
 
 import React, { Component } from 'react';
-import * as FaIcons from 'react-icons/fa';
 import RestaurantIcon from '@material-ui/icons/Restaurant';
 import MotorcycleIcon from '@material-ui/icons/Motorcycle';
 import GroupIcon from '@material-ui/icons/Group';
@@ -17,7 +16,11 @@ import SettingsIcon from '@material-ui/icons/Settings';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import LocalMallIcon from '@material-ui/icons/LocalMall';
 import DashboardIcon from '@material-ui/icons/Dashboard';
-import AttachMoneyTwoTone  from '@material-ui/icons/AttachMoneyTwoTone';
+import Toc  from '@material-ui/icons/Toc';
+import MyLocation  from '@material-ui/icons/MyLocation';
+import Payment  from '@material-ui/icons/Payment';
+import History  from '@material-ui/icons/History';
+import QuestionAnswer  from '@material-ui/icons/QuestionAnswer';
 
 export const SidebarData = [
     {
@@ -45,33 +48,57 @@ export const SidebarData = [
         cName: "nav-text md:px-4 md:py-3 md:flex-row "
     },
     {
+        label: 'Hotspot Management',
+        to: '/hotspots',
+        icon: <MyLocation />,
+        cName: "nav-text md:px-4 md:py-3 md:flex-row "
+    },
+    {
         label: 'Order Management',
         to: '/activeOrder',
         icon: <RestaurantIcon />,
         cName: "nav-text md:px-4 md:py-3 md:flex-row"
     },
     {
-        label: 'Banner Management',
-        to: '/banners',
-        icon: <InsertPhotoIcon />,
-        cName: "nav-text md:px-4 md:py-3 md:flex-row"
-    },
-    {
-        label: 'Driver Payment Management',
-        to: '/driverPayment',
-        icon: <LocalAtmIcon />,
+        label: 'Order Payment Management',
+        to: '/payments',
+        icon: <Payment/>,
         cName: "nav-text md:px-4 md:py-3 md:flex-row "
     },
     {
         label: 'Restaurant Payment Management',
         to: '/restaurantPayment',
-        icon: <LocalAtmIcon/>,
+        icon: <Payment/>,
+        cName: "nav-text md:px-4 md:py-3 md:flex-row "
+    },
+    {
+        label: 'Driver Payment Management',
+        to: '/driverPayment',
+        icon: <Payment />,
         cName: "nav-text md:px-4 md:py-3 md:flex-row "
     },
     {
         label: 'Admin Earnings',
         to: '/hotspotEarning',
         icon: <LocalAtmIcon />,
+        cName: "nav-text md:px-4 md:py-3 md:flex-row "
+    },    
+    {
+        label: 'Dispute Management',
+        to: '/disputes',
+        icon: <QuestionAnswer/>,
+        cName: "nav-text md:px-4 md:py-3 md:flex-row "
+    },
+    {
+        label: 'Refund History',
+        to: '/refundHistory',
+        icon: <History/>,
+        cName: "nav-text md:px-4 md:py-3 md:flex-row "
+    },    
+    {
+        label: 'Fee Settings',
+        to: '/feesettings',
+        icon: <SettingsIcon/>,
         cName: "nav-text md:px-4 md:py-3 md:flex-row "
     },
     {
@@ -83,40 +110,15 @@ export const SidebarData = [
     {
         label: 'Static Content Management',
         to: '/static',
-        icon: <FaIcons.FaBook />,
+        icon: <Toc />,
         cName: "nav-text md:px-4 md:py-3 md:flex-row "
     },
     {
-        label: 'Fee Settings',
-        to: '/feesettings',
-        icon: <SettingsIcon/>,
-        cName: "nav-text md:px-4 md:py-3 md:flex-row "
-    },
-    {
-        label: 'Hotspot Settings',
-        to: '/hotspots',
-        icon: <SettingsIcon />,
-        cName: "nav-text md:px-4 md:py-3 md:flex-row "
-    },
-    {
-        label: 'Refund Management',
-        to: '/payments',
-        icon: <AttachMoneyTwoTone/>,
-        cName: "nav-text md:px-4 md:py-3 md:flex-row "
-    },
-    {
-        label: 'Refund History',
-        to: '/refundHistory',
-        icon: <AttachMoneyTwoTone/>,
-        cName: "nav-text md:px-4 md:py-3 md:flex-row "
-    },
-    {
-        label: 'Dispute Management',
-        to: '/disputes',
-        icon: <AttachMoneyTwoTone/>,
-        cName: "nav-text md:px-4 md:py-3 md:flex-row "
-    },
-
+        label: 'Banner Management',
+        to: '/banners',
+        icon: <InsertPhotoIcon />,
+        cName: "nav-text md:px-4 md:py-3 md:flex-row"
+    },    
     {
         label: 'Log Out',
         to: '/logout',

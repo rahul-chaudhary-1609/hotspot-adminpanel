@@ -79,7 +79,7 @@ const StatusModal = (props) => {
         onRequestClose={closeModal}
         style={customStyles}
       >
-        <h3 style={{ textAlign: "center", fontSize: "20px" }}>Dispute</h3>
+        <h3 style={{ textAlign: "center", fontSize: "20px" }}>Dispute #{props.disputeDetails?.dispute_id}</h3>
         {loader?<Loader height="350px"/>:<div
           style={{
             display: "flex",

@@ -127,7 +127,7 @@ let disputeStatus=[
                 <div className="p-4 md:p-8 mt-6 lg:mt-0 rounded shadow bg-white">
                     <div className="flex">
                         <h3 className="text-2xl text-gray-400 font-bold mb-6">
-                            Dispute Id #{disputeDetails.dispute_id}
+                            Dispute ID #{disputeDetails.dispute_id}
                         </h3>
                         <button
                             style={{ height: "3rem", marginLeft: "45%" }}
@@ -180,7 +180,7 @@ let disputeStatus=[
                         >
                           Customer
                         </div>
-                        <div className="px-8 text-lg">{disputeDetails.Order.order_details.customer.name}</div>
+                        <div className="px-8 text-lg">{disputeDetails.Order.order_details.customer.name} | {disputeDetails.Order.order_details.customer.email}{disputeDetails.Order.order_details.customer.phone_no?` | ${disputeDetails.Order.order_details.customer.phone_no}`:null}</div>
                       </div>
                     </div>
                     <div className="form-layout text-base" style={{ marginTop: "-20px" }}>
@@ -191,7 +191,7 @@ let disputeStatus=[
                         >
                           Restaurant
                         </div>
-                        <div className="px-8 text-lg">{disputeDetails.Order.order_details.restaurant.restaurant_name}</div>
+                        <div className="px-8 text-lg">{disputeDetails.Order.order_details.restaurant.restaurant_name} | {disputeDetails.Order.order_details.restaurant.owner_email}{disputeDetails.Order.order_details.restaurant.owner_phone?` | ${disputeDetails.Order.order_details.restaurant.owner_phone}`:null}</div>
                       </div>
                     </div>
                     <div className="form-layout text-base" style={{ marginTop: "-20px" }}>
@@ -255,7 +255,7 @@ let disputeStatus=[
                           className="font-semibold py-4 px-6 text-left text-lg"
                           style={{ width: "21%" }}
                         >
-                          Title
+                          Issue
                         </div>
                         <div className="px-8 text-lg">{disputeDetails.title}</div>
                       </div>
@@ -299,8 +299,8 @@ let disputeStatus=[
                     {disputeDetails.status<3?<div className="px-8" style={{display:"flex", marginTop: "10px", justifyContent:"center"}}>
                       <div>
                         <button 
-                          style={{backgroundColor:"rgb(50,120,50)"}}
-                          className='shadow bg-red-500 ml-3 hover:bg-red-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded'
+                          style={{ height: '3rem',color: '#39B7CD' }}
+                          className='shadow bg-white-500 hover:bg-white-400 focus:shadow-outline focus:outline-none text-black font-bold py-2 px-4 rounded'
                           onClick={handleStatusModal}>
                           Resolve
                         </button>
