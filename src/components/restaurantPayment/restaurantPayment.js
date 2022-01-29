@@ -247,7 +247,7 @@ const RestaurantPayment = () => {
 								onClick={() => handleSendOrderEmail(item)}
 								className='shadow bg-white-500 hover:bg-white-400 focus:shadow-outline focus:outline-none text-black font-bold py-2 px-4 rounded'
 								type='button'
-								disabled={item.email_count > 1?true:false}>
+								disabled={item.is_driver_assigned?false:true}>
 								{item.email_count < 1 ? 'Send' :'Resend'}
 							</button>
 						</div>:

@@ -523,17 +523,25 @@ const OrderDetails = () => {
             </div>
             <div className="px-8">${orderDetails.amount}</div>
           </div> */}
-          {orderDetails.status === "Pickup" ||
-          orderDetails.status === "Completed" ? null : [2,3,4].includes(orderDetails.order_status)? (
+          {orderDetails.driver && orderDetails.driver.trim()? (
             <div
               className="flex flex-row items-center mt-4 ml-5 "
               style={{ marginTop: "20px" }}
             >
-              <div className=" font-semibold  w-1/3 text-left text-xl">
+            <div className=" font-semibold  w-1/3 text-left text-xl">
+                Assigned Driver:
+              </div>
+              <div
+                    className="text-xl "
+                    style={{ marginLeft: "-45px" }}
+                  >
+                    {orderDetails.driver}
+                  </div>
+              {/* <div className=" font-semibold  w-1/3 text-left text-xl">
                 Assigned Driver
               </div>
               <div style={{ marginLeft: "-120px" }}>
-                {orderDetails.order_status == 2 ? (
+                {orderDetails.order_status == 1 ? (
                   <div style={{ width: "100%", display: "flex" }}>
                     <Select
                       menuPlacement="auto"
@@ -563,12 +571,12 @@ const OrderDetails = () => {
                     {orderDetails.driver}
                   </div>
                 )}
-              </div>
+              </div> */}
             </div>
           ):null}
           <div className="flex flex-row items-center  mt-5 ml-5 ">
             <div className=" font-semibold  w-1/3 text-left text-xl">
-              Order Status
+              Order Status:
             </div>
             <div style={{ marginLeft: "-135px" }}>
               <button
