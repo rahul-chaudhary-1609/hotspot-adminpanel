@@ -164,7 +164,7 @@ const DriverForm = (props) => {
 										<label
 											className='block tracking-wide mb-2 text-gray-300'
 											for='nationality'>
-											Nationality Id No
+											Nationality ID No
 										</label>
 										<div className='relative'>
 											<input
@@ -181,7 +181,7 @@ const DriverForm = (props) => {
 						
 								<label className='w-full md:w-1/2 px-3 mb-6 md:mb-0'
 									for='vehicle_type'>
-									Nationality Id Proof
+									Nationality ID Proof
 								</label>
 								{driver && driver.passport_picture_url ? (
 									driver.passport_picture_url.substr(driver.passport_picture_url.lastIndexOf('.') + 1) === 'pdf' ? (

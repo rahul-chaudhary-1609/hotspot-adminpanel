@@ -20,7 +20,7 @@ const SearchComponent = (props) => {
 		}),
 		container: (provided, state) => ({
 			...provided,
-			width: '150px',
+			width: '100%',
 		}),
 	};
 
@@ -79,125 +79,138 @@ const SearchComponent = (props) => {
 
 	return (
 		<div style={{ backgroundColor: '#d3d3d3', marginTop: '20px'}} className='main-content px-2 '>
-			<div className='flex w-full'>
-				<div className='px-3 mt-4 mb-3'>
-					<SearchBox
-						placeholder={props.placeholder}
-						setSearchText={(val) => {
-							dispatch({
-								type: 'SEARCH_TEXT',
-								payload: val,
-							});
-						}}
-						searchText={searchText}
-					/>
-				</div>
-				<div className='mt-4 mb-3'>
-					<p className="mt-1 ml-6">Filter By</p>
-				</div>
-				<div className='px-3 mt-4 mb-3'>
-						<Select
-							value={filterby}
-							styles={customStyles}
-							menuPlacement='auto'
-							options={(pathname == '/hotspotEarning') || (pathname == '/pickupEarning') || (pathname =='/restaurantPayment')?
-								[
-									{
-										label: 'Daily',
-										value: 'Daily',
-									},
-									{
-										label: 'Weekly',
-										value: 'Weekly',
-									},
-									{
-										label: 'Monthly',
-										value: 'Monthly',
-									},
-									{
-										label: 'Yearly',
-										value: 'Yearly',
-									},
-								] : [
-									{
-										label: 'Monthly',
-										value: 'Monthly',
-									},
-									{
-										label: 'Yearly',
-										value: 'Yearly',
-									},
-								]
-							}
-							inputId={'monthly'}
-							placeholder={'Select the filter...'}
-							onChange={(selectedValue) => {
+			<div style={{display:"flex", flexDirection:"column",padding:"0.5rem"}}>
+				<div style={{display:"flex",width:"100%"}}>
+					<div  style={{width:"50%"}}>
+						<SearchBox
+							placeholder={props.placeholder}
+							setSearchText={(val) => {
 								dispatch({
-									type: 'FILTER_BY',
-									payload: selectedValue,
+									type: 'SEARCH_TEXT',
+									payload: val,
 								});
 							}}
+							searchText={searchText}
 						/>
+					</div>
+					<div style={{display:"flex",width:"50%", justifyContent:"space-evenly"}}>
+						<div  style={{width:"20%",textAlign:"right"}}>
+							<p className="mt-1">Filter By:</p>
+						</div>
+						<div  style={{display:"flex",width:"75%"}}>
+								<Select
+									value={filterby}
+									styles={customStyles}
+									menuPlacement='auto'
+									options={(pathname == '/hotspotEarning') || (pathname == '/pickupEarning') || (pathname =='/restaurantPayment')?
+										[
+											{
+												label: 'Daily',
+												value: 'Daily',
+											},
+											{
+												label: 'Weekly',
+												value: 'Weekly',
+											},
+											{
+												label: 'Monthly',
+												value: 'Monthly',
+											},
+											{
+												label: 'Yearly',
+												value: 'Yearly',
+											},
+										] : [
+											{
+												label: 'Monthly',
+												value: 'Monthly',
+											},
+											{
+												label: 'Yearly',
+												value: 'Yearly',
+											},
+										]
+									}
+									inputId={'monthly'}
+									placeholder={'Select the filter'}
+									onChange={(selectedValue) => {
+										dispatch({
+											type: 'FILTER_BY',
+											payload: selectedValue,
+										});
+									}}
+								/>
+						</div>
+					</div>
 				</div>
-				<div className='mt-4 mb-3'>
-					<p className='mt-1 ml-6'>From</p>
-				</div>
-				<div className='px-3 mt-4 mb-3'>
-					<DatePicker
-								onChange={(date, dateString) => {
-									dispatch({
-										type: 'START_DATE_FILTER',
-										payload: dateString,
-									});
+				<div style={{display:"flex",width:"100%", marginTop:"0.5rem"}}>
+					<div style={{display:"flex",width:"50%", justifyContent:"center"}}>
+						<div style={{display:"flex",width:"50%", justifyContent:"space-evenly"}}>
+							<div style={{width:"20%",textAlign:"right"}}>
+								<p className='mt-1'>From:</p>
+							</div>
+							<div style={{width:"70%"}}>
+								<DatePicker
+											onChange={(date, dateString) => {
+												dispatch({
+													type: 'START_DATE_FILTER',
+													payload: dateString,
+												});
+											}}
+											format="MM/DD/YYYY"
+											disabledDate={disabledFromDate}
+											value={startDate && moment(startDate, 'MM/DD/YYYY')}
+											style={{ width: '100%',height:"38px" }} id='startDate'
+											type='date'
+										/>
+							</div>
+						</div>
+						<div style={{display:"flex",width:"50%", justifyContent:"space-evenly"}}>
+							<div style={{width:"20%",textAlign:"right"}}>
+								<p className='mt-1'>To:</p>
+							</div>
+							<div style={{width:"70%"}}>
+									<DatePicker
+										onChange={(date, dateString) => {
+											dispatch({
+												type: 'END_DATE_FILTER',
+												payload: dateString,
+											});
+										}}
+										style={{ width: '100%',height:"38px" }} id='endDate'
+										
+										format="MM/DD/YYYY"
+										disabledDate={disabledToDate}
+										value={
+											endDate &&
+											moment(endDate, 'MM/DD/YYYY')
+										}
+									/>
+							</div>
+						</div>
+					</div>
+					<div style={{display:"flex",width:"50%", justifyContent:"center",}}>
+						<div>							
+							<button
+								onClick={props.handleSearch}
+								className='shadow bg-blue-500 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded'
+								type='button'>
+								Search
+							</button>
+						</div>
+						<div style={{marginLeft:"2rem"}}>
+							<button
+								onClick={() => {
+									dispatch(clearData(props.handleSearch));
+									if(props.clearSearchAndFilter) props.clearSearchAndFilter();
+									
 								}}
-								format="MM/DD/YYYY"
-								disabledDate={disabledFromDate}
-								value={startDate && moment(startDate, 'MM/DD/YYYY')}
-								style={{ width: '115px',height:"38px" }} id='startDate'
-								type='date'
-							/>
-				</div>
-				<div className='mt-4 mb-3'>
-					<p className='mt-1 ml-6'>to</p>
-				</div>
-				<div className='px-3 mt-4 mb-3'>
-				<DatePicker
-							onChange={(date, dateString) => {
-								dispatch({
-									type: 'END_DATE_FILTER',
-									payload: dateString,
-								});
-							}}
-							style={{ width: '115px',height:"38px" }} id='endDate'
-							
-							format="MM/DD/YYYY"
-							disabledDate={disabledToDate}
-							value={
-								endDate &&
-								moment(endDate, 'MM/DD/YYYY')
-							}
-						/>
-				</div>
-				<div className='px-3 mt-4 mb-3'>
-					
-					<button
-						onClick={props.handleSearch}
-						className='shadow bg-blue-500 ml-3 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded'
-						type='button'>
-						Search
-					</button>
-				</div>
-				<div className='px-3 mt-4 mb-3'>
-					<button
-						onClick={() => {
-							dispatch(clearData(props.handleSearch));
-							if(props.clearSearchAndFilter) props.clearSearchAndFilter();
-							
-						}}
-						className='shadow bg-blue-500 ml-3 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded'
-						type='button'>
-						Clear
-					</button>
+								className='shadow bg-blue-500 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded'
+								type='button'>
+								Clear
+							</button>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>

@@ -279,7 +279,7 @@ const PaymentDetails = () => {
                 <div className="p-4 md:p-8 mt-6 lg:mt-0 rounded shadow bg-white">
                     <div className="flex">
                         <h3 className="text-2xl text-gray-400 font-bold mb-6">
-                            Payment Id #{paymentDetails.payment_id}
+                            Payment ID #{paymentDetails.payment_id}
                         </h3>
                         <button
                             style={{ height: "3rem", marginLeft: "45%" }}

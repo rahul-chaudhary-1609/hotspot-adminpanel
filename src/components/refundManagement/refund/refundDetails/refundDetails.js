@@ -112,7 +112,7 @@ const RefundDetails = () => {
                 <div className="p-4 md:p-8 mt-6 lg:mt-0 rounded shadow bg-white">
                     <div className="flex">
                         <h3 className="text-2xl text-gray-400 font-bold mb-6">
-                            Refund Id #{refundDetails.refund_id}
+                            Refund ID #{refundDetails.refund_id}
                         </h3>
                         <button
                             style={{ height: "3rem", marginLeft: "45%" }}

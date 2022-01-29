@@ -410,6 +410,7 @@ const AddEditHotspot = () => {
 											className='appearance-none block w-1/2 bg-gray-100 border border-gray-200 rounded-half py-3 px-6 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-200'
 											id='name'
 											type='text'
+											autoComplete="off"
 											required
 											onChange={handleInputChange}
 											value={hotspot.name}
@@ -439,7 +440,7 @@ const AddEditHotspot = () => {
 													rows="3"
 													required
 													/>
-													<div className="autocomplete-dropdown-container w-full" style={{ display:suggestions?.length>0?"":"none", position:"absolute",maxHeight:"150px", overflow:"scroll"}}>
+													<div className="autocomplete-dropdown-container w-full" style={{ display:suggestions?.length>0?"":"none", position:"absolute",maxHeight:"150px", overflow:"scroll", zIndex:"1000"}}>
 													{loading && <div>Loading...</div>}
 													{suggestions.map(suggestion => {
 														const className = suggestion.active
@@ -501,6 +502,7 @@ const AddEditHotspot = () => {
 																		className='appearance-none block bg-gray-100 border border-gray-200 rounded-half py-3 px-6 leading-tight focus:outline-none focus:bg-white focus:border-gray-200'
 																		style={{width:"100%"}}
 																		id={`dropoff${index}`}
+																		autoComplete="off"
 																		type='number'
 																		min="1"
 																		required
@@ -581,6 +583,7 @@ const AddEditHotspot = () => {
                                                                     style={{width:"100%"}}
                                                                     id={`dropoff${index}`}
                                                                     type='text'
+																	autoComplete="off"
                                                                     required
                                                                     onChange={(e)=>{
 																		setError(null);

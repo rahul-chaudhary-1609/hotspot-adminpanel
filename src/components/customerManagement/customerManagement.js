@@ -73,7 +73,7 @@ const CustomerManagement = () => {
 		{
 			id: 2,
 			Header: 'Full Name',
-			width: 200,
+			width: 150,
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (
@@ -85,7 +85,7 @@ const CustomerManagement = () => {
 			id: 3,
 			Header: 'Email Address',
 			className: 'text-center view-details',
-			width: 400,
+			width: 250,
 			accessor: (item) => {
 				return (
 					<div style={{ padding: '6px', cursor: 'pointer' }}>{item.email}</div>
@@ -95,7 +95,7 @@ const CustomerManagement = () => {
 		{
 			id: 4,
 			Header: 'Phone Number',
-			width: 150,
+			width: 120,
 			className: 'text-center view-details ',
 			resizable: true,
 			accessor: (item) => {
@@ -115,7 +115,7 @@ const CustomerManagement = () => {
 		{
 			id: 5,
 			Header: 'City',
-			width: 150,
+			width: 120,
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (
@@ -126,7 +126,7 @@ const CustomerManagement = () => {
 		{
 			id: 6,
 			Header: 'State',
-			width: 150,
+			width: 100,
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (
@@ -149,7 +149,7 @@ const CustomerManagement = () => {
 		{
 			id: 8,
 			Header: 'Status',
-			width: 100,
+			width: 60,
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (
@@ -285,7 +285,7 @@ const CustomerManagement = () => {
 					<div className='flex flex-wrap -mx-3 mb-6 mt-5'>
 						<div className='w-full md:w-1/2 px-3 mb-6 md:mb-0 search-text'>
 							<SearchBox
-								placeholder='Search by name, email, phone, address, city, state'
+								placeholder='Search by Name, Email, Phone, Address, City, State'
 								setSearchText={(val) =>
 									dispatch({
 										type: 'SEARCH_TEXT',

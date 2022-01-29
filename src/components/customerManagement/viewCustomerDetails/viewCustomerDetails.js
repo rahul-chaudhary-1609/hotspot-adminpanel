@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import { getCustomerById, changeCustomerStatus } from '../../../api';
 import StatusManagement from '../../statusManagement/statusManagement';
 import {formatDate} from '../../../utils/redableDateTime'
+import moment from 'moment';
 
 const ViewCustomerDetails = () => {
 	const history = useHistory();
@@ -109,7 +110,7 @@ const ViewCustomerDetails = () => {
 								Phone Number
 							</div>
 							<div className='px-8'>
-								{`(${customerDetails.phone.slice(0, 3)}) ${customerDetails.phone.slice(3, 6)}-${customerDetails.phone.slice(6)}`}
+								{customerDetails.phone && customerDetails.phone.trim()?`(${customerDetails.phone.slice(0, 3)}) ${customerDetails.phone.slice(3, 6)}-${customerDetails.phone.slice(6)}`:null}
 								
 							</div>
 						</div>
@@ -118,20 +119,20 @@ const ViewCustomerDetails = () => {
 								Registered ON
 							</div>
 							<div className='px-8'>
-								{formatDate(customerDetails.signupDate)}
+								{moment(customerDetails.signupDate,"YYYY-MM-DDTHH:mm:ssZ").format("M/D/YYYY h:mma")}
 							</div>
 						</div>
 						<div className='flex flex-row items-center border-t border-gray-200'>
 							<div className='bg-gray-100 font-semibold py-4 px-6 w-1/3 text-right'>
 								City
 							</div>
-							<div className='px-8'>{customerDetails.city}</div>
+							<div className='px-8'>{customerDetails?.city}</div>
 						</div>
 						<div className='flex flex-row items-center border-t border-gray-200'>
 							<div className='bg-gray-100 font-semibold py-4 px-6 w-1/3 text-right'>
 								State
 							</div>
-							<div className='px-8'>{customerDetails.state}</div>
+							<div className='px-8'>{customerDetails?.state}</div>
 						</div>
 						<div className='flex flex-row items-center border-t border-gray-200'>
 							<div className='bg-gray-100 font-semibold py-4 px-6 w-1/3 text-right'>

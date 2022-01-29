@@ -8,7 +8,7 @@ import { useForm } from "react-hook-form";
 import { ToastContainer, toast } from "react-toastify";
 import { fetchDriverPaymentDetails, handleDriverPaymentDetails } from '../../api';
 import { loadStripe } from '@stripe/stripe-js';
-import Loader from '../../utils/Loader.js'
+import Loader from "../../globalComponent/layout/loader";
 import ToggleOffIcon from '@material-ui/icons/ToggleOff';
 import ToggleOnIcon from '@material-ui/icons/ToggleOn';
 import ConfirmationModal from '../confirmationModal/confirmationModal';
@@ -182,10 +182,10 @@ export default function DriverPayNow(props) {
 	
     return (
         <>
-		{showLoader && <Loader />}
 			<div
 				className='main-content pb-16 md:pb-5 flex-1 pt-20 px-2'
 				style={{ overflowY: 'scroll', height: '100vh' }}>
+				{showLoader? <Loader height="300px"/>:<>
 				<div className='p-4 md:p-8 mt-6 lg:mt-0 rounded shadow bg-white w-3/4 mx-auto'>
 					<div style={{display:"flex", justifyContent:"space-between"}}>
 						<div>
@@ -195,7 +195,7 @@ export default function DriverPayNow(props) {
 						<div>
 							<button
 								style={{ height: '3rem' }}
-								onClick={() => history.push('/restaurantPayment')}
+								onClick={() => history.push('/driverPayment')}
 								className='shadow bg-blue-500 ml-3 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded'
 								type='button'>
 								Back
@@ -238,7 +238,7 @@ export default function DriverPayNow(props) {
 										<label
 											className='block w-1/2 tracking-wide text-gray-300 py-3 px-6 mb-3'
 											for='restaurant_name'>
-											Payment Id
+											Payment ID
 										</label>
 										<input
 											className='appearance-none block w-1/2 bg-gray-100 border border-gray-200 rounded-half py-3 px-6 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-200'
@@ -340,8 +340,9 @@ export default function DriverPayNow(props) {
 								data={payData}
 								handleConfirmation={getPayhandler}
 							/>}
-				</div>
+				</div></>}
 			</div>
+			
 		</>
     )
 }

@@ -8,7 +8,7 @@ import { useForm } from "react-hook-form";
 import { ToastContainer, toast } from "react-toastify";
 import { fetchResturantPaymentDetails, handleResturantPaymentDetails } from '../../api';
 import { loadStripe } from '@stripe/stripe-js';
-import Loader from '../../utils/Loader.js';
+import Loader from "../../globalComponent/layout/loader";
 import ToggleOffIcon from '@material-ui/icons/ToggleOff';
 import ToggleOnIcon from '@material-ui/icons/ToggleOn';
 import ConfirmationModal from '../confirmationModal/confirmationModal';
@@ -183,168 +183,168 @@ export default function ResturantPayNow(props) {
 
     return (
         <>
-		{showLoader && <Loader />}
 			<div
 				className='main-content pb-16 md:pb-5 flex-1 pt-20 px-2'
 				style={{ overflowY: 'scroll', height: '100vh' }}>
-				<div className='p-4 md:p-8 mt-6 lg:mt-0 rounded shadow bg-white w-3/4 mx-auto'>
-					<div style={{display:"flex", justifyContent:"space-between"}}>
-						<div>
-							<h3 className='text-lg font-bold mb-4'>Make Your Payment to {props.location.state.restaurant_name}</h3>
-						</div>						
+				{showLoader? <Loader height="300px"/>:<>
+					<div className='p-4 md:p-8 mt-6 lg:mt-0 rounded shadow bg-white w-3/4 mx-auto'>
+						<div style={{display:"flex", justifyContent:"space-between"}}>
+							<div>
+								<h3 className='text-lg font-bold mb-4'>Make Your Payment to {props.location.state.restaurant_name}</h3>
+							</div>						
 
-						<div>
-							<button
-								style={{ height: '3rem' }}
-								onClick={() => history.push('/restaurantPayment')}
-								className='shadow bg-blue-500 ml-3 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded'
-								type='button'>
-								Back
-							</button>
+							<div>
+								<button
+									style={{ height: '3rem' }}
+									onClick={() => history.push('/restaurantPayment')}
+									className='shadow bg-blue-500 ml-3 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded'
+									type='button'>
+									Back
+								</button>
+							</div>
+							
 						</div>
 						
-					</div>
-					
-                    
-					
-							<form
-								autoComplete='off'
-								id='myForm'
-								onSubmit={handleSubmit(onSubmit)}
-								className='w-full mt-50 max-w-full text-base text-gray-200'
-								style={{
-									marginTop: '10px',
-								}}>
-								<div className=' d-flex flex-column -mx-3 '>
-									<div className='w-full flex px-3 mb-6 md:mb-0 d-inline-flex'>
-										<label
-											className='block w-1/2 tracking-wide text-gray-300 py-3 px-6 mb-3'
-											for='restaurant_name'>
-											Mark as paid offline:
-										</label>
-										<div style={{ padding: '6px', cursor: 'pointer',width:"50%" }}>
-											{paidOfflineToggle? (
-												<ToggleOnIcon
-													onClick={() => handlePaidOfflineMode()}
-													style={{ color: 'green', fontSize: '40' }}
-												/>
-											) : (
-													<ToggleOffIcon
+						
+						
+								<form
+									autoComplete='off'
+									id='myForm'
+									onSubmit={handleSubmit(onSubmit)}
+									className='w-full mt-50 max-w-full text-base text-gray-200'
+									style={{
+										marginTop: '10px',
+									}}>
+									<div className=' d-flex flex-column -mx-3 '>
+										<div className='w-full flex px-3 mb-6 md:mb-0 d-inline-flex'>
+											<label
+												className='block w-1/2 tracking-wide text-gray-300 py-3 px-6 mb-3'
+												for='restaurant_name'>
+												Mark as paid offline:
+											</label>
+											<div style={{ padding: '6px', cursor: 'pointer',width:"50%" }}>
+												{paidOfflineToggle? (
+													<ToggleOnIcon
 														onClick={() => handlePaidOfflineMode()}
-														style={{ color: 'red', fontSize: '40' }}
+														style={{ color: 'green', fontSize: '40' }}
 													/>
-											)}
+												) : (
+														<ToggleOffIcon
+															onClick={() => handlePaidOfflineMode()}
+															style={{ color: 'red', fontSize: '40' }}
+														/>
+												)}
+											</div>
+										</div>
+										<div className='w-full flex px-3 mb-6 md:mb-0 d-inline-flex'>
+											<label
+												className='block w-1/2 tracking-wide text-gray-300 py-3 px-6 mb-3'
+												for='restaurant_name'>
+												Payment ID
+											</label>
+											<input
+												className='appearance-none block w-1/2 bg-gray-100 border border-gray-200 rounded-half py-3 px-6 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-200'
+												id='paymentId'
+												type='text'
+												disabled
+												Value={props.location.state.payment_id} 
+											/>
+										</div>
+										<div className='w-full flex px-3 mb-6 md:mb-0 d-inline-flex'>
+											<label
+												className='block w-1/2 tracking-wide text-gray-300 py-3 px-6 mb-3'
+												for='restaurant_name'>
+												Resturant Fee
+											</label>
+											<input
+												className='appearance-none block w-1/2 bg-gray-100 border border-gray-200 rounded-half py-3 px-6 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-200'
+												id='paymentId'
+												type='text'
+												disabled
+												Value={props.location.state.restaurant_fee} 
+											/>
+										</div>
+										
+									</div>
+
+								
+
+									<div style={{display:paidOfflineToggle?"none":""}} className=' d-flex flex-column -mx-3 '>
+										<div className='w-full flex px-3 mb-6 md:mb-0'>
+											<label
+												className='block w-1/2 tracking-wide py-3 px-6 mb-3 text-gray-300'
+												for='role'>
+												Card No
+											</label>
+											<input
+												className='appearance-none block w-1/2 bg-gray-100 border border-gray-200 rounded-half py-3 px-6 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-200'
+												id='cardNo'
+												type='text'
+												disabled={paidOfflineToggle}
+												onChange={(e) => handleCardValue(e)}
+											/>
+										</div>
+									
+
+										<div className='w-full flex px-3 mb-6 md:mb-0'>
+											<label
+												className='block w-1/2 tracking-wide py-3 px-6 mb-3 text-gray-300'>
+												CVV
+											</label>
+											<input
+												className='appearance-none block w-1/2 bg-gray-100 border border-gray-200 rounded-half py-3 px-6 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-200'
+												id='cvv'
+												type='password'
+												autoComplete='off'
+												{...register("cvv")}
+												disabled={paidOfflineToggle}
+											/>
+										</div>
+
+										<div className='w-full flex px-3 mb-6 md:mb-0 d-inline-flex'>
+											<label
+												className='block w-1/2 tracking-wide text-gray-300 py-3 px-6 mb-3'>
+												Expiry
+											</label>
+											<div style={{ display: 'inline-flex' }}>
+												<DatePicker 
+													picker='month'
+													format='MM'
+													onChange={(date, dateString) => handleCardMonth(date, dateString)}
+													//{...register("cardMonth")}
+													className='appearance-none block w-1/2 bg-gray-100 border border-gray-200 rounded-half py-3 px-6 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-200'
+													id='cardMonth'
+													disabled={paidOfflineToggle}
+												/>
+												<DatePicker 
+													picker='year'
+													format='YYYY'
+													id='cardYear'
+													onChange={(date, dateString) => handleCardYear(date, dateString)}
+													//{...register("cardMonth")}
+													className='appearance-none block w-1/2 bg-gray-100 border border-gray-200 rounded-half py-3 px-6 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-200'
+													disabled={paidOfflineToggle}
+												/>
+											</div>
 										</div>
 									</div>
-									<div className='w-full flex px-3 mb-6 md:mb-0 d-inline-flex'>
-										<label
-											className='block w-1/2 tracking-wide text-gray-300 py-3 px-6 mb-3'
-											for='restaurant_name'>
-											Payment Id
-										</label>
-										<input
-											className='appearance-none block w-1/2 bg-gray-100 border border-gray-200 rounded-half py-3 px-6 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-200'
-											id='paymentId'
-											type='text'
-											disabled
-                                            Value={props.location.state.payment_id} 
-										/>
-									</div>
-									<div className='w-full flex px-3 mb-6 md:mb-0 d-inline-flex'>
-										<label
-											className='block w-1/2 tracking-wide text-gray-300 py-3 px-6 mb-3'
-											for='restaurant_name'>
-											Resturant Fee
-										</label>
-										<input
-											className='appearance-none block w-1/2 bg-gray-100 border border-gray-200 rounded-half py-3 px-6 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-200'
-											id='paymentId'
-											type='text'
-											disabled
-                                            Value={props.location.state.restaurant_fee} 
-										/>
+									<div style={{ display: 'flex', justifyContent:"center", marginTop:"15px" }}>
+										<button
+											style={{ height: '3rem' }}
+											className='shadow bg-blue-500 ml-3 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded'
+											type='submit'>
+											Submit
+										</button>
 									</div>
 									
-								</div>
-
-							
-
-								<div style={{display:paidOfflineToggle?"none":""}} className=' d-flex flex-column -mx-3 '>
-									<div className='w-full flex px-3 mb-6 md:mb-0'>
-										<label
-											className='block w-1/2 tracking-wide py-3 px-6 mb-3 text-gray-300'
-											for='role'>
-											Card No
-										</label>
-										<input
-											className='appearance-none block w-1/2 bg-gray-100 border border-gray-200 rounded-half py-3 px-6 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-200'
-											id='cardNo'
-											type='text'
-											disabled={paidOfflineToggle}
-											onChange={(e) => handleCardValue(e)}
-										/>
-									</div>
-								
-
-									<div className='w-full flex px-3 mb-6 md:mb-0'>
-										<label
-											className='block w-1/2 tracking-wide py-3 px-6 mb-3 text-gray-300'>
-											CVV
-										</label>
-										<input
-											className='appearance-none block w-1/2 bg-gray-100 border border-gray-200 rounded-half py-3 px-6 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-200'
-											id='cvv'
-											type='password'
-											autoComplete='off'
-											{...register("cvv")}
-											disabled={paidOfflineToggle}
-										/>
-									</div>
-
-									<div className='w-full flex px-3 mb-6 md:mb-0 d-inline-flex'>
-										<label
-											className='block w-1/2 tracking-wide text-gray-300 py-3 px-6 mb-3'>
-											Expiry
-										</label>
-										<div style={{ display: 'inline-flex' }}>
-											<DatePicker 
-												picker='month'
-												format='MM'
-												onChange={(date, dateString) => handleCardMonth(date, dateString)}
-												//{...register("cardMonth")}
-												className='appearance-none block w-1/2 bg-gray-100 border border-gray-200 rounded-half py-3 px-6 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-200'
-												id='cardMonth'
-												disabled={paidOfflineToggle}
-											/>
-											<DatePicker 
-												picker='year'
-												format='YYYY'
-												id='cardYear'
-												onChange={(date, dateString) => handleCardYear(date, dateString)}
-												//{...register("cardMonth")}
-												className='appearance-none block w-1/2 bg-gray-100 border border-gray-200 rounded-half py-3 px-6 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-200'
-												disabled={paidOfflineToggle}
-											/>
-										</div>
-									</div>
-								</div>
-								<div style={{ display: 'flex', justifyContent:"center", marginTop:"15px" }}>
-									<button
-										style={{ height: '3rem' }}
-										className='shadow bg-blue-500 ml-3 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded'
-										type='submit'>
-										Submit
-									</button>
-								</div>
-								
-							</form>
-							{confirmationModal && <ConfirmationModal
-								confirmationModal={confirmationModal}
-								setConfirmationModal={setConfirmationModal}
-								data={payData}
-								handleConfirmation={getPayhandler}
-							/>}
-				</div>
+								</form>
+								{confirmationModal && <ConfirmationModal
+									confirmationModal={confirmationModal}
+									setConfirmationModal={setConfirmationModal}
+									data={payData}
+									handleConfirmation={getPayhandler}
+								/>}
+					</div></>}
 			</div>
 		</>
     )

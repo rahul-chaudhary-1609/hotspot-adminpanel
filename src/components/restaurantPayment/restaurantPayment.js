@@ -92,7 +92,7 @@ const RestaurantPayment = () => {
 		},
 		{
 			id: 2,
-			Header: 'Payment Id',
+			Header: 'Payment ID',
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (
@@ -478,7 +478,7 @@ const RestaurantPayment = () => {
 					<h1 className='text-xl'>Restaurant Payment Management</h1>
 				<SearchComponent
 					{...{
-						placeholder: 'Payment id, Restaurant name',
+						placeholder: 'Search by Payment ID, Restaurant name',
 						handleSearch,
 						clearSearchAndFilter,
 					}}

@@ -79,7 +79,7 @@ const DriverPayment = () => {
 		},
 		{
 			id: 2,
-			Header: 'Payment Id',
+			Header: 'Payment ID',
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (
@@ -182,12 +182,15 @@ const DriverPayment = () => {
 						}}
 						className='text-center'
 						onClick={(e) => {item.status == 0 ? history.push({pathname:`/driverPayment/driverPaymentNow`, state:item}) : e.stopPropagation()}}>
-						<button
-							style={{ height: '3rem' }}
+						{item.status == 0?
+						<div><button
+							style={{ height: '3rem',color: '#39B7CD' }}
 							className='shadow bg-white-500 hover:bg-white-400 focus:shadow-outline focus:outline-none text-black font-bold py-2 px-4 rounded'
 							type='button'>
-							{item.status == 0 ? 'Pay Now' : 'Settled'}
-						</button>
+							Pay Now
+						</button></div>:
+						<div style={{padding: '6px',}}>Settled</div>
+						}
 					</div>
 				);
 			},
@@ -260,7 +263,7 @@ const DriverPayment = () => {
 					<h1 className='text-xl'>Driver Payment Management</h1>
 					
 					<SearchComponent
-						{...{ placeholder: 'Payment id, Driver name', handleSearch,clearSearchAndFilter, }}
+						{...{ placeholder: 'Search by Payment ID, Driver name', handleSearch,clearSearchAndFilter, }}
 					/>
 					<div
 						className='stripe hover'

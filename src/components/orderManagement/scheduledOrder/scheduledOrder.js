@@ -20,7 +20,7 @@ import { formatDate,formatTime } from '../../../utils/redableDateTime';
 const ScheduledOrder = () => {
 	const columns = [
 		{
-			Header: 'Order Id',
+			Header: 'Order ID',
 			width: 100,
 			id: 1,
 			className: 'text-center view-details',
@@ -234,7 +234,7 @@ const ScheduledOrder = () => {
 			  		<div className='flex flex-wrap -mx-3 mb-6 mt-5'>
 						<div className='w-full md:w-1/2 px-3 mb-6 md:mb-0 search-text'>
 						<SearchBox
-							placeholder='Search by Name, Order Id'
+							placeholder='Search by Order ID, Customer name, Hotspot name, Restaurant name'
 							setSearchText={(val) =>
 								dispatch({
 									type: 'SEARCH_TEXT',

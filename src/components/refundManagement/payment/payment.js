@@ -64,7 +64,7 @@ const PaymentManagement = () => {
 			},
 		},
 		{
-			Header: 'Order Id',
+			Header: 'Order ID',
 			width: 100,
 			id: 2,
 			className: 'text-center view-details',
@@ -203,7 +203,7 @@ const PaymentManagement = () => {
 			  		<div className='flex flex-wrap -mx-3 mb-6 mt-5'>
 						<div className='w-full md:w-1/2 px-3 mb-6 md:mb-0 search-text'>
 						<SearchBox
-							placeholder='Search by Order Id'
+							placeholder='Search by Order ID'
 							setSearchText={(val) =>
 								dispatch({
 									type: 'SEARCH_TEXT',

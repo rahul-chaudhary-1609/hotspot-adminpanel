@@ -81,7 +81,7 @@ const HotspotEarning = () => {
 		},
 		{
 			id: 2,
-			Header: 'Delivery Id',
+			Header: 'Delivery ID',
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (
@@ -350,7 +350,7 @@ const HotspotEarning = () => {
 					<div className='mt-5'>
 						<SearchComponent
 							{...{
-								placeholder: 'Delivery id, Hotspot',
+								placeholder: 'Search by Delivery ID, Hotspot',
 								handleSearch,
 								clearSearchAndFilter,
 								// id:"hotspotEarning"

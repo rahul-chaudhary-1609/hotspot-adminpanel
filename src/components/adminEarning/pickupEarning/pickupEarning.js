@@ -73,7 +73,7 @@ const PickupEarning = (props) => {
 			},
 		},
 		{
-			Header: 'Order Id ',
+			Header: 'Order ID ',
 			id: 2,
 			className: 'text-center view-details',
 			accessor: (item) => {

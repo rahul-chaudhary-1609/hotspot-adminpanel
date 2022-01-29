@@ -48,7 +48,7 @@ const HotspotEarningDetails = (props) => {
 		},
 		{
 			id: 2,
-			Header: 'Delivery Id',
+			Header: 'Delivery ID',
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (
@@ -60,7 +60,7 @@ const HotspotEarningDetails = (props) => {
 		},
 		{
 			id: 3,
-			Header: 'Order Id',
+			Header: 'Order ID',
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (
