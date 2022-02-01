@@ -81,7 +81,7 @@ const DriverManagement = () => {
 		{
 			id: 3,
 			Header: 'Email Address',
-			width: 400,
+			width: 250,
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (
@@ -92,7 +92,7 @@ const DriverManagement = () => {
 		{
 			id: 4,
 			Header: 'Phone Number',
-			width: 200,
+			width: 150,
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (
@@ -110,6 +110,7 @@ const DriverManagement = () => {
 		{
 			id: 5,
 			Header: 'Signup Date',
+			width: 100,
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (
@@ -122,7 +123,7 @@ const DriverManagement = () => {
 		{
 			id: 6,
 			Header: 'Status',
-			width: 100,
+			width: 80,
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (

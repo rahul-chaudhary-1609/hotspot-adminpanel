@@ -123,6 +123,7 @@ const RestaurantPayment = () => {
 		{
 			id: 3,
 			Header: 'Restaurant Name',
+			width:125,
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (
@@ -147,13 +148,13 @@ const RestaurantPayment = () => {
 
 		{
 			id: 4,
-			Header: 'Delivery date time',
-			width: 100,
+			Header: 'Delivery datetime',
+			width:125,
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (
 					<div style={{ padding: '6px', cursor: 'pointer' }}>
-						{moment(item.delivery_datetime,"YYYY-MM-DD HH:mm:ss").format('M/D/YYYY')}<br/>{moment(item.delivery_datetime,"YYYY-MM-DD HH:mm:ss").format('h:m a')}
+						{moment(item.delivery_datetime,"YYYY-MM-DD HH:mm:ss").format('M/D/YYYY')}<br/>{moment(item.delivery_datetime,"YYYY-MM-DD HH:mm:ss").format('h:mm a')}
 					</div>
 				);
 			},
@@ -174,7 +175,7 @@ const RestaurantPayment = () => {
 		// },
 		{
 			id: 5,
-			Header: 'Number Of Orders',
+			Header: 'Order Count',
 			width: 100,
 			className: 'text-center view-details',
 			accessor: (item) => {
@@ -187,8 +188,8 @@ const RestaurantPayment = () => {
 		},
 		{
 			id: 6,
-			Header: 'Total Order amount',
-			width: 100,
+			Header: 'Total Order amt',
+			width:125,
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (
@@ -201,7 +202,7 @@ const RestaurantPayment = () => {
 		{
 			id: 7,
 			Header: 'Restaurant Fee',
-			width: 100,
+			width: 110,
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (
@@ -214,7 +215,7 @@ const RestaurantPayment = () => {
 		{
 			id: 8,
 			Header: 'Mode',
-			width: 100,
+			width: 50,
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (

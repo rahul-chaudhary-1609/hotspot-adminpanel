@@ -116,14 +116,16 @@ const HotspotEarning = () => {
 		{
 			id: 4,
 			Header: 'Delivery datetime',
+			width:120,
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (
 					<div style={{ padding: '6px', cursor: 'pointer' }}>
-						{moment(item.delivery_datetime,"YYYY-MM-DD HH:mm:ss").format('M/D/YYYY')}<br/>{moment(item.delivery_datetime,"YYYY-MM-DD HH:mm:ss").format('h:m a')}
+						{moment(item.delivery_datetime,"YYYY-MM-DD HH:mm:ss").format('M/D/YYYY')}<br/>{moment(item.delivery_datetime,"YYYY-MM-DD HH:mm:ss").format('h:mm a')}
 					</div>
 				);
 			},
+			style: { 'whiteSpace': 'unset' }
 		},
 		// {
 		// 	id: 5,
@@ -140,8 +142,8 @@ const HotspotEarning = () => {
 		// },
 		{
 			id: 5,
-			Header: 'Number of orders ',
-			width: 80,
+			Header: 'Order count',
+			width: 100,
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (
@@ -153,20 +155,20 @@ const HotspotEarning = () => {
 		},
 		{
 			id: 6,
-			Header: '(F) Delivery amt.',
-			width: 80,
+			Header: '(F) Delivery amt',
+			width: 120,
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (
 					<div style={{ padding: '6px', cursor: 'pointer' }}>
-						${parseFloat(item.order_amount) + parseFloat(item.tip_amount)}
+						${(parseFloat(item.order_amount) + parseFloat(item.tip_amount)).toFixed(2)}
 					</div>
 				);
 			},
 		},
 		{
 			id: 7,
-			Header: 'Order amt.',
+			Header: 'Order amt',
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (
@@ -178,7 +180,7 @@ const HotspotEarning = () => {
 		},
 		{
 			id: 8,
-			Header: '(G)Actual amt.',
+			Header: '(G) Actual amt',
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (
@@ -190,7 +192,7 @@ const HotspotEarning = () => {
 		},
 		{
 			id: 9,
-			Header: 'Markup amt.',
+			Header: 'Markup amt',
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (
@@ -203,7 +205,8 @@ const HotspotEarning = () => {
 
 		{
 			id: 10,
-			Header: '(H)(H= Restaurant % G)Restaurant fee',
+			Header: '(H) (H= Rest % G) Rest fee',
+			width: 175,
 			className: 'text-center view-details',
 			accessor: (item) => {
 				
@@ -217,7 +220,7 @@ const HotspotEarning = () => {
 
 		{
 			id: 11,
-			Header: '(I)Tip amt.',
+			Header: '(I) Tip amt',
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (
@@ -230,6 +233,7 @@ const HotspotEarning = () => {
 		{
 			id: 12,
 			Header: '(J) (J=Range based on F) Driver fee',
+			width: 230,
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (
@@ -242,6 +246,7 @@ const HotspotEarning = () => {
 		{
 			id: 13,
 			Header: '(K) (K =F-H-J) Hotspot earning',
+			width: 200,
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (
@@ -254,6 +259,7 @@ const HotspotEarning = () => {
 		{
 			id: 14,
 			Header: '(L) Total Refund Amount',
+			width: 170,
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (
@@ -266,6 +272,7 @@ const HotspotEarning = () => {
 		{
 			id: 15,
 			Header: '(L) (K-L) Final Hotspot Earning',
+			width: 200,
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (

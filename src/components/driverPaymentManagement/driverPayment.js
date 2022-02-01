@@ -133,7 +133,7 @@ const DriverPayment = () => {
 		},
 		{
 			id: 5,
-			Header: 'Number Of Orders',
+			Header: 'Order count',
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (
@@ -157,7 +157,7 @@ const DriverPayment = () => {
 		},
 		{
 			id: 7,
-			Header: 'Payment Mode',
+			Header: 'Mode',
 			width: 100,
 			className: 'text-center view-details',
 			accessor: (item) => {

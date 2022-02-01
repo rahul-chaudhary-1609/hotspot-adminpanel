@@ -91,7 +91,7 @@ const DriverPaymentDetails = (props) => {
 				return (
 					<div style={{ padding: '6px', cursor: 'pointer' }}>
 						{/* {item.delivery_datetime && item.delivery_datetime.split('T')[0]} */}
-						{moment(item.delivery_datetime,"YYYY-MM-DD HH:mm:ss").format('M/D/YYYY')}<br/>{moment(item.delivery_datetime,"YYYY-MM-DD HH:mm:ss").format('h:m a')}
+						{moment(item.delivery_datetime,"YYYY-MM-DD HH:mm:ss").format('M/D/YYYY')}<br/>{moment(item.delivery_datetime,"YYYY-MM-DD HH:mm:ss").format('h:mm a')}
 					</div>
 				);
 			},

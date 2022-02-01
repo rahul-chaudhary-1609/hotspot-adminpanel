@@ -213,7 +213,7 @@ let disputeStatus=[
                         >
                           Raised On
                         </div>
-                        <div className="px-8 text-lg">{moment(disputeDetails.raised_at,"YYYY-MM-DD HH:mm:ss").format("MM/DD/YYYY h:mma")}</div>
+                        <div className="px-8 text-lg">{moment(disputeDetails.raised_at,"YYYY-MM-DD HH:mm:ss").format("MM/DD/YYYY h:mm a")}</div>
                       </div>
                     </div>  
                     <div className="form-layout text-base" style={{ marginTop: "-20px" }}>

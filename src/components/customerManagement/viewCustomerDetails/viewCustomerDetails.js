@@ -119,7 +119,7 @@ const ViewCustomerDetails = () => {
 								Registered ON
 							</div>
 							<div className='px-8'>
-								{moment(customerDetails.signupDate,"YYYY-MM-DDTHH:mm:ssZ").format("M/D/YYYY h:mma")}
+								{moment(customerDetails.signupDate,"YYYY-MM-DDTHH:mm:ssZ").format("M/D/YYYY h:mm a")}
 							</div>
 						</div>
 						<div className='flex flex-row items-center border-t border-gray-200'>

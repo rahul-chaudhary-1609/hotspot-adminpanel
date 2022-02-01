@@ -20,7 +20,7 @@ const CompletedOrder = () => {
 	const columns = [
 		{
 			Header: 'Order ID',
-			width: 100,
+			width: 120,
 			id: 1,
 			className: 'text-center view-details',
 			accessor: (item) => {
@@ -73,7 +73,7 @@ const CompletedOrder = () => {
 				//  console.log(item.id);
 				return (
 					<div style={{ padding: '6px', cursor: 'pointer' }}>
-						{moment(item.delivery_datetime,"YYYY-MM-DD HH:mm:ss").format('h:m a')}
+						{moment(item.delivery_datetime,"YYYY-MM-DD HH:mm:ss").format('h:mm a')}
 					</div>
 				);
 			},
@@ -81,6 +81,7 @@ const CompletedOrder = () => {
 		{
 			id: 5,
 			Header: 'Customer Name',
+			width:125,
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (
@@ -93,6 +94,7 @@ const CompletedOrder = () => {
 		{
 			id: 6,
 			Header: 'Hotspot Name',
+			width:125,
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (
@@ -116,8 +118,8 @@ const CompletedOrder = () => {
 		},
 		{
 			id: 8,
-			width: 100,
-			Header: 'Order Value',
+			width: 80,
+			Header: 'Amount',
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (
@@ -141,7 +143,7 @@ const CompletedOrder = () => {
 		{
 			id: 10,
 			Header: 'Status',
-			width: 100,
+			width: 80,
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (
@@ -156,7 +158,7 @@ const CompletedOrder = () => {
 		{
 			id: 11,
 			Header: 'Delivered by',
-			width: 100,
+			width: 200,
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (
