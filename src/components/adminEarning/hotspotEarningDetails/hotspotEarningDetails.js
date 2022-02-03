@@ -49,6 +49,7 @@ const HotspotEarningDetails = (props) => {
 		{
 			id: 2,
 			Header: 'Delivery ID',
+			width:125,
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (
@@ -133,7 +134,7 @@ const HotspotEarningDetails = (props) => {
 		},
 		{
 			id: 5,
-			Header: 'Drop off location',
+			Header: 'Dropoff',
 			width: 100,
 			className: 'text-center view-details',
 			accessor: (item) => {
@@ -147,7 +148,7 @@ const HotspotEarningDetails = (props) => {
 		{
 			id: 6,
 			Header: 'Customer Name',
-			width: 100,
+			width: 120,
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (
@@ -159,7 +160,7 @@ const HotspotEarningDetails = (props) => {
 		},
 		{
 			id: 7,
-			Header: 'Total amount',
+			Header: 'Total Amt',
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (
@@ -197,7 +198,7 @@ const HotspotEarningDetails = (props) => {
 		// },
 		{
 			id: 9,
-			Header: 'Actual amount',
+			Header: 'Actual Amt',
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (
@@ -209,7 +210,7 @@ const HotspotEarningDetails = (props) => {
 		},
 		{
 			id: 10,
-			Header: 'Markup amount',
+			Header: 'Markup Amt',
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (
@@ -222,19 +223,20 @@ const HotspotEarningDetails = (props) => {
 		{
 			id: 11,
 			Header: 'Restaurant Fee (% Fee)',
+			width:175,
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (
 					<div style={{ padding: '6px', cursor: 'pointer' }}>
-						${item.order_details.restaurant.fee + "(" + parseFloat(item.order_details.restaurant.percentage_fee) + "%)"} 
+						${item.order_details.restaurant.fee + " (" + parseFloat(item.order_details.restaurant.percentage_fee) + "%)"} 
 					</div>
 				);
 			},
 		},
 		{
 			id: 12,
-			Header: 'Refund Amount',
-			width: 50,
+			Header: 'Refund Amt',
+			width: 100,
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (

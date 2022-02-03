@@ -108,7 +108,7 @@ const PickupEarning = (props) => {
 		},
 		{
 			id: 4,
-			Header: 'Order amt.',
+			Header: 'Order Amt.',
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (
@@ -120,7 +120,7 @@ const PickupEarning = (props) => {
 		},
 		{
 			id: 5,
-			Header: 'Tip amt.',
+			Header: 'Tip Amt.',
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (

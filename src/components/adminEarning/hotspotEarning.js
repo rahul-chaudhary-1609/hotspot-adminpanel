@@ -155,7 +155,7 @@ const HotspotEarning = () => {
 		},
 		{
 			id: 6,
-			Header: '(F) Delivery amt',
+			Header: '(F) Delivery Amt',
 			width: 120,
 			className: 'text-center view-details',
 			accessor: (item) => {
@@ -168,7 +168,7 @@ const HotspotEarning = () => {
 		},
 		{
 			id: 7,
-			Header: 'Order amt',
+			Header: 'Order Amt',
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (
@@ -180,7 +180,7 @@ const HotspotEarning = () => {
 		},
 		{
 			id: 8,
-			Header: '(G) Actual amt',
+			Header: '(G) Actual Amt',
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (
@@ -192,7 +192,7 @@ const HotspotEarning = () => {
 		},
 		{
 			id: 9,
-			Header: 'Markup amt',
+			Header: 'Markup Amt',
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (
@@ -220,7 +220,7 @@ const HotspotEarning = () => {
 
 		{
 			id: 11,
-			Header: '(I) Tip amt',
+			Header: '(I) Tip Amt',
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (

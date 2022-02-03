@@ -188,7 +188,7 @@ const RestaurantPayment = () => {
 		},
 		{
 			id: 6,
-			Header: 'Total Order amt',
+			Header: 'Total Order Amt',
 			width:125,
 			className: 'text-center view-details',
 			accessor: (item) => {

@@ -53,6 +53,7 @@ const RestaurantPaymentDetails = (props) => {
 		{
 			id: 2,
 			Header: 'Delivery ID',
+			width:125,
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (
@@ -124,7 +125,7 @@ const RestaurantPaymentDetails = (props) => {
 		},
 		{
 			id: 5,
-			Header: 'Drop off location',
+			Header: 'Dropoff',
 			width: 100,
 			className: 'text-center view-details',
 			accessor: (item) => {
@@ -138,7 +139,7 @@ const RestaurantPaymentDetails = (props) => {
 		{
 			id: 6,
 			Header: 'Customer Name',
-			width: 100,
+			width: 125,
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (
@@ -162,7 +163,7 @@ const RestaurantPaymentDetails = (props) => {
 		},
 		{
 			id: 8,
-			Header: 'Actual amount',
+			Header: 'Actual Amt',
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (
@@ -174,7 +175,7 @@ const RestaurantPaymentDetails = (props) => {
 		},
 		{
 			id: 9,
-			Header: 'Markup amount',
+			Header: 'Markup Amt',
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (

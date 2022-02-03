@@ -1,7 +1,7 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
-import {baseURL} from '../../../api'
-import { Document, Page, pdfjs } from "react-pdf";
+// import {baseURL} from '../../../api'
+// import { Document, Page, pdfjs } from "react-pdf";
 
 const DriverForm = (props) => {
 	const url = useLocation();
@@ -27,7 +27,7 @@ const DriverForm = (props) => {
 										<img
 											id='avtar'
 											class='rounded-full h-full w-full'
-											alt='upload image'
+											alt='upload profile'
 											src={
 												driver.profile_picture_url
 													? driver.profile_picture_url
@@ -108,7 +108,7 @@ const DriverForm = (props) => {
 							</div>
 
 							<div className='flex flex-wrap -mx-3 '>
-								<div className='w-full md:w-1/2 px-3 mb-6 md:mb-0'>
+								{/* <div className='w-full md:w-1/2 px-3 mb-6 md:mb-0'>
 									<label
 										className='block tracking-wide mb-2 text-gray-300'
 										for='gender'>
@@ -124,7 +124,7 @@ const DriverForm = (props) => {
 											}
 										/>
 									</div>
-								</div>
+								</div> */}
 								<div className='w-full md:w-1/2 px-3 '>
 									<label
 										className='block tracking-wide text-gray-300 mb-2'
@@ -142,7 +142,7 @@ const DriverForm = (props) => {
 								</div>
 							</div>
 
-							<div className='flex flex-wrap -mx-3 '>
+							{/* <div className='flex flex-wrap -mx-3 '>
 								<div className='w-full md:w-1/2 px-3 mb-6 md:mb-0'>
 										<label
 											className='block tracking-wide mb-2 text-gray-300'
@@ -223,7 +223,7 @@ const DriverForm = (props) => {
 										Upload vehicle image
 									</div>
 								)}
-							</div>
+							</div> */}
 							<label
 								className='block tracking-wide mb-2 mt-5 text-gray-500 text-bold'
 								style={{ fontSize: '20px', fontWeight: 'bold' }}
@@ -321,7 +321,7 @@ const DriverForm = (props) => {
 								Vehicle Details
 							</label>
 							<div className='w-full px-6 '>
-								<label
+								{/* <label
 									className='block tracking-wide mb-2 text-gray-300'
 									for='vehicle_type'>
 									Vehicle type
@@ -375,7 +375,7 @@ const DriverForm = (props) => {
 										{' '}
 										Upload vehicle image
 									</div>
-								)}
+								)} */}
 
 								<div className='flex flex-wrap -mx-3 mt-6 mb-6'>
 									<div className='w-full md:w-1/2 px-3 mb-6 md:mb-0'>
@@ -397,12 +397,13 @@ const DriverForm = (props) => {
 												<iframe
 												id='licence_image_url' type="application/pdf"
 												style={{
-													minHeight: '200px',
-													minWidth: '100%',
+													maxHeight: '400px',
+													maxWidth: '500px',
 													backgroundColor: 'lightgray',
 													textAlign: 'center',
 													lineHeight: '190px',
 												}}
+												title="licence_image_url_pdf"
 												//src={vehicle && vehicle.image_url}
 												src={vehicle && vehicle.license_image_url}
 											/>
@@ -410,22 +411,22 @@ const DriverForm = (props) => {
 											<img
 												id='licence_image_url'
 												style={{
-													minHeight: '200px',
-													minWidth: '100%',
+													maxHeight: '200px',
+													maxWidth: '375px',
 													backgroundColor: 'lightgray',
 													textAlign: 'center',
 													lineHeight: '190px',
 													border: '1px solid black',
 												}}
-												alt='upload license image...'
+												alt='upload license...'
 												src={vehicle && vehicle.license_image_url}
 												accept='image/*'
 											/>
 										) : (
 											<div
 												style={{
-													minHeight: '200px',
-													minWidth: '100%',
+													maxHeight: '200px',
+													maxWidth: '375px',
 													backgroundColor: 'lightgray',
 													textAlign: 'center',
 													lineHeight: '190px',
@@ -449,7 +450,7 @@ const DriverForm = (props) => {
 												'appearance-none block w-full border bg-gray-100  rounded-full py-3 px-6 mb-3 leading-tight focus:outline-none focus:bg-white'
 											}
 										/>
-										{vehicle && vehicle.insurance_image_url ? (
+										{/* {vehicle && vehicle.insurance_image_url ? (
 											vehicle.insurance_image_url.substr(vehicle.insurance_image_url.lastIndexOf('.') + 1) === 'pdf' ? (
 												<iframe
 												id='insurance_image_url' type="application/pdf"
@@ -489,7 +490,7 @@ const DriverForm = (props) => {
 												{' '}
 												Upload insurance image
 											</div>
-										)}
+										)} */}
 									</div>
 								</div>
 								<div className='flex flex-wrap -mx-3 mb-6'>
