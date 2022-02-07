@@ -143,12 +143,12 @@ export default function TaxModal(props) {
 						<b style={{ marginBottom: "0px", paddingLeft: "100px" }}>Tax</b>
 					</div>
 					<div className='flex flex-row items-center mt-5  '>
-						<div className='w-1/2 text-left '>Name</div>
+						<div style={{ width: "35%", textAlign:"left" }}>Name</div>
 						<input
 							type='text'
 							required
 							className='appearance-none block w-1/2 bg-gray-100 border border-100 rounded-half py-2 px-8 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-200'
-							style={{ marginLeft: "-96px" }}
+							style={{ marginLeft: "1rem", textAlign:"left" }}
 							value={tax.name}
 							id='taxName'
 							onChange={(e) => {
@@ -159,12 +159,12 @@ export default function TaxModal(props) {
 						/>
 					</div>
 					<div className='flex flex-row items-center mt-5  '>
-						<div className='w-1/2 text-left '>Variable Percentage(%)</div>
+						<div style={{ width: "35%", textAlign:"left" }}>Variable Percentage(%)</div>
 						<input
 							type='text'
 							required
 							className='appearance-none block w-1/2 bg-gray-100 border border-100 rounded-half py-2 px-8 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-200'
-							style={{ marginLeft: "-96px" }}
+							style={{ marginLeft: "1rem", textAlign:"left" }}
 							value={tax.variable_percentage}
 							id='taxVariablePercentage'
 							onChange={(e) => {
@@ -175,13 +175,13 @@ export default function TaxModal(props) {
 						/>
 					</div>
 					<div className='flex flex-row items-center mt-5  '>
-						<div className='w-1/2 text-left '>Fixed Amount(¢)</div>
+						<div style={{ width: "35%", textAlign:"left" }}>Fixed Amount(¢)</div>
 						<input
 							type='number'
 							min='0'
 							required
 							className='appearance-none block w-1/2 bg-gray-100 border border-100 rounded-half py-2 px-8 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-200'
-							style={{ marginLeft: "-96px" }}
+							style={{ marginLeft: "1rem", textAlign:"left" }}
 							value={tax.fixed_amount}
 							id='taxFixedAmount'
 							onChange={(e) => {
@@ -192,12 +192,12 @@ export default function TaxModal(props) {
 						/>
 					</div>
 					<div className='flex flex-row items-center mt-5  '>
-						<div className='w-1/2 text-left '>Description</div>
+						<div style={{ width: "35%", textAlign:"left" }}>Description</div>
 						<textarea
 							type='text'
 							rows="4"
 							className='appearance-none block w-1/2 bg-gray-100 border border-100 rounded-half py-2 px-8 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-200'
-							style={{ marginLeft: "-96px" }}
+							style={{ marginLeft: "1rem", textAlign:"left" }}
 							value={tax.description}
 							id='taxDescription'
 							onChange={(e) => {
