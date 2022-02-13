@@ -63,8 +63,8 @@ const StatusComponent = (props) => {
 						<div>
 							<Piechar
 								content={`${orderStatusDetails.completedOrderPercentage}% (${orderStatusDetails.completedOrders})`}
-								COLORS = {orderStatusDetails.numberOfYearlyOrders?['green', '#20BF9F', '#E38217']:['rgba(0,0,0,0.1)']}
-								data={[
+								COLORS = {orderStatusDetails.numberOfYearlyOrders && orderStatusDetails.numberOfYearlyOrders>0?['green', '#20BF9F', '#E38217']:['rgba(0,0,0,0.1)']}
+								data={orderStatusDetails.numberOfYearlyOrders && orderStatusDetails.numberOfYearlyOrders>0?[
 									{
 										name: 'Today',
 										value: orderStatusDetails.numberOfTodayOrders,
@@ -76,6 +76,19 @@ const StatusComponent = (props) => {
 									{
 										name: 'This year',
 										value: orderStatusDetails.numberOfYearlyOrders,
+									},
+								]:[
+									{
+										name: 'Today',
+										value: 1,
+									},
+									{
+										name: 'This month',
+										value: 1,
+									},
+									{
+										name: 'This year',
+										value: 1,
 									},
 								]}
 							/>

@@ -173,17 +173,17 @@ const StatusModal = (props) => {
               <div className="px-8 text-md" style={{ width: "75%" }}>
                     <Select
                         menuPlacement="top"
-						maxMenuHeight={150}
-						styles={selectCustomStyles}
-						options={props.disputeResult}
-						placeholder="Select Result"
-						value={props.selectedResult}
-						onChange={(selectedResult)=>{
-							props.setSelectedResult(selectedResult)
-						}}
-						required
-						disabled={props.disputeResult?false:true}
-					/>
+                        maxMenuHeight={150}
+                        styles={selectCustomStyles}
+                        options={props.disputeResult}
+                        placeholder="Select Result"
+                        value={props.selectedResult}
+                        onChange={(selectedResult)=>{
+                          props.setSelectedResult(selectedResult)
+                        }}
+                        required
+                        disabled={props.disputeResult?false:true}
+                      />
               </div>
             </div>
           </div>
@@ -198,17 +198,17 @@ const StatusModal = (props) => {
               <div className="px-8 text-md" style={{ width: "75%" }}>
                     <Select
                         menuPlacement="top"
-						maxMenuHeight={150}
-						styles={selectCustomStyles}
-						options={props.disputeStatus}
-						placeholder="Select Status"
-						value={props.selectedStatus}
-						onChange={(selectedStatus)=>{
-							props.setSelectedStatus(selectedStatus)
-						}}
-						required
-						disabled={props.disputeStatus?false:true}
-					/>
+                        maxMenuHeight={150}
+                        styles={selectCustomStyles}
+                        options={props.disputeStatus}
+                        placeholder="Select Status"
+                        value={props.selectedStatus}
+                        onChange={(selectedStatus)=>{
+                          props.setSelectedStatus(selectedStatus)
+                        }}
+                        required
+                        disabled={props.disputeStatus?false:true}
+                      />
               </div>
             </div>
           </div>

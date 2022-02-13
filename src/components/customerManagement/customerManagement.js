@@ -24,6 +24,7 @@ import ToggleOffIcon from '@material-ui/icons/ToggleOff';
 import ToggleOnIcon from '@material-ui/icons/ToggleOn';
 import StatusManagement from '../statusManagement/statusManagement';
 import {formatDate} from '../../utils/redableDateTime'
+import AddCreditModal from './addCreditModal';
 
 const CustomerManagement = () => {
 	const history = useHistory();
@@ -44,6 +45,7 @@ const CustomerManagement = () => {
 	const [customerDetails, setCustomerDetails] = useState(null);
 
 	const [showStatus, setShowStatus] = useState(false);
+	const [addCreditModal, setAddCreditModal] = useState(false);
 
 	let endId = startId < 0 ? 0 : startId + customerLists.length;
 
@@ -295,6 +297,15 @@ const CustomerManagement = () => {
 								searchText={searchText}
 							/>
 						</div>
+						<div style={{width:"50%",textAlign:"right"}}>
+							<button
+								style={{ height: '3rem' }}
+								onClick={() => setAddCreditModal(true)}
+								className='shadow bg-blue-500 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded'
+								type='button'>
+								Add Credit
+							</button>
+						</div>
 					</div>
 					{error && (
 						<p
@@ -344,6 +355,17 @@ const CustomerManagement = () => {
 					}}
 				/>
 			)}
+			{
+				addCreditModal && (
+					<AddCreditModal
+						{...{
+							addCreditModal,
+							setAddCreditModal,
+							token
+						}}
+					/>
+				)
+			}
 		</>
 	);
 };
