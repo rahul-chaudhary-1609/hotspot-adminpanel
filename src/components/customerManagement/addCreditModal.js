@@ -253,7 +253,7 @@ const AddCreditModal = (props) => {
 							className="font-semibold py-4 px-6 text-left text-md"
 							style={{ width: "21%" }}
 						>
-							Credits
+							Credits($)
 						</div>
 						<div className="px-8 text-md"  style={{ width: "75%" }}>
 							<input
