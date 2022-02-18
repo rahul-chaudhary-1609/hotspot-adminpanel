@@ -15,7 +15,7 @@ const AddCreditModal = (props) => {
 	const [selectedCustomers,setSelectedCustomers]=useState([]);
 	const [loader,setLoader]=useState(false);
 	const [isAll,setIsAll]=useState(false);
-	const [credit,setCredit]=useState(0);
+	const [credit,setCredit]=useState("");
 	const [resObj,setResObj]=useState({
 		found:false,
 		is_error:false,
@@ -79,7 +79,7 @@ const AddCreditModal = (props) => {
 				is_error:true,
 				message:"Please select atleast one customer",
 			})
-		}else if(isNaN(credit) || parseFloat(credit)<=0){
+		}else if(!credit.trim() || isNaN(credit.trim()) || parseFloat(credit.trim())<=0){
 			result=false;
 			setResObj({
 				...resObj.type,
@@ -91,6 +91,21 @@ const AddCreditModal = (props) => {
 		}
 
 		return result;
+	}
+
+	const handleOnBlur=()=>{
+		if(!credit.trim() || isNaN(credit.trim()) || parseFloat(credit.trim())<=0){
+			setResObj({
+				...resObj.type,
+				found:true,
+				color:"red",
+				is_error:true,
+				message:"Please enter a valid credit",
+			})
+			return;
+		}
+
+		setCredit(parseFloat(credit.trim()).toFixed(2))
 	}
 
 	const handleAddCredit=()=>{
@@ -152,7 +167,7 @@ const AddCreditModal = (props) => {
 			width: '100%',
 			backgroundColor: '#fafafa',
 			borderColor: 'grey',height:"100%",
-			minHeight:"50px",
+			minHeight:"40px",
 			// marginBottom:"12px",
 			// borderRadius: '9999px',
 		}),
@@ -246,12 +261,14 @@ const AddCreditModal = (props) => {
 									border: "1px solid rgba(0,0,0,0.4)",
 									padding: "5px",
 									width: "100%",
-									borderRadius:"5px"
+									borderRadius:"5px",
+									minHeight:"40px",
 								}}
 								id='credits'
 								type='text'
 								required
 								onChange={(e)=>setCredit(e.target.value)}
+								onBlur={handleOnBlur}
 								value={credit}
 							/>
 						</div>
@@ -282,7 +299,7 @@ const AddCreditModal = (props) => {
 							border: isAll || selectedCustomers?.length>0?'2px solid rgb(0,128,0)':'rgba(0,128,0,0.3)',
 							backgroundColor: isAll || selectedCustomers?.length>0?'rgb(0,128,0)':'rgba(0,128,0,0.3)',
 						}}>
-						Assign
+						Add
 					</button>
 				</div>
 			</Modal>
