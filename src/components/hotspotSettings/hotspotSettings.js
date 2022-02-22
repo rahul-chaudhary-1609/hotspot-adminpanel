@@ -12,8 +12,12 @@ import "react-table/react-table.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
 import { useSelector } from "react-redux";
-import { listHotspot } from "../../api";
+import { listHotspot, toggleHotspotAvailibility } from "../../api";
 import { useHistory } from "react-router";
+import ServiceAvailibilityModal from "./serviceAvailibilityModal";
+import ToggleOffIcon from '@material-ui/icons/ToggleOff';
+import ToggleOnIcon from '@material-ui/icons/ToggleOn';
+import ReactTooltip from 'react-tooltip';
 
 const HotspotSettings = () => {
   const history = useHistory();
@@ -25,6 +29,8 @@ const HotspotSettings = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [totalItems, setTotalItems] = useState(null);
+  const [statusModal,setStatusModal]=useState(false);
+  let [item,setItem]=useState(null);
 
   const [startId, setStartId] = useState(0);
   let endId = startId < 0 ? 0 : startId + tableData.length;
@@ -52,6 +58,7 @@ const HotspotSettings = () => {
     {
       id: 2,
       Header: "Hotspot Name",
+      width:300,
       className: "text-center view-details",
       accessor: (item) => {
         return (
@@ -75,6 +82,7 @@ const HotspotSettings = () => {
     {
       id: 4,
       Header: "Action",
+      width:200,
       className: "text-center view-details",
       accessor: (item) => {
         return (
@@ -83,17 +91,37 @@ const HotspotSettings = () => {
               display: "flex",
               flexDirection: "row",
               justifyContent: "space-around",
+              alignItems:"center"
             }}
             className="text-center"
             onClick={(e) => e.stopPropagation()}
           >
-            <FontAwesomeIcon
-              style={{ cursor: "pointer" }}
-              onClick={() => history.push(`/hotspots/${item.id}`)}
-              className="text-red-600 trash w-5 h-5"
-              color="red"
-              icon={faEye}
-            />
+          <p data-tip='' data-for='hotspot-view-tool-tip'>
+              <FontAwesomeIcon
+                style={{ cursor: "pointer" }}
+                onClick={() => history.push(`/hotspots/${item.id}`)}
+                className="text-red-600 trash w-5 h-5"
+                color="red"
+                icon={faEye}
+              />
+            <ReactTooltip id="hotspot-view-tool-tip">View Hotspot Details</ReactTooltip>
+						</p>
+            {item.service_availibility == 1 ? (
+							<p data-tip='' data-for='hotspot-status-tool-tip'>
+								<ToggleOnIcon
+									onClick={() => handleStatusModal(item)}
+									style={{ color: 'green', fontSize: '35',cursor:"pointer" }}
+								/>
+							</p>
+						) : (
+							<p data-tip='' data-for='hotspot-status-tool-tip'>
+								<ToggleOffIcon
+									onClick={() => handleStatusModal(item)}
+									style={{ color: 'red', fontSize: '35',cursor:"pointer" }}
+								/>
+							</p>
+						)}
+						<ReactTooltip id="hotspot-status-tool-tip">Toggle Service Availibility</ReactTooltip>
           </div>
         );
       },
@@ -136,6 +164,31 @@ const HotspotSettings = () => {
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
+
+  
+	const handleStatusModal=(item)=>{
+		setItem(item)
+		setStatusModal(!statusModal)
+	}
+
+	const handleStatusChange = async(id) => {
+		try {
+                let data={
+                    body:{
+                      hotspotLocationId:id,
+                    }
+                }
+				console.log("data",data)
+				const res = await toggleHotspotAvailibility(token, data);
+				if (res.status == 200) {
+					setStatusModal(false)
+					hotspotLists();
+				}
+			} catch (error) {
+				console.log(error);
+			}
+	};
+
   return (
     <>
       <div className='main-content md:pb-5 flex-1 p-8 px-2' style={{ overflowY: 'auto', height: '100vh' }}>
@@ -193,6 +246,16 @@ const HotspotSettings = () => {
           </div>
         </div>
       </div>
+      {statusModal && <ServiceAvailibilityModal
+						{...{ 
+							setIsOpen:setStatusModal, 
+							modalIsOpen:statusModal, 
+							details: item,
+							itemId:item.id,
+							handleStatusChange, 
+							name:'Hotspot' 
+						}} 
+					/>}
     </>
   );
 };

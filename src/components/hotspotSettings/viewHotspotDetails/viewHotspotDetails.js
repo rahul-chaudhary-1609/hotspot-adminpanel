@@ -7,10 +7,13 @@
 
 import React, { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router';
-import { getHotspot, deleteHotspot } from '../../../api';
+import { getHotspot, deleteHotspot, toggleHotspotAvailibility } from '../../../api';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
 import DeleteModal from '../../deleteModal/deleteModal';
+import ToggleOffIcon from '@material-ui/icons/ToggleOff';
+import ToggleOnIcon from '@material-ui/icons/ToggleOn';
+import ServiceAvailibilityModal from "./../serviceAvailibilityModal";
 
 const ViewHotspotDetails = () => {
 	const history = useHistory();
@@ -22,8 +25,15 @@ const ViewHotspotDetails = () => {
 	const [deleteModal, setDeleteModal] = useState(false);
 	const [error, setError] = useState(null);
 	const[restaurants, setRestaurants] = useState(null);
+	const [statusModal,setStatusModal]=useState(false);
+  	let [item,setItem]=useState(null);
+
 
 	useEffect(() => {
+		getHotspotDetails();
+	}, []);
+
+	const getHotspotDetails=()=>{
 		if(params.id){
 			let data={
 				params:{
@@ -41,7 +51,7 @@ const ViewHotspotDetails = () => {
 					console.log(error);
 				});
 		}
-	}, []);
+	}
 
 	const handleDelete = () => {
 		let data={
@@ -59,6 +69,29 @@ const ViewHotspotDetails = () => {
 				setDeleteModal(false);
 				setError(error);
 			});
+	};
+
+	const handleStatusModal=(item)=>{
+		setItem(item)
+		setStatusModal(!statusModal)
+	}
+
+	const handleStatusChange = async(id) => {
+		try {
+                let data={
+                    body:{
+                      hotspotLocationId:id,
+                    }
+                }
+				console.log("data",data)
+				const res = await toggleHotspotAvailibility(token, data);
+				if (res.status == 200) {
+					setStatusModal(false)
+					getHotspotDetails();
+				}
+			} catch (error) {
+				console.log(error);
+			}
 	};
 	return (
 		<div
@@ -219,8 +252,40 @@ const ViewHotspotDetails = () => {
 										})}
 									</div>
 								</div>
+								<div className='flex flex-row border-t  items-center border-gray-200'>
+									<div
+										style={{ backgroundColor: 'lightgray' }}
+										className='bg-gray-100 font-semibold py-4 px-6 w-1/3 text-right'>
+										Service Availibility
+									</div>
+									<div className='px-8' style={{ width: '65%' }}>
+										{hotspotDetails.service_availibility == 1 ? (<>
+												Available
+												<ToggleOnIcon
+													onClick={() => handleStatusModal(hotspotDetails)}
+													style={{ color: 'green', fontSize: '35',cursor:"pointer" }}
+												/>
+										</>) : (<>
+												Not available
+												<ToggleOffIcon
+													onClick={() => handleStatusModal(hotspotDetails)}
+													style={{ color: 'red', fontSize: '35',cursor:"pointer" }}
+												/>
+										</>)}
+									</div>
+								</div>
 							</div>
 						</div>
+						{statusModal && <ServiceAvailibilityModal
+						{...{ 
+							setIsOpen:setStatusModal, 
+							modalIsOpen:statusModal, 
+							details: item,
+							itemId:item.id,
+							handleStatusChange, 
+							name:'Hotspot' 
+						}} 
+					/>}
 					</>
 				)}
 			</div>
