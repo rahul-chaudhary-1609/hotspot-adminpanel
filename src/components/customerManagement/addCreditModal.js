@@ -4,15 +4,18 @@ import Modal from 'react-modal';
 import Select from 'react-select';
 import {
 	listActiveCustomers,
-	addPromotionalCredits
+	addPromotionalCredits,
+	listHotspot,
 } from '../../api';
 import Loader from "../../globalComponent/layout/loader";
-
+import moment from "moment";
 
 const AddCreditModal = (props) => {
 
 	const [customerList,setCustomerList]=useState([]);
+	const [hotspotList,setHotspotList]=useState([]);
 	const [selectedCustomers,setSelectedCustomers]=useState([]);
+	const [selectedHotspot,setSelectedHotspot]=useState(null);
 	const [loader,setLoader]=useState(false);
 	const [isAll,setIsAll]=useState(false);
 	const [credit,setCredit]=useState("");
@@ -24,11 +27,19 @@ const AddCreditModal = (props) => {
 	})
 
 	useEffect(()=>{
-		getCustomerList();
+		getHotspotList();
 	},[])
 
 	useEffect(()=>{
 		setSelectedCustomers([]);
+		setCredit("")
+		setIsAll(false);
+		getCustomerList();
+	},[selectedHotspot])
+
+	useEffect(()=>{
+		setSelectedCustomers([]);
+		setCredit("")
 	},[isAll])
 
 	useEffect(()=>{
@@ -43,7 +54,12 @@ const AddCreditModal = (props) => {
 	let getCustomerList=async()=>{
 		try {
 			setLoader(true);
-			const res = await listActiveCustomers(props.token,{});
+			let data={
+				query:{
+					hotspotLocationId:selectedHotspot.id,
+				}
+			}
+			const res = await listActiveCustomers(props.token,data);
 			if (res.success) {
 				setLoader(false);
 				setCustomerList(res.customerList.rows.map((customer)=>{
@@ -65,6 +81,39 @@ const AddCreditModal = (props) => {
 				message:error.message,
 			})
 			setCustomerList([]);
+		}
+	}
+
+	let getHotspotList=async()=>{
+		try {
+			setLoader(true);
+			let data={
+				query:{
+					is_pagination:0,
+				}
+			}
+			const res = await listHotspot(props.token,data);
+			if (res.success) {
+				setLoader(false);
+				setHotspotList(res.hotspotList.rows.map((hotspot)=>{
+					return {
+						label:`${hotspot.name}`,
+						value:hotspot.id,
+						...hotspot,
+					}
+				}));
+			}
+		} catch (error) {
+			setLoader(false);
+			console.log(error)
+			setResObj({
+				...resObj,
+				found:true,
+				color:"red",
+				is_error:true,
+				message:error.message,
+			})
+			setHotspotList([]);
 		}
 	}
 
@@ -117,6 +166,7 @@ const AddCreditModal = (props) => {
 			body:{
 				customer_ids:isAll?customerList.map(customer=>customer.id):selectedCustomers.map(customer=>customer.id),
 				hotspot_credit:parseFloat(credit),
+				datetime:moment(new Date()).format("YYYY-MM-DD HH:mm:ss"),
 			}
 		}
 		addPromotionalCredits(props.token,data)
@@ -213,6 +263,33 @@ const AddCreditModal = (props) => {
 					<div className="form-layout text-base" style={{ marginTop: "10px" }}>
 						<div className="flex flex-row ">
 							<div
+								className="font-semibold py-1 px-6 text-left text-md"
+								style={{ width: "21%" }}
+							>
+								Hotspot
+							</div>
+							<div className="px-8 text-md" style={{ width: "75%", display:"flex", flexDirection:'column' }}>
+									<div>
+										<Select
+											isMulti={false}
+											maxMenuHeight={150}
+											styles={selectCustomStyles}
+											options={hotspotList}
+											placeholder="Select Hotspot"
+											value={selectedHotspot}
+											onChange={(selectedHotspot)=>{
+												setSelectedHotspot(selectedHotspot)
+												console.log("selected",selectedHotspot)
+											}}
+											required
+										/>
+									</div>
+								</div>
+							</div>
+						</div>
+					<div className="form-layout text-base" style={{ marginTop: "10px" }}>
+						<div className="flex flex-row ">
+							<div
 								className="font-semibold py-4 px-6 text-left text-md"
 								style={{ width: "21%" }}
 							>
@@ -225,6 +302,7 @@ const AddCreditModal = (props) => {
 											type="checkbox"
 											onClick={()=>setIsAll(!isAll)}
 											checked={isAll}
+											disabled={selectedHotspot?false:true}
 										/>
 										 All
 									</div>
@@ -241,16 +319,16 @@ const AddCreditModal = (props) => {
 												console.log("selected",selectedCustomer)
 											}}
 											required
-											isDisabled={isAll}
+											isDisabled={!isAll && selectedHotspot?false:true}
 										/>
 									</div>
 								</div>
 							</div>
 						</div>
-					<div className="form-layout text-base" style={{ }}>
+					<div className="form-layout text-base" style={{marginTop: "10px" }}>
 						<div className="flex flex-row items-center ">
 						<div
-							className="font-semibold py-4 px-6 text-left text-md"
+							className="font-semibold py-1 px-6 text-left text-md"
 							style={{ width: "21%" }}
 						>
 							Credits($)

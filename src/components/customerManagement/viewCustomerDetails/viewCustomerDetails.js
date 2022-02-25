@@ -142,6 +142,14 @@ const ViewCustomerDetails = () => {
 								{customerDetails.status == 1 ? 'Active' : 'Deactive'}
 							</div>
 						</div>
+						<div className='flex flex-row items-center border-t border-gray-200'>
+							<div className='bg-gray-100 font-semibold py-4 px-6 w-1/3 text-right'>
+								Hotspot Credits
+							</div>
+							<div className='px-8'>
+								{customerDetails.hotspot_credit}
+							</div>
+						</div>
 					</div>
 					</div>
 				</div>
