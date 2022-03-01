@@ -3485,3 +3485,27 @@ export const addPromotionalCredits = (token, data) => {
 		}
 	});
 };
+
+export const editPromotionalCredits = (token, data) => {
+	return new Promise(async (resolve, reject) => {
+		try {
+			let url=new URL(`${baseURL}editPromotionalCredits`);
+			const response = await fetch(url, {
+				body: JSON.stringify(data.body),
+				headers: {
+					Authorization: token,
+					'Content-Type': 'application/json',
+				},
+				method: 'PUT',
+			}).then((res) => res.json());
+
+			if (response.status == 200) {
+				resolve(response);
+			} else {
+				reject(response.message);
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	});
+};

@@ -5,6 +5,8 @@ import { getCustomerById, changeCustomerStatus } from '../../../api';
 import StatusManagement from '../../statusManagement/statusManagement';
 import {formatDate} from '../../../utils/redableDateTime'
 import moment from 'moment';
+import {EditCreditModal} from "../addCreditModal";
+import EditIcon  from '@material-ui/icons/Edit';
 
 const ViewCustomerDetails = () => {
 	const history = useHistory();
@@ -13,6 +15,7 @@ const ViewCustomerDetails = () => {
 	const token = useSelector((state) => state.auth.isSignedIn);
 	const [customerDetails, setCustomerDetails] = useState(null);
 	const [modalIsOpen, setIsOpen] = useState(false);
+	const [editCreditModal, setEditCreditModal] = useState(false);
 
 	useEffect(() => {
 		getCustomer();
@@ -144,16 +147,29 @@ const ViewCustomerDetails = () => {
 						</div>
 						<div className='flex flex-row items-center border-t border-gray-200'>
 							<div className='bg-gray-100 font-semibold py-4 px-6 w-1/3 text-right'>
-								Hotspot Credits
+								Hotspot Credits($)
 							</div>
-							<div className='px-8'>
-								{customerDetails.hotspot_credit}
+							<div className='px-8' style={{display:"flex", alignItems:"center"}}>
+								${customerDetails.hotspot_credit} <EditIcon onClick={()=>setEditCreditModal(true)} style={{fontSize:"16px", marginLeft:"1rem", cursor:"pointer"}}/> {customerDetails.hotspot_credit_last_updated_on?<span style={{fontStyle:"italic", fontWeight:"lighter", fontSize:"14px", verticalAlign:"middle"}}>last update: {customerDetails.last_added_hotspot_credit<0?`(-) $${Math.abs(customerDetails.last_added_hotspot_credit).toFixed(2)}`:`(+) $${Math.abs(customerDetails.last_added_hotspot_credit).toFixed(2)}`} on {moment(customerDetails.hotspot_credit_last_updated_on).format("M/D/YYYY h:mm a")}</span>:""}
 							</div>
 						</div>
 					</div>
 					</div>
 				</div>
 			)}
+			{
+				editCreditModal && (
+					<EditCreditModal
+						{...{
+							editCreditModal,
+							setEditCreditModal,
+							token,
+							customerDetails,
+							getCustomer
+						}}
+					/>
+				)
+			}
 		</>
 	);
 };
