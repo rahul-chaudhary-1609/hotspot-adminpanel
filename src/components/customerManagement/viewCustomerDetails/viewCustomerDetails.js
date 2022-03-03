@@ -150,7 +150,7 @@ const ViewCustomerDetails = () => {
 								Hotspot Credits($)
 							</div>
 							<div className='px-8' style={{display:"flex", alignItems:"center"}}>
-								${customerDetails.hotspot_credit} <EditIcon onClick={()=>setEditCreditModal(true)} style={{fontSize:"16px", marginLeft:"1rem", cursor:"pointer"}}/> {customerDetails.hotspot_credit_last_updated_on?<span style={{fontStyle:"italic", fontWeight:"lighter", fontSize:"14px", verticalAlign:"middle"}}>last update: {customerDetails.last_added_hotspot_credit<0?`(-) $${Math.abs(customerDetails.last_added_hotspot_credit).toFixed(2)}`:`(+) $${Math.abs(customerDetails.last_added_hotspot_credit).toFixed(2)}`} on {moment(customerDetails.hotspot_credit_last_updated_on).format("M/D/YYYY h:mm a")}</span>:""}
+								${customerDetails.hotspot_credit} <EditIcon onClick={()=>setEditCreditModal(true)} style={{fontSize:"16px", marginLeft:"1rem", cursor:"pointer"}}/> {customerDetails.hotspot_credit_last_updated_on?<span style={{fontStyle:"italic", fontWeight:"lighter", fontSize:"14px", verticalAlign:"middle"}}>last update: {customerDetails.last_added_hotspot_credit<0?`(-) $${Math.abs(customerDetails.last_added_hotspot_credit).toFixed(2)}`:`(+) $${Math.abs(customerDetails.last_added_hotspot_credit).toFixed(2)}`} on {moment(customerDetails.hotspot_credit_last_updated_on,'YYYY-MM-DD HH:mm:ss').format("M/D/YYYY h:mm a")}</span>:""}
 							</div>
 						</div>
 					</div>

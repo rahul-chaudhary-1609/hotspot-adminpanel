@@ -116,17 +116,6 @@ const CustomerManagement = () => {
 		},
 		{
 			id: 5,
-			Header: 'City',
-			width: 120,
-			className: 'text-center view-details',
-			accessor: (item) => {
-				return (
-					<div style={{ padding: '6px', cursor: 'pointer' }}>{item.city}</div>
-				);
-			},
-		},
-		{
-			id: 6,
 			Header: 'State',
 			width: 100,
 			className: 'text-center view-details',
@@ -137,8 +126,9 @@ const CustomerManagement = () => {
 			},
 		},
 		{
-			id: 7,
+			id: 6,
 			Header: 'Signup date',
+			width: 100,
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (
@@ -149,7 +139,7 @@ const CustomerManagement = () => {
 			},
 		},
 		{
-			id: 8,
+			id: 7,
 			Header: 'Status',
 			width: 60,
 			className: 'text-center view-details',
@@ -159,6 +149,19 @@ const CustomerManagement = () => {
 						className={item.status == 1 ? 'text-green-600' : 'text-red-600'}
 						style={{ padding: '6px', cursor: 'pointer' }}>
 						{item.status == 1 ? 'Active' : 'Inactive'}
+					</div>
+				);
+			},
+		},
+		{
+			id: 8,
+			Header: 'Hotspot Credits($)',
+			width: 150,
+			className: 'text-center view-details',
+			accessor: (item) => {
+				return (
+					<div style={{ padding: '6px', cursor: 'pointer' }}>
+						${item.hotspot_credit}
 					</div>
 				);
 			},
@@ -303,7 +306,7 @@ const CustomerManagement = () => {
 								onClick={() => setAddCreditModal(true)}
 								className='shadow bg-blue-500 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded'
 								type='button'>
-								Add Credit
+								Add Credits
 							</button>
 						</div>
 					</div>

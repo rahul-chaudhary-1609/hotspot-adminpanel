@@ -466,7 +466,7 @@ export function EditCreditModal(props) {
 				found:true,
 				color:"green",
 				is_error:false,
-				message:"Credits added successfully.",
+				message:"Credits updated successfully.",
 			})
 			
 			setTimeout(()=>{
@@ -556,7 +556,7 @@ export function EditCreditModal(props) {
 							</div>
 							<div className="px-8 text-md" style={{ width: "70%", display:"flex", flexDirection:'column' }}>
 									<div>
-										{props.customerDetails.hotspot_credit}
+										${props.customerDetails.hotspot_credit}
 									</div>
 								</div>
 							</div>
