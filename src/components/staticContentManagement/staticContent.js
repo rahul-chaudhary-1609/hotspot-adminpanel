@@ -78,7 +78,7 @@ const StaticContent = () => {
 						className='text-center'
 						onClick={(e) => e.stopPropagation()}>
 						
-						{item.title != 'FAQs' ? (
+						{/* {item.title != 'FAQs' ? (
 							<>
 							<FontAwesomeIcon
 							style={{ cursor: 'pointer' }}
@@ -103,7 +103,22 @@ const StaticContent = () => {
 							color='red'
 							icon={faEye}
 						/>
-						}
+						} */}
+
+						<FontAwesomeIcon
+							style={{ cursor: 'pointer' }}
+							onClick={() => history.push(`/static/${item.id}`)}
+							className='text-red-600 trash w-5 h-5'
+							color='red'
+							icon={faEye}
+						/>
+						<FontAwesomeIcon
+							style={{ cursor: 'pointer' }}
+							onClick={() => history.push(`/editStaticContent/${item.id}`)}
+							className='text-red-600 trash w-5 h-5'
+							color='red'
+							icon={faPencilAlt}
+						/>
 					</div>
 				);
 			},

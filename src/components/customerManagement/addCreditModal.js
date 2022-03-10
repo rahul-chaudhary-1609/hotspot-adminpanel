@@ -14,6 +14,7 @@ import moment from "moment";
 export default function AddCreditModal(props){
 
 	const [customerList,setCustomerList]=useState([]);
+	const [customerCount,setCustomerCount]=useState(0);
 	const [hotspotList,setHotspotList]=useState([]);
 	const [selectedCustomers,setSelectedCustomers]=useState([]);
 	const [selectedHotspot,setSelectedHotspot]=useState(null);
@@ -35,6 +36,7 @@ export default function AddCreditModal(props){
 		setSelectedCustomers([]);
 		setCredit("")
 		setIsAll(false);
+		setCustomerCount(0);
 		getCustomerList();
 	},[selectedHotspot])
 
@@ -63,6 +65,7 @@ export default function AddCreditModal(props){
 			const res = await listActiveCustomers(props.token,data);
 			if (res.success) {
 				setLoader(false);
+				setCustomerCount(res.customerList.count);
 				setCustomerList(res.customerList.rows.map((customer)=>{
 					return {
 						label:`${customer.name} (${customer.email})`,
@@ -82,6 +85,7 @@ export default function AddCreditModal(props){
 				message:error.message,
 			})
 			setCustomerList([]);
+			setCustomerCount(0);
 		}
 	}
 
@@ -173,6 +177,7 @@ export default function AddCreditModal(props){
 		addPromotionalCredits(props.token,data)
 		.then((res)=>{
 			setLoader(false);
+			props.reloadCustomerList();
 			setResObj({
 				...resObj,
 				found:true,
@@ -297,15 +302,19 @@ export default function AddCreditModal(props){
 								Customers
 							</div>
 							<div className="px-8 text-md" style={{ width: "75%", display:"flex", flexDirection:'column' }}>
-									<div style={{}}>
-										<input
-											style={{width:"15px", height:"15px", marginRight:"0.5rem"}}
-											type="checkbox"
-											onClick={()=>setIsAll(!isAll)}
-											checked={isAll}
-											disabled={selectedHotspot?false:true}
-										/>
-										 All
+									<div style={{display:"flex", justifyContent:"space-between"}}>
+										<div>
+											<input
+												style={{width:"15px", height:"15px", marginRight:"0.5rem"}}
+												type="checkbox"
+												onClick={()=>setIsAll(!isAll)}
+												checked={isAll}
+												disabled={selectedHotspot && customerCount?false:true}
+											/>
+											All
+										</div>
+
+										 <div>Count: {customerCount}</div>
 									</div>
 									<div>
 										<Select
@@ -320,7 +329,7 @@ export default function AddCreditModal(props){
 												console.log("selected",selectedCustomer)
 											}}
 											required
-											isDisabled={!isAll && selectedHotspot?false:true}
+											isDisabled={!isAll && selectedHotspot && customerCount?false:true}
 										/>
 									</div>
 								</div>

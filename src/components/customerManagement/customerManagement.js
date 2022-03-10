@@ -364,7 +364,8 @@ const CustomerManagement = () => {
 						{...{
 							addCreditModal,
 							setAddCreditModal,
-							token
+							token,
+							reloadCustomerList:getCustomerList,
 						}}
 					/>
 				)
