@@ -181,11 +181,12 @@ const HotspotEarning = () => {
 		{
 			id: 8,
 			Header: '(G) Actual Amt',
+			width: 120,
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (
 					<div style={{ padding: '6px', cursor: 'pointer' }}>
-						${item.delivery_details.actual_amount}
+						${item.delivery_details.actual_amount.toFixed(2)}
 					</div>
 				);
 			},
@@ -193,6 +194,7 @@ const HotspotEarning = () => {
 		{
 			id: 9,
 			Header: 'Markup Amt',
+			width: 120,
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (
@@ -220,7 +222,8 @@ const HotspotEarning = () => {
 
 		{
 			id: 11,
-			Header: '(I) Tip Amt',
+			Header: '(I) Tip',
+			width: 100,
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (
@@ -232,7 +235,7 @@ const HotspotEarning = () => {
 		},
 		{
 			id: 12,
-			Header: '(J) (J=Range based on F) Driver fee',
+			Header: '(J) (J= Range based on F) Driver fee',
 			width: 230,
 			className: 'text-center view-details',
 			accessor: (item) => {
@@ -245,7 +248,7 @@ const HotspotEarning = () => {
 		},
 		{
 			id: 13,
-			Header: '(K) (K =F-H-J) Hotspot earning',
+			Header: '(K) (K= F-H-J) Hotspot earning',
 			width: 200,
 			className: 'text-center view-details',
 			accessor: (item) => {
@@ -258,8 +261,8 @@ const HotspotEarning = () => {
 		},
 		{
 			id: 14,
-			Header: '(L) Total Refund Amount',
-			width: 170,
+			Header: '(L) Refund Amount',
+			width: 150,
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (
@@ -270,14 +273,27 @@ const HotspotEarning = () => {
 			},
 		},
 		{
-			id: 15,
-			Header: '(L) (K-L) Final Hotspot Earning',
+			id: 14,
+			Header: '(M) Hotspot Credits Applied',
 			width: 200,
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (
 					<div style={{ padding: '6px', cursor: 'pointer' }}>
-						${(parseFloat(item.hotspot_fee)-parseFloat(item.refund_amount)).toFixed(2)}
+						${item.hotspot_credits}
+					</div>
+				);
+			},
+		},
+		{
+			id: 15,
+			Header: '(N) (N= K-L-M) Final Hotspot Earning',
+			width: 250,
+			className: 'text-center view-details',
+			accessor: (item) => {
+				return (
+					<div style={{ padding: '6px', cursor: 'pointer' }}>
+						{item.hotspot_net_earning>=0?`$${item.hotspot_net_earning}`:`-$${Math.abs(item.hotspot_net_earning)}`}
 					</div>
 				);
 			},

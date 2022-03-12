@@ -66,6 +66,7 @@ const RestaurantPaymentDetails = (props) => {
 		{
 			id: 3,
 			Header: 'Order ID',
+			width: 120,
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (
@@ -152,6 +153,7 @@ const RestaurantPaymentDetails = (props) => {
 		{
 			id: 7,
 			Header: 'Amount',
+			width: 100,
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (
@@ -164,6 +166,7 @@ const RestaurantPaymentDetails = (props) => {
 		{
 			id: 8,
 			Header: 'Actual Amt',
+			width: 120,
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (
@@ -176,6 +179,7 @@ const RestaurantPaymentDetails = (props) => {
 		{
 			id: 9,
 			Header: 'Markup Amt',
+			width: 120,
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (

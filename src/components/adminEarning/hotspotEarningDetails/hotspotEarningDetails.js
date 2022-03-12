@@ -62,6 +62,7 @@ const HotspotEarningDetails = (props) => {
 		{
 			id: 3,
 			Header: 'Order ID',
+			width: 100,
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (
@@ -161,6 +162,7 @@ const HotspotEarningDetails = (props) => {
 		{
 			id: 7,
 			Header: 'Total Amt',
+			width: 110,
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (
@@ -199,6 +201,7 @@ const HotspotEarningDetails = (props) => {
 		{
 			id: 9,
 			Header: 'Actual Amt',
+			width: 120,
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (
@@ -211,6 +214,7 @@ const HotspotEarningDetails = (props) => {
 		{
 			id: 10,
 			Header: 'Markup Amt',
+			width: 120,
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (

@@ -65,6 +65,7 @@ const DriverPaymentDetails = (props) => {
 		{
 			id: 3,
 			Header: 'Order ID',
+			width: 100,
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (
@@ -166,6 +167,7 @@ const DriverPaymentDetails = (props) => {
 		{
 			id: 9,
 			Header: 'Tip',
+			width: 70,
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (
@@ -178,6 +180,7 @@ const DriverPaymentDetails = (props) => {
 		{
 			id: 10,
 			Header: 'Actual Amt',
+			width: 120,
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (
@@ -190,6 +193,7 @@ const DriverPaymentDetails = (props) => {
 		{
 			id: 11,
 			Header: 'Markup Amt',
+			width: 120,
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (

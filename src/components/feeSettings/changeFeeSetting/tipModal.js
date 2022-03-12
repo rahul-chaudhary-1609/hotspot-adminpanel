@@ -28,7 +28,7 @@ export default function TipModal(props) {
 	};
 
     const token = useSelector((state) => state.auth.isSignedIn);
-    const [tipAmount, setTipAmount] = useState(null) 
+    const [tipAmount, setTipAmount] = useState("") 
 
     
     const getData = async () => {
@@ -58,13 +58,13 @@ export default function TipModal(props) {
     const validateData = (e) => {
 		let result=false
 		console.log("Type of tipamount", typeof tipAmount)
-		if(tipAmount && parseInt(tipAmount) >= 2)
+		if(tipAmount && parseFloat(tipAmount) >= 3.5)
 		{
 			result=true;
-		}else if(tipAmount && parseInt(tipAmount) <= 1){
+		}else if(tipAmount && parseFloat(tipAmount) < 3.5){
         	setErr({
 				flag:true,
-				message:"Tip should be greater than or equal to 2.",
+				message:"Tip should be greater than or equal to 3.5",
 			});
 			result=false;
     	}else{
@@ -124,8 +124,7 @@ export default function TipModal(props) {
 					<div className='flex flex-row items-center mt-5  '>
 						<div className='w-1/2 text-left '>Amount</div>
 						<input
-							type='number'
-							min='2'
+							type='text'
 							className='appearance-none block w-1/3 bg-gray-100 border border-100 rounded-half py-2 px-8 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-200'
 							style={{ marginLeft: "-96px" }}
 							value={tipAmount}

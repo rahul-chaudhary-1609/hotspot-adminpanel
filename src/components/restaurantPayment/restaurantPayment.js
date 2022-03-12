@@ -93,6 +93,7 @@ const RestaurantPayment = () => {
 		{
 			id: 2,
 			Header: 'Payment ID',
+			width: 100,
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (
@@ -300,6 +301,7 @@ const RestaurantPayment = () => {
 		{
 			id: 11,
 			Header: 'Payment',
+			width: 80,
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (

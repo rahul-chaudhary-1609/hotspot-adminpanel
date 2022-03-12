@@ -80,6 +80,7 @@ const DriverPayment = () => {
 		{
 			id: 2,
 			Header: 'Payment ID',
+			width: 120,
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (
@@ -110,6 +111,7 @@ const DriverPayment = () => {
 		{
 			id: 3,
 			Header: 'Driver Name',
+			width: 125,
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (
@@ -122,6 +124,7 @@ const DriverPayment = () => {
 		{
 			id: 4,
 			Header: 'Date',
+			width: 100,
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (
@@ -134,6 +137,7 @@ const DriverPayment = () => {
 		{
 			id: 5,
 			Header: 'Order count',
+			width: 100,
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (
@@ -146,6 +150,7 @@ const DriverPayment = () => {
 		{
 			id: 6,
 			Header: 'Driver fees',
+			width: 120,
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (
@@ -171,6 +176,7 @@ const DriverPayment = () => {
 		{
 			id: 8,
 			Header: 'Action',
+			width: 100,
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (
