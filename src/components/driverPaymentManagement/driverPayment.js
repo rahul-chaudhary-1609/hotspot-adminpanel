@@ -80,7 +80,7 @@ const DriverPayment = () => {
 		{
 			id: 2,
 			Header: 'Payment ID',
-			width: 120,
+			width: 150,
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (
@@ -111,7 +111,7 @@ const DriverPayment = () => {
 		{
 			id: 3,
 			Header: 'Driver Name',
-			width: 125,
+			width: 150,
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (
@@ -124,7 +124,7 @@ const DriverPayment = () => {
 		{
 			id: 4,
 			Header: 'Date',
-			width: 100,
+			width: 220,
 			className: 'text-center view-details',
 			accessor: (item) => {
 				return (
@@ -184,7 +184,7 @@ const DriverPayment = () => {
 						style={{
 							display: 'flex',
 							flexDirection: 'row',
-							justifyContent: 'space-around',
+							justifyContent: 'center',
 						}}
 						className='text-center'
 						onClick={(e) => {item.status == 0 ? history.push({pathname:`/driverPayment/driverPaymentNow`, state:item}) : e.stopPropagation()}}>
