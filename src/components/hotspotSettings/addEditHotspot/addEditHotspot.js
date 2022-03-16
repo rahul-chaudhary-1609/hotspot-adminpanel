@@ -30,28 +30,49 @@ const AddEditHotspot = () => {
         country: null,
         postal_code: null,
         dropoffs:[null],
-        delivery_shifts:[null,null,null,],
+        delivery_shifts:['12:00:00'],
         restaurant_ids: [],
         driver_ids:[],
 	});
 
-	let restAvailableForShiftIndexList=[
+	let [restAvailableForShiftIndexList,setRestAvailableForShiftIndexList]=useState([
 		{
-			label:"Shift 1",
+			label:"12:00 PM",
 			value:1,
 			name:"Shift 1",
-		},
-		{
-			label:"Shift 2",
-			value:2,
-			name:"Shift 2",
-		},
-		{
-			label:"Shift 3",
-			value:3,
-			name:"Shift 3",
 		}
-	];
+	]);
+
+	// let restAvailableForShiftIndexList=[
+	// 	{
+	// 		label:"Shift 1",
+	// 		value:1,
+	// 		name:"Shift 1",
+	// 	},
+	// 	{
+	// 		label:"Shift 2",
+	// 		value:2,
+	// 		name:"Shift 2",
+	// 	},
+	// 	{
+	// 		label:"Shift 3",
+	// 		value:3,
+	// 		name:"Shift 3",
+	// 	}
+	// ];
+
+	useEffect(()=>{
+		let updatedShifts=hotspot.delivery_shifts.filter(shift=>shift).map((shift,index)=>{
+			return {
+					label:moment(shift,"HH:mm:ss").format("h:mm A"),
+					value:index+1,
+					name:`Shift ${index+1}`,
+			}
+		})
+
+		setRestAvailableForShiftIndexList([...updatedShifts])
+
+	},[hotspot])
     
 	let [error,setError]=useState(null);
 	let [success,setSuccess]=useState(null);
@@ -526,7 +547,7 @@ const AddEditHotspot = () => {
 																		value={restAvailableForShiftIndexList.filter(ele=>rest.available_for_shifts?.includes(ele.value))}
 																		onChange={(selectedIndexes)=>{
 																			setError(null);
-																			hotspot.restaurant_ids[index].available_for_shifts=selectedIndexes?selectedIndexes.map(ele=>ele.value).sort():[1,2,3];
+																			hotspot.restaurant_ids[index].available_for_shifts=selectedIndexes?selectedIndexes.map(ele=>ele.value).sort():[1];
 																			setHotspot({...hotspot})
 																			console.log(selectedIndexes);
 																		}}
@@ -556,7 +577,7 @@ const AddEditHotspot = () => {
                                                         hotspot.restaurant_ids.push({
 															restaurant_id:null,
 															pickup_time:null,
-															available_for_shifts:[1,2,3]
+															available_for_shifts:[1]
 														});
 														setHotspot({...hotspot})
                                                     }}
@@ -655,20 +676,20 @@ const AddEditHotspot = () => {
                                                                 required
                                                             />
                                                             </div>
-                                                            {/* <div style={{width:"25%",marginBottom:"1rem",marginLeft:"1rem",display:"none"}}>
+                                                            <div style={{width:"25%",marginBottom:"1rem",marginLeft:"1rem",display:hotspot.delivery_shifts?.length<2?"none":""}}>
                                                                 <ClearIcon
                                                                     onClick={()=>{
                                                                         hotspot.delivery_shifts.splice(index,1);
                                                                         setHotspot({...hotspot});
                                                                     }}
                                                                 />
-                                                            </div> */}
+                                                            </div>
                                                             
                                                         </div>
                                                     )
                                                 })
                                             }
-                                            {/* <div style={{width:"25%",display:"none"}}>
+                                            <div style={{width:"25%",}}>
                                                 <AddIcon
                                                     onClick={()=>{
                                                         if(!hotspot.delivery_shifts) hotspot.delivery_shifts=[];
@@ -676,7 +697,7 @@ const AddEditHotspot = () => {
                                                         setHotspot({...hotspot});
                                                     }}
                                                 />
-                                            </div> */}
+                                            </div>
                                         </div>
 										
 									</div>

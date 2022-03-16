@@ -232,7 +232,7 @@ const FeeSettings = () => {
 						setDeleteModal,
 					}}
 				/>
-				<CommonTable
+				{/* <CommonTable
 					{...{
 						title: 'Restaurant Fee',
 						type: 'restaurant',
@@ -242,7 +242,7 @@ const FeeSettings = () => {
 						setId,
 						setIsRestaurant
 					}}
-				/>
+				/> */}
 				<CommonTable
 					{...{
 						title: 'Tip Amount',

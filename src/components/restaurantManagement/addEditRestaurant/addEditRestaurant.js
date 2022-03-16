@@ -30,6 +30,7 @@ const AddEditRestaurant = () => {
 		agreement_documents: null,
 		online_payment:1,
 		dish_preference:1,
+		percentage_fee:null,
 		cut_off_time: null,
 		deliveries_per_shift: null,
 		location: null,
@@ -117,6 +118,7 @@ const AddEditRestaurant = () => {
 						agreement_documents,
 						online_payment,
 						dish_preference,
+						percentage_fee,
 						cut_off_time,
 						deliveries_per_shift,
 						location,
@@ -138,6 +140,7 @@ const AddEditRestaurant = () => {
 						agreement_documents,
 						online_payment,
 						dish_preference,
+						percentage_fee,
 						cut_off_time,
 						deliveries_per_shift,
 						location,
@@ -290,11 +293,22 @@ const AddEditRestaurant = () => {
 		
 	}
 
+	const handlePercentageFeeOnBlur=(e)=>{
+		if(!e.target.value.trim() || isNaN(e.target.value.trim()) || parseFloat(e.target.value.trim())<=0){
+			setError("Percentage fee is required and must be a valid number greater than 0")
+			return;
+		}
+
+		let updatedDetails = { ...restaurant };
+		updatedDetails[e.target.id] = parseFloat(e.target.value).toFixed(2)
+		setRestaurant(updatedDetails);
+	}
+
 	let validateData=()=>{
 		let result=true;
 
 		Object.keys(restaurant).forEach((key)=>{
-			if(!['location','cut_off_time','deliveries_per_shift','order_type','online_payment','dish_preference'].includes(key)){
+			if(!['location','cut_off_time','percentage_fee','deliveries_per_shift','order_type','online_payment','dish_preference'].includes(key)){
 				if(key=="agreement_documents"){
 					if(!restaurant[key] || restaurant[key].length<=0){
 						restaurant[key]=null;
@@ -316,6 +330,12 @@ const AddEditRestaurant = () => {
 			result=false;
 		}else if(!restaurant.address || restaurant.address.trim()==""){
 			setError("Address is required")
+			result=false;
+		}else if(!restaurant.percentage_fee){
+			setError("Percentage fee is required")
+			result=false;
+		}else if(!restaurant.percentage_fee || isNaN(restaurant.percentage_fee) || parseFloat(restaurant.percentage_fee)<=0){
+			setError("Percentage fee is required and must be a valid number greater than 0.")
 			result=false;
 		}else if(!restaurant.cut_off_time){
 			setError("Cut Off Time is required")
@@ -680,6 +700,23 @@ const AddEditRestaurant = () => {
 											required
 											onChange={handleInputChange}
 											value={restaurant.deliveries_per_shift}
+										/>
+									</div>
+
+									<div className='w-full flex px-3 mb-6 md:mb-0 d-inline-flex'>
+										<label
+											className='block w-1/2 tracking-wide text-gray-300 py-3 px-6 mb-3'
+											for='percentage_fee'>
+											Percentage Fee(%)
+										</label>
+										<input
+											className='appearance-none block w-1/2 bg-gray-100 border border-gray-200 rounded-half py-3 px-6 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-200'
+											id='percentage_fee'
+											type='text'
+											required
+											onChange={handleInputChange}
+											value={restaurant.percentage_fee}
+											onBlur={handlePercentageFeeOnBlur}
 										/>
 									</div>
 

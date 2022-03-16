@@ -205,7 +205,7 @@ const ViewHotspotDetails = () => {
 										{hotspotDetails.delivery_shifts.map((shifts) => {
 											return (
 												<div style={{ marginTop: '5px' }}>
-													{moment(shifts, 'hh:mm:ss').format('hh:mm a')}
+													{moment(shifts, 'HH:mm:ss').format('h:mm A')}
 												</div>
 											);
 										})}
@@ -226,9 +226,9 @@ const ViewHotspotDetails = () => {
 													(<strong>Pickup Time:</strong> {restaurant.pickup_time} minutes) 
 													(<strong>Shifts:</strong> {restaurant.available_for_shifts.map(ele=>{
 														if(ele==hotspotDetails.delivery_shifts.length){
-															return (<span>{moment(hotspotDetails.delivery_shifts[ele-1], 'hh:mm:ss').format('hh:mm a')}</span>)
+															return (<span>{moment(hotspotDetails.delivery_shifts[ele-1], 'HH:mm:ss').format('h:mm A')}</span>)
 														}else{
-															return (<span>{moment(hotspotDetails.delivery_shifts[ele-1], 'hh:mm:ss').format('hh:mm a')}, </span>)
+															return (<span>{moment(hotspotDetails.delivery_shifts[ele-1], 'HH:mm:ss').format('h:mm A')}, </span>)
 														}
 													})})
 												</div>

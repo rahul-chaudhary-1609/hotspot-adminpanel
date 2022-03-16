@@ -262,6 +262,14 @@ const ViewRestaurant = () => {
 							</div>
 							<div className='flex flex-row items-center border-t border-gray-200'>
 								<div className='bg-gray-100 font-semibold py-4 px-6 w-1/3 text-right'>
+									Percentage Fee(%)
+								</div>
+								<div className='px-8'>
+									{restaurantDetails.percentage_fee}%
+								</div>
+							</div>
+							<div className='flex flex-row items-center border-t border-gray-200'>
+								<div className='bg-gray-100 font-semibold py-4 px-6 w-1/3 text-right'>
 									Available order types
 								</div>
 								<div className='px-8'>
