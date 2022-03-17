@@ -15,118 +15,118 @@ const CommonTable = (props) => {
 
 	let currentId = 0;
 	{console.log("props.feeSetting[0].status",props.feeSetting && props.feeSetting[0] && props.feeSetting[0].status)}
-		const columns = props.type == 'restaurant' ?
-		[
-			{
-				Header: '#',
-				width: 30,
-				id: 1,
-				className: 'text-center view-details',
-				accessor: (item) => {
-					currentId++;
-					return (
-						<>
-							<div className='flex items-center' style={{ cursor: 'pointer' }}>
-								<div className='text-sm'>
-									<p className='text-gray-300 leading-none'>{currentId}</p>
-								</div>
-							</div>
-						</>
-					);
-				},
-			},
-			{
-				id: 2,
-				Header: 'Restaurant Name',
-				className: 'text-center view-details',
-				accessor: 'restaurant_name',		
+		// const columns = props.type == 'restaurant' ?
+		// [
+		// 	{
+		// 		Header: '#',
+		// 		width: 30,
+		// 		id: 1,
+		// 		className: 'text-center view-details',
+		// 		accessor: (item) => {
+		// 			currentId++;
+		// 			return (
+		// 				<>
+		// 					<div className='flex items-center' style={{ cursor: 'pointer' }}>
+		// 						<div className='text-sm'>
+		// 							<p className='text-gray-300 leading-none'>{currentId}</p>
+		// 						</div>
+		// 					</div>
+		// 				</>
+		// 			);
+		// 		},
+		// 	},
+		// 	{
+		// 		id: 2,
+		// 		Header: 'Restaurant Name',
+		// 		className: 'text-center view-details',
+		// 		accessor: 'restaurant_name',		
 				
-			},			
-			{
-				id: 3,
-				Header: 'Email Address',
-				className: 'text-center view-details',
-				accessor: (item) => {
-					return (
-						<div style={{ padding: '6px', cursor: 'pointer' }}>
-							{item.owner_email}
-						</div>
-					);
-				},
-			},
-			{
-				id: 4,
-				Header: 'Phone Number',
-				className: 'text-center view-details',
-				accessor: (item) => {
-					return (
-						<div style={{ padding: '6px', cursor: 'pointer' }}>
-							{`(${item.owner_phone.slice(0, 3)}) ${item.owner_phone.slice(3, 6)}-${item.owner_phone.slice(6)}`}
+		// 	},			
+		// 	{
+		// 		id: 3,
+		// 		Header: 'Email Address',
+		// 		className: 'text-center view-details',
+		// 		accessor: (item) => {
+		// 			return (
+		// 				<div style={{ padding: '6px', cursor: 'pointer' }}>
+		// 					{item.owner_email}
+		// 				</div>
+		// 			);
+		// 		},
+		// 	},
+		// 	{
+		// 		id: 4,
+		// 		Header: 'Phone Number',
+		// 		className: 'text-center view-details',
+		// 		accessor: (item) => {
+		// 			return (
+		// 				<div style={{ padding: '6px', cursor: 'pointer' }}>
+		// 					{`(${item.owner_phone.slice(0, 3)}) ${item.owner_phone.slice(3, 6)}-${item.owner_phone.slice(6)}`}
 
-						</div>
-					);
-				},
-			},
-			{
-				id: 5,
-				Header: 'Status',
-				width: 100,
-				className: 'text-center view-details',
-				accessor: (item) => {
-					return (
-						<div
-							className={item.status == 1 ? 'text-green-600' : 'text-red-600'}
-							style={{ padding: '6px', cursor: 'pointer' }}>
-							{item.status == 1 ? 'Active' : 'Inactive'}
-						</div>
-					);
-				},
-			},
-			{
-				id: 6,
-				Header: 'Percentage Fee (%)',
-				className: 'text-center view-details',
-				accessor: (item) => {
-					return (
-						<div style={{ padding: '6px', cursor: 'pointer' }}>
-							{item.percentage_fee}%
-						</div>
-					);
-				},
-			},
-			{
-				id: 7,
-				Header: 'Action',
-				className: 'text-center view-details',
-				accessor: (item) => {
-					return (
-						<div
-							style={{
-								display: 'flex',
-								flexDirection: 'row',
-								justifyContent: 'space-around',
-								cursor:"pointer"
-							}}
-							className='text-center'
-							onClick={(e) => e.stopPropagation()}>
-							<FontAwesomeIcon
-								style={{ cursor: 'pointer' }}
-								onClick={() => {
-									props.setIsOpen(true);
-									props.setTitle('Edit');
-									props.setId(item.id);
-									props.setIsRestaurant(true);
-								}}
-								className='text-red-600 trash w-5 h-5'
-								color='red'
-								icon={faPencilAlt}
-							/>
-						</div>
-					);
-				},
-			},
-		]
-		: props.type == 'driver' ? [
+		// 				</div>
+		// 			);
+		// 		},
+		// 	},
+		// 	{
+		// 		id: 5,
+		// 		Header: 'Status',
+		// 		width: 100,
+		// 		className: 'text-center view-details',
+		// 		accessor: (item) => {
+		// 			return (
+		// 				<div
+		// 					className={item.status == 1 ? 'text-green-600' : 'text-red-600'}
+		// 					style={{ padding: '6px', cursor: 'pointer' }}>
+		// 					{item.status == 1 ? 'Active' : 'Inactive'}
+		// 				</div>
+		// 			);
+		// 		},
+		// 	},
+		// 	{
+		// 		id: 6,
+		// 		Header: 'Percentage Fee (%)',
+		// 		className: 'text-center view-details',
+		// 		accessor: (item) => {
+		// 			return (
+		// 				<div style={{ padding: '6px', cursor: 'pointer' }}>
+		// 					{item.percentage_fee}%
+		// 				</div>
+		// 			);
+		// 		},
+		// 	},
+		// 	{
+		// 		id: 7,
+		// 		Header: 'Action',
+		// 		className: 'text-center view-details',
+		// 		accessor: (item) => {
+		// 			return (
+		// 				<div
+		// 					style={{
+		// 						display: 'flex',
+		// 						flexDirection: 'row',
+		// 						justifyContent: 'space-around',
+		// 						cursor:"pointer"
+		// 					}}
+		// 					className='text-center'
+		// 					onClick={(e) => e.stopPropagation()}>
+		// 					<FontAwesomeIcon
+		// 						style={{ cursor: 'pointer' }}
+		// 						onClick={() => {
+		// 							props.setIsOpen(true);
+		// 							props.setTitle('Edit');
+		// 							props.setId(item.id);
+		// 							props.setIsRestaurant(true);
+		// 						}}
+		// 						className='text-red-600 trash w-5 h-5'
+		// 						color='red'
+		// 						icon={faPencilAlt}
+		// 					/>
+		// 				</div>
+		// 			);
+		// 		},
+		// 	},
+		// ]
+		const columns = props.type == 'driver' ? [
 			{
 				Header: '#',
 				width: 100,
@@ -344,7 +344,7 @@ const CommonTable = (props) => {
 				accessor: (item) => {
 					return (
 						<div style={{ padding: '6px', cursor: 'pointer',textAlign:"left"}}>
-							{item.description.split(" ").length>5?`${item.description.split(" ").slice(0,4).join(" ")}...`:`${item.description.split(" ").slice(0,4).join(" ")}`}
+							{item.description?.split(" ").length>5?`${item.description?.split(" ").slice(0,4).join(" ")}...`:`${item.description?.split(" ").slice(0,4).join(" ")}`}
 						</div>
 					);
 				},		
