@@ -680,6 +680,8 @@ const AddEditHotspot = () => {
                                                                 <ClearIcon
                                                                     onClick={()=>{
                                                                         hotspot.delivery_shifts.splice(index,1);
+																		let currentSlots=[...hotspot.delivery_shifts].sort();
+																		hotspot.delivery_shifts=[...currentSlots];
                                                                         setHotspot({...hotspot});
                                                                     }}
                                                                 />
@@ -693,7 +695,9 @@ const AddEditHotspot = () => {
                                                 <AddIcon
                                                     onClick={()=>{
                                                         if(!hotspot.delivery_shifts) hotspot.delivery_shifts=[];
-                                                        hotspot.delivery_shifts.push(null);
+														let currentSlots=[...hotspot.delivery_shifts].sort();
+														hotspot.delivery_shifts=[...currentSlots,null];
+                                                        // hotspot.delivery_shifts.push(null);													
                                                         setHotspot({...hotspot});
                                                     }}
                                                 />
