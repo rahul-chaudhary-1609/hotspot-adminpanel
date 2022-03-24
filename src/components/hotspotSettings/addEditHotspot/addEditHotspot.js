@@ -670,6 +670,9 @@ const AddEditHotspot = () => {
 																	
 																	let currentSlots=[...hotspot.delivery_shifts].sort();	
 																	hotspot.delivery_shifts=[...new Set(currentSlots)];
+																	for(let restaurant of hotspot.restaurant_ids){
+																			restaurant.available_for_shifts=[];
+																	}
                                                                     setHotspot({...hotspot})
                                                                     
                                                                 }}
@@ -683,6 +686,10 @@ const AddEditHotspot = () => {
                                                                 <ClearIcon
                                                                     onClick={()=>{
                                                                         hotspot.delivery_shifts.splice(index,1);
+																		for(let restaurant of hotspot.restaurant_ids){
+																			restaurant.available_for_shifts=[];
+																		}
+
                                                                         setHotspot({...hotspot});
                                                                     }}
                                                                 />
