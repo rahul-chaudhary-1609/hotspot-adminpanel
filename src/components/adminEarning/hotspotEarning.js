@@ -273,7 +273,7 @@ const HotspotEarning = () => {
 			},
 		},
 		{
-			id: 14,
+			id: 15,
 			Header: '(M) Hotspot Credits Applied',
 			width: 200,
 			className: 'text-center view-details',
@@ -286,7 +286,7 @@ const HotspotEarning = () => {
 			},
 		},
 		{
-			id: 15,
+			id: 16,
 			Header: '(N) (N= K-L-M) Final Hotspot Earning',
 			width: 250,
 			className: 'text-center view-details',
